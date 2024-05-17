@@ -1,6 +1,7 @@
 package com.app.fitnessapp
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
@@ -31,6 +32,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.text.TextStyle
 
 
@@ -79,10 +81,10 @@ fun PasswordScreen() {
                 PasswordInputField()
 
                 Column {
-                    Text(text = "Your password should match the rules specified. You can the number of characters specified",
-                        color = Black,
+                    Text(text = "Your password should match the rules specified. You can exceed the number of characters specified",
+                        color = DarkGray,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 15.sp,
+                        fontSize = 20.sp,
                         fontFamily = RobotoMono,
                         textAlign = TextAlign.Center)
                 }
@@ -96,6 +98,7 @@ fun PasswordScreen() {
                             .width(300.dp)
                             .height(50.dp),
                         shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(color)
                     ) {
                         Text(text = "Continue",
                             color = Color.White,
@@ -127,9 +130,9 @@ fun PasswordInputField() {
 
     val passwordRules = listOf(
         "8 characters",
-        "1 uppercase letter",
-        "1 lowercase letter",
-        "1 digit"
+        "Uppercase letter",
+        "Lowercase letter",
+        "A digit"
     )
 
     val conditionsMet = listOf(
@@ -210,7 +213,7 @@ fun PasswordInputField() {
         Box(
             modifier = Modifier
                 .height(100.dp)
-                .width(270.dp),
+                .width(300.dp),
             contentAlignment = Alignment.Center
 
         ) {
@@ -234,6 +237,7 @@ fun PasswordInputField() {
                             RuleItem(rule, conditionMet)
                         }
                     }
+
                     Column(modifier = Modifier
                         .fillMaxHeight()
                         .weight(1f),
@@ -258,6 +262,9 @@ fun RuleItem(rule: String, conditionMet: Boolean) {
         Text(
             text = rule,
             fontSize = 14.sp,
+            color = Black,
+            fontWeight = FontWeight.Normal,
+            fontFamily = RobotoMono,
             modifier = Modifier.weight(1f)
         )
         if (conditionMet) {

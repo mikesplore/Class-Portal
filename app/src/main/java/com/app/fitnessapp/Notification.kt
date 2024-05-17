@@ -139,7 +139,7 @@ fun NotificationScreen() {
                     Button(
                         onClick = { /*TODO*/ },
                         modifier = Modifier
-                            .padding(bottom = 15.dp)
+                            .padding(bottom = 18.dp)
                             .height(50.dp)
                             .width(300.dp),
                         colors = ButtonDefaults.buttonColors(color),
@@ -181,7 +181,7 @@ fun NotificationTopAppBar() {
                 )
                 LinearProgressIndicator(
                     trackColor = Color(0xff89CFF3),
-                    progress = 1 / 3.0f,
+                    progress = 1 / 7.0f,
                     color = color,
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))

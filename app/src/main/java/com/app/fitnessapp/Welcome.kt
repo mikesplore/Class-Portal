@@ -42,26 +42,14 @@ fun WelcomeScreen(){
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
-        Row(modifier = Modifier
-            .height(120.dp)
-            .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center) {
-            Box(modifier = Modifier
-                .background(Transparent,
-                    shape = CircleShape)
-                .size(100.dp)){
-                Image(painter = painterResource(id = R.drawable.weight),
-                    contentDescription = "logo",
-                   modifier = Modifier.fillMaxSize())
-            }
-        }
+
 
         Column(modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "Welcome to",
                 fontFamily = RobotoMono,
                 fontSize = 30.sp,
-                color = Black,
+                color = color,
                 fontWeight = FontWeight.Bold,
             )
             Row(modifier = Modifier.fillMaxWidth(),

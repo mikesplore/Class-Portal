@@ -22,10 +22,16 @@ import androidx.compose.ui.unit.sp
 import com.app.fitnessapp.ui.theme.RobotoMono
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-
-
+import androidx.compose.ui.draw.shadow
+import androidx.compose.material.*
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.runtime.*
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -36,7 +42,9 @@ fun PasswordScreen() {
         containerColor = background,
         content = {
             Column(modifier = Modifier
-                .fillMaxSize()) {
+                .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceAround) {
                 Column(modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)) {
@@ -49,7 +57,7 @@ fun PasswordScreen() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Step 2/7",
+                            text = "Step 3/7",
                             color = color,
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp,
@@ -68,22 +76,68 @@ fun PasswordScreen() {
                     }
 
                 }
-                Box(modifier = Modifier
-                    .height(50.dp)
-                    .fillMaxWidth()){
-                    PasswordInputField()
+                PasswordInputField()
 
+                Column {
+                    Text(text = "Your password should match the rules specified. You can the number of characters specified",
+                        color = Black,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 15.sp,
+                        fontFamily = RobotoMono,
+                        textAlign = TextAlign.Center)
                 }
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp),
+                    verticalArrangement = Arrangement.SpaceAround,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Button(onClick = { /*TODO*/ },
+                        modifier = Modifier
+                            .width(300.dp)
+                            .height(50.dp),
+                        shape = RoundedCornerShape(10.dp),
+                    ) {
+                        Text(text = "Continue",
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp,
+                            fontFamily = RobotoMono)
+                        
+                    }
+                    Text(text = "Generate Strong Password",
+                        color = color,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        fontFamily = RobotoMono)
+                }
+
+
+
 
             }
 
         })
 }
 
+
 @Composable
 fun PasswordInputField() {
-    var password by remember { mutableStateOf("Michael") }
+    var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+
+    val passwordRules = listOf(
+        "8 characters",
+        "1 uppercase letter",
+        "1 lowercase letter",
+        "1 digit"
+    )
+
+    val conditionsMet = listOf(
+        password.length >= 8,
+        password.any { it.isUpperCase() },
+        password.any { it.isLowerCase() },
+        password.any { it.isDigit() }
+    )
 
     val trailingIcon = @Composable {
         val image = if (passwordVisible) {
@@ -97,17 +151,124 @@ fun PasswordInputField() {
         }
     }
 
-    TextField(
-        value = password,
-        onValueChange = { password = it },
-        label = { Text("Password") },
-        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        trailingIcon = trailingIcon,
-        singleLine = true,
+    Column(
         modifier = Modifier
-            .width(300.dp)
-            .height(50.dp)
-    )
+            .padding(16.dp)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TextField(
+            value = password,
+            onValueChange = { password = it },
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = trailingIcon,
+            singleLine = true,
+            textStyle = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+            ),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                unfocusedContainerColor = Color(0xffA0E9FF),
+                focusedContainerColor = Color(0xffA0E9FF),
+                disabledContainerColor = Color(0xffA0E9FF)
+            ),
+            modifier = Modifier
+                .height(50.dp)
+                .width(300.dp)
+                .shadow(
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(20.dp)
+                )
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        val progress = conditionsMet.count { it } / 4f
+        val progressColor = if (progress == 1f) color else color
+
+        LinearProgressIndicator(
+            trackColor = Color(0xffA0E9FF),
+            progress = progress,
+            color = progressColor,
+            modifier = Modifier
+                .shadow(
+                    elevation = 10.dp,
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .clip(RoundedCornerShape(10.dp))
+                .width(300.dp)
+                .height(10.dp)
+        )
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Box(
+            modifier = Modifier
+                .height(100.dp)
+                .width(270.dp),
+            contentAlignment = Alignment.Center
+
+        ) {
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f),
+                        verticalArrangement = Arrangement.SpaceEvenly,
+                        horizontalAlignment = Alignment.End) {
+                        passwordRules.subList(0, 2).forEachIndexed { index, rule ->
+                            val conditionMet = conditionsMet[index]
+                            RuleItem(rule, conditionMet)
+                        }
+                    }
+                    Column(modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f),
+                        verticalArrangement = Arrangement.SpaceEvenly) {
+                        passwordRules.subList(2, 4).forEachIndexed { index, rule ->
+                            val conditionMet = conditionsMet[index + 2]
+                            RuleItem(rule, conditionMet)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RuleItem(rule: String, conditionMet: Boolean) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(4.dp)
+    ) {
+        Text(
+            text = rule,
+            fontSize = 14.sp,
+            modifier = Modifier.weight(1f)
+        )
+        if (conditionMet) {
+            Icon(
+                imageVector = Icons.Filled.Check,
+                contentDescription = null,
+                tint = Color.Green,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
 }
 
 

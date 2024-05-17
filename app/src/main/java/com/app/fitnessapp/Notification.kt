@@ -83,7 +83,9 @@ fun NotificationScreen() {
                         )
                     }
 
-                    Column(modifier = Modifier.height(150.dp),
+                    Column(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp),
                         verticalArrangement = Arrangement.SpaceAround) {
                         Row(modifier = Modifier.absolutePadding(15.dp)) {
                             Icon(

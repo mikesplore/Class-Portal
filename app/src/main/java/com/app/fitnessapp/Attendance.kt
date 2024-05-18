@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(onNavigate: (String) -> Unit) {
+fun Attendance(onNavigate: (String) -> Unit) {
 
     val typography = MaterialTheme.typography
     val colors = MaterialTheme.colorScheme
@@ -57,5 +57,5 @@ fun MainScreen(onNavigate: (String) -> Unit) {
 @Preview
 @Composable
 fun MainScreenPreview() {
-    MainScreen(onNavigate = {})
+    Attendance(onNavigate = {})
 }

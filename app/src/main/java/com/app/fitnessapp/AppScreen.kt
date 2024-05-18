@@ -12,7 +12,7 @@ fun AppScreen() {
 
     when (currentScreen) {
         "Authentication" -> AuthenticationScreen(onLoginSuccess = { currentScreen = "Main" }, navController = navController)
-        "Main" -> MainScreen(onNavigate = { screen -> currentScreen = screen })
+        "Main" -> Attendance(onNavigate = { screen -> currentScreen = screen })
         "AddStudent" -> AddStudentScreen(onStudentAdded = { newStudent ->
             students = students + newStudent
             currentScreen = "Main"
@@ -22,6 +22,8 @@ fun AppScreen() {
             currentScreen = "Main"
         })
         "AttendanceReport" -> AttendanceReportScreen(students = students)
+
+        "TeacherDashboard" -> TeacherDashboard(navController = navController)
     }
 }
 

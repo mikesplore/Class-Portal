@@ -226,11 +226,7 @@ fun PasswordInputField() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = DarkGray,
-                            shape = RoundedCornerShape(10.dp)
-                        )
+
                         .fillMaxHeight()
                         .weight(1f),
                         verticalArrangement = Arrangement.SpaceEvenly,
@@ -242,11 +238,7 @@ fun PasswordInputField() {
                     }
 
                     Column(modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = DarkGray,
-                            shape = RoundedCornerShape(10.dp)
-                        )
+
                         .fillMaxHeight()
                         .weight(1f),
                         verticalArrangement = Arrangement.SpaceEvenly) {

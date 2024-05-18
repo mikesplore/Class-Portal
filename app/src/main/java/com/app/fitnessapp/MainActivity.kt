@@ -49,26 +49,27 @@ class MainActivity : ComponentActivity() {
         onSaveStudents: (List<Student>) -> Unit,
         onSaveAttendance: (List<AttendanceRecord>) -> Unit
     ) {
+
         NavHost(navController, startDestination = "main") {
             composable("main") {
-                MainScreen(onNavigate = { navController.navigate(it) })
+                MainScreen(onNavigate = { navController.navigate(it) },navController)
             }
             composable("AddStudent") {
                 AddStudentScreen(onStudentAdded = { student ->
                     students.value += student
                     onSaveStudents(students.value)
-                    navController.navigate("main")
-                })
+
+                },navController = navController)
             }
             composable("RecordAttendance") {
                 RecordAttendanceScreen(students = students.value, onAttendanceRecorded = { records ->
                     attendanceRecords.value = records
                     onSaveAttendance(records)
-                    navController.navigate("main")
-                })
+
+                },navController = navController)
             }
             composable("AttendanceReport") {
-                AttendanceReportScreen(students = students.value, attendanceRecords = attendanceRecords.value)
+                AttendanceReportScreen(students = students.value, attendanceRecords = attendanceRecords.value,navController = navController)
             }
         }
     }

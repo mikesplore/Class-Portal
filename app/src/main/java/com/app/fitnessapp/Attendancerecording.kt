@@ -1,5 +1,6 @@
 package com.app.fitnessapp
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,12 +36,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.app.fitnessapp.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
  @Composable
-    fun RecordAttendanceScreen(students: List<Student>, onAttendanceRecorded: (List<AttendanceRecord>) -> Unit) {
+    fun RecordAttendanceScreen(students: List<Student>, onAttendanceRecorded: (List<AttendanceRecord>) -> Unit,navController: NavController) {
         val attendanceRecords = remember { mutableStateListOf<AttendanceRecord>() }
         Scaffold(
             topBar = {
@@ -47,7 +54,10 @@ import androidx.compose.ui.unit.dp
                     title = { Text("") },
                     navigationIcon = {
                         IconButton(onClick = { /* Handle back navigation */ }) {
-                            Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back")
+                            Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
+                                modifier = Modifier.clickable {
+                                    navController.popBackStack()
+                                })
                         }
                     },
                     actions = {
@@ -77,12 +87,16 @@ import androidx.compose.ui.unit.dp
                 Column(modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center){
-                    Text("Record Attendance")
+                    Text("Record Attendance",
+                        color = Color.Black,
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = RobotoMono
+                    )
                 }
                 LazyColumn {
                     items(students) { student ->
                         var present by remember { mutableStateOf(false) }
-                        var index by remember { mutableStateOf(0) }
 
                         Row(
                             modifier = Modifier
@@ -92,8 +106,10 @@ import androidx.compose.ui.unit.dp
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             //index to increment by one for each name
-                            Text(student.name)
+                            Text(student.name,
+                                color = Color.Black)
                             Checkbox(
+                                colors = CheckboxDefaults.colors(Color.Black),
                                 checked = present,
                                 onCheckedChange = {
                                     present = it
@@ -130,8 +146,5 @@ fun RecordAttendanceScreenPreview() {
         Student(2, "Jane Smith"),
         Student(3, "Alice Johnso")
     )
-    RecordAttendanceScreen(students = sampleStudents) { attendanceList ->
-        // You can log or print the attendanceList here for testing
-        // Since this is a preview, the data won't be actually saved
-    }
+    RecordAttendanceScreen(sampleStudents, {}, rememberNavController())
 }

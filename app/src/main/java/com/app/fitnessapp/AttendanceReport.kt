@@ -1,6 +1,7 @@
 package com.app.fitnessapp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,14 +23,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.app.fitnessapp.ui.theme.RobotoMono
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<AttendanceRecord>) {
+fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<AttendanceRecord>,navController: NavController) {
 
     val sortedStudents = students.sortedByDescending { it.name }
 
@@ -39,7 +44,10 @@ fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<Atte
                 title = { Text("Attendance Report") },
                 navigationIcon = {
                     IconButton(onClick = { /* Handle back navigation */ }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
+                            modifier = Modifier.clickable {
+                                navController.popBackStack()
+                            })
                     }
                 },
                 actions = {
@@ -64,11 +72,11 @@ fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<Atte
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Index", modifier = Modifier.weight(0.5f), textAlign = TextAlign.Center)
-                        Text("Name", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                        Text("Total Present", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                        Text("Total Absent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                        Text("Percentage", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                        Text("No.", modifier = Modifier.weight(0.5f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
+                        Text("Name", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
+                        Text("Total Present", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
+                        Text("Total Absent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
+                        Text("Percent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
                     }
                 }
                 itemsIndexed(sortedStudents) { index, student ->
@@ -83,11 +91,15 @@ fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<Atte
                             .border(width = 1.dp, color = color)
                             .padding(16.dp)
                     ) {
-                        Text("${index + 1}", modifier = Modifier.weight(0.5f), textAlign = TextAlign.Center)
-                        Text(student.name, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                        Text("$totalPresent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                        Text("$totalAbsent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                        Text("$attendancePercentage%", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                        val percentagecolor = if (attendancePercentage >= 75) Color(0xff51b541)
+                        else if (attendancePercentage >= 50) Color.Yellow
+                        else Color.Red
+
+                        Text("${index + 1}", modifier = Modifier.weight(0.5f), textAlign = TextAlign.Center, fontFamily = RobotoMono,color = Color.Black)
+                        Text(student.name, modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono,color = Color.Black)
+                        Text("$totalPresent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,color = Color.Black)
+                        Text("$totalAbsent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,color = Color.Black)
+                        Text("$attendancePercentage%", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = percentagecolor, fontFamily = RobotoMono,fontWeight = FontWeight.Bold)
                     }
                 }
 
@@ -153,5 +165,5 @@ fun AttendanceReportScreenPreview() {
         AttendanceRecord(4, "2023-11-16", true),
     )
 
-    AttendanceReportScreen(students = sampleStudents, attendanceRecords = sampleAttendanceRecords)
+    AttendanceReportScreen(students = sampleStudents, attendanceRecords = sampleAttendanceRecords,navController = rememberNavController())
 }

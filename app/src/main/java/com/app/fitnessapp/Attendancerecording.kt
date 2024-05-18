@@ -82,6 +82,7 @@ import androidx.compose.ui.unit.dp
                 LazyColumn {
                     items(students) { student ->
                         var present by remember { mutableStateOf(false) }
+                        var index by remember { mutableStateOf(0) }
 
                         Row(
                             modifier = Modifier
@@ -90,6 +91,7 @@ import androidx.compose.ui.unit.dp
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
+                            //index to increment by one for each name
                             Text(student.name)
                             Checkbox(
                                 checked = present,

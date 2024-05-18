@@ -2,6 +2,7 @@ package com.app.fitnessapp
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,11 +32,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.app.fitnessapp.ui.theme.RobotoMono
 val color = Color(0xff00A9FF)
 val background = Color(0xffCDF5FD)
 @Composable
-fun WelcomeScreen(){
+fun WelcomeScreen(navController: NavController){
     Column(
         modifier = Modifier
             .background(background)
@@ -112,7 +115,11 @@ fun WelcomeScreen(){
                     fontFamily = RobotoMono,
                     fontSize = 15.sp,
                     color = color,
-                    fontWeight = FontWeight.SemiBold)
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.clickable {
+                        navController.navigate("loginCategory")
+
+                    })
 
             }
 
@@ -124,5 +131,5 @@ fun WelcomeScreen(){
 @Preview
 @Composable
 fun WelcomeScreenPreview(){
-    WelcomeScreen()
+    WelcomeScreen(rememberNavController())
 }

@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.app.fitnessapp.ui.theme.RobotoMono
 
 // Data Classes
@@ -23,7 +25,7 @@ data class Student(val id: String, val name: String, val attendanceRecords: List
 val textfieldcolor= Color(0xffA0E9FF)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddStudentScreen(onStudentAdded: (Student) -> Unit) {
+fun AddStudentScreen(navController: NavController) {
     val context = LocalContext.current
     var name by remember { mutableStateOf("") }
     var id by remember { mutableStateOf("") }
@@ -116,7 +118,6 @@ fun AddStudentScreen(onStudentAdded: (Student) -> Unit) {
             Button(
                 onClick = {
                     if (name.isNotEmpty() && id.isNotEmpty()) {
-                        onStudentAdded(Student(id, name))
                         name = ""
                         id = ""
                     }
@@ -147,5 +148,5 @@ fun AddStudentScreen(onStudentAdded: (Student) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun AddStudentScreenPreview() {
-    AddStudentScreen { } // Provide an empty lambda for onStudentAdded since it's not used in the preview
+    AddStudentScreen(rememberNavController()) // Provide an empty lambda for onStudentAdded since it's not used in the preview
 }

@@ -262,7 +262,7 @@ fun TeacherBoxContent(navController: NavController) {
             TSquareBox(
                 imageName = painterResource(id = R.drawable.attendance),
                 content = "Attendance",
-                route = "attendance",
+                route = "studentManagement",
                 navController = navController
 
             )

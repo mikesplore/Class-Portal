@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -45,7 +47,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun AuthenticationScreen(navController: NavController, onLoginSuccess: () -> Unit) {
+fun TeacherLoginScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     Column(modifier = Modifier
         .fillMaxSize()
@@ -109,7 +111,7 @@ fun AuthenticationScreen(navController: NavController, onLoginSuccess: () -> Uni
                 trailingIcon = {
                     IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                         Icon(
-                            imageVector = if (passwordVisibility) Icons.Filled.Clear else Icons.Default.Check,
+                            imageVector = if (passwordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                             contentDescription = if (passwordVisibility) "Hide password" else "Show password"
                         )
                     }
@@ -131,7 +133,9 @@ fun AuthenticationScreen(navController: NavController, onLoginSuccess: () -> Uni
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically){
             Button(onClick = {
-                onLoginSuccess() },
+                             navController.navigate("teacherDashboard")
+
+                 },
                 modifier = Modifier
                     .width(120.dp)
                     .height(50.dp)
@@ -163,7 +167,7 @@ fun AuthenticationScreen(navController: NavController, onLoginSuccess: () -> Uni
                 Text(text = "Register",
                     color = Color(0xff6420AA),
                     modifier = Modifier.clickable{
-                        navController.navigate("TeacherRegister")
+                        //navigate here
                     })}
             Column(modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
@@ -172,7 +176,8 @@ fun AuthenticationScreen(navController: NavController, onLoginSuccess: () -> Uni
                 Text(text = "Click here",
                     color = Color(0xff6420AA),
                     modifier = Modifier.clickable{
-                        navController.navigate("StudentLogin")
+                        //navigate
+
                     }
 
                 )
@@ -187,8 +192,8 @@ fun AuthenticationScreen(navController: NavController, onLoginSuccess: () -> Uni
 
 @Preview
 @Composable
-fun AuthenticationScreenPreview(){
-    AuthenticationScreen(rememberNavController(), onLoginSuccess = {})
+fun TeacherLoginScreenPreview(){
+    TeacherLoginScreen(rememberNavController())
 
 
 }

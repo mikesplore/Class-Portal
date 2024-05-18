@@ -2,6 +2,7 @@ package com.app.fitnessapp
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
@@ -81,7 +82,7 @@ fun PasswordScreen() {
                 PasswordInputField()
 
                 Column {
-                    Text(text = "Your password should match the rules specified. You can exceed the number of characters specified",
+                    Text(text = "Your password should match the rules stated above. You can exceed the number of characters specified",
                         color = DarkGray,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 20.sp,
@@ -183,7 +184,7 @@ fun PasswordInputField() {
                 .height(50.dp)
                 .width(300.dp)
                 .shadow(
-                    elevation = 2.dp,
+                    elevation = 20.dp,
                     shape = RoundedCornerShape(20.dp)
                 )
         )
@@ -198,10 +199,7 @@ fun PasswordInputField() {
             progress = progress,
             color = progressColor,
             modifier = Modifier
-                .shadow(
-                    elevation = 10.dp,
-                    shape = RoundedCornerShape(10.dp)
-                )
+
                 .clip(RoundedCornerShape(10.dp))
                 .width(300.dp)
                 .height(10.dp)
@@ -228,6 +226,11 @@ fun PasswordInputField() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            color = DarkGray,
+                            shape = RoundedCornerShape(10.dp)
+                        )
                         .fillMaxHeight()
                         .weight(1f),
                         verticalArrangement = Arrangement.SpaceEvenly,
@@ -239,6 +242,11 @@ fun PasswordInputField() {
                     }
 
                     Column(modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            color = DarkGray,
+                            shape = RoundedCornerShape(10.dp)
+                        )
                         .fillMaxHeight()
                         .weight(1f),
                         verticalArrangement = Arrangement.SpaceEvenly) {
@@ -271,7 +279,7 @@ fun RuleItem(rule: String, conditionMet: Boolean) {
             Icon(
                 imageVector = Icons.Filled.Check,
                 contentDescription = null,
-                tint = Color.Green,
+                tint = color,
                 modifier = Modifier.size(20.dp)
             )
         }

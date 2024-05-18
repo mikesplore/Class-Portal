@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Transparent
@@ -86,6 +87,13 @@ fun GenderScreen() {
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight()
+                            .shadow(
+                                elevation = 5.dp,
+                                shape = RoundedCornerShape(10.dp),
+                                clip = true,
+                                ambientColor = Black,
+                                spotColor = Black
+                            )
                             .background(maleBackground, RoundedCornerShape(10.dp))
                             .border(
                                 border = BorderStroke(2.dp, color = Black),
@@ -102,6 +110,13 @@ fun GenderScreen() {
                     Box(
                         modifier = Modifier
                             .weight(1f)
+                            .shadow(
+                                elevation = 5.dp,
+                                shape = RoundedCornerShape(10.dp),
+                                clip = true,
+                                ambientColor = Black,
+                                spotColor = Black
+                            )
                             .fillMaxHeight()
                             .background(femaleBackground, RoundedCornerShape(10.dp))
                             .border(
@@ -124,7 +139,7 @@ fun GenderScreen() {
                     Text(text = "Male",
                         fontFamily = RobotoMono,
                         fontSize = 22.sp,
-                        color = Color.DarkGray,
+                        color = maleBackground,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.weight(1f)
@@ -132,7 +147,7 @@ fun GenderScreen() {
                     Text(text = "Female",
                         fontFamily = RobotoMono,
                         fontSize = 22.sp,
-                        color = Color.DarkGray,
+                        color = femaleBackground,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.weight(1f)
@@ -155,7 +170,13 @@ fun GenderScreen() {
 
                 Button(onClick = { /*TODO*/ },
                     modifier = Modifier
-
+                        .shadow(
+                            elevation = 5.dp,
+                            shape = RoundedCornerShape(10.dp),
+                            clip = true,
+                            ambientColor = Black,
+                            spotColor = Black
+                        )
                         .height(50.dp)
                         .width(250.dp),
                     shape = RoundedCornerShape(10.dp),
@@ -166,7 +187,7 @@ fun GenderScreen() {
                         color = Color.White,
                         fontWeight = FontWeight.Bold)}
 
-                Text(text = "Prefer not to choose",
+                Text(text = "Prefer not to choose (LGBTQ)",
                     fontFamily = RobotoMono,
                     fontSize = 15.sp,
                     color = color,

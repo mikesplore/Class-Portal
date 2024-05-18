@@ -52,20 +52,13 @@ fun WelcomeScreen(){
                 color = color,
                 fontWeight = FontWeight.Bold,
             )
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                ) {
-                Text(text = "Mike ",
-                    fontFamily = RobotoMono,
-                    fontSize = 30.sp,
-                    color = color,
-                    fontWeight = FontWeight.Bold)
-                Text(text = "Fitness App",
-                    fontFamily = RobotoMono,
-                    fontSize = 30.sp,
-                    color = color,
-                    fontWeight = FontWeight.Bold)
-            }
+            Text(text = "COMPUTER SCIENCE PORTAL APP",
+                fontFamily = RobotoMono,
+                fontSize = 30.sp,
+                color = Black,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,)
+
             Text(text = "Customer service is our number one  priority Enjoy our service",
                 fontFamily = RobotoMono,
                 fontSize = 15.sp,

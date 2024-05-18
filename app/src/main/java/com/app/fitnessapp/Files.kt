@@ -1,32 +1,38 @@
 package com.app.fitnessapp
 
 import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.io.File
 
-object FilePersistence {
+object FileUtil {
 
-    val gson = Gson()
+    private const val STUDENT_FILE = "students.txt"
+    private const val ATTENDANCE_FILE = "attendance.txt"
 
-    inline fun <reified T> saveData(context: Context, filename: String, data: List<T>) {
-        val jsonString = gson.toJson(data)
-        context.openFileOutput(filename, Context.MODE_PRIVATE).use {
-            it.write(jsonString.toByteArray())
+    fun saveStudents(context: Context, students: List<Student>) {
+        val file = File(context.filesDir, STUDENT_FILE)
+        file.writeText(students.joinToString("\n") { "${it.id},${it.name}" })
+    }
+
+    fun loadStudents(context: Context): List<Student> {
+        val file = File(context.filesDir, STUDENT_FILE)
+        if (!file.exists()) return emptyList()
+        return file.readLines().map { line ->
+            val parts = line.split(",")
+            Student(parts[0].toInt(), parts[1])
         }
     }
 
-    inline fun <reified T> loadData(context: Context, filename: String): List<T> {
-        return try {
-            val file = File(context.filesDir, filename)
-            if (file.exists()) {
-                val jsonString = file.readText()
-                gson.fromJson(jsonString, object : TypeToken<List<T>>() {}.type)
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
+    fun saveAttendanceRecords(context: Context, records: List<AttendanceRecord>) {
+        val file = File(context.filesDir, ATTENDANCE_FILE)
+        file.writeText(records.joinToString("\n") { "${it.studentId},${it.date},${it.present}" })
+    }
+
+    fun loadAttendanceRecords(context: Context): List<AttendanceRecord> {
+        val file = File(context.filesDir, ATTENDANCE_FILE)
+        if (!file.exists()) return emptyList()
+        return file.readLines().map { line ->
+            val parts = line.split(",")
+            AttendanceRecord(parts[0].toInt(), parts[1], parts[2].toBoolean())
         }
     }
 }

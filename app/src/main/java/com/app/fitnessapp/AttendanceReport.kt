@@ -1,4 +1,5 @@
 package com.app.fitnessapp
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +36,9 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<AttendanceRecord>,navController: NavController) {
+fun AttendanceReportScreen(context: Context,navController: NavController) {
+    val students = FileUtil.loadStudents(context)
+    val attendanceRecords = FileUtil.loadAttendanceRecords(context)
 
     val sortedStudents = students.sortedByDescending { it.name }
 
@@ -60,7 +64,7 @@ fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<Atte
             modifier = Modifier
                 .background(background)
                 .fillMaxSize()
-                .padding(innerPadding) // Use innerPadding for proper content positioning
+                .padding(innerPadding)
         ) {
             LazyColumn(modifier = Modifier.border(width = 1.dp, color = color)) {
                 item {
@@ -72,7 +76,7 @@ fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<Atte
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("No.", modifier = Modifier.weight(0.5f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
+                        Text("No.", modifier = Modifier.weight(0.4f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
                         Text("Name", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
                         Text("Total Present", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
                         Text("Total Absent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center,fontFamily = RobotoMono,fontWeight = FontWeight.Bold,color = Color.Black)
@@ -110,60 +114,11 @@ fun AttendanceReportScreen(students: List<Student>, attendanceRecords: List<Atte
 
 
 
-@Preview()
+
+
+@Preview
 @Composable
 fun AttendanceReportScreenPreview() {
-    val sampleStudents = listOf(
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(4, "Bob Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(4, "Bob Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(4, "Bob Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(4, "Bob Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(4, "Bob Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(4, "Bob Johnson")
-    )
-
-    val sampleAttendanceRecords = listOf(
-        AttendanceRecord(1, "2023-11-15", false),
-        AttendanceRecord(2, "2023-11-16", false),
-        AttendanceRecord(3, "2023-11-15", true),
-        AttendanceRecord(4, "2023-11-16", true),
-        AttendanceRecord(1, "2023-11-15", true),
-        AttendanceRecord(2, "2023-11-16", false),
-        AttendanceRecord(3, "2023-11-15", true),
-        AttendanceRecord(4, "2023-11-16", true),
-        AttendanceRecord(3, "2023-11-15", true),
-        AttendanceRecord(4, "2023-11-16", false),
-        AttendanceRecord(1, "2023-11-15", true),
-        AttendanceRecord(2, "2023-11-16", false),
-        AttendanceRecord(3, "2023-11-15", true),
-        AttendanceRecord(4, "2023-11-16", true),
-        AttendanceRecord(1, "2023-11-15", true),
-        AttendanceRecord(2, "2023-11-16", false),
-        AttendanceRecord(3, "2023-11-15", true),
-        AttendanceRecord(4, "2023-11-16", true),
-        AttendanceRecord(1, "2023-11-15", true),
-        AttendanceRecord(2, "2023-11-16", false),
-        AttendanceRecord(3, "2023-11-15", true),
-        AttendanceRecord(4, "2023-11-16", true),
-    )
-
-    AttendanceReportScreen(students = sampleStudents, attendanceRecords = sampleAttendanceRecords,navController = rememberNavController())
+    val navController = rememberNavController()
+    AttendanceReportScreen(LocalContext.current,navController)
 }

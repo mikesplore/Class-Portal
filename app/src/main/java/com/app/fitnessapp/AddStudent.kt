@@ -1,5 +1,6 @@
 package com.app.fitnessapp
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +52,7 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 val textfieldColor = Color(0xff89CFF3)
 @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun AddStudentScreen(onStudentAdded: (Student) -> Unit,navController: NavController) {
+    fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController: NavController) {
         var name by remember { mutableStateOf("") }// Replace 'MyScreen' with your screen name
         Scaffold(
             topBar = {
@@ -131,13 +133,10 @@ val textfieldColor = Color(0xff89CFF3)
                     Button(
                         onClick = {
                             if (name.isNotEmpty()) {
-                                onStudentAdded(
-                                    Student(
-                                        id = System.currentTimeMillis().toInt(),
-                                        name = name
-                                    )
-                                )
-                                name = ""
+                                val students = FileUtil.loadStudents(context).toMutableList()
+                                students.add(Student(id = System.currentTimeMillis().toInt(), name = name))
+                                FileUtil.saveStudents(context, students)
+                                onStudentAdded()
                             }
                         },
                         modifier = Modifier
@@ -165,5 +164,5 @@ val textfieldColor = Color(0xff89CFF3)
 @Preview
 @Composable
 fun AddStudentScreenPreview() {
-    AddStudentScreen(onStudentAdded = {},navController = rememberNavController())
+    AddStudentScreen(onStudentAdded = {},navController = rememberNavController(), context = LocalContext.current)
 }

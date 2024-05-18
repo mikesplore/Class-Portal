@@ -1,4 +1,6 @@
 package com.app.fitnessapp
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,8 +49,9 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
  @Composable
-    fun RecordAttendanceScreen(students: List<Student>, onAttendanceRecorded: (List<AttendanceRecord>) -> Unit,navController: NavController) {
-        val attendanceRecords = remember { mutableStateListOf<AttendanceRecord>() }
+fun RecordAttendanceScreen(onAttendanceRecorded: () -> Unit, navController: NavController,context: Context) {
+    val students = FileUtil.loadStudents(context)
+    val attendanceRecords = remember { mutableStateListOf<AttendanceRecord>() }
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -62,9 +66,11 @@ import com.app.fitnessapp.ui.theme.RobotoMono
                     },
                     actions = {
                         Button(onClick = {
-                            onAttendanceRecorded(attendanceRecords)
-                        },
-                            colors = ButtonDefaults.buttonColors(Color.Transparent)) {
+                            val allRecords = FileUtil.loadAttendanceRecords(context).toMutableList()
+                            allRecords.addAll(attendanceRecords)
+                            FileUtil.saveAttendanceRecords(context, allRecords)
+                            onAttendanceRecorded()
+                        }) {
                             Text("Save",
                                 color = Color.Black)
                         }
@@ -124,9 +130,11 @@ import com.app.fitnessapp.ui.theme.RobotoMono
             }
 
         }
+
+
 }
 
-@Preview(showBackground = true) // Optional: Shows a background color
+@Preview(showBackground = true)
 @Composable
 fun RecordAttendanceScreenPreview() {
     val sampleStudents = listOf(
@@ -146,5 +154,9 @@ fun RecordAttendanceScreenPreview() {
         Student(2, "Jane Smith"),
         Student(3, "Alice Johnso")
     )
-    RecordAttendanceScreen(sampleStudents, {}, rememberNavController())
+    RecordAttendanceScreen(
+        onAttendanceRecorded = {},
+        navController = rememberNavController(),
+        context = LocalContext.current
+    )
 }

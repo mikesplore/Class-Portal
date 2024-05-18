@@ -110,7 +110,6 @@ val textfieldColor = Color(0xff89CFF3)
                     }
                 }
 
-                // ... (Add other composables like LazyColumn, Rows, etc.)
             }
         }
     }

@@ -75,7 +75,11 @@ fun RecordAttendanceScreen(
                         onAttendanceRecorded()
                     },
                         colors = ButtonDefaults.buttonColors(Transparent)) {
-                        Text("Save", color = Color.Black)
+                        Text("Save",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = RobotoMono,
+                            color = Color.Black)
                     }
                 }
             )

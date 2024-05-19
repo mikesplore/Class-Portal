@@ -4,11 +4,13 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -55,7 +58,7 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeleteStudentScreen(context: Context, navController: NavController) {
-    val students = FileUtil.loadStudents(context)
+    var students by remember { mutableStateOf(FileUtil.loadStudents(context)) }
     var studentIdToDelete by remember { mutableStateOf("") }
     var showConfirmationDialog by remember { mutableStateOf(false) }
     var studentNameToDelete by remember { mutableStateOf("") }
@@ -63,12 +66,17 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Delete Student") },
+                title = { Text("Delete Student",
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = RobotoMono) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = color
+                )
             )
         }
     ) { innerPadding ->
@@ -79,24 +87,32 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                 .padding(innerPadding),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            LazyColumn {
+            LazyColumn (modifier = Modifier
+                .border(1.dp, Color.Black,
+                    RoundedCornerShape(8.dp))){
                 item {
                     Text("Total Students: ${students.size}", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold)
                 }
-                items(students) { student ->
+                itemsIndexed(students) { index, student ->
+                    val rowlist = if (index % 2 == 0) Color(0xffA0E9FF) else Color(0xff89CFF3)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp)
+
+                            .height(50.dp)
+                            .background(rowlist)
                             .clickable {
                                 studentIdToDelete = student.studentid
                                 studentNameToDelete = student.name
                                 showConfirmationDialog = true
                             },
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.SpaceAround,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(student.studentid, fontWeight = FontWeight.Bold)
+                        Text(student.studentid,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            fontFamily = RobotoMono,)
                         Text(student.name)
                     }
                 }
@@ -109,7 +125,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                         Button(onClick = {
                             FileUtil.deleteStudent(context, studentIdToDelete)
                             showConfirmationDialog = false
-
+                            students = FileUtil.loadStudents(context) // Reload the list of students after deletion
                         }) {
                             Text("Confirm")
                         }
@@ -126,6 +142,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
         }
     }
 }
+
 
 @Preview
 @Composable

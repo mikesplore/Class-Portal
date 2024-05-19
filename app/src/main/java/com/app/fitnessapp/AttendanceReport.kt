@@ -135,12 +135,12 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            LazyColumn(modifier = Modifier.border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground)) {
+            LazyColumn(modifier = Modifier.border(width = 1.dp, color = color)) {
                 item {
                     Row(
                         modifier = Modifier
-                            .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground)
-                            .background(MaterialTheme.colorScheme.primary)
+                            .border(width = 1.dp, color = color)
+                            .background(color = color)
                             .padding(16.dp),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically

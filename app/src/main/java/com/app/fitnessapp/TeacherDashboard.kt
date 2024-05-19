@@ -144,7 +144,7 @@ fun TeacherDashboard(navController: NavController) {
                             fontWeight = FontWeight.SemiBold,
                             color = Color.Black,
                             modifier = Modifier.clickable{
-                                navController.navigate("TeacherLogin")
+                                navController.navigate("teacherlogin")
                             })
                     }
                 }
@@ -274,7 +274,7 @@ fun TeacherBoxContent(navController: NavController) {
             TSquareBox(
                 imageName = painterResource(id = R.drawable.announcement),
                 content = "Announcements",
-                route = "announcement",
+                route = "announcements",
                 navController = navController,
             )
             TSquareBox(
@@ -292,7 +292,7 @@ fun TeacherBoxContent(navController: NavController) {
         TSquareBox(
             imageName = painterResource(id = R.drawable.assignment),
             content = "Assignments",
-            route = "Assignments",
+            route = "assignments",
             navController = navController,
 
         )

@@ -186,7 +186,7 @@ fun StudentRegister(navController: NavController) {
                 Text(text = "Sign in",
                     color = Color(0xff00A9FF),
                     modifier = Modifier.clickable{
-                        navController.navigate("StudentLogin")
+                        navController.navigate("studentlogin")
                     })}
             Column(modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
@@ -195,7 +195,7 @@ fun StudentRegister(navController: NavController) {
                 Text(text = "Click here",
                     color = Color(0xff00A9FF),
                     modifier = Modifier.clickable{
-                        navController.navigate("TeacherRegister")
+                        navController.navigate("teacherregister")
                     }
 
                 )

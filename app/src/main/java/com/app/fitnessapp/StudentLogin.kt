@@ -129,7 +129,7 @@ fun StudentLogin(navController: NavController) {
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically){
-            Button(onClick = { navController.navigate("StudentDashboard") },
+            Button(onClick = { navController.navigate("studentdashboard") },
                 modifier = Modifier
                     .width(120.dp)
                     .height(50.dp)
@@ -160,7 +160,7 @@ fun StudentLogin(navController: NavController) {
                 Text(text = "Don't have an account? ")
                 Text(text = "Register",
                     modifier = Modifier.clickable {
-                        navController.navigate("StudentRegister")
+                        navController.navigate("studentregister")
                     },
                     color = Color(0xff00A9FF))}
             Column(modifier = Modifier.fillMaxWidth(),
@@ -170,7 +170,7 @@ fun StudentLogin(navController: NavController) {
                 Text(text = "Click here",
                     color = Color(0xff00A9FF),
                     modifier = Modifier.clickable {
-                        navController.navigate("TeacherLogin")
+                        navController.navigate("teacherlogin")
                     }
 
                     )

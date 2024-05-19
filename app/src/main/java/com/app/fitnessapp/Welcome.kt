@@ -87,7 +87,9 @@ fun WelcomeScreen(navController: NavController){
 
         Column(modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = {
+                             navController.navigate("studentlogin")
+            },
                 modifier = Modifier
 
                     .height(50.dp)
@@ -117,7 +119,7 @@ fun WelcomeScreen(navController: NavController){
                     color = color,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.clickable {
-                        navController.navigate("loginCategory")
+                        navController.navigate("logincategory")
 
                     })
 

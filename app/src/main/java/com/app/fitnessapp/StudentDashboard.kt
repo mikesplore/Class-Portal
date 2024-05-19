@@ -144,7 +144,7 @@ fun StudentDashboard(navController: NavController) {
                             fontWeight = FontWeight.SemiBold,
                             color = Color.Black,
                             modifier = Modifier.clickable{
-                                navController.navigate("StudentLogin")
+                                navController.navigate("studentlogin")
                             })
                     }
                 }
@@ -274,7 +274,7 @@ fun BoxContent(navController: NavController) {
             SquareBox(
                 imageName = painterResource(id = R.drawable.announcement),
                 content = "Announcements",
-                route = "announcement",
+                route = "announcements",
                 navController = navController,
             )
             SquareBox(
@@ -292,14 +292,14 @@ fun BoxContent(navController: NavController) {
         SquareBox(
             imageName = painterResource(id = R.drawable.assignment),
             content = "Assignments",
-            route = "Assignments",
+            route = "assignments",
             navController = navController,
 
         )
         SquareBox(
             imageName = painterResource(id = R.drawable.discussion),
             content = "Discussion",
-            route = "Discussion",
+            route = "discussion",
             navController = navController,
 
             )

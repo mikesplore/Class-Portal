@@ -64,7 +64,7 @@ class attendanceActivity : ComponentActivity() {
             composable("welcome"){ WelcomeScreen(
                navController = navController)
             }
-            composable("login"){ LoginCategory(
+            composable("logincategory"){ LoginCategory(
                 navController = navController)
             }
             composable("teacherlogin"){ TeacherLogin(
@@ -97,7 +97,7 @@ class attendanceActivity : ComponentActivity() {
             composable("assignments"){ Assignments(
                 navController = navController)
             }
-            composable("registerteacher"){ TeacherRegister(
+            composable("teacherregister"){ TeacherRegister(
                 navController = navController)
             }
             composable("studentregister"){ StudentRegister(

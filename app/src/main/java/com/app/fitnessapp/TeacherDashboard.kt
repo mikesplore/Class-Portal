@@ -76,7 +76,9 @@ fun TeacherDashboard(navController: NavController) {
                     // Content of the drawer
                     Column(
                         modifier = Modifier
-                            .background(Color(0xffFF7ED4), shape = RoundedCornerShape(10.dp))
+
+                            .background(color, shape = RoundedCornerShape(10.dp))
+
                             .height(250.dp)
                             .fillMaxWidth()
                     ) {

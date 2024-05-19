@@ -208,5 +208,7 @@ fun NotificationTopAppBar() {
 @Preview
 @Composable
 fun NotificationPreview() {
+    NotificationScreen(navController = rememberNavController())
+
     NotificationScreen(rememberNavController())
 }

@@ -153,7 +153,11 @@ fun TeacherRegister(navController: NavController) {
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically){
+
+            Button(onClick = { navController.navigate("gender") },
+
             Button(onClick = { /*TODO*/ },
+
                 modifier = Modifier
                     .width(120.dp)
                     .height(50.dp)
@@ -185,6 +189,8 @@ fun TeacherRegister(navController: NavController) {
                 Text(text = "Sign in",
                     color = Color(0xff00A9FF),
                     modifier = Modifier.clickable{
+                        navController.navigate("teacherlogin")
+
                         navController.navigate("TeacherLogin")
                     })}
             Column(modifier = Modifier.fillMaxWidth(),
@@ -194,7 +200,11 @@ fun TeacherRegister(navController: NavController) {
                 Text(text = "Click here",
                     color = Color(0xff00A9FF),
                     modifier = Modifier.clickable{
+
+                        navController.navigate("studentregister")
+
                         navController.navigate("StudentRegister")
+
                     }
 
                 )

@@ -172,7 +172,7 @@ fun GenderScreen(navController: NavController) {
                         )
                 }
 
-                Button(onClick = { /*TODO*/ },
+                Button(onClick = { navController.navigate("password") },
                     modifier = Modifier
                         .shadow(
                             elevation = 5.dp,

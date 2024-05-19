@@ -96,7 +96,7 @@ fun PasswordScreen(navController: NavController) {
                     .height(250.dp),
                     verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    Button(onClick = { /*TODO*/ },
+                    Button(onClick = { navController.navigate("logincategory") },
                         modifier = Modifier
                             .width(300.dp)
                             .height(50.dp),

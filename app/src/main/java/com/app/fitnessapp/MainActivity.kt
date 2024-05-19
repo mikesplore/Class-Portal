@@ -33,7 +33,8 @@ class attendanceActivity : ComponentActivity() {
     fun NavigationComponent(navController: NavHostController, context: Context) {
         NavHost(navController, startDestination = "welcome") {
             composable("attendance") {
-                AttendanceScreen(onNavigate = { navController.navigate(it) }, navController)
+                MainAttendanceScreen(onNavigate = { navController.navigate(it) }, navController)
+
             }
             composable("AddStudent") {
                 AddStudentScreen(
@@ -62,11 +63,17 @@ class attendanceActivity : ComponentActivity() {
                 navController = navController)
             }
             composable("welcome"){ WelcomeScreen(
-               navController = navController)
+                navController = navController)
+
             }
             composable("logincategory"){ LoginCategory(
                 navController = navController)
             }
+            composable("studentlogin"){ StudentLogin(
+                navController = navController)
+            }
+            composable("studentregister"){ StudentRegister(
+
             composable("teacherlogin"){ TeacherLogin(
                 navController = navController)
             }
@@ -74,15 +81,26 @@ class attendanceActivity : ComponentActivity() {
                 navController = navController)
             }
             composable("teacherdashboard"){ TeacherDashboard(
+
                 navController = navController)
             }
             composable("studentdashboard"){ StudentDashboard(
                 navController = navController)
             }
-            composable("announcements"){ Announcements(
+
+            composable("teacherlogin"){ TeacherLogin(
                 navController = navController)
             }
-            composable("discussion"){ Discussion(
+            composable("teacherregister"){ TeacherRegister(
+                navController = navController)
+            }
+            composable("teacherdashboard"){ TeacherDashboard(
+                navController = navController)
+            }
+            composable("assignments"){ Assignments(
+                navController = navController)
+            }
+            composable("announcements"){ Announcements(
                 navController = navController)
             }
             composable("gender"){ GenderScreen(
@@ -91,22 +109,13 @@ class attendanceActivity : ComponentActivity() {
             composable("password"){ PasswordScreen(
                 navController = navController)
             }
-            composable("notification"){ NotificationScreen(
+            composable("timetable"){ Timetable(
                 navController = navController)
             }
-            composable("assignments"){ Assignments(
-                navController = navController)
-            }
-            composable("teacherregister"){ TeacherRegister(
-                navController = navController)
-            }
-            composable("studentregister"){ StudentRegister(
+            composable("notifications"){ NotificationScreen(
                 navController = navController)
             }
             composable("resources"){ Resources(
-                navController = navController)
-            }
-            composable("timetable"){ Timetable(
                 navController = navController)
             }
 
@@ -114,7 +123,11 @@ class attendanceActivity : ComponentActivity() {
 
         }
     }
-
+    @Preview
+    @Composable
+    fun DefaultPreview() {
+        NavigationComponent(rememberNavController(), this)
+    }
 
 }
 

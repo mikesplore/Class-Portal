@@ -154,7 +154,13 @@ fun StudentRegister(navController: NavController) {
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically){
-            Button(onClick = { /*TODO*/ },
+
+            Button(onClick = {
+                             navController.navigate("gender")
+
+                     },
+
+
                 modifier = Modifier
                     .width(120.dp)
                     .height(50.dp)

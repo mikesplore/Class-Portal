@@ -5,17 +5,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 
+
 data class Student(val studentid: String, val name: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
 
-class MainActivity : ComponentActivity() {
+class attendanceActivity : ComponentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
         NavHost(navController, startDestination = "welcome") {
             composable("attendance") {
                 MainAttendanceScreen(onNavigate = { navController.navigate(it) }, navController)
+
             }
             composable("AddStudent") {
                 AddStudentScreen(
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
             }
             composable("welcome"){ WelcomeScreen(
                 navController = navController)
+
             }
             composable("logincategory"){ LoginCategory(
                 navController = navController)
@@ -71,11 +73,21 @@ class MainActivity : ComponentActivity() {
                 navController = navController)
             }
             composable("studentregister"){ StudentRegister(
+
+            composable("teacherlogin"){ TeacherLogin(
+                navController = navController)
+            }
+            composable("studentlogin"){ StudentLogin(
+                navController = navController)
+            }
+            composable("teacherdashboard"){ TeacherDashboard(
+
                 navController = navController)
             }
             composable("studentdashboard"){ StudentDashboard(
                 navController = navController)
             }
+
             composable("teacherlogin"){ TeacherLogin(
                 navController = navController)
             }
@@ -106,6 +118,7 @@ class MainActivity : ComponentActivity() {
             composable("resources"){ Resources(
                 navController = navController)
             }
+
 
 
         }

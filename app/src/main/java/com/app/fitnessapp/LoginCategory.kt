@@ -51,6 +51,7 @@ fun LoginCategory(navController: NavController){
                 modifier = Modifier
                     .clickable {
                         navController.navigate("studentlogin")
+
                     }
                     .size(200.dp)
                     .shadow(10.dp, shape = RoundedCornerShape(20.dp))
@@ -82,6 +83,7 @@ fun LoginCategory(navController: NavController){
                 modifier = Modifier
                     .clickable {
                         navController.navigate("teacherlogin")
+
                     }
                     .size(200.dp)
                     .shadow(10.dp, shape = RoundedCornerShape(20.dp))

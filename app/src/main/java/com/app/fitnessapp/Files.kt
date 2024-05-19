@@ -1,6 +1,6 @@
-package com.app.fitnessapp
-
 import android.content.Context
+import com.app.fitnessapp.AttendanceRecord
+import com.app.fitnessapp.Student
 import java.io.File
 
 object FileUtil {
@@ -47,23 +47,17 @@ object FileUtil {
 
     fun deleteStudent(context: Context, studentId: String) {
         val students = loadStudents(context).toMutableList()
-        students.removeIf { it.studentid == studentId }
-        saveStudents(context, students)
-    }
-
-
-    fun editAttendanceRecord(context: Context, updatedRecord: AttendanceRecord) {
-        val records = loadAttendanceRecords(context).toMutableList()
-        val index = records.indexOfFirst { it == updatedRecord }
+        val index = students.indexOfFirst { it.studentid == studentId }
         if (index != -1) {
-            records[index] = updatedRecord
-            saveAttendanceRecords(context, records)
+            students.removeAt(index)
+            saveStudents(context, students)
         }
     }
 
-    fun deleteAttendanceRecord(context: Context, record: AttendanceRecord) {
-        val records = loadAttendanceRecords(context).toMutableList()
-        records.remove(record)
-        saveAttendanceRecords(context, records)
+    fun clearAttendance(context: Context) {
+        val file = File(context.filesDir, ATTENDANCE_FILE)
+        if (file.exists()) {
+            file.writeText("")
+        }
     }
 }

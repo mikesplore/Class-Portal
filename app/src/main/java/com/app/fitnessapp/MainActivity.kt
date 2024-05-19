@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -50,11 +51,23 @@ class MainActivity : ComponentActivity() {
             composable("AttendanceReport") {
                 AttendanceReportScreen(context = context, navController)
             }
+            composable("DeleteStudent"){ DeleteStudentScreen(
+
+                context = context,
+                navController = navController
+            )}
+            composable("EditStudent"){ EditStudentScreen(
+                onBack = { navController.navigate("main") },
+                context = context,
+                navController = navController
+            )}
+
         }
     }
 
 
 }
+
 
 
 

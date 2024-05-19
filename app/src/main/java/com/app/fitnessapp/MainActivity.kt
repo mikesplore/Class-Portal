@@ -110,7 +110,11 @@ class MainActivity : ComponentActivity() {
 
         }
     }
-
+    @Preview
+    @Composable
+    fun DefaultPreview() {
+        NavigationComponent(rememberNavController(), this)
+    }
 
 }
 

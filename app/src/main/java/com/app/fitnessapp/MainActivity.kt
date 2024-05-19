@@ -5,17 +5,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 
+
 data class Student(val studentid: String, val name: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
 
-class MainActivity : ComponentActivity() {
+class attendanceActivity : ComponentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,13 +31,13 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-        NavHost(navController, startDestination = "main") {
-            composable("main") {
-                MainScreen(onNavigate = { navController.navigate(it) }, navController)
+        NavHost(navController, startDestination = "welcome") {
+            composable("attendance") {
+                AttendanceScreen(onNavigate = { navController.navigate(it) }, navController)
             }
             composable("AddStudent") {
                 AddStudentScreen(
-                    onStudentAdded = { navController.navigate("main") },
+                    onStudentAdded = { navController.navigate("attendance") },
                     context = context,
                     navController
                 )
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
             composable("RecordAttendance") {
                 RecordAttendanceScreen(
                     context = context,
-                    onAttendanceRecorded = { navController.navigate("main") }, navController = navController)
+                    onAttendanceRecorded = { navController.navigate("attendance") }, navController = navController)
 
             }
             composable("AttendanceReport") {
@@ -54,13 +54,63 @@ class MainActivity : ComponentActivity() {
             composable("DeleteStudent"){ DeleteStudentScreen(
 
                 context = context,
-                navController = navController
-            )}
+                navController = navController)
+            }
             composable("EditStudent"){ EditStudentScreen(
-                onBack = { navController.navigate("main") },
+                onBack = { navController.navigate("attendance") },
                 context = context,
-                navController = navController
-            )}
+                navController = navController)
+            }
+            composable("welcome"){ WelcomeScreen(
+               navController = navController)
+            }
+            composable("login"){ LoginCategory(
+                navController = navController)
+            }
+            composable("teacherlogin"){ TeacherLogin(
+                navController = navController)
+            }
+            composable("studentlogin"){ StudentLogin(
+                navController = navController)
+            }
+            composable("teacherdashboard"){ TeacherDashboard(
+                navController = navController)
+            }
+            composable("studentdashboard"){ StudentDashboard(
+                navController = navController)
+            }
+            composable("announcements"){ Announcements(
+                navController = navController)
+            }
+            composable("discussion"){ Discussion(
+                navController = navController)
+            }
+            composable("gender"){ GenderScreen(
+                navController = navController)
+            }
+            composable("password"){ PasswordScreen(
+                navController = navController)
+            }
+            composable("notification"){ NotificationScreen(
+                navController = navController)
+            }
+            composable("assignments"){ Assignment(
+                navController = navController)
+            }
+            composable("registerteacher"){ TeacherRegister(
+                navController = navController)
+            }
+            composable("studentregister"){ StudentRegister(
+                navController = navController)
+            }
+            composable("resources"){ Resources(
+                navController = navController)
+            }
+            composable("timetable"){ Timetable(
+                navController = navController)
+            }
+
+
 
         }
     }

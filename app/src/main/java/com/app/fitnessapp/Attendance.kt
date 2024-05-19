@@ -24,7 +24,7 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(onNavigate: (String) -> Unit, navController: NavController) {
+fun AttendanceScreen(onNavigate: (String) -> Unit, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -118,6 +118,6 @@ fun NavigationButton(onNavigate: (String) -> Unit, destination: String, text: St
 
 @Preview
 @Composable
-fun MainScreenPreview() {
-    MainScreen(navController = rememberNavController(), onNavigate = {})
+fun AttendanceScreenPreview() {
+    AttendanceScreen(navController = rememberNavController(), onNavigate = {})
 }

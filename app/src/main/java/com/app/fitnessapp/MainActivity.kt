@@ -5,20 +5,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.fitnessapp.ui.theme.FitnessAPPTheme
-import androidx.compose.ui.platform.LocalContext
 
 
-data class Student(val id: Int, val name: String)
-data class AttendanceRecord(val studentId: Int, val date: String, val present: Boolean)
+data class Student(val studentid: String, val name: String)
+data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
 
 class MainActivity : ComponentActivity() {
 

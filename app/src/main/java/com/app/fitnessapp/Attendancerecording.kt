@@ -1,32 +1,25 @@
 package com.app.fitnessapp
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -112,14 +105,14 @@ fun RecordAttendanceScreen(onAttendanceRecorded: () -> Unit, navController: NavC
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             //index to increment by one for each name
-                            Text(student.name,
+                            Text(student.studentid,
                                 color = Color.Black)
                             Checkbox(
                                 colors = CheckboxDefaults.colors(Color.Black),
                                 checked = present,
                                 onCheckedChange = {
                                     present = it
-                                    attendanceRecords.add(AttendanceRecord(student.id, "2024-05-17", present))
+                                    attendanceRecords.add(AttendanceRecord(student.studentid, "2024-05-17", present))
                                 }
                             )
 
@@ -137,24 +130,7 @@ fun RecordAttendanceScreen(onAttendanceRecorded: () -> Unit, navController: NavC
 @Preview(showBackground = true)
 @Composable
 fun RecordAttendanceScreenPreview() {
-    val sampleStudents = listOf(
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnson"),
-        Student(1, "John Doe"),
-        Student(2, "Jane Smith"),
-        Student(3, "Alice Johnso")
-    )
-    RecordAttendanceScreen(
+        RecordAttendanceScreen(
         onAttendanceRecorded = {},
         navController = rememberNavController(),
         context = LocalContext.current

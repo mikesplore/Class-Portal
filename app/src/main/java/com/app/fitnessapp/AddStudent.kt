@@ -53,7 +53,8 @@ val textfieldColor = Color(0xff89CFF3)
 @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController: NavController) {
-        var name by remember { mutableStateOf("") }// Replace 'MyScreen' with your screen name
+        var name by remember { mutableStateOf("") }
+        var studentId by remember { mutableStateOf("") }
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -97,19 +98,12 @@ val textfieldColor = Color(0xff89CFF3)
                         color = Color.Black,
                         fontFamily = RobotoMono
                     )
-                    Column (modifier = Modifier.size(290.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center){
 
-                        Image(painter = painterResource(id = R.drawable.add), contentDescription = "Add Student",
-                            modifier = Modifier
-                                .fillMaxSize())
-                    }
                     Column (modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center){
+                        verticalArrangement = Arrangement.SpaceEvenly){
 
                     TextField(
                         value = name,
@@ -129,12 +123,31 @@ val textfieldColor = Color(0xff89CFF3)
                         shape = RoundedCornerShape(10.dp)
 
                     )
+
+                        TextField(
+                            value = studentId,
+                            onValueChange = { studentId = it },
+
+                            modifier = Modifier
+                                .width(300.dp)
+                                .height(50.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = textfieldColor,
+                                unfocusedContainerColor = textfieldColor,
+                                focusedIndicatorColor = textfieldColor,
+                                unfocusedIndicatorColor = textfieldColor,
+
+                                ),
+                            singleLine = true,
+                            shape = RoundedCornerShape(10.dp)
+
+                        )
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = {
                             if (name.isNotEmpty()) {
                                 val students = FileUtil.loadStudents(context).toMutableList()
-                                students.add(Student(id = System.currentTimeMillis().toInt(), name = name))
+                                students.add(Student(studentid = studentId, name = name))
                                 FileUtil.saveStudents(context, students)
                                 onStudentAdded()
                             }

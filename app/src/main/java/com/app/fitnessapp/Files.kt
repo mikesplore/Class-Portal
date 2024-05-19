@@ -10,7 +10,7 @@ object FileUtil {
 
     fun saveStudents(context: Context, students: List<Student>) {
         val file = File(context.filesDir, STUDENT_FILE)
-        file.writeText(students.joinToString("\n") { "${it.id},${it.name}" })
+        file.writeText(students.joinToString("\n") { "${it.studentid},${it.name}" })
     }
 
     fun loadStudents(context: Context): List<Student> {
@@ -18,7 +18,7 @@ object FileUtil {
         if (!file.exists()) return emptyList()
         return file.readLines().map { line ->
             val parts = line.split(",")
-            Student(parts[0].toInt(), parts[1])
+            Student(parts[0], parts[1])
         }
     }
 
@@ -32,7 +32,38 @@ object FileUtil {
         if (!file.exists()) return emptyList()
         return file.readLines().map { line ->
             val parts = line.split(",")
-            AttendanceRecord(parts[0].toInt(), parts[1], parts[2].toBoolean())
+            AttendanceRecord(parts[0], parts[1], parts[2].toBoolean())
         }
+    }
+
+    fun editStudent(context: Context, updatedStudent: Student) {
+        val students = loadStudents(context).toMutableList()
+        val index = students.indexOfFirst { it.studentid == updatedStudent.studentid }
+        if (index != -1) {
+            students[index] = updatedStudent
+            saveStudents(context, students)
+        }
+    }
+
+    fun deleteStudent(context: Context, studentId: String) {
+        val students = loadStudents(context).toMutableList()
+        students.removeIf { it.studentid == studentId }
+        saveStudents(context, students)
+    }
+
+
+    fun editAttendanceRecord(context: Context, updatedRecord: AttendanceRecord) {
+        val records = loadAttendanceRecords(context).toMutableList()
+        val index = records.indexOfFirst { it == updatedRecord }
+        if (index != -1) {
+            records[index] = updatedRecord
+            saveAttendanceRecords(context, records)
+        }
+    }
+
+    fun deleteAttendanceRecord(context: Context, record: AttendanceRecord) {
+        val records = loadAttendanceRecords(context).toMutableList()
+        records.remove(record)
+        saveAttendanceRecords(context, records)
     }
 }

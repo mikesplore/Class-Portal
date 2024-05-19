@@ -84,8 +84,8 @@ fun AttendanceReportScreen(context: Context,navController: NavController) {
                     }
                 }
                 itemsIndexed(sortedStudents) { index, student ->
-                    val totalPresent = attendanceRecords.count { it.studentId == student.id && it.present }
-                    val totalAbsent = attendanceRecords.count { it.studentId == student.id && !it.present }
+                    val totalPresent = attendanceRecords.count { it.studentId == student.studentid && it.present }
+                    val totalAbsent = attendanceRecords.count { it.studentId == student.studentid && !it.present }
                     val totalSessions = totalPresent + totalAbsent
                     val attendancePercentage = if (totalSessions > 0) (totalPresent * 100 / totalSessions) else 0
 

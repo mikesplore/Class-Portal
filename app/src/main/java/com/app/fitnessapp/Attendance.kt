@@ -73,9 +73,6 @@ fun AttendanceScreen(onNavigate: (String) -> Unit, navController: NavController)
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                val buttonModifier = Modifier
-                    .size(100.dp)
-                    .padding(8.dp)
 
                 Row(horizontalArrangement = Arrangement.Center) {
                     NavigationButton(onNavigate, "AddStudent", "Add Student", )

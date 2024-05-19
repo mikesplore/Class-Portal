@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
@@ -31,11 +30,11 @@ import androidx.navigation.compose.rememberNavController
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Resourcess(navController: NavController) {
+fun Resources(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Top App Bar Title") },
+                title = { Text("Resources") },
                 navigationIcon = {
                     IconButton(onClick = { /* Handle navigation icon click */ }) {
                         Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back")
@@ -80,5 +79,5 @@ fun Resourcess(navController: NavController) {
 @Preview
 @Composable
 fun ResourcesPreview(){
-    Resourcess(navController = rememberNavController())
+    Resources(navController = rememberNavController())
 }

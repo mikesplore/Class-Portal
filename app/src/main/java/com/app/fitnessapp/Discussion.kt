@@ -35,7 +35,7 @@ fun Discussion(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Top App Bar Title") },
+                title = { Text("Discussions") },
                 navigationIcon = {
                     IconButton(onClick = { /* Handle navigation icon click */ }) {
                         Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back")

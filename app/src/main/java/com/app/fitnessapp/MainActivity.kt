@@ -94,7 +94,7 @@ class attendanceActivity : ComponentActivity() {
             composable("notification"){ NotificationScreen(
                 navController = navController)
             }
-            composable("assignments"){ Assignment(
+            composable("assignments"){ Assignments(
                 navController = navController)
             }
             composable("registerteacher"){ TeacherRegister(

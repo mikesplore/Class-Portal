@@ -35,11 +35,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.text.TextStyle
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun PasswordScreen() {
+fun PasswordScreen(navController: NavController) {
     Scaffold(
         topBar = { NotificationTopAppBar() },
         containerColor = background,
@@ -94,7 +96,7 @@ fun PasswordScreen() {
                     .height(250.dp),
                     verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    Button(onClick = { /*TODO*/ },
+                    Button(onClick = { navController.navigate("logincategory") },
                         modifier = Modifier
                             .width(300.dp)
                             .height(50.dp),
@@ -286,5 +288,5 @@ fun RuleItem(rule: String, conditionMet: Boolean) {
 @Preview
 @Composable
 fun PasswordScreenPreview() {
-    PasswordScreen()
+    PasswordScreen(rememberNavController())
 }

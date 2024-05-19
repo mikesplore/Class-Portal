@@ -24,13 +24,13 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(onNavigate: (String) -> Unit, navController: NavController) {
+fun MainAttendanceScreen(onNavigate: (String) -> Unit, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Attendance Dashboard") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { navController.navigate("teacherdashboard") }) {
                         Icon(
                             Icons.Filled.ArrowBackIosNew,
                             contentDescription = "Back"
@@ -118,6 +118,6 @@ fun NavigationButton(onNavigate: (String) -> Unit, destination: String, text: St
 
 @Preview
 @Composable
-fun MainScreenPreview() {
-    MainScreen(navController = rememberNavController(), onNavigate = {})
+fun MainAttendanceScreenPreview() {
+    MainAttendanceScreen(navController = rememberNavController(), onNavigate = {})
 }

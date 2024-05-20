@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -61,6 +62,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
+                            tint = color4,
                             modifier = Modifier.clickable {
                                 navController.popBackStack()
                             })
@@ -69,7 +71,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 actions = {
                     // Add any additional actions (e.g., settings icon) here
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = color1,
                     titleContentColor = textcolor
                 )
@@ -86,7 +88,11 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
         ) {
             // Your main content goes here
             TextField(
-                value = studentId, textStyle = TextStyle(),
+                value = studentId, textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontFamily = RobotoMono
+                ),
                 onValueChange = { studentId = it },
                 label = { Text("Enter Student ID", fontFamily = RobotoMono) },
                 colors = TextFieldDefaults.colors(
@@ -138,6 +144,11 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = newStudentName,
+                    textStyle = TextStyle(
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontFamily = RobotoMono
+                    ),
                     onValueChange = { newStudentName = it },
                     label = { Text("New Student Name", fontFamily = RobotoMono) },
                     colors = TextFieldDefaults.colors(
@@ -185,12 +196,25 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
                     confirmButton = {
-                        Button(onClick = { showDialog = false }) {
-                            Text("OK")
+                        Button(onClick = { showDialog = false },
+                            colors = ButtonDefaults.buttonColors(textcolor),
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier.fillMaxWidth()) {
+                            Text("OK",
+                                fontFamily = RobotoMono,
+                                fontSize = 16.sp,
+                                color = color1)
                         }
                     },
-                    title = { Text("Student Not Found") },
-                    text = { Text("The student with ID $studentId was not found.") }
+                    title = { Text("Student Not Found",
+                        fontFamily = RobotoMono,
+                        fontSize = 16.sp,
+                        color = color1,
+                        fontWeight = FontWeight.Bold) },
+                    text = { Text("The student with ID $studentId was not found.",
+                        fontFamily = RobotoMono,
+                        fontSize = 16.sp,
+                        color = color1) }
                 )
             }
         }

@@ -238,17 +238,16 @@ fun GenderScreen(navController: NavController,context: Context) {
             confirmButton = {
                 Button(onClick = {
                     shuffleQuestion()
-                }) {
-                    Text("Yes")
+                },
+                    colors = ButtonDefaults.buttonColors(textcolor),
+                    modifier = Modifier.fillMaxWidth()) {
+                    Text("Yes",
+                        fontFamily = RobotoMono,
+                        fontSize = 15.sp,
+                        color = color4,)
                 }
             },
-            dismissButton = {
-                Button(onClick = {
-                    shuffleQuestion()
-                }) {
-                    Text("No")
-                }
-            },
+
             title = { Text("Confirmation",
                 fontFamily = RobotoMono,
                 color = color1,

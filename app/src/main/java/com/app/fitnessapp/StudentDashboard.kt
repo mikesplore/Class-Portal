@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -116,7 +115,7 @@ fun StudentDashboard(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly) {
                     Spacer(modifier = Modifier.height(10.dp))
-                    StudentHeader(navController = navController)
+                    StudentHeader()
                     StudentBox(navController = navController)
                 }
 
@@ -184,7 +183,7 @@ fun StudentBox(navController: NavController){
 
 
 @Composable
-fun StudentHeader(navController: NavController) {
+fun StudentHeader() {
     Box(modifier = Modifier.shadow(
         elevation = 15.dp,
         shape = RoundedCornerShape(20.dp)

@@ -17,10 +17,11 @@ import androidx.navigation.compose.rememberNavController
 data class Student(val studentid: String, val name: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
 
-val teachercolor1 = Color(0xff27374D)
-val teachercolor2 = Color(0xff526D82)
-val teachercolor3 = Color(0xff9DB2BF)
-val teachercolor4 = Color(0xffDDE6ED)
+val color1 = Color(0xff27374D)
+val color2 = Color(0xff526D82)
+val color3 = Color(0xff9DB2BF)
+val color4 = Color(0xffDDE6ED)
+val textcolor = Color(0xff00A9FF)
 
 class MainActivity : ComponentActivity() {
 

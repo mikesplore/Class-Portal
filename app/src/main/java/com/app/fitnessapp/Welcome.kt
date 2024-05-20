@@ -34,31 +34,29 @@ val background = Color(0xffCDF5FD)
 fun WelcomeScreen(navController: NavController){
     Column(
         modifier = Modifier
-            .background(background)
+            .background(color1)
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
 
-        Column(modifier = Modifier.fillMaxWidth(),
+        Column(modifier = Modifier
+            .width(350.dp)
+            .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Welcome to",
+
+            Text(text = "COMPUTER SCIENCE CLASS PORTAL",
                 fontFamily = RobotoMono,
                 fontSize = 30.sp,
-                color = color,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(text = "COMPUTER SCIENCE PORTAL APP",
-                fontFamily = RobotoMono,
-                fontSize = 30.sp,
-                color = Black,
+                color = textcolor,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,)
 
             Text(text = "Customer service is our number one  priority Enjoy our service",
                 fontFamily = RobotoMono,
                 fontSize = 15.sp,
-                color = Black,
+                color = color4,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
             )
@@ -90,7 +88,7 @@ fun WelcomeScreen(navController: NavController){
                 Text(text = "Get Started",
                     fontFamily = RobotoMono,
                     fontSize = 15.sp,
-                    color = Color.White,
+                    color = color4,
                     fontWeight = FontWeight.Bold)
 
             }
@@ -103,6 +101,7 @@ fun WelcomeScreen(navController: NavController){
                 Text(text = "Already have an account? ",
                     fontFamily = RobotoMono,
                     fontSize = 15.sp,
+                    color = color4,
                     fontWeight = FontWeight.Normal)
                 Text(text = "Sign in",
                     fontFamily = RobotoMono,

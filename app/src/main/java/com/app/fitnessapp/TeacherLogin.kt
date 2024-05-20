@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -34,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -43,13 +45,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.app.fitnessapp.ui.theme.RobotoMono
 
 @Composable
 fun TeacherLogin(navController: NavController) {
     var email by remember { mutableStateOf("") }
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(background),
+        .background(color1),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -73,9 +76,10 @@ fun TeacherLogin(navController: NavController) {
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = "Sign in as Teacher",
-                    color = Color.Black,
+                    color = color4,
                     fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = RobotoMono
                 )
             }
 
@@ -86,15 +90,21 @@ fun TeacherLogin(navController: NavController) {
             .height(150.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween) {
-            TextField(value = email, onValueChange = {
+            TextField(value = email, textStyle = TextStyle(fontFamily = RobotoMono),
+                onValueChange = {
                 email = it  },
-                label = {Text(text = "Email")},
+                label = {Text(text = "Email", fontFamily = RobotoMono)},
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Black,
-                    unfocusedIndicatorColor = Color.Black
+                    focusedIndicatorColor = color4,
+                    unfocusedIndicatorColor = color4,
+                    focusedTextColor = color4,
+                    unfocusedTextColor = color4,
+                    focusedLabelColor = color4,
+                    unfocusedLabelColor = color4
+
                 )
             )
 
@@ -102,14 +112,15 @@ fun TeacherLogin(navController: NavController) {
             var passwordVisibility by remember { mutableStateOf(false) }
 
             TextField(
-                value = password,
+                value = password,textStyle = TextStyle(fontFamily = RobotoMono),
                 onValueChange = { password = it },
-                label = { Text(text = "Password") },
+                label = { Text(text = "Password", fontFamily = RobotoMono) },
                 singleLine = true,
                 trailingIcon = {
                     IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                         Icon(
-                            imageVector = if (passwordVisibility) Icons.Filled.Clear else Icons.Default.Check,
+                            imageVector = if (passwordVisibility) Icons.Filled.Clear else Icons.Filled.Visibility,
+                            tint = color4,
                             contentDescription = if (passwordVisibility) "Hide password" else "Show password"
                         )
                     }
@@ -118,8 +129,12 @@ fun TeacherLogin(navController: NavController) {
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Black,
-                    unfocusedIndicatorColor = Color.Black
+                    focusedIndicatorColor = color4,
+                    unfocusedIndicatorColor = color4,
+                    focusedTextColor = color4,
+                    unfocusedTextColor = color4,
+                    focusedLabelColor = color4,
+                    unfocusedLabelColor = color4
                 )
             )
 
@@ -132,19 +147,21 @@ fun TeacherLogin(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically){
             Button(onClick = { navController.navigate("teacherdashboard") },
                 modifier = Modifier
-                    .width(120.dp)
+                    .width(200.dp)
                     .height(50.dp)
                     .shadow(
                         elevation = 10.dp,
                         shape = RoundedCornerShape(20.dp),
                     ),
+                shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xff6420AA))
+                    containerColor = color2)
                 ) {
                 Text(text = "Sign in",
-                    color = Color.White,
+                    color = color4,
                     fontWeight = FontWeight.Normal,
-                    fontSize = 15.sp
+                    fontSize = 15.sp,
+                    fontFamily = RobotoMono
                     )
                 
             }
@@ -158,18 +175,19 @@ fun TeacherLogin(navController: NavController) {
                 .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Don't have an account? ")
+            Text(text = "Don't have an account? ", fontFamily = RobotoMono,color = color4)
             Text(text = "Register",
-                color = Color(0xff6420AA),
+                color = textcolor,
+                fontFamily = RobotoMono,
                 modifier = Modifier.clickable{
                     navController.navigate("teacherregister")
                 })}
             Column(modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Are you a student? ")
-                Text(text = "Click here",
-                    color = Color(0xff6420AA),
+                Text(text = "Are you a student? ", fontFamily = RobotoMono,color = color4)
+                Text(text = "Click here", fontFamily = RobotoMono,
+                    color = textcolor,
                     modifier = Modifier.clickable{
                         navController.navigate("studentlogin")
                     }

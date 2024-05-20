@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,7 +56,8 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Edit Student") },
+                title = { Text("Edit Student",
+                    fontFamily = RobotoMono) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
@@ -66,13 +68,17 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 },
                 actions = {
                     // Add any additional actions (e.g., settings icon) here
-                }
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = color1,
+                    titleContentColor = textcolor
+                )
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(background)
+                .background(color1)
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -80,7 +86,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
         ) {
             // Your main content goes here
             TextField(
-                value = studentId,
+                value = studentId, textStyle = TextStyle(),
                 onValueChange = { studentId = it },
                 label = { Text("Enter Student ID", fontFamily = RobotoMono) },
                 colors = TextFieldDefaults.colors(

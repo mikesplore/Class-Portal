@@ -47,7 +47,7 @@ fun GenderScreen(navController: NavController) {
 
     Scaffold(
         topBar = { NotificationTopAppBar() },
-        containerColor = background,
+        containerColor = color1,
         content = {
             Column(modifier = Modifier
                 .fillMaxSize(),
@@ -71,7 +71,7 @@ fun GenderScreen(navController: NavController) {
                     Column {
                         Text(
                             text = "Which one are you?",
-                            color = Black,
+                            color = color4,
                             fontWeight = FontWeight.Bold,
                             fontSize = 25.sp,
                             fontFamily = RobotoMono,
@@ -165,7 +165,7 @@ fun GenderScreen(navController: NavController) {
                     Text(text = "To give you a customer experience, we need to know your gender",
                         fontFamily = RobotoMono,
                         fontSize = 22.sp,
-                        color = Color.DarkGray,
+                        color = color3,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.weight(1f)
@@ -188,10 +188,10 @@ fun GenderScreen(navController: NavController) {
                     Text(text = "Continue",
                         fontFamily = RobotoMono,
                         fontSize = 15.sp,
-                        color = Color.White,
+                        color = color4,
                         fontWeight = FontWeight.Bold)}
 
-                Text(text = "Prefer not to choose (LGBTQ)",
+                Text(text = "Prefer not to choose (GAY)",
                     fontFamily = RobotoMono,
                     fontSize = 15.sp,
                     color = color,

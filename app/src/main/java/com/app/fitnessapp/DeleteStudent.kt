@@ -71,18 +71,20 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                     fontFamily = RobotoMono) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
+                            tint = color4)
                     }
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = color
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = color1,
+                    titleContentColor = textcolor,
                 )
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(background)
+                .background(color1)
                 .fillMaxSize()
                 .padding(innerPadding),
             verticalArrangement = Arrangement.SpaceBetween
@@ -91,10 +93,14 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                 .border(1.dp, Color.Black,
                     RoundedCornerShape(8.dp))){
                 item {
-                    Text("Total Students: ${students.size}", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold)
+                    Text("Total Students: ${students.size}",
+                        modifier = Modifier.padding(16.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = RobotoMono,
+                        color = color4)
                 }
                 itemsIndexed(students) { index, student ->
-                    val rowlist = if (index % 2 == 0) Color(0xffA0E9FF) else Color(0xff89CFF3)
+                    val rowlist = if (index % 2 == 0) color2 else color3
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -111,13 +117,14 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                     ) {
                         Text(student.studentid,
                             fontWeight = FontWeight.Bold,
+                            color = color4,
                             fontSize = 20.sp,
                             fontFamily = RobotoMono,)
                         Text(student.name)
                     }
                 }
             }
-            Text("Select Student to Delete", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold)
+            Text("Select Student to Delete", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold,color = color4)
             if (showConfirmationDialog) {
                 AlertDialog(
                     onDismissRequest = { showConfirmationDialog = false },

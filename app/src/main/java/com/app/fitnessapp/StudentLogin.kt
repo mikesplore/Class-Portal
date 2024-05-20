@@ -156,7 +156,7 @@ fun StudentLogin(navController: NavController) {
                     ),
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = color2)
+                    containerColor = textcolor)
             ) {
                 Text(text = "Sign in",
                     color = color4,

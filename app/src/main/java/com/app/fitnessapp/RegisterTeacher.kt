@@ -186,7 +186,7 @@ fun TeacherRegister(navController: NavController) {
                     ),
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = color2)
+                    containerColor = textcolor)
             ) {
                 Text(text = "Register",
                     color = color4,

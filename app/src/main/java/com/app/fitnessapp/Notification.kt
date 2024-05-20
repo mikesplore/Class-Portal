@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,7 +33,7 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 fun NotificationScreen(navController: NavController) {
     Scaffold(
         topBar = { NotificationTopAppBar() },
-        containerColor = background,
+        containerColor = color1,
         content = {
             Column(
                 modifier = Modifier
@@ -43,7 +44,7 @@ fun NotificationScreen(navController: NavController) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(background)
+                        .background(color1)
                         .weight(1f),
                     verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -65,7 +66,7 @@ fun NotificationScreen(navController: NavController) {
                         Box(modifier = Modifier.width(300.dp)) {
                             Text(
                                 text = "Do you want to turn on notification?",
-                                color = Black,
+                                color = color4,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 25.sp,
                                 fontFamily = RobotoMono,
@@ -99,7 +100,7 @@ fun NotificationScreen(navController: NavController) {
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
                                 text = "New weekly health reminder",
-                                color = Black,
+                                color = color4,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 15.sp,
                                 fontFamily = RobotoMono
@@ -115,7 +116,7 @@ fun NotificationScreen(navController: NavController) {
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
                                 text = "Motivational reminder",
-                                color = Black,
+                                color = color4,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 15.sp,
                                 fontFamily = RobotoMono
@@ -131,7 +132,7 @@ fun NotificationScreen(navController: NavController) {
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
                                 text = "Personalized Program",
-                                color = Black,
+                                color = color4,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 15.sp,
                                 fontFamily = RobotoMono
@@ -177,14 +178,15 @@ fun NotificationTopAppBar() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.Default.ArrowBackIosNew,
+                    tint = color4,
                     contentDescription = "back",
                     modifier = Modifier.size(30.dp)
                 )
                 LinearProgressIndicator(
                     trackColor = Color(0xff89CFF3),
                     progress = 1 / 7.0f,
-                    color = color,
+                    color = color4,
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
                         .background(Black, RoundedCornerShape(10.dp))
@@ -193,14 +195,14 @@ fun NotificationTopAppBar() {
                 )
                 Text(
                     text = "Skip",
-                    color = color,
+                    color = color4,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     fontFamily = RobotoMono
                 )
             }
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(background),
+        colors = TopAppBarDefaults.topAppBarColors(color1),
     )
 }
 

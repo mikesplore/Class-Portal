@@ -93,17 +93,17 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Attendance Report") },
+                title = { Text("Attendance Report", fontFamily = RobotoMono) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",tint = color4)
                     }
                 },
                 actions = {
                     // This is where the menu icon goes
                     Box(modifier = Modifier.padding(end = 8.dp)) {
                         IconButton(onClick = { showMenu = !showMenu }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "Menu")
+                            Icon(Icons.Default.MoreVert, contentDescription = "Menu",tint = color4)
                         }
                         DropdownMenu(
                             expanded = showMenu,
@@ -123,7 +123,11 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                              }
                         }
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = color1,
+                    titleContentColor = textcolor,
+                )
             )
         }
     )
@@ -131,7 +135,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
     { innerPadding ->
         Column(
             modifier = Modifier
-                .background(background)
+                .background(color1)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -153,7 +157,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                     }
                 }
                 itemsIndexed(studentAttendance) { index, studentAttendance ->
-                    val backgroundColor = if (index % 2 == 0) Color(0xff89CFF3) else Color(0xffA0E9FF)
+                    val backgroundColor = if (index % 2 == 0) color2 else color3
 
                     Row(
                         modifier = Modifier

@@ -99,9 +99,7 @@ class MainActivity : ComponentActivity() {
             composable("gender"){ GenderScreen(
                 navController = navController)
             }
-            composable("password"){ PasswordScreen(
-                navController = navController)
-            }
+
             composable("notification"){ NotificationScreen(
                 navController = navController)
             }

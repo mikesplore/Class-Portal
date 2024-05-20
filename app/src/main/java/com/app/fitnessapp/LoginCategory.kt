@@ -25,17 +25,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.app.fitnessapp.ui.theme.RobotoMono
 
 @Composable
 fun LoginCategory(navController: NavController){
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(background),
+        .background(color1),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         Text(text = "Choose your role",
-            color = Color.Black,
+            color = textcolor,
+            fontFamily = RobotoMono,
             fontSize = 30.sp,
             fontWeight = FontWeight.SemiBold
             )
@@ -57,7 +59,7 @@ fun LoginCategory(navController: NavController){
             ) {
                 Column(
                     modifier = Modifier
-                        .background(Color(0xffCDF5FD), shape = RoundedCornerShape(20.dp))
+                        .background(color2, shape = RoundedCornerShape(20.dp))
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -70,8 +72,9 @@ fun LoginCategory(navController: NavController){
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
                         text = "Student",
-                        color = Color.Black,
+                        color = color4,
                         fontSize = 20.sp,
+                        fontFamily = RobotoMono
                     )
                 }
 
@@ -88,7 +91,7 @@ fun LoginCategory(navController: NavController){
             ) {
                 Column(
                     modifier = Modifier
-                        .background(Color(0xffCDF5FD), shape = RoundedCornerShape(20.dp))
+                        .background(color2, shape = RoundedCornerShape(20.dp))
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -101,8 +104,9 @@ fun LoginCategory(navController: NavController){
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
                         text = "Teacher",
-                        color = Color.Black,
+                        color = color4,
                         fontSize = 20.sp,
+                        fontFamily = RobotoMono
                     )
                 }
 

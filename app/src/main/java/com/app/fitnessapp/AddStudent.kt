@@ -1,6 +1,7 @@
 package com.app.fitnessapp
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,6 +58,7 @@ val textfieldColor = Color(0xff89CFF3)
                     navigationIcon = {
                         IconButton(onClick = { /* Handle back navigation */ }) {
                             Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
+                                tint = color4,
                                 modifier = Modifier.clickable {
                                     navController.popBackStack()
 
@@ -66,7 +69,8 @@ val textfieldColor = Color(0xff89CFF3)
                         // Add any additional actions (e.g., settings icon) here
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = color,
+                        containerColor = color1,
+                        titleContentColor = textcolor,
                     )
                 )
             }
@@ -80,7 +84,7 @@ val textfieldColor = Color(0xff89CFF3)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(background)
+                        .background(color1)
                         .padding(16.dp),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -112,6 +116,9 @@ val textfieldColor = Color(0xff89CFF3)
                                 val students = FileUtil.loadStudents(context).toMutableList()
                                 students.add(Student(studentid = studentId, name = name))
                                 FileUtil.saveStudents(context, students)
+                                name = ""
+                                studentId = ""
+                                Toast.makeText(context, "Student added successfully", Toast.LENGTH_SHORT).show()
                                 onStudentAdded()
                             }
                         },
@@ -143,6 +150,11 @@ fun CustomTextField(
 ) {
     TextField(
         value = value,
+        textStyle = TextStyle(
+            color = color4,
+            fontFamily = RobotoMono,
+            fontSize = 16.sp
+        ),
         onValueChange = onValueChange,
         modifier = modifier
             .width(300.dp)
@@ -152,6 +164,10 @@ fun CustomTextField(
             unfocusedContainerColor = textfieldColor,
             focusedIndicatorColor = textfieldColor,
             unfocusedIndicatorColor = textfieldColor,
+            focusedTextColor = color1,
+            unfocusedTextColor = color1,
+            focusedLabelColor = color1,
+            unfocusedLabelColor = color1
         ),
         singleLine = true,
         shape = RoundedCornerShape(10.dp),

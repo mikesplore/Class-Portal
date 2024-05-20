@@ -249,8 +249,16 @@ fun GenderScreen(navController: NavController,context: Context) {
                     Text("No")
                 }
             },
-            title = { Text("Confirmation") },
-            text = { Text(currentQuestion) }
+            title = { Text("Confirmation",
+                fontFamily = RobotoMono,
+                color = color1,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center) },
+            text = { Text(currentQuestion,
+                fontFamily = RobotoMono,
+                color = color1,)
+            },
+            containerColor = color3
         )
     }
 

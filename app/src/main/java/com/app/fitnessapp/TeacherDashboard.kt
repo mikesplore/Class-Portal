@@ -1,4 +1,5 @@
 package com.app.fitnessapp
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.app.fitnessapp.ui.theme.RobotoMono
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TeacherDashboard(navController: NavController) {
@@ -72,7 +74,7 @@ fun TeacherDashboard(navController: NavController) {
                         "Logout",
                         modifier = Modifier
                             .padding(16.dp)
-                            .clickable { /* Handle logout */ },
+                            .clickable { navController.navigate("logincategory") },
                         fontSize = 20.sp
                     )
                 }

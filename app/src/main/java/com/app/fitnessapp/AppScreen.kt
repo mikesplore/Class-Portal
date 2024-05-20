@@ -28,25 +28,26 @@ fun MainScreen(onNavigate: (String) -> Unit, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Attendance Dashboard") },
+                title = { Text("Attendance Dashboard", color = color4, fontFamily = RobotoMono) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             Icons.Filled.ArrowBackIosNew,
+                            tint = color4,
                             contentDescription = "Back"
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = color,
-                    titleContentColor = Color.White
+                    containerColor = color1,
+                    titleContentColor = color4
                 )
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(background)
+                .background(color1)
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -106,11 +107,11 @@ fun NavigationButton(onNavigate: (String) -> Unit, destination: String, text: St
             )
             .size(130.dp),
         shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(color)
+        colors = ButtonDefaults.buttonColors(color2)
     ) {
         Text(text,
             fontFamily = RobotoMono,
-            color = Color.White,
+            color = color4,
             fontSize = 13.sp,
             textAlign = TextAlign.Center)
     }

@@ -58,10 +58,14 @@ fun RecordAttendanceScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Record Attendance") },
+                title = { Text("Attendance",
+                    fontFamily = RobotoMono,
+                    color = color4,
+                    fontSize = 20.sp,) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
+                            tint = color4,
                             modifier = Modifier.clickable {
                                 navController.popBackStack()
                             })
@@ -79,23 +83,27 @@ fun RecordAttendanceScreen(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = RobotoMono,
-                            color = Color.Black)
+                            color = color4)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = color1,
+                    titleContentColor = color4
+                )
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(background)
+                .background(color1)
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            Text("Record Attendance",
-                color = Color.Black,
-                fontSize = 30.sp,
+            Text("Attendance Sheet",
+                color = textcolor,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = RobotoMono,
                 modifier = Modifier.padding(vertical = 16.dp)
@@ -109,7 +117,7 @@ fun RecordAttendanceScreen(
 
                 itemsIndexed(students) { index,student ->
                     var present by remember { mutableStateOf(false) }
-                    val rowlist = if (index % 2 == 0) Color(0xffA0E9FF) else Color(0xff89CFF3)
+                    val rowlist = if (index % 2 == 0) color2 else color3
 
                     Row(
                         modifier = Modifier

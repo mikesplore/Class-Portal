@@ -44,7 +44,7 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 fun GenderScreen(navController: NavController,context: Context) {
     var selectedMale by remember { mutableStateOf(false) }
     var selectedFemale by remember { mutableStateOf(false) }
-    var showgaydialogue by remember { mutableStateOf(false) }
+    var showgaydialogue by remember { mutableStateOf(true) }
 
     val maleBackground: Color = if (selectedMale) Color(0xff00A9FF) else Color(0xffA0E9FF)
     val femaleBackground: Color = if (selectedFemale) Color(0xffFF00A9) else Color(0xffE9A0FF)
@@ -179,7 +179,7 @@ fun GenderScreen(navController: NavController,context: Context) {
 
                 Button(onClick = {
                     Toast.makeText(context, "registration complete!", Toast.LENGTH_SHORT).show()
-                    navController.navigate("logincategory") },
+                    navController.navigate("notification") },
                     modifier = Modifier
                         .shadow(
                             elevation = 5.dp,
@@ -263,45 +263,4 @@ fun GenderScreen(navController: NavController,context: Context) {
 @Composable
 fun GenderScreenPreview() {
     GenderScreen(rememberNavController(), context = LocalContext.current)
-}
-
-@Composable
-fun GayPlay(show: MutableState<Boolean>) {
-    val questions = listOf(
-        "Why are you gay?",
-        "Are you gay?",
-        "Should I call you Mr?",
-        "You said you are gay?",
-        "So I should call you gay?",
-        "Are you gay?",
-        "Are you gay?",
-    )
-
-    var currentQuestion by remember { mutableStateOf(questions.random()) }
-
-    fun shuffleQuestion() {
-        currentQuestion = questions.random()
-    }
-
-    if (show.value) {
-        AlertDialog(
-            onDismissRequest = { show.value = false },
-            confirmButton = {
-                Button(onClick = {
-                    shuffleQuestion()
-                }) {
-                    Text("Yes")
-                }
-            },
-            dismissButton = {
-                Button(onClick = {
-                    shuffleQuestion()
-                }) {
-                    Text("No")
-                }
-            },
-            title = { Text("Confirmation") },
-            text = { Text(currentQuestion) }
-        )
-    }
 }

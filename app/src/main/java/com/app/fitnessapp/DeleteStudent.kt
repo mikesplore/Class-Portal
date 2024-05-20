@@ -49,7 +49,7 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 fun DeleteStudentScreen(context: Context, navController: NavController) {
     var students by remember { mutableStateOf(FileUtil.loadStudents(context)) }
     var studentIdToDelete by remember { mutableStateOf("") }
-    var showConfirmationDialog by remember { mutableStateOf(false) }
+    var showConfirmationDialog by remember { mutableStateOf(true) }
     var studentNameToDelete by remember { mutableStateOf("") }
 
     Scaffold(
@@ -142,7 +142,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                     title = { Text("Delete Student", fontFamily = RobotoMono) },
                     text = {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("You are about to delete this student",fontFamily = RobotoMono)
+                            Text("You are about to delete this student",fontFamily = RobotoMono,color = color1)
                             Text(studentNameToDelete, fontWeight = FontWeight.Bold,fontFamily = RobotoMono,fontSize = 20.sp)
                         }
 

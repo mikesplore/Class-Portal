@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -70,7 +71,8 @@ fun Discussion(navController: NavController) {
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = {navController.popBackStack()}){
+            Button(onClick = {navController.popBackStack()},
+                colors = ButtonDefaults.buttonColors(color)){
                 Text(text = "Back",
                     fontSize = 20.sp,
                     color = color4,

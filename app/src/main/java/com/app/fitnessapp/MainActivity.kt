@@ -97,7 +97,7 @@ class MainActivity : ComponentActivity() {
                 navController = navController)
             }
             composable("gender"){ GenderScreen(
-                navController = navController)
+                navController = navController,context)
             }
 
             composable("notification"){ NotificationScreen(

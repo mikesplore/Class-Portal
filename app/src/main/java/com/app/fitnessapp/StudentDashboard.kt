@@ -131,13 +131,13 @@ fun StudentBox(navController: NavController){
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TeacherSquareBox(
+        StudentSquareBox(
             imageName = painterResource(id = R.drawable.announcement),
             content = "Announcements",
             route = "timetable",
             navController = navController,
         )
-        TeacherSquareBox(
+        StudentSquareBox(
             imageName = painterResource(id = R.drawable.attendance),
             content = "Attendance",
             route = "attendance",
@@ -148,13 +148,13 @@ fun StudentBox(navController: NavController){
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TeacherSquareBox(
+        StudentSquareBox(
             imageName = painterResource(id = R.drawable.timetable),
             content = "Timetable",
             route = "timetable",
             navController = navController,
         )
-        TeacherSquareBox(
+        StudentSquareBox(
             imageName = painterResource(id = R.drawable.discussion),
             content = "Discussion",
             route = "discussion",
@@ -165,13 +165,13 @@ fun StudentBox(navController: NavController){
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TeacherSquareBox(
+        StudentSquareBox(
             imageName = painterResource(id = R.drawable.assignment),
             content = "Assignments",
             route = "assignments",
             navController = navController,
         )
-        TeacherSquareBox(
+        StudentSquareBox(
             imageName = painterResource(id = R.drawable.resources),
             content = "Resources",
             route = "resources",

@@ -34,11 +34,11 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Timatable(navController: NavController) {
+fun Timetable(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Timatable") },
+                title = { Text("Timetable") },
                 navigationIcon = {
                     IconButton(onClick = { /* Handle navigation icon click */ }) {
                         Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back")
@@ -63,7 +63,7 @@ fun Timatable(navController: NavController) {
             .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
-            Text(text = "Timatable Screen",
+            Text(text = "Timetable Screen",
                 fontSize = 30.sp,
                 color = color4,
                 fontFamily = RobotoMono,
@@ -87,6 +87,6 @@ fun Timatable(navController: NavController) {
 
 @Preview
 @Composable
-fun TimatablePreview(){
-    Timatable(navController = rememberNavController())
+fun TimetablePreview(){
+    Timetable(navController = rememberNavController())
 }

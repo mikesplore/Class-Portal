@@ -221,7 +221,7 @@ fun StudentRegister(navController: NavController) {
                     fontFamily = RobotoMono,
                     color = textcolor,
                     modifier = Modifier.clickable{
-                        navController.navigate("studentregister")
+                        navController.navigate("teacherregister")
                     }
 
                 )

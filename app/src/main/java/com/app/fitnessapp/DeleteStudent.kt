@@ -125,25 +125,41 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                 }
             }
             Text("Select Student to Delete", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold,color = color4)
+
             if (showConfirmationDialog) {
                 AlertDialog(
                     onDismissRequest = { showConfirmationDialog = false },
                     confirmButton = {
+
                         Button(onClick = {
                             FileUtil.deleteStudent(context, studentIdToDelete)
                             showConfirmationDialog = false
                             students = FileUtil.loadStudents(context) // Reload the list of students after deletion
-                        }) {
-                            Text("Confirm")
+                            Toast.makeText(context, "Student details deleted!", Toast.LENGTH_SHORT).show()
+                        },
+                            colors = ButtonDefaults.buttonColors(containerColor = textcolor)) {
+                            Text("Delete",
+                                fontFamily = RobotoMono,)
                         }
                     },
                     dismissButton = {
-                        Button(onClick = { showConfirmationDialog = false }) {
-                            Text("Cancel")
+                        Button(onClick = { showConfirmationDialog = false },
+                            colors = ButtonDefaults.buttonColors(containerColor = textcolor)) {
+                            Text("Cancel",
+                                fontFamily = RobotoMono,)
                         }
                     },
-                    title = { Text("Delete Student") },
-                    text = { Text("Are you sure you want to delete $studentNameToDelete?") }
+
+                    title = { Text("Delete Student", fontFamily = RobotoMono) },
+                    text = {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("You are about to delete this student",fontFamily = RobotoMono)
+                            Text(studentNameToDelete, fontWeight = FontWeight.Bold,fontFamily = RobotoMono,fontSize = 20.sp)
+                        }
+
+                        },
+                    containerColor = color3
+
                 )
             }
         }

@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -46,10 +48,15 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun TeacherRegister(navController: NavController) {
-    var email: String = ""
+    var email by remember { mutableStateOf(TextFieldValue()) }
+    var password by remember { mutableStateOf(TextFieldValue()) }
+    var rememberpassword by remember { mutableStateOf(TextFieldValue()) }
+    var passwordVisibility by remember { mutableStateOf(false) }
+    var rememberpasswordVisibility by remember { mutableStateOf(false) }
+
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(background),
+        .background(teachercolor2),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -73,7 +80,7 @@ fun TeacherRegister(navController: NavController) {
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = "Register as new Teacher",
-                    color = Color.Black,
+                    color = teachercolor4,
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -94,14 +101,16 @@ fun TeacherRegister(navController: NavController) {
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Black,
-                    unfocusedIndicatorColor = Color.Black
+                    unfocusedIndicatorColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Black
+
                 )
             )
 
-            var password by remember { mutableStateOf(TextFieldValue()) }
-            var rememberpassword by remember { mutableStateOf(TextFieldValue()) }
-            var passwordVisibility by remember { mutableStateOf(false) }
-            var rememberpasswordVisibility by remember { mutableStateOf(false) }
+
 
             TextField(
                 value = password,
@@ -111,7 +120,7 @@ fun TeacherRegister(navController: NavController) {
                 trailingIcon = {
                     IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                         Icon(
-                            imageVector = if (passwordVisibility) Icons.Filled.Clear else Icons.Default.Check,
+                            imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                             contentDescription = if (passwordVisibility) "Hide password" else "Show password"
                         )
                     }
@@ -121,7 +130,11 @@ fun TeacherRegister(navController: NavController) {
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Black,
-                    unfocusedIndicatorColor = Color.Black
+                    unfocusedIndicatorColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Black
                 )
             )
             TextField(
@@ -132,7 +145,7 @@ fun TeacherRegister(navController: NavController) {
                 trailingIcon = {
                     IconButton(onClick = { rememberpasswordVisibility = !rememberpasswordVisibility }) {
                         Icon(
-                            imageVector = if (rememberpasswordVisibility) Icons.Filled.Clear else Icons.Default.Check,
+                            imageVector = if (rememberpasswordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                             contentDescription = if (rememberpasswordVisibility) "Hide password" else "Show password"
                         )
                     }
@@ -142,7 +155,11 @@ fun TeacherRegister(navController: NavController) {
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Black,
-                    unfocusedIndicatorColor = Color.Black
+                    unfocusedIndicatorColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Black
                 )
             )
 
@@ -153,7 +170,7 @@ fun TeacherRegister(navController: NavController) {
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically){
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = { navController.navigate("gender") },
                 modifier = Modifier
                     .width(120.dp)
                     .height(50.dp)
@@ -162,7 +179,7 @@ fun TeacherRegister(navController: NavController) {
                         shape = RoundedCornerShape(20.dp),
                     ),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xff00A9FF))
+                    containerColor = teachercolor1)
             ) {
                 Text(text = "Register",
                     color = Color.White,
@@ -183,7 +200,7 @@ fun TeacherRegister(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "Already have an account? ")
                 Text(text = "Sign in",
-                    color = Color(0xff00A9FF),
+                    color = teachercolor4,
                     modifier = Modifier.clickable{
                         navController.navigate("TeacherLogin")
                     })}
@@ -192,7 +209,7 @@ fun TeacherRegister(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = "Register as a student? ")
                 Text(text = "Click here",
-                    color = Color(0xff00A9FF),
+                    color = teachercolor4,
                     modifier = Modifier.clickable{
                         navController.navigate("StudentRegister")
                     }

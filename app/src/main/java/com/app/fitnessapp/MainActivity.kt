@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,11 +17,17 @@ import androidx.navigation.compose.rememberNavController
 data class Student(val studentid: String, val name: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
 
+val teachercolor1 = Color(0xff27374D)
+val teachercolor2 = Color(0xff526D82)
+val teachercolor3 = Color(0xff9DB2BF)
+val teachercolor4 = Color(0xffDDE6ED)
+
 class MainActivity : ComponentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
                 val navController = rememberNavController()
                 NavigationComponent(navController, this)

@@ -45,11 +45,14 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.app.fitnessapp.ui.theme.RobotoMono
 import kotlinx.coroutines.launch
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -69,14 +72,14 @@ fun TeacherDashboard(navController: NavController) {
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(270.dp)
-                        .background(color = Color(0xffFFB5DA)),
+                        .background(teachercolor3),
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // Content of the drawer
                     Column(
                         modifier = Modifier
-                            .background(Color(0xffFF7ED4), shape = RoundedCornerShape(10.dp))
+                            .background(teachercolor1, shape = RoundedCornerShape(10.dp))
                             .height(250.dp)
                             .fillMaxWidth()
                     ) {
@@ -163,7 +166,8 @@ fun TeacherDashboard(navController: NavController) {
                         Text(text = "Dashboard",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color.Black,)} },
+                            fontFamily = RobotoMono,
+                            color = Color.White,)} },
                     navigationIcon = {
                         // Menu icon to open/close the drawer
                         IconButton(onClick = {
@@ -183,13 +187,14 @@ fun TeacherDashboard(navController: NavController) {
                                             if (isClosed) open() else close()
                                         }
                                     }
-                                }
+                                },
+                                tint = Color.White
                             )
                         }
                     },
                     // Set top app bar colors
                     colors = topAppBarColors(
-                    Color(0xffFF3EA5)
+                    teachercolor1
                     )
                 )
             },
@@ -198,7 +203,7 @@ fun TeacherDashboard(navController: NavController) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(background), // Assuming brush is defined elsewhere
+                        .background(teachercolor4), // Assuming brush is defined elsewhere
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.height(70.dp)) // Height of the top app bar
@@ -214,13 +219,15 @@ fun TeacherDashboard(navController: NavController) {
 @Composable
 fun TeacherHeaderContent() {
     Box(modifier = Modifier.shadow(
-        elevation = 15.dp
+        elevation = 15.dp,
+        shape = RoundedCornerShape(20.dp)
     )){
        Column(
         modifier = Modifier
+            .padding(top = 25.dp)
             .width(350.dp)
             .height(200.dp)
-            .background(color = Color(0xff6420AA), shape = RoundedCornerShape(20.dp)),
+            .background(teachercolor2, shape = RoundedCornerShape(20.dp)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -235,7 +242,8 @@ fun TeacherHeaderContent() {
             text = "TUM/0052/2020",
             color = Color.White,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontFamily = RobotoMono
         )
     }
     }
@@ -314,7 +322,7 @@ fun TSquareBox(
                 elevation = 15.dp,
                 shape = RoundedCornerShape(10.dp)
             )
-            .background(color = Color(0xffFF3EA5))
+            .background(teachercolor2)
             .size(150.dp)
             .clickable { navController.navigate(route) }
     ) {
@@ -324,10 +332,11 @@ fun TSquareBox(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Main content: Image and Text
+
             Box(
                 modifier = Modifier
                     .size(80.dp)
-                    .background(color = Color(0xffFFB5DA), shape = CircleShape)
+                    .background(teachercolor3, shape = CircleShape)
             ) {
                 Image(
                     painter = imageName,
@@ -341,7 +350,8 @@ fun TSquareBox(
                 text = content,
                 color = Color.White,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = RobotoMono
             )
 
         }

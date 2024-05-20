@@ -31,11 +31,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.app.fitnessapp.ui.theme.RobotoMono
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun GenderScreen() {
+fun GenderScreen(navController: NavController) {
     var selectedMale by remember { mutableStateOf(false) }
     var selectedFemale by remember { mutableStateOf(false) }
 
@@ -79,7 +81,7 @@ fun GenderScreen() {
                 }
                 Row(
                     modifier = Modifier
-                        .absolutePadding(20.dp,20.dp,20.dp,0.dp)
+                        .absolutePadding(20.dp, 20.dp, 20.dp, 0.dp)
                         .fillMaxWidth()
                         .height(230.dp)
                 ) {
@@ -101,7 +103,8 @@ fun GenderScreen() {
                             )
                             .clickable {
                                 selectedMale = !selectedMale
-                                if (selectedMale) selectedFemale = false}
+                                if (selectedMale) selectedFemale = false
+                            }
                             .padding(20.dp)
                     ) {
                         Image(painter = painterResource(id = R.drawable.male), contentDescription = "male")
@@ -125,7 +128,8 @@ fun GenderScreen() {
                             )
                             .clickable {
                                 selectedFemale = !selectedFemale
-                                if (selectedFemale) selectedMale = false}
+                                if (selectedFemale) selectedMale = false
+                            }
                             .padding(20.dp)
                     ) {
                         Image(painter = painterResource(id = R.drawable.female), contentDescription = "female")
@@ -206,5 +210,5 @@ fun GenderScreen() {
 @Preview
 @Composable
 fun GenderScreenPreview() {
-    GenderScreen()
+    GenderScreen(rememberNavController())
 }

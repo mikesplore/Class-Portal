@@ -1,3 +1,5 @@
+package com.app.fitnessapp
+
 import android.content.Context
 import com.app.fitnessapp.AttendanceRecord
 import com.app.fitnessapp.Student

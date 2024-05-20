@@ -37,7 +37,7 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 fun GenderScreen(navController: NavController,context: Context) {
     var selectedMale by remember { mutableStateOf(false) }
     var selectedFemale by remember { mutableStateOf(false) }
-    var showgaydialogue by remember { mutableStateOf(true) }
+    var showgaydialogue by remember { mutableStateOf(false) }
 
     val maleBackground: Color = if (selectedMale) Color(0xff00A9FF) else Color(0xffA0E9FF)
     val femaleBackground: Color = if (selectedFemale) Color(0xffFF00A9) else Color(0xffE9A0FF)
@@ -209,14 +209,15 @@ fun GenderScreen(navController: NavController,context: Context) {
 
     )
     val questions = listOf(
-        "Why are you gay?",
+
         "Are you gay?",
-        "Should I call you Mr?",
+        "Should I call you madam?",
         "You said you are gay?",
         "So I should call you gay?",
         "Are you gay?",
         "Sure?",
-        "Really sure?"
+        "Really sure?",
+        "For real?"
     )
 
     var currentQuestion by remember { mutableStateOf(questions.random()) }

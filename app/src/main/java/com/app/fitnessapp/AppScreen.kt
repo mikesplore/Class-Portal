@@ -76,15 +76,15 @@ fun MainScreen(onNavigate: (String) -> Unit, navController: NavController) {
 
 
                 Row(horizontalArrangement = Arrangement.Center) {
-                    NavigationButton(onNavigate, "AddStudent", "Add Student", )
-                    NavigationButton(onNavigate, "DeleteStudent", "Delete Student", )
+                    NavigationButton(onNavigate, "AddStudent", "Add Student" )
+                    NavigationButton(onNavigate, "DeleteStudent", "Delete Student" )
                 }
                 Row(horizontalArrangement = Arrangement.Center) {
-                    NavigationButton(onNavigate, "RecordAttendance", "Record Attendance", )
-                    NavigationButton(onNavigate, "EditStudent", "Edit Student", )
+                    NavigationButton(onNavigate, "RecordAttendance", "Record Attendance" )
+                    NavigationButton(onNavigate, "EditStudent", "Edit Student" )
                 }
                 Row(horizontalArrangement = Arrangement.Center) {
-                    NavigationButton(onNavigate, "AttendanceReport", "View Attendance Report", )
+                    NavigationButton(onNavigate, "AttendanceReport", "View Attendance Report")
                 }
             }
         }

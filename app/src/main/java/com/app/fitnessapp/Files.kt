@@ -12,7 +12,7 @@ object FileUtil {
 
     fun saveStudents(context: Context, students: List<Student>) {
         val file = File(context.filesDir, STUDENT_FILE)
-        file.writeText(students.joinToString("\n") { "${it.studentid},${it.name}" })
+        file.writeText(students.joinToString("\n") { "${it.studentid},${it.studentname}" })
     }
 
     fun loadStudents(context: Context): List<Student> {

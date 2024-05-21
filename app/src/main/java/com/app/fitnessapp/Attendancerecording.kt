@@ -127,7 +127,7 @@ fun RecordAttendanceScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         // Display student name
-                        Text(student.name, color = Color.Black)
+                        Text(student.studentname, color = Color.Black)
 
                         // Checkbox for marking attendance
                         Checkbox(

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -52,7 +53,8 @@ fun LoginCategory(navController: NavController){
             Box(
                 modifier = Modifier
                     .clickable {
-                        navController.navigate("StudentLogin")
+                        global.selectedcategory.value = "student"
+                        navController.navigate("login")
                     }
                     .size(200.dp)
                     .shadow(10.dp, shape = RoundedCornerShape(20.dp))
@@ -84,7 +86,8 @@ fun LoginCategory(navController: NavController){
             Box(
                 modifier = Modifier
                     .clickable {
-                        navController.navigate("TeacherLogin")
+                        global.selectedcategory.value = "teacher"
+                        navController.navigate("login")
                     }
                     .size(200.dp)
                     .shadow(10.dp, shape = RoundedCornerShape(20.dp))

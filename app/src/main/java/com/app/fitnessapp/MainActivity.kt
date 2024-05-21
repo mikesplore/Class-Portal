@@ -6,15 +6,27 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
-
-data class Student(val studentid: String, val name: String)
+class Global(
+    var selectedcategory: MutableState<String> = mutableStateOf("student"),
+    var category: String = if (selectedcategory.value == "student") "student" else "teacher",
+)
+data class Student(val studentid: String, val studentname: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
+
+
+
+var global = Global()
 
 val color1 = Color(0xff27374D)
 val color2 = Color(0xff526D82)
@@ -29,17 +41,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
                 val navController = rememberNavController()
                 NavigationComponent(navController, this)
 
         }
     }
 
-
-
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-        NavHost(navController, startDestination = "welcome") {
+
+        NavHost(navController, startDestination = "logincategory") {
             composable("attendance") {
                 MainScreen(onNavigate = { navController.navigate(it) }, navController)
             }
@@ -77,12 +89,6 @@ class MainActivity : ComponentActivity() {
             composable("logincategory"){ LoginCategory(
                 navController = navController)
             }
-            composable("teacherlogin"){ TeacherLogin(
-                navController = navController)
-            }
-            composable("studentlogin"){ StudentLogin(
-                navController = navController)
-            }
             composable("teacherdashboard"){ TeacherDashboard(
                 navController = navController)
             }
@@ -105,12 +111,10 @@ class MainActivity : ComponentActivity() {
             composable("assignments"){ Assignments(
                 navController = navController)
             }
-            composable("teacherregister"){ TeacherRegister(
-                navController = navController)
+            composable("login"){ LoginScreen(
+                navController = navController,context)
             }
-            composable("studentregister"){ StudentRegister(
-                navController = navController)
-            }
+
             composable("resources"){ Resources(
                 navController = navController)
             }

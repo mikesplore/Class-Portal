@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.30.1")
     implementation ("com.google.code.gson:gson:2.8.6")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material:material-icons-extended-android:1.6.7")

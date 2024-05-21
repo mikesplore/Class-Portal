@@ -49,7 +49,7 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 fun DeleteStudentScreen(context: Context, navController: NavController) {
     var students by remember { mutableStateOf(FileUtil.loadStudents(context)) }
     var studentIdToDelete by remember { mutableStateOf("") }
-    var showConfirmationDialog by remember { mutableStateOf(true) }
+    var showConfirmationDialog by remember { mutableStateOf(false) }
     var studentNameToDelete by remember { mutableStateOf("") }
 
     Scaffold(
@@ -98,7 +98,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             .background(rowlist)
                             .clickable {
                                 studentIdToDelete = student.studentid
-                                studentNameToDelete = student.name
+                                studentNameToDelete = student.studentname
                                 showConfirmationDialog = true
                             },
                         horizontalArrangement = Arrangement.SpaceAround,
@@ -109,7 +109,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             color = color4,
                             fontSize = 20.sp,
                             fontFamily = RobotoMono,)
-                        Text(student.name)
+                        Text(student.studentname)
                     }
                 }
             }

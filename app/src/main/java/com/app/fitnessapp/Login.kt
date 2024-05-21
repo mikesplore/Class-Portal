@@ -59,6 +59,7 @@ fun LoginScreen(navController: NavController,context: Context) {
     var passwordVisibility by remember { mutableStateOf(false) }
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var isRegistering by remember { mutableStateOf(false) }
+    var firstname by remember { mutableStateOf(TextFieldValue()) }
     val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
 
     Column(
@@ -71,7 +72,7 @@ fun LoginScreen(navController: NavController,context: Context) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp)
+                .height(200.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -101,10 +102,37 @@ fun LoginScreen(navController: NavController,context: Context) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(if (isRegistering) 250.dp else 200.dp),
+                .height(if (isRegistering) 300.dp else 200.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceAround
         ) {
+            AnimatedVisibility(visible = isRegistering) {
+                TextField(
+                    value = firstname,
+                    textStyle = TextStyle(fontFamily = RobotoMono),
+                    onValueChange = { firstname = it },
+                    label = { Text(text = "First Name", fontFamily = RobotoMono) },
+                    singleLine = true,
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = color2,
+                        unfocusedContainerColor = color2,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedLabelColor = color4,
+                        cursorColor = color4,
+                        unfocusedLabelColor = color4,
+                        focusedTextColor = color4,
+                        unfocusedTextColor = color4
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                    modifier = Modifier
+                        .shadow(
+                            elevation = 10.dp,
+                            shape = RoundedCornerShape(20.dp),
+
+                            )
+                )
+            }
             TextField(
                 value = registrationID,
                 textStyle = TextStyle(fontFamily = RobotoMono),
@@ -217,7 +245,7 @@ fun LoginScreen(navController: NavController,context: Context) {
                 onClick = {
                     if (isRegistering) {
                         // Registration logic
-                        if (registrationID.text.isNotEmpty() &&  password.text.isNotEmpty() && confirmPassword.text.isNotEmpty() &&  pattern.matches(registrationID.text))
+                        if (registrationID.text.isNotEmpty() &&  password.text.isNotEmpty() && confirmPassword.text.isNotEmpty() && firstname.text.isNotEmpty() && pattern.matches(registrationID.text))
                         {
                             if (password.text == confirmPassword.text) {
                              Toast.makeText(context, "${global.selectedcategory.value.capitalize(Locale.ROOT)} registered successfully! Login to continue",
@@ -240,6 +268,7 @@ fun LoginScreen(navController: NavController,context: Context) {
                             if(registrationID.text.isNotEmpty() && password.text.isNotEmpty() && pattern.matches(registrationID.text)){
                             Toast.makeText(navController.context, "Logged in successfully",
                             Toast.LENGTH_SHORT).show()
+                                global.username.value = firstname.text
                             navController.navigate("dashboard")}
                         else{
                             Toast.makeText(navController.context, "Please enter a valid ${global.selectedcategory.value.capitalize(Locale.ROOT)} ID and dont leave blank space",

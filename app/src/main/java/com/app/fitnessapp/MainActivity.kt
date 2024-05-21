@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,7 +20,7 @@ import androidx.navigation.compose.rememberNavController
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
-    var username: MutableState<String> = mutableStateOf(""),
+    var username: MutableState<String> = mutableStateOf("Mike"),
 )
 data class Student(val studentid: String, val studentname: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
@@ -113,7 +114,11 @@ class MainActivity : ComponentActivity() {
 
         }
     }
-
+@Preview
+@Composable
+fun DefaultPreview() {
+    NavigationComponent(rememberNavController(), this)
+}
 
 }
 

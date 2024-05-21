@@ -102,7 +102,7 @@ fun Dashboard(navController: NavController) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Hello, $username", color = textColor, fontFamily = RobotoMono) },
+                    title = { Text(text = "Hello, ${global.username.value}", color = textColor, fontFamily = RobotoMono) },
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch {

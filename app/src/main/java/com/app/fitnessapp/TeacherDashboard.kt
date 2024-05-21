@@ -2,6 +2,7 @@ package com.app.fitnessapp
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -34,7 +35,7 @@ import java.util.Locale
 @Composable
 fun Dashboard(navController: NavController) {
     // Define drawer state and coroutine scope
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
     val scope = rememberCoroutineScope()
 
     // Modal navigation drawer for the side menu
@@ -54,21 +55,17 @@ fun Dashboard(navController: NavController) {
                     // Content of the drawer
                     Column(
                         modifier = Modifier
-                            .height(250.dp)
+                            .height(200.dp)
                             .fillMaxWidth()
-                            .background(color2)
+                            .background(color2, RoundedCornerShape(20.dp))
                     ) {
-                        // Example drawer content
-                        Text(
-                            "Drawer Item 1",
-                            modifier = Modifier.padding(16.dp),
-                            fontSize = 20.sp
-                        )
-                        Text(
-                            "Drawer Item 2",
-                            modifier = Modifier.padding(16.dp),
-                            fontSize = 20.sp
-                        )
+                        Header()
+
+                    }
+                    Column(){
+                        sideNavItems("Announcements", "timetable", navController)
+                        sideNavItems("Sign Attendance ", "RecordAttendance", navController)
+
                     }
                     Text(
                         "Logout",
@@ -121,8 +118,8 @@ fun Dashboard(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly) {
                     Spacer(modifier = Modifier.height(10.dp))
-                    TeacherHeader()
-                    TeacherBox(navController = navController)
+                    Header()
+                    Box(navController = navController)
                 }
 
             }
@@ -131,19 +128,19 @@ fun Dashboard(navController: NavController) {
 }
 
 @Composable
-fun TeacherBox(navController: NavController){
+fun Box(navController: NavController){
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TeacherSquareBox(
+        SquareBox(
             imageName = painterResource(id = R.drawable.announcement),
             content = "Announcements",
             route = "timetable",
             navController = navController,
         )
-        TeacherSquareBox(
+        SquareBox(
             imageName = painterResource(id = R.drawable.attendance),
             content = "Attendance",
             route = "attendance",
@@ -154,13 +151,13 @@ fun TeacherBox(navController: NavController){
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TeacherSquareBox(
+        SquareBox(
             imageName = painterResource(id = R.drawable.timetable),
             content = "Timetable",
             route = "timetable",
             navController = navController,
         )
-        TeacherSquareBox(
+        SquareBox(
             imageName = painterResource(id = R.drawable.discussion),
             content = "Discussion",
             route = "discussion",
@@ -171,13 +168,13 @@ fun TeacherBox(navController: NavController){
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TeacherSquareBox(
+        SquareBox(
             imageName = painterResource(id = R.drawable.assignment),
             content = "Assignments",
             route = "assignments",
             navController = navController,
         )
-        TeacherSquareBox(
+        SquareBox(
             imageName = painterResource(id = R.drawable.resources),
             content = "Resources",
             route = "resources",
@@ -189,7 +186,7 @@ fun TeacherBox(navController: NavController){
 
 
 @Composable
-fun TeacherHeader() {
+fun Header() {
     Box(modifier = Modifier.shadow(
         elevation = 15.dp,
         shape = RoundedCornerShape(20.dp)
@@ -221,7 +218,7 @@ fun TeacherHeader() {
     }
 }
 @Composable
-fun TeacherSquareBox(
+fun SquareBox(
     imageName: Painter,
     content: String,
     route: String,
@@ -266,6 +263,32 @@ fun TeacherSquareBox(
 
         }
     }
+}
+
+@Composable
+fun sideNavItems(content: String, route: String, navController: NavController){
+    Row(modifier = Modifier
+        .border(
+            width = 1.dp,
+            color = color3,
+            shape = RoundedCornerShape(10.dp)
+        )
+        .background(color = color2)
+        .padding(10.dp)
+        .height(40.dp)
+        .fillMaxWidth()
+        .clickable { navController.navigate(route) },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center){
+        Text(text = content,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = color4,
+            fontFamily = RobotoMono
+            )
+    }
+
+
 }
 @Preview
 @Composable

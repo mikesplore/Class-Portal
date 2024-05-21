@@ -413,7 +413,7 @@ fun MiddleRows(image: Painter, content: String,route: String,navController: NavC
     }
 }
 
-@Composable
+
 
 
 @Preview(showBackground = true)

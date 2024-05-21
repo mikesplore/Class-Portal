@@ -10,6 +10,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -66,6 +68,15 @@ fun Dashboard(navController: NavController,context: Context) {
         R.drawable.assignment to "Assignment" to "timetable",
         R.drawable.timetable to  "Timetable" to "soon"
     )
+
+    val imageUrls = listOf(
+        "https://mrslamsmusings.files.wordpress.com/2016/03/file_005.jpeg?w=763&resize=763%2C572&h=572",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3brSUVxurMN9vNxKwcp3fNXlPqbCSb7MgBg&usqp=CAU",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb88_OPS7xh70dsoxO1SFok5AZphaPt0RZsA&usqp=CAU",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm3jZK_9CycYYBzoNUnHEeb9Dydi7bbue3lQ&usqp=CAU",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiGkPoAG8zdiGhRQFnEg0sjyG56udCzcDgNg&usqp=CAU"
+    )
+
     val students = FileUtil.loadStudents(context)
     val student = students.find { it.registrationID == global.regID.value }
     if (student != null) {
@@ -225,6 +236,15 @@ fun Dashboard(navController: NavController,context: Context) {
                         fontSize = 20.sp,
                         color = textColor)
                     Row {
+                        LazyRow {
+                            items(imageUrls) { imageUrl ->
+                                MiddleRowsOnline(
+                                    imageUrl = imageUrl,
+                                    content = "Image description", // Add descriptions
+                                )
+                                Spacer(modifier = Modifier.width(10.dp))
+                            }
+                        }
 
                     }
                     Spacer(modifier = Modifier.height(10.dp))
@@ -418,17 +438,16 @@ fun MiddleRows(image: Painter, content: String,route: String,navController: NavC
 @Composable
 fun MiddleRowsOnline(
     imageUrl: String,
-    route: String,
     content: String,
-    navController: NavController
+
 ) {
     Column(
         modifier = Modifier
             .width(150.dp)
             .fillMaxHeight()
             .clip(RoundedCornerShape(20.dp))
-            .background(Color.White)
-            .clickable { navController.navigate(route) },
+            .background(Color.White),
+
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -446,7 +465,7 @@ fun MiddleRowsOnline(
 
         Text(
             text = content,
-            fontFamily = FontFamily.SansSerif,
+            fontFamily = RobotoMono,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             color = Color.Black,

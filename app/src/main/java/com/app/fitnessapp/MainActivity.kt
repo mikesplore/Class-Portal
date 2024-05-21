@@ -19,7 +19,6 @@ import androidx.navigation.compose.rememberNavController
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
-    var category: String = if (selectedcategory.value == "student") "student" else "teacher",
 )
 data class Student(val studentid: String, val studentname: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
@@ -89,7 +88,7 @@ class MainActivity : ComponentActivity() {
             composable("logincategory"){ LoginCategory(
                 navController = navController)
             }
-            composable("Dashboard"){ Dashboard(
+            composable("dashboard"){ Dashboard(
                 navController = navController)
             }
             composable("announcements"){ Announcements(

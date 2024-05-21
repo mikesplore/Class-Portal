@@ -135,7 +135,7 @@ fun RecordAttendanceScreen(
                             checked = present,
                             onCheckedChange = {
                                 present = it
-                                attendanceRecords.add(AttendanceRecord(student.studentid, "2024-05-17", present))
+                                attendanceRecords.add(AttendanceRecord(student.registrationID, "2024-05-17", present))
                             }
                         )
                     }

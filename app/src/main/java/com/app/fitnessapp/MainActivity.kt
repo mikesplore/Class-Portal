@@ -22,7 +22,7 @@ class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
     var username: MutableState<String> = mutableStateOf("Mike"),
 )
-data class Student(val studentid: String, val studentname: String)
+data class Student(val registrationID: String, val studentname: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
 
 

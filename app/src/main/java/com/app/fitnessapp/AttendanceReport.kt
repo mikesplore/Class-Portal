@@ -51,8 +51,8 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
     var showConfirmationDialog by remember { mutableStateOf(false) }
 
     val studentAttendance = students.map { student ->
-        val totalPresent = attendanceRecords.count { it.studentId == student.studentid && it.present }
-        val totalAbsent = attendanceRecords.count { it.studentId == student.studentid && !it.present }
+        val totalPresent = attendanceRecords.count { it.studentId == student.registrationID && it.present }
+        val totalAbsent = attendanceRecords.count { it.studentId == student.registrationID && !it.present }
         val totalSessions = totalPresent + totalAbsent
         val attendancePercentage = if (totalSessions > 0) (totalPresent * 100 / totalSessions) else 0
         StudentAttendance(student, totalPresent, totalAbsent, attendancePercentage)

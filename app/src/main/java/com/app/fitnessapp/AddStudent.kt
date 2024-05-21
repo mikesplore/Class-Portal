@@ -143,7 +143,7 @@ val textfieldColor = Color(0xff89CFF3)
                                 onClick = {
                                     if (studentname.isNotEmpty() && pattern.matches(studentId)) {
                                         val students = FileUtil.loadStudents(context).toMutableList()
-                                        students.add(Student(studentid = studentId, studentname = studentname))
+                                        students.add(Student(registrationID = studentId, studentname = studentname))
                                         FileUtil.saveStudents(context, students)
                                         studentname = ""
                                         studentId = ""

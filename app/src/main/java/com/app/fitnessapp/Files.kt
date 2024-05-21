@@ -12,7 +12,7 @@ object FileUtil {
 
     fun saveStudents(context: Context, students: List<Student>) {
         val file = File(context.filesDir, STUDENT_FILE)
-        file.writeText(students.joinToString("\n") { "${it.studentid},${it.studentname}" })
+        file.writeText(students.joinToString("\n") { "${it.registrationID},${it.studentname}" })
     }
 
     fun loadStudents(context: Context): List<Student> {
@@ -40,7 +40,7 @@ object FileUtil {
 
     fun editStudent(context: Context, updatedStudent: Student) {
         val students = loadStudents(context).toMutableList()
-        val index = students.indexOfFirst { it.studentid == updatedStudent.studentid }
+        val index = students.indexOfFirst { it.registrationID == updatedStudent.registrationID }
         if (index != -1) {
             students[index] = updatedStudent
             saveStudents(context, students)
@@ -49,7 +49,7 @@ object FileUtil {
 
     fun deleteStudent(context: Context, studentId: String) {
         val students = loadStudents(context).toMutableList()
-        val index = students.indexOfFirst { it.studentid == studentId }
+        val index = students.indexOfFirst { it.registrationID == studentId }
         if (index != -1) {
             students.removeAt(index)
             saveStudents(context, students)

@@ -10,8 +10,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -22,18 +20,20 @@ import androidx.compose.material3.*
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,21 +52,21 @@ import coil.compose.AsyncImage
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun Dashboard(navController: NavController,context: Context) {
-    val username = if(global.selectedcategory.value == "student") "Student" else "ClassRep"
+fun Dashboard(navController: NavController, context: Context) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val drawerBackgroundColor = Color(0xFF1A1A1A)
     val primaryColor = Color(0xFF27374D)
     val textColor = Color.White
     val horizontalScrollState = rememberScrollState()
+    var expanded by remember { mutableStateOf(false) } // Changed to false initially
 
     // Define the list of boxes
     val boxes = listOf(
         R.drawable.announcement to "Announcements" to "soon",
         R.drawable.attendance to "Attendance" to "attendance",
         R.drawable.assignment to "Assignment" to "timetable",
-        R.drawable.timetable to  "Timetable" to "soon"
+        R.drawable.timetable to "Timetable" to "soon"
     )
 
     val imageUrls = listOf(
@@ -81,7 +81,6 @@ fun Dashboard(navController: NavController,context: Context) {
     val student = students.find { it.registrationID == global.regID.value }
     if (student != null) {
         global.firstname.value = student.studentname
-
     }
 
     // Calculate the duration for each box
@@ -123,7 +122,6 @@ fun Dashboard(navController: NavController,context: Context) {
         Scaffold(
             topBar = {
                 TopAppBar(
-
                     title = { Text(text = "Hello, ${global.firstname.value}", color = textColor, fontFamily = RobotoMono) },
                     navigationIcon = {
                         IconButton(onClick = {
@@ -137,16 +135,37 @@ fun Dashboard(navController: NavController,context: Context) {
                         }
                     },
                     actions = {
-                        IconButton(onClick = { /* Handle profile click */ }) {
-                            Icon(
-                                painter = if(global.selectedcategory.value == "student") painterResource(id = R.drawable.student)
-                                else painterResource(id = R.drawable.teacher),
-                                contentDescription = "dp",
-                                modifier = Modifier.fillMaxSize()
-                            )
+                        Box {
+                            IconButton(onClick = { expanded = true }) {
+                                Icon(
+                                    imageVector = Icons.Filled.AccountCircle,
+                                    contentDescription = "Profile",
+                                    tint = textColor,
+                                    modifier = Modifier.size(35.dp)
+                                )
+                            }
+
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false },
+                                modifier = Modifier.background(color1)
+                            ) {
+                                Row(modifier = Modifier.fillMaxWidth()){
+                                DropdownMenuItem(
+                                    text = { Text("Account Settings",color = textColor, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = RobotoMono) },
+                                    onClick = { /* Handle Account Settings click */ expanded = false }
+                                )}
+                                DropdownMenuItem(
+                                    text = { Text("Logout", color = textColor, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = RobotoMono) },
+                                    onClick = {
+                                        expanded = false
+                                        navController.navigate("login")
+                                    }
+                                )
+                            }
                         }
                     },
-                    colors = topAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = primaryColor,
                         navigationIconContentColor = textColor,
                         titleContentColor = textColor,
@@ -158,7 +177,7 @@ fun Dashboard(navController: NavController,context: Context) {
                 Column(
                     modifier = Modifier
                         .background(color1)
-                        .padding(top = 66.dp)
+                        .padding(top = 70.dp)
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                 ) {
@@ -229,22 +248,45 @@ fun Dashboard(navController: NavController,context: Context) {
 
                     }
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Study Resources",
+                    Text(text = "Class Gallery",
                         modifier = Modifier.padding(10.dp),
                         fontFamily = RobotoMono,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
                         color = textColor)
-                    Row {
-                        LazyRow {
-                            items(imageUrls) { imageUrl ->
-                                MiddleRowsOnline(
-                                    imageUrl = imageUrl,
-                                    content = "Image description", // Add descriptions
-                                )
-                                Spacer(modifier = Modifier.width(10.dp))
-                            }
-                        }
+                    Row (modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                        .fillMaxWidth()
+                        .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
+                        .height(200.dp)){
+                        Spacer(modifier = Modifier.width(10.dp))
+
+                        MiddleRowsOnline(
+                            imageUrl = imageUrls[0],
+                            content = "Online Notes"
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRowsOnline(
+                            imageUrl = imageUrls[1],
+                            content = "Online Quiz"
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRowsOnline(
+                            imageUrl = imageUrls[2],
+                            content = "Online Exam"
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRowsOnline(
+                            imageUrl = imageUrls[3],
+                            content = "Online Assignment"
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRowsOnline(
+                            imageUrl = imageUrls[4],
+                            content = "Online Library"
+                        )
+
+
 
                     }
                     Spacer(modifier = Modifier.height(10.dp))
@@ -417,7 +459,7 @@ fun MiddleRows(image: Painter, content: String,route: String,navController: NavC
                 ) {
                     Text(
                         text = content,
-                        color = Color.White,
+                        color = color4,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -439,42 +481,57 @@ fun MiddleRows(image: Painter, content: String,route: String,navController: NavC
 fun MiddleRowsOnline(
     imageUrl: String,
     content: String,
-
+    modifier: Modifier = Modifier,
+    textColor: Color = Color.White,
+    shadowColor: Color = Color.Black
 ) {
-    Column(
-        modifier = Modifier
-            .width(150.dp)
+    Row(
+        modifier = modifier
+            .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
             .fillMaxHeight()
-            .clip(RoundedCornerShape(20.dp))
-            .background(Color.White),
-
-        horizontalAlignment = Alignment.CenterHorizontally
+            .width(350.dp)
     ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(20.dp))
+                    .fillMaxSize()
+            ) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "sample",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.error_image),
+                    placeholder = painterResource(id = R.drawable.loading_image)
+                )
 
-        AsyncImage( // Use AsyncImage instead of Image
-            model = imageUrl, // Image URL from the internet
-            contentDescription = null,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .padding(8.dp),
-            contentScale = ContentScale.Crop,
-            error = painterResource(id = R.drawable.error_image), // Optional: Error image placeholder
-            placeholder = painterResource(id = R.drawable.loading_image) // Optional: Loading image placeholder
-        )
-
-        Text(
-            text = content,
-            fontFamily = RobotoMono,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            color = Color.Black,
-            modifier = Modifier
-                .padding(8.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomStart) // Position at the bottom
+                        .background(Color.Transparent)
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = content,
+                        color = textColor,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            shadow = Shadow(
+                                color = shadowColor.copy(alpha = 0.9f),
+                                offset = Offset(4f, 4f),
+                                blurRadius = 4f
+                            )
+                        )
+                    )
+                }
+            }
+        }
     }
 }
+
 
 
 @Preview(showBackground = true)

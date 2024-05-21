@@ -113,7 +113,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
             Button(
                 onClick = {
                     val students = FileUtil.loadStudents(context)
-                    val student = students.find { it.studentid == studentId }
+                    val student = students.find { it.registrationID == studentId }
                     if (student != null) {
                         newStudentName = student.studentname
                         studentFound = true

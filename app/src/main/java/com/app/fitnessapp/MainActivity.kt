@@ -20,7 +20,9 @@ import androidx.navigation.compose.rememberNavController
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
-    var username: MutableState<String> = mutableStateOf("Mike"),
+    var firstname: MutableState<String> = mutableStateOf("Mike"),
+    var regID: MutableState<String> = mutableStateOf("BSCS/108J/2021"),
+
 )
 data class Student(val registrationID: String, val studentname: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
@@ -51,7 +53,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
 
-        NavHost(navController, startDestination = "dashboard") {
+        NavHost(navController, startDestination = "login") {
             composable("attendance") {
                 MainScreen(onNavigate = { navController.navigate(it) }, navController)
             }
@@ -90,7 +92,7 @@ class MainActivity : ComponentActivity() {
                 navController = navController)
             }
             composable("dashboard"){ Dashboard(
-                navController = navController)
+                navController = navController, context)
             }
 
             composable("gender"){ GenderScreen(

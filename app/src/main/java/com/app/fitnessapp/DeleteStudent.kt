@@ -97,14 +97,14 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             .height(50.dp)
                             .background(rowlist)
                             .clickable {
-                                studentIdToDelete = student.studentid
+                                studentIdToDelete = student.registrationID
                                 studentNameToDelete = student.studentname
                                 showConfirmationDialog = true
                             },
                         horizontalArrangement = Arrangement.SpaceAround,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(student.studentid,
+                        Text(student.registrationID,
                             fontWeight = FontWeight.Bold,
                             color = color4,
                             fontSize = 20.sp,

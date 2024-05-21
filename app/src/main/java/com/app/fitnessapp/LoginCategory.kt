@@ -82,11 +82,11 @@ fun LoginCategory(navController: NavController){
 
             }
 
-            //teacher part
+            //ClassRep part
             Box(
                 modifier = Modifier
                     .clickable {
-                        global.selectedcategory.value = "teacher"
+                        global.selectedcategory.value = "ClassRep"
                         navController.navigate("login")
                     }
                     .size(200.dp)
@@ -101,12 +101,12 @@ fun LoginCategory(navController: NavController){
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.teacher),
-                        contentDescription = "teacher",
+                        contentDescription = "ClassRep",
                         modifier = Modifier.size(100.dp)
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
-                        text = "Teacher",
+                        text = "ClassRep",
                         color = color4,
                         fontSize = 20.sp,
                         fontFamily = RobotoMono

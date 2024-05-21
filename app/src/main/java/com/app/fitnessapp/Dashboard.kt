@@ -1,6 +1,7 @@
 package com.app.fitnessapp
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -29,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -42,13 +44,14 @@ import androidx.navigation.compose.rememberNavController
 import com.app.fitnessapp.ui.theme.RobotoMono
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import coil.compose.AsyncImage
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun Dashboard(navController: NavController) {
-    val username = if(global.selectedcategory.value == "student") "Student" else "Teacher"
+fun Dashboard(navController: NavController,context: Context) {
+    val username = if(global.selectedcategory.value == "student") "Student" else "ClassRep"
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val drawerBackgroundColor = Color(0xFF1A1A1A)
@@ -62,6 +65,12 @@ fun Dashboard(navController: NavController) {
         R.drawable.attendance to "Attendance" to "attendance",
         R.drawable.assignment to "Assignment" to "soon"
     )
+    val students = FileUtil.loadStudents(context)
+    val student = students.find { it.registrationID == global.regID.value }
+    if (student != null) {
+        global.firstname.value = student.studentname
+
+    }
 
     // Calculate the duration for each box
     val totalDuration = 10000 // Total duration for the entire scroll
@@ -102,7 +111,8 @@ fun Dashboard(navController: NavController) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Hello, ${global.username.value}", color = textColor, fontFamily = RobotoMono) },
+
+                    title = { Text(text = "Hello, ${global.firstname.value}", color = textColor, fontFamily = RobotoMono) },
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch {
@@ -206,6 +216,86 @@ fun Dashboard(navController: NavController) {
 
 
                     }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(text = "Study Resources",
+                        modifier = Modifier.padding(10.dp),
+                        fontFamily = RobotoMono,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = textColor)
+                    Row {
+
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(text = "Announcements",
+                        modifier = Modifier.padding(10.dp),
+                        fontFamily = RobotoMono,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = textColor)
+                    Column(
+                        modifier = Modifier
+                            .clickable { navController.navigate("announcements") }
+                            .border(
+                                width = 2.dp,
+                                color = Color.White,
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .padding(10.dp)
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .background(color2, shape = RoundedCornerShape(20.dp)),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceBetween,
+                    ){
+                        Row(modifier = Modifier
+                            .border(
+                                width = 2.dp,
+                                color = Color.White,
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .background(color, shape = RoundedCornerShape(20.dp))
+                            .height(50.dp)
+                            .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            verticalAlignment = Alignment.CenterVertically){
+                            Text(text = "Units Registration",
+                                fontFamily = RobotoMono,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp,
+                                color = textColor)
+
+                        }
+
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Column(modifier = Modifier
+                            .height(130.dp),
+
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.SpaceBetween){
+                            Text(text = "20-May-2024",
+                                fontFamily = RobotoMono,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp,
+                                color = textColor)
+                            Text(text = "You are hereby requested to register units by the end of this month, 30/9/2024, "+
+                                "failure to do so will result automatic cancellation of your continuation of the course.",
+                                fontFamily = RobotoMono,
+                                fontWeight = FontWeight.Light,
+                                fontSize = 15.sp,
+                                color = textColor,
+                                textAlign = TextAlign.Center)
+                        }
+                        
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(text = "Study Resources",
+                        modifier = Modifier.padding(10.dp),
+                        fontFamily = RobotoMono,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = textColor)
+
                 }
             }
         )
@@ -323,11 +413,12 @@ fun MiddleRows(image: Painter, content: String,route: String,navController: NavC
     }
 }
 
+@Composable
 
 
 @Preview(showBackground = true)
 @Composable
 fun DashboardPreview() {
     val navController = rememberNavController()
-    Dashboard(navController)
+    Dashboard(navController,LocalContext.current)
 }

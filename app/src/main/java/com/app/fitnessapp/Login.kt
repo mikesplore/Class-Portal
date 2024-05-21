@@ -53,13 +53,11 @@ import java.util.Locale
 
 @Composable
 fun LoginScreen(navController: NavController,context: Context) {
-    var registrationID by remember { mutableStateOf(TextFieldValue()) }
     var password by remember { mutableStateOf(TextFieldValue()) }
     var confirmPassword by remember { mutableStateOf(TextFieldValue()) }
     var passwordVisibility by remember { mutableStateOf(false) }
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var isRegistering by remember { mutableStateOf(false) }
-    var firstname by remember { mutableStateOf(TextFieldValue()) }
     val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
 
     Column(
@@ -83,7 +81,7 @@ fun LoginScreen(navController: NavController,context: Context) {
             ) {
                 Image(
                     painter = if(global.selectedcategory.value == "student") painterResource(id = R.drawable.student) else painterResource(id = R.drawable.teacher),
-                    contentDescription = "teacher",
+                    contentDescription = "ClassRep",
                     modifier = Modifier.size(100.dp)
                 )
                 Spacer(modifier = Modifier.height(5.dp))
@@ -92,7 +90,7 @@ fun LoginScreen(navController: NavController,context: Context) {
                         Locale.ROOT)}" else "Login as a ${global.selectedcategory.value.capitalize(
                         Locale.ROOT)}",
                     color = color4,
-                    fontSize = 30.sp,
+                    fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = RobotoMono
                 )
@@ -108,9 +106,9 @@ fun LoginScreen(navController: NavController,context: Context) {
         ) {
             AnimatedVisibility(visible = isRegistering) {
                 TextField(
-                    value = firstname,
+                    value = global.firstname.value,
                     textStyle = TextStyle(fontFamily = RobotoMono),
-                    onValueChange = { firstname = it },
+                    onValueChange = { global.firstname.value = it },
                     label = { Text(text = "First Name", fontFamily = RobotoMono) },
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
@@ -134,9 +132,9 @@ fun LoginScreen(navController: NavController,context: Context) {
                 )
             }
             TextField(
-                value = registrationID,
+                value = global.regID.value,
                 textStyle = TextStyle(fontFamily = RobotoMono),
-                onValueChange = { registrationID = it },
+                onValueChange = { global.regID.value = it },
                 label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
@@ -244,38 +242,42 @@ fun LoginScreen(navController: NavController,context: Context) {
             Button(
                 onClick = {
                     if (isRegistering) {
-                        // Registration logic
-                        if (registrationID.text.isNotEmpty() &&  password.text.isNotEmpty() && confirmPassword.text.isNotEmpty() && firstname.text.isNotEmpty() && pattern.matches(registrationID.text))
-                        {
+                        if (global.regID.value.isNotEmpty() && password.text.isNotEmpty() && confirmPassword.text.isNotEmpty() && global.firstname.value.isNotEmpty() && pattern.matches(global.regID.value) && password.text == global.regID.value) {
                             if (password.text == confirmPassword.text) {
-                             Toast.makeText(context, "${global.selectedcategory.value.capitalize(Locale.ROOT)} registered successfully! Login to continue",
-                             Toast.LENGTH_SHORT).show()
-                            isRegistering = !isRegistering}
-                            else{
-                                Toast.makeText(context, "Passwords do not match",
-                                Toast.LENGTH_SHORT).show()
+                                val students = FileUtil.loadStudents(context)
+
+                                // Check if regID already exists
+                                if (students.any { it.registrationID == global.regID.value }) {
+                                    Toast.makeText(context, "${global.selectedcategory.value.capitalize(Locale.ROOT)} ID already exists", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    val updatedStudents = students.toMutableList()
+                                    updatedStudents.add(Student(registrationID = global.regID.value, studentname = global.firstname.value))
+                                    FileUtil.saveStudents(context, updatedStudents)
+                                    Toast.makeText(context, "${global.selectedcategory.value.capitalize(Locale.ROOT)} registered successfully! Login to continue", Toast.LENGTH_SHORT).show()
+                                    isRegistering = !isRegistering
+                                }
+                            } else {
+                                Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
                             }
-                        }else{
-                            Toast.makeText(context, "Please enter a valid ${global.selectedcategory.value.capitalize(Locale.ROOT)} ID and fill in all fields",
-                            Toast.LENGTH_SHORT).show()
-                        }
-
-
-
                         } else {
-                            // Login logic
-                            // Proceed with login
-                            if(registrationID.text.isNotEmpty() && password.text.isNotEmpty() && pattern.matches(registrationID.text)){
-                            Toast.makeText(navController.context, "Logged in successfully",
-                            Toast.LENGTH_SHORT).show()
-                                global.username.value = firstname.text
-                            navController.navigate("dashboard")}
-                        else{
-                            Toast.makeText(navController.context, "Please enter a valid ${global.selectedcategory.value.capitalize(Locale.ROOT)} ID and dont leave blank space",
-                            Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Please enter a valid ${global.selectedcategory.value.capitalize(Locale.ROOT)} ID and fill in all fields", Toast.LENGTH_SHORT).show()
                         }
+                    } else { // Login logic
+                        val students = FileUtil.loadStudents(context)
+                        val student = students.find { it.registrationID == global.regID.value } // Use regID.text directly
+
+                        // Check if student exists and credentials match
+                        if (student != null && password.text == student.registrationID && pattern.matches(
+                                global.regID.value)) {
+                            Toast.makeText(navController.context, "Logged in successfully", Toast.LENGTH_SHORT).show()
+                            global.firstname.value = global.firstname.value // Update global username
+                            navController.navigate("dashboard") // Navigate after successful login
+                        } else {
+                            Toast.makeText(navController.context, "Invalid credentials or ${global.selectedcategory.value.capitalize(Locale.ROOT)} not found or Blank spaces", Toast.LENGTH_SHORT).show()
                         }
-                },
+                    }
+                }
+                ,
                 modifier = Modifier
                     .width(200.dp)
                     .height(50.dp)
@@ -311,7 +313,7 @@ fun LoginScreen(navController: NavController,context: Context) {
             ) {
                 Text(text = if (isRegistering) "Already have an account? " else "Don't have an account? ", fontFamily = RobotoMono, color = color4)
                 Text(
-                    text = if (isRegistering) "Sign in" else "Register",
+                    text = if (isRegistering) "Login" else "Register",
                     color = textcolor,
                     fontFamily = RobotoMono,
                     modifier = Modifier.clickable {
@@ -324,7 +326,7 @@ fun LoginScreen(navController: NavController,context: Context) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val category = if (global.selectedcategory.value == "student") "teacher" else "student"
+                val category = if (global.selectedcategory.value == "student") "Class Rep" else "student"
                 Text(text = "Register as a $category? ", fontFamily = RobotoMono, color = color4)
                 Text(
                     text = "Click here",

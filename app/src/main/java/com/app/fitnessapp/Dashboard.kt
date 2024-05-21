@@ -63,7 +63,8 @@ fun Dashboard(navController: NavController,context: Context) {
     val boxes = listOf(
         R.drawable.announcement to "Announcements" to "soon",
         R.drawable.attendance to "Attendance" to "attendance",
-        R.drawable.assignment to "Assignment" to "soon"
+        R.drawable.assignment to "Assignment" to "timetable",
+        R.drawable.timetable to  "Timetable" to "soon"
     )
     val students = FileUtil.loadStudents(context)
     val student = students.find { it.registrationID == global.regID.value }
@@ -414,6 +415,47 @@ fun MiddleRows(image: Painter, content: String,route: String,navController: NavC
 }
 
 
+@Composable
+fun MiddleRowsOnline(
+    imageUrl: String,
+    route: String,
+    content: String,
+    navController: NavController
+) {
+    Column(
+        modifier = Modifier
+            .width(150.dp)
+            .fillMaxHeight()
+            .clip(RoundedCornerShape(20.dp))
+            .background(Color.White)
+            .clickable { navController.navigate(route) },
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        AsyncImage( // Use AsyncImage instead of Image
+            model = imageUrl, // Image URL from the internet
+            contentDescription = null,
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(8.dp),
+            contentScale = ContentScale.Crop,
+            error = painterResource(id = R.drawable.error_image), // Optional: Error image placeholder
+            placeholder = painterResource(id = R.drawable.loading_image) // Optional: Loading image placeholder
+        )
+
+        Text(
+            text = content,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            color = Color.Black,
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+    }
+}
 
 
 @Preview(showBackground = true)

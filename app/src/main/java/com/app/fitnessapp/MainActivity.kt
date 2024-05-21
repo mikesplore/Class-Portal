@@ -89,10 +89,7 @@ class MainActivity : ComponentActivity() {
             composable("logincategory"){ LoginCategory(
                 navController = navController)
             }
-            composable("teacherdashboard"){ TeacherDashboard(
-                navController = navController)
-            }
-            composable("studentdashboard"){ StudentDashboard(
+            composable("Dashboard"){ Dashboard(
                 navController = navController)
             }
             composable("announcements"){ Announcements(

@@ -27,11 +27,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.fitnessapp.ui.theme.RobotoMono
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TeacherDashboard(navController: NavController) {
+fun Dashboard(navController: NavController) {
     // Define drawer state and coroutine scope
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -85,7 +86,12 @@ fun TeacherDashboard(navController: NavController) {
             topBar = {
                 // Top app bar
                 TopAppBar(
-                    title = { Text(text = "Dashboard", color = color4, fontFamily = RobotoMono) },
+                    title = {
+                        Text(text = "${global.selectedcategory.value.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                Locale.getDefault()
+                            ) else it.toString()
+                        }} Dashboard", color = color4, fontFamily = RobotoMono) },
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch {
@@ -197,14 +203,15 @@ fun TeacherHeader() {
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Image(
-                painter = painterResource(id = R.drawable.student),
+                painter = if(global.selectedcategory.value == "teacher") {painterResource(id = R.drawable.teacher)}else{painterResource(id = R.drawable.student)},
                 contentDescription = "dp",
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(100.dp)
             )
+            val text = if(global.selectedcategory.value == "teacher"){"Teacher Name"}else{"Student Name"}
             Text(
-                text = "TEACHER NAME",
+                text = text,
                 color = color4,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
@@ -263,5 +270,5 @@ fun TeacherSquareBox(
 @Preview
 @Composable
 fun SkeletonScreenPreview() {
-    TeacherDashboard(rememberNavController())
+    Dashboard(rememberNavController())
 }

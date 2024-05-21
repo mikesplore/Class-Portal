@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
+    var username: MutableState<String> = mutableStateOf(""),
 )
 data class Student(val studentid: String, val studentname: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
@@ -38,9 +39,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-
+                enableEdgeToEdge()
                 val navController = rememberNavController()
                 NavigationComponent(navController, this)
 
@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
 
-        NavHost(navController, startDestination = "logincategory") {
+        NavHost(navController, startDestination = "dashboard") {
             composable("attendance") {
                 MainScreen(onNavigate = { navController.navigate(it) }, navController)
             }
@@ -91,12 +91,7 @@ class MainActivity : ComponentActivity() {
             composable("dashboard"){ Dashboard(
                 navController = navController)
             }
-            composable("announcements"){ Announcements(
-                navController = navController)
-            }
-            composable("discussion"){ Discussion(
-                navController = navController)
-            }
+
             composable("gender"){ GenderScreen(
                 navController = navController,context)
             }
@@ -104,7 +99,7 @@ class MainActivity : ComponentActivity() {
             composable("notification"){ NotificationScreen(
                 navController = navController)
             }
-            composable("assignments"){ Assignments(
+            composable("soon"){ ComingSoon(
                 navController = navController)
             }
             composable("login"){ LoginScreen(
@@ -114,9 +109,7 @@ class MainActivity : ComponentActivity() {
             composable("resources"){ Resources(
                 navController = navController)
             }
-            composable("timetable"){ Timetable(
-                navController = navController)
-            }
+
 
         }
     }

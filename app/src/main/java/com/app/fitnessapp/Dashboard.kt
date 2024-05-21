@@ -1,94 +1,108 @@
 package com.app.fitnessapp
+
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.fitnessapp.ui.theme.RobotoMono
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Locale
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
 @OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Dashboard(navController: NavController) {
-    // Define drawer state and coroutine scope
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
+    val username = if(global.selectedcategory.value == "student") "Student" else "Teacher"
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val drawerBackgroundColor = Color(0xFF1A1A1A)
+    val primaryColor = Color(0xFF27374D)
+    val textColor = Color.White
+    val horizontalScrollState = rememberScrollState()
 
-    // Modal navigation drawer for the side menu
+    // Define the list of boxes
+    val boxes = listOf(
+        R.drawable.announcement to "Announcements" to "soon",
+        R.drawable.attendance to "Attendance" to "attendance",
+        R.drawable.assignment to "Assignment" to "soon"
+    )
+
+    // Calculate the duration for each box
+    val totalDuration = 10000 // Total duration for the entire scroll
+    val delayDuration = 5000L // Duration to delay at each box
+    val boxCount = boxes.size
+    val boxScrollDuration = (totalDuration / boxCount)
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            for (i in 0 until boxCount) {
+                // Calculate the target scroll position for each box
+                val targetScrollPosition = i * (horizontalScrollState.maxValue / (boxCount - 1))
+
+                // Animate to the target position
+                horizontalScrollState.animateScrollTo(
+                    targetScrollPosition,
+                    animationSpec = tween(durationMillis = boxScrollDuration, easing = EaseInOut)
+                )
+                // Delay at each box
+                delay(delayDuration)
+            }
+
+            // Instantaneous return to the start for a seamless loop
+            horizontalScrollState.scrollTo(0)
+        }
+    }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
-                // Content for the side menu
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(270.dp)
-                        .background(color1),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    // Content of the drawer
-                    Column(
-                        modifier = Modifier
-                            .height(200.dp)
-                            .fillMaxWidth()
-                            .background(color2, RoundedCornerShape(20.dp))
-                    ) {
-                        Header()
-
-                    }
-                    Column(){
-                        sideNavItems("Announcements", "timetable", navController)
-                        sideNavItems("Sign Attendance ", "RecordAttendance", navController)
-
-                    }
-                    Text(
-                        "Logout",
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clickable { navController.navigate("logincategory") },
-                        fontSize = 20.sp
-                    )
-                }
+            ModalDrawerSheet(modifier = Modifier.background(drawerBackgroundColor)) {
+                // Drawer content
+                Text(text = "Menu Item 1", color = Color.White, modifier = Modifier.padding(16.dp))
+                Text(text = "Menu Item 2", color = Color.White, modifier = Modifier.padding(16.dp))
             }
         }
     ) {
-        // Scaffold for the main content
         Scaffold(
             topBar = {
-                // Top app bar
                 TopAppBar(
-                    title = {
-                        Text(text = "${global.selectedcategory.value.replaceFirstChar {
-                            if (it.isLowerCase()) it.titlecase(
-                                Locale.getDefault()
-                            ) else it.toString()
-                        }} Dashboard", color = color4, fontFamily = RobotoMono) },
+                    title = { Text(text = "Hello, $username", color = textColor, fontFamily = RobotoMono) },
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch {
@@ -97,201 +111,223 @@ fun Dashboard(navController: NavController) {
                                 }
                             }
                         }) {
+                            Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = textColor)
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { /* Handle profile click */ }) {
                             Icon(
-                                Icons.Filled.Menu,
-                                contentDescription = "Menu",
-                                tint = color4
+                                painter = if(global.selectedcategory.value == "student") painterResource(id = R.drawable.student)
+                                else painterResource(id = R.drawable.teacher),
+                                contentDescription = "dp",
+                                modifier = Modifier.fillMaxSize()
                             )
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = color1
+                    colors = topAppBarColors(
+                        containerColor = primaryColor,
+                        navigationIconContentColor = textColor,
+                        titleContentColor = textColor,
+                        actionIconContentColor = textColor
                     )
                 )
             },
             content = {
-                // Main content of the screen
-                Column(modifier = Modifier
-                    .background(color1)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Header()
-                    Box(navController = navController)
-                }
+                Column(
+                    modifier = Modifier
+                        .background(color1)
+                        .padding(top = 66.dp)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    // Horizontally scrollable row below the top app bar
+                    Row(
+                        modifier = Modifier
+                            .requiredHeight(200.dp)
+                            .fillMaxWidth()
+                            .horizontalScroll(horizontalScrollState)
+                            .padding(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Spacer(modifier = Modifier.width(10.dp))
+                        boxes.forEach { item ->
+                            TopBoxes(
+                                image = painterResource(id = item.first.first),  // Access the Int from the nested Pair
+                                description = item.first.second,                // Access the String from the nested Pair
+                                route = item.second,
+                                navController = navController
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                        }
 
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(text = "Attendance",
+                        modifier = Modifier.padding(10.dp),
+                        fontFamily = RobotoMono,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = textColor)
+                    Row(
+                        modifier = Modifier
+                            .horizontalScroll(rememberScrollState())
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
+                    ){
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRows(route = "AttendanceReport",
+                            content = "View Attendance report",
+                            navController = navController,
+                            image = painterResource(id = R.drawable.view))
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRows(route = "RecordAttendance",
+                            content = "Record Attendance",
+                            navController = navController,
+                            image = painterResource(id = R.drawable.sign))
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRows(route = "DeleteStudent",
+                            content = "Delete Student",
+                            navController = navController,
+                            image = painterResource(id = R.drawable.delete))
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRows(route = "AddStudent",
+                            content = "Add Student",
+                            navController = navController,
+                            image = painterResource(id = R.drawable.add))
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRows(route = "EditStudent",
+                            content = "Edit Student",
+                            navController = navController,
+                            image = painterResource(id = R.drawable.edit))
+                        Spacer(modifier = Modifier.width(10.dp))
+
+
+
+
+                    }
+                }
             }
         )
     }
 }
 
-@Composable
-fun Box(navController: NavController){
 
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        SquareBox(
-            imageName = painterResource(id = R.drawable.announcement),
-            content = "Announcements",
-            route = "timetable",
-            navController = navController,
-        )
-        SquareBox(
-            imageName = painterResource(id = R.drawable.attendance),
-            content = "Attendance",
-            route = "attendance",
-            navController = navController,
-        )
-    }
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        SquareBox(
-            imageName = painterResource(id = R.drawable.timetable),
-            content = "Timetable",
-            route = "timetable",
-            navController = navController,
-        )
-        SquareBox(
-            imageName = painterResource(id = R.drawable.discussion),
-            content = "Discussion",
-            route = "discussion",
-            navController = navController,
-        )
-    }
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        SquareBox(
-            imageName = painterResource(id = R.drawable.assignment),
-            content = "Assignments",
-            route = "assignments",
-            navController = navController,
-        )
-        SquareBox(
-            imageName = painterResource(id = R.drawable.resources),
-            content = "Resources",
-            route = "resources",
-            navController = navController,
-        )
-    }
-
-}
 
 
 @Composable
-fun Header() {
-    Box(modifier = Modifier.shadow(
-        elevation = 15.dp,
-        shape = RoundedCornerShape(20.dp)
-    )){
-        Column(
-            modifier = Modifier
-                .width(350.dp)
-                .height(200.dp)
-                .background(color = color2, shape = RoundedCornerShape(20.dp)),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Image(
-                painter = if(global.selectedcategory.value == "teacher") {painterResource(id = R.drawable.teacher)}else{painterResource(id = R.drawable.student)},
-                contentDescription = "dp",
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(100.dp)
-            )
-            val text = if(global.selectedcategory.value == "teacher"){"Teacher Name"}else{"Student Name"}
-            Text(
-                text = text,
-                color = color4,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = RobotoMono
-            )
-        }
-    }
-}
-@Composable
-fun SquareBox(
-    imageName: Painter,
-    content: String,
-    route: String,
-    navController: NavController,
-) {
-    Box(
+fun TopBoxes(image: Painter, description: String,route: String,navController: NavController) {
+    Row(
         modifier = Modifier
-            .shadow(
-                elevation = 15.dp,
-                shape = RoundedCornerShape(10.dp)
-            )
-            .background(color = color2)
-            .size(150.dp)
-            .clickable { navController.navigate(route) }
+            .clickable {
+                navController.navigate(route)
+            }
+            .background(Color.Transparent, shape = RoundedCornerShape(30.dp))
+            .fillMaxHeight()
+            .width(300.dp)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Main content: Image and Text
+        Box(modifier = Modifier) {
             Box(
                 modifier = Modifier
-                    .size(80.dp)
-                    .background(color = color3, shape = CircleShape)
+                    .clip(RoundedCornerShape(30.dp))
+                    .fillMaxSize()
             ) {
                 Image(
-                    painter = imageName,
-                    contentDescription = "box content",
+                    painter = image,
+                    contentDescription = "sample",
                     modifier = Modifier
-                        .clip(CircleShape)
-                        .size(90.dp)
+                        .fillMaxSize(),
+                    contentScale = ContentScale.Crop
                 )
-            }
-            Text(
-                text = content,
-                color = color4,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = RobotoMono
-            )
 
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter) // Position at the bottom
+                        .background(
+                            Color.Black.copy(alpha = 0.5f), // Semi-transparent black background
+                            shape = RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp)
+                        )
+                        .padding(16.dp),
+                ) {
+                    Text(
+                        text = description,
+                        color = Color.White,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            shadow = Shadow(
+                                color = Color.Black.copy(alpha = 0.9f),
+                                offset = Offset(4f, 4f),
+                                blurRadius = 4f
+                            )
+                        )
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun sideNavItems(content: String, route: String, navController: NavController){
-    Row(modifier = Modifier
-        .border(
-            width = 1.dp,
-            color = color3,
-            shape = RoundedCornerShape(10.dp)
-        )
-        .background(color = color2)
-        .padding(10.dp)
-        .height(40.dp)
-        .fillMaxWidth()
-        .clickable { navController.navigate(route) },
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center){
-        Text(text = content,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = color4,
-            fontFamily = RobotoMono
-            )
+fun MiddleRows(image: Painter, content: String,route: String,navController: NavController) {
+    Row(
+        modifier = Modifier
+            .clickable {
+                navController.navigate(route)
+            }
+            .background(Color.Transparent, shape = RoundedCornerShape(30.dp))
+            .fillMaxHeight()
+            .width(150.dp)
+    ) {
+        Box(modifier = Modifier) {
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(30.dp))
+                    .fillMaxSize()
+            ) {
+                Image(
+                    painter = image,
+                    contentDescription = "sample",
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter) // Position at the bottom
+                        .background(
+                            Color.Transparent
+
+                        )
+                        .padding(16.dp),
+                ) {
+                    Text(
+                        text = content,
+                        color = Color.White,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            shadow = Shadow(
+                                color = Color.Black.copy(alpha = 0.9f),
+                                offset = Offset(4f, 4f),
+                                blurRadius = 4f
+                            )
+                        )
+                    )
+                }
+            }
+        }
     }
-
-
 }
-@Preview
+
+
+
+@Preview(showBackground = true)
 @Composable
-fun SkeletonScreenPreview() {
-    Dashboard(rememberNavController())
+fun DashboardPreview() {
+    val navController = rememberNavController()
+    Dashboard(navController)
 }

@@ -34,13 +34,17 @@ import com.app.fitnessapp.ui.theme.RobotoMono
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Announcements(navController: NavController) {
+fun ComingSoon(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Announcements") },
+                title = { Text("Coming Soon",
+                    fontSize = 30.sp,
+                    color = color4,
+                    fontFamily = RobotoMono,
+                    fontWeight = FontWeight.Bold) },
                 navigationIcon = {
-                    IconButton(onClick = { /* Handle navigation icon click */ }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back")
                     }
                 },
@@ -63,11 +67,11 @@ fun Announcements(navController: NavController) {
             .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
-            Text(text = "Announcements Screen",
+            Text(text = "Coming Soon",
                 fontSize = 30.sp,
                 color = color4,
                 fontFamily = RobotoMono,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Normal
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(onClick = {navController.popBackStack()}){
@@ -87,6 +91,6 @@ fun Announcements(navController: NavController) {
 
 @Preview
 @Composable
-fun AnnouncementsPreview(){
-    Announcements(navController = rememberNavController())
+fun ComingSoonPreview(){
+    ComingSoon(navController = rememberNavController())
 }

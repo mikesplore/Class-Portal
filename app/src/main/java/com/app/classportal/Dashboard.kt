@@ -2,6 +2,7 @@ package com.app.classportal
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -138,7 +139,9 @@ fun Dashboard(navController: NavController, context: Context) {
                                 Row(modifier = Modifier.fillMaxWidth()){
                                 DropdownMenuItem(
                                     text = { Text("Account Settings",color = textColor, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = RobotoMono) },
-                                    onClick = { /* Handle Account Settings click */ expanded = false }
+                                    onClick = {
+                                        Toast.makeText(context, "Feature coming soon!", Toast.LENGTH_SHORT).show()
+                                        expanded = false }
                                 )}
                                 DropdownMenuItem(
                                     text = { Text("Logout", color = textColor, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = RobotoMono) },
@@ -178,8 +181,8 @@ fun Dashboard(navController: NavController, context: Context) {
                         Spacer(modifier = Modifier.width(10.dp))
                         boxes.forEach { item ->
                             TopBoxes(
-                                image = painterResource(id = item.first.first),  // Access the Int from the nested Pair
-                                description = item.first.second,                // Access the String from the nested Pair
+                                image = painterResource(id = item.first.first),
+                                description = item.first.second,
                                 route = item.second,
                                 navController = navController
                             )
@@ -228,7 +231,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     color = textColor,
                                     )
                             }else{
-                                Text(text = "No Announcements(Tap to add)",
+                                Text(text = "No Announcements (Tap to add)",
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
@@ -274,13 +277,14 @@ fun Dashboard(navController: NavController, context: Context) {
                                     color = textColor,
                                     textAlign = TextAlign.Center)
                             }else{
-                                Text(text = "I have finished implementing the announcements and attendance system +" +
-                                        "I'm now working on the study resources and gallery(partially done)",
+                                Text(text = "I have completed the implementation of  the Announcements and Attendance system " +
+                                        "I'm now working on the study resources and gallery system(partially done)",
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Light,
                                     fontSize = 15.sp,
                                     color = textColor,
-                                    textAlign = TextAlign.Center)
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.padding(5.dp))
                             }
                         }
 
@@ -340,11 +344,19 @@ fun Dashboard(navController: NavController, context: Context) {
 
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(text = "Class Gallery",
-                        modifier = Modifier.padding(10.dp),
+                        modifier = Modifier
+                            .clickable {
+                                navController.navigate("gallery")
+                            }
+                            .padding(10.dp),
                         fontFamily = RobotoMono,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
-                        color = textColor)
+                        color = textColor,
+
+                        )
+
+
                     Row (modifier = Modifier
                         .horizontalScroll(rememberScrollState())
                         .fillMaxWidth()
@@ -395,6 +407,14 @@ fun Dashboard(navController: NavController, context: Context) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
                         color = textColor)
+                    Column {
+                        Text(text = "Coming Soon!!!",
+                            modifier = Modifier.padding(10.dp),
+                            fontFamily = RobotoMono,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            color = textColor)
+                    }
 
                 }
             }

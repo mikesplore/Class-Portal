@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Download
@@ -86,7 +87,11 @@ fun Gallery(navController: NavController) {
                             permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         }
                     }) {
-                        Icon(imageVector = Icons.Default.Download, contentDescription = "Download",)
+                        Icon(imageVector = Icons.Default.AddAPhoto, contentDescription = "Download",
+                            tint = color4,
+                            modifier = Modifier.clickable {
+                                Toast.makeText(context, "Feature coming soon!", Toast.LENGTH_SHORT).show()
+                            })
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

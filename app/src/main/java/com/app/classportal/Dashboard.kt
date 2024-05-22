@@ -51,9 +51,6 @@ import com.app.classportal.FileUtil.loadAnnouncement
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Dashboard(navController: NavController, context: Context) {
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-    val drawerBackgroundColor = Color(0xFF1A1A1A)
     val primaryColor = Color(0xFF27374D)
     val textColor = Color.White
     val horizontalScrollState = rememberScrollState()
@@ -66,8 +63,8 @@ fun Dashboard(navController: NavController, context: Context) {
     // Define the list of boxes
     val boxes = listOf(
         R.drawable.announcement to date to "soon",
-        R.drawable.attendance to "Did you sign your attendance?" to "attendance",
-        R.drawable.assignment to "Check your assignments" to "timetable",
+        R.drawable.attendance to "Did you sign your attendance?" to "RecordAttendanceScreen",
+        R.drawable.assignment to "Check your assignments" to "soon",
         R.drawable.timetable to "Yooh, check your timetable" to "soon"
     )
 
@@ -228,13 +225,22 @@ fun Dashboard(navController: NavController, context: Context) {
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
-                                    color = textColor)
+                                    color = textColor,
+                                    )
                             }else{
                                 Text(text = "No Announcements",
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
-                                    color = textColor)
+                                    color = textColor,
+                                    style = TextStyle(
+                                        shadow = Shadow(
+                                            color = Color.Black.copy(alpha = 0.9f),
+                                            offset = Offset(4f, 4f),
+                                            blurRadius = 4f
+                                        )
+                                    )
+                                    )
                             }
 
                         }
@@ -268,7 +274,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     color = textColor,
                                     textAlign = TextAlign.Center)
                             }else{
-                                Text(text = "You will found announcements here",
+                                Text(text = "You will find announcements here",
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Light,
                                     fontSize = 15.sp,
@@ -460,19 +466,23 @@ fun MiddleRows(link: String, content: String, route: String, navController: NavC
             .fillMaxHeight()
             .width(150.dp)
     ) {
+
         Box(modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(30.dp))
                     .fillMaxSize()
             ) {
+
                 AsyncImage(
                     model = link,
                     contentDescription = "sample",
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(30.dp)), // Clip the image to match the Box's shape
-                    contentScale = ContentScale.Crop // Ensure the image fills the space and is cropped if necessary
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.error_image),
+                    placeholder = painterResource(id = R.drawable.loading_image)// Ensure the image fills the space and is cropped if necessary
                 )
 
                 // Text Overlay with Improved Readability
@@ -480,15 +490,19 @@ fun MiddleRows(link: String, content: String, route: String, navController: NavC
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter)
-                        .background(Color(0x99000000)) // Semi-transparent black background for contrast
+                        .background(color.copy(alpha = 0.3f)) // Semi-transparent black background for contrast
                         .padding(8.dp),
                 ) {
                     Text(
                         text = content,
-                        color = Color.White, // White text for better contrast
+                        color = Color.Black, // White text for better contrast
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
+                            shadow = Shadow(
+                                color = Color.Black.copy(alpha = 0.9f),
+                                offset = Offset(4f, 4f),
+                                blurRadius = 4f)
                         )
                     )
                 }

@@ -34,25 +34,19 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.FileUtil.loadAnnouncement
 import com.app.classportal.FileUtil.saveAnnouncement
 import com.app.classportal.ui.theme.RobotoMono
-import kotlinx.coroutines.launch
-import java.io.File
 
-
-const val ANNOUNCEMENT_FILE = "announcements.txt"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ComingSoon(navController: NavController, context: Context) {
-    val coroutineScope = rememberCoroutineScope()
-
     val announcements = remember { mutableStateListOf<Announcement>() }
     var expanded by remember { mutableStateOf(false) }
     var showAddDialog by remember { mutableStateOf(false) }
     var showEditDialog by remember { mutableStateOf(false) }
     var currentId by remember { mutableIntStateOf(0) }
-    var selectedAnnouncementIndex by remember { mutableStateOf(-1) }
-    var clickedIndex by remember { mutableStateOf(-1) } // Track which announcement is clicked
+    var selectedAnnouncementIndex by remember { mutableIntStateOf(-1) }
+    var clickedIndex by remember { mutableIntStateOf(-1) } // Track which announcement is clicked
 
     // Load announcements initially
     LaunchedEffect(Unit) {
@@ -227,6 +221,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                     .fillMaxSize()
             ) {
                 // Display Announcements
+                if (announcements.isNotEmpty()) {
                 announcements.forEachIndexed { index, announcement ->
                     Column(
                         modifier = Modifier
@@ -243,36 +238,53 @@ fun ComingSoon(navController: NavController, context: Context) {
                                 .height(60.dp)
 
                                 .fillMaxWidth()
-                        ){
-                        Text(text = "Announcement: ${announcement.id}",
-                            fontSize = 16.sp,
-                            color = Color.White,
-                            modifier = Modifier.padding(start = 8.dp))
-                        Text(text = announcement.date, style = descriptionTextStyle(),modifier = Modifier.padding(start = 8.dp))}
+                        ) {
+                            Text(
+                                text = "Announcement: ${announcement.id}",
+                                fontSize = 16.sp,
+                                color = Color.White,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                            Text(
+                                text = announcement.date,
+                                style = descriptionTextStyle(),
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
                         Column(
                             modifier = Modifier
 
                                 .fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
-                        ){
-
-                        
-                        // Animated Visibility for Title and Description
-                        AnimatedVisibility(
-                            visible = clickedIndex == index,
-                            enter = fadeIn() + expandVertically(),
-                            exit = fadeOut() + shrinkVertically()
                         ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
+
+
+                            // Animated Visibility for Title and Description
+                            AnimatedVisibility(
+                                visible = clickedIndex == index,
+                                enter = fadeIn() + expandVertically(),
+                                exit = fadeOut() + shrinkVertically()
                             ) {
-                                Text(text = announcement.title, fontSize = 20.sp, color = textcolor, style = titleTextStyle())
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text(text = announcement.description, style = descriptionTextStyle(), modifier = Modifier.padding(10.dp))
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = announcement.title,
+                                        fontSize = 20.sp,
+                                        color = textcolor,
+                                        style = titleTextStyle()
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = announcement.description,
+                                        style = descriptionTextStyle(),
+                                        modifier = Modifier.padding(10.dp)
+                                    )
+                                }
                             }
-                        }}
+                        }
 
                         // Row for buttons and read/unread status
                         Row(
@@ -293,27 +305,48 @@ fun ComingSoon(navController: NavController, context: Context) {
                                         selectedAnnouncementIndex = index
                                         showEditDialog = true
                                     }) {
-                                        Text("Edit",
-                                            style = descriptionTextStyle())
+                                        Text(
+                                            "Edit",
+                                            style = descriptionTextStyle()
+                                        )
                                     }
                                     TextButton(onClick = {
                                         deleteAnnouncement(index)
-                                        Toast.makeText(context, "Announcement deleted", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context,
+                                            "Announcement deleted",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }) {
-                                        Text("Delete",
+                                        Text(
+                                            "Delete",
                                             color = Color.Red,
-                                            style = descriptionTextStyle())
+                                            style = descriptionTextStyle()
+                                        )
                                     }
                                 }
                             }
                             // Read/unread status text
                             Text(
-                                text = if(clickedIndex == index) "Read" else announcement.title,
+                                text = if (clickedIndex == index) "Read" else announcement.title,
                                 style = titleTextStyle(),
                                 modifier = Modifier.padding(start = 8.dp)
                             )
                         }
                     }
+                }
+                }else{
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color1),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "No announcements found",
+                            style = titleTextStyle(),)
+                    Text(text = "Tap the + icon to add",style = descriptionTextStyle())}
                 }
             }
         },

@@ -53,13 +53,13 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
 
-        NavHost(navController, startDestination = "dashboard") {
-            composable("attendance") {
-                MainScreen(onNavigate = { navController.navigate(it) }, navController)
+        NavHost(navController, startDestination = "login") {
+            composable("dashboard") {
+                Dashboard( navController,context)
             }
             composable("AddStudent") {
                 AddStudentScreen(
-                    onStudentAdded = { navController.navigate("attendance") },
+                    onStudentAdded = { navController.navigate("dashboard") },
                     context = context,
                     navController
                 )
@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
             composable("RecordAttendance") {
                 RecordAttendanceScreen(
                     context = context,
-                    onAttendanceRecorded = { navController.navigate("attendance") }, navController = navController)
+                    onAttendanceRecorded = { navController.navigate("dashboard") }, navController = navController)
 
             }
             composable("AttendanceReport") {
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
             }
             composable("EditStudent") {
                 EditStudentScreen(
-                    onBack = { navController.navigate("attendance") },
+                    onBack = { navController.navigate("dashboard") },
                     context = context,
                     navController = navController
                 )
@@ -90,9 +90,6 @@ class MainActivity : ComponentActivity() {
             }
             composable("logincategory"){ LoginCategory(
                 navController = navController)
-            }
-            composable("dashboard"){ Dashboard(
-                navController = navController, context)
             }
 
             composable("gender"){ GenderScreen(

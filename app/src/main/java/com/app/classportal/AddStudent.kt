@@ -189,7 +189,6 @@ fun CustomTextField(
         ),
         onValueChange = onValueChange,
         modifier = modifier
-            .width(300.dp)
             .height(50.dp),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = textfieldColor,

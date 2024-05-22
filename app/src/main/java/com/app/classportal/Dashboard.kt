@@ -63,9 +63,11 @@ fun Dashboard(navController: NavController, context: Context) {
     val announcements = loadAnnouncement(context)
 
     val firstAnnouncement = if (announcements.isNotEmpty()) announcements[0] else null
+    val date = if (firstAnnouncement == null) "Looks like there is no announcement"
+    else "Have you checked the announcements? Especially for ${firstAnnouncement.date}"
     // Define the list of boxes
     val boxes = listOf(
-        R.drawable.announcement to "Have you checked the announcements? Especially for date ${firstAnnouncement?.date}" to "soon",
+        R.drawable.announcement to date to "soon",
         R.drawable.attendance to "Did you sign your attendance?" to "attendance",
         R.drawable.assignment to "Check your assignments" to "timetable",
         R.drawable.timetable to "Yooh, check your timetable" to "soon"
@@ -73,10 +75,12 @@ fun Dashboard(navController: NavController, context: Context) {
 
     val imageUrls = listOf(
         "https://mrslamsmusings.files.wordpress.com/2016/03/file_005.jpeg?w=763&resize=763%2C572&h=572",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3brSUVxurMN9vNxKwcp3fNXlPqbCSb7MgBg&usqp=CAU",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb88_OPS7xh70dsoxO1SFok5AZphaPt0RZsA&usqp=CAU",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm3jZK_9CycYYBzoNUnHEeb9Dydi7bbue3lQ&usqp=CAU",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiGkPoAG8zdiGhRQFnEg0sjyG56udCzcDgNg&usqp=CAU"
+        "https://img.freepik.com/free-photo/medium-shot-women-correcting-grammar-mistakes_23-2150171141.jpg",
+        "https://www.shutterstock.com/shutterstock/photos/1908794089/display_1500/stock-photo-academic-concept-smiling-junior-asian-school-girl-sitting-at-desk-in-classroom-writing-in-1908794089.jpg",
+        "https://st2.depositphotos.com/1037987/10995/i/450/depositphotos_109959356-stock-photo-teacher-helping-elementary-school-boy.jpg",
+        "https://cdn.create.vista.com/api/media/small/567482940/stock-photo-cute-little-children-reading-books-floor-classroom",
+        "https://interiordesign.net/wp-content/uploads/2023/03/Interior-Design-Beaverbrook-Art-Gallery-idx230301_intervention02-1024x580.jpg",
+        "https://media.istockphoto.com/id/911030028/photo/group-photo-at-school.jpg?s=612x612&w=0&k=20&c=iteKL8IJfHntwPsOqGVpwJQOIck3YCeSvf0lJoJL_Wo="
     )
 
     val students = FileUtil.loadStudents(context)
@@ -114,31 +118,12 @@ fun Dashboard(navController: NavController, context: Context) {
         }
     }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet(modifier = Modifier.background(drawerBackgroundColor)) {
-                // Drawer content
-                Text(text = "Menu Item 1", color = Color.White, modifier = Modifier.padding(16.dp))
-                Text(text = "Menu Item 2", color = Color.White, modifier = Modifier.padding(16.dp))
-            }
-        }
-    ) {
+     //modal navigation drawer
         Scaffold(
             topBar = {
                 TopAppBar(
                     title = { Text(text = "Hello, ${global.firstname.value}", color = textColor, fontFamily = RobotoMono) },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch {
-                                drawerState.apply {
-                                    if (isClosed) open() else close()
-                                }
-                            }
-                        }) {
-                            Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = textColor)
-                        }
-                    },
+
                     actions = {
                         Box {
                             IconButton(onClick = { expanded = true }) {
@@ -381,6 +366,16 @@ fun Dashboard(navController: NavController, context: Context) {
                             imageUrl = imageUrls[4],
                             content = "Online Library"
                         )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRowsOnline(
+                            imageUrl = imageUrls[5],
+                            content = "Online Gallery"
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        MiddleRowsOnline(
+                            imageUrl = imageUrls[6],
+                            content = "Online School"
+                        )
 
                     }
                     Spacer(modifier = Modifier.height(10.dp))
@@ -395,7 +390,7 @@ fun Dashboard(navController: NavController, context: Context) {
             }
         )
     }
-}
+
 
 
 

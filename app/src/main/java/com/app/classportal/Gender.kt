@@ -1,4 +1,4 @@
-package com.app.fitnessapp
+package com.app.classportal
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.app.fitnessapp.ui.theme.RobotoMono
+import com.app.classportal.ui.theme.RobotoMono
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

@@ -1,4 +1,4 @@
-package com.app.fitnessapp
+package com.app.classportal
 
 import org.junit.Test
 

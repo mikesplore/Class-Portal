@@ -1,4 +1,4 @@
-package com.app.fitnessapp
+package com.app.classportal
 
 import android.content.Context
 import android.widget.Toast
@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.app.fitnessapp.ui.theme.RobotoMono
+import com.app.classportal.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

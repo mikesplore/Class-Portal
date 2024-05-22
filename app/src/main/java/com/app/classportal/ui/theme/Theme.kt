@@ -1,4 +1,4 @@
-package com.app.fitnessapp.ui.theme
+package com.app.classportal.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.app.fitnessapp.R
+import com.app.classportal.R
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -60,7 +60,7 @@ val RobotoMono = FontFamily(
 )
 
 @Composable
-fun FitnessAPPTheme(
+fun ClassPortalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

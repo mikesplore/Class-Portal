@@ -1,4 +1,4 @@
-package com.app.fitnessapp
+package com.app.classportal
 
 
 import android.annotation.SuppressLint
@@ -29,22 +29,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.app.fitnessapp.ui.theme.RobotoMono
+import com.app.classportal.ui.theme.RobotoMono
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComingSoon(navController: NavController) {
+fun Resources(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Coming Soon",
-                    fontSize = 30.sp,
-                    color = color4,
-                    fontFamily = RobotoMono,
-                    fontWeight = FontWeight.Bold) },
+                title = { Text("Resources") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { /* Handle navigation icon click */ }) {
                         Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back")
                     }
                 },
@@ -67,11 +63,11 @@ fun ComingSoon(navController: NavController) {
             .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
-            Text(text = "Coming Soon",
+            Text(text = "Resources Screen",
                 fontSize = 30.sp,
                 color = color4,
                 fontFamily = RobotoMono,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(onClick = {navController.popBackStack()}){
@@ -91,6 +87,6 @@ fun ComingSoon(navController: NavController) {
 
 @Preview
 @Composable
-fun ComingSoonPreview(){
-    ComingSoon(navController = rememberNavController())
+fun ResourcesPreview(){
+    Resources(navController = rememberNavController())
 }

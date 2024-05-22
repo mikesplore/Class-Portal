@@ -1,4 +1,4 @@
-package com.app.fitnessapp
+package com.app.classportal
 
 import android.content.Context
 import android.os.Bundle
@@ -7,16 +7,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import java.sql.Date
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
@@ -26,6 +24,8 @@ class Global(
 )
 data class Student(val registrationID: String, val studentname: String)
 data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
+data class Announcement(val id: Int, val date: String, val title: String, val description: String)
+
 
 
 
@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
 
-        NavHost(navController, startDestination = "login") {
+        NavHost(navController, startDestination = "soon") {
             composable("attendance") {
                 MainScreen(onNavigate = { navController.navigate(it) }, navController)
             }
@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
                 navController = navController)
             }
             composable("soon"){ ComingSoon(
-                navController = navController)
+                navController = navController,context)
             }
             composable("login"){ LoginScreen(
                 navController = navController,context)

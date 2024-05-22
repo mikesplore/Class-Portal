@@ -1,4 +1,4 @@
-package com.app.fitnessapp
+package com.app.classportal
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.app.fitnessapp.ui.theme.RobotoMono
+import com.app.classportal.ui.theme.RobotoMono
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import coil.compose.AsyncImage
@@ -260,7 +259,7 @@ fun Dashboard(navController: NavController, context: Context) {
                         .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
                         .height(200.dp)){
                         Spacer(modifier = Modifier.width(10.dp))
-
+                        /*
                         MiddleRowsOnline(
                             imageUrl = imageUrls[0],
                             content = "Online Notes"
@@ -285,7 +284,7 @@ fun Dashboard(navController: NavController, context: Context) {
                             imageUrl = imageUrls[4],
                             content = "Online Library"
                         )
-
+                        */
 
 
                     }

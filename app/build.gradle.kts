@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.app.fitnessapp"
+    namespace = "com.app.classportal"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.app.fitnessapp"
+        applicationId = "com.app.classportal"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

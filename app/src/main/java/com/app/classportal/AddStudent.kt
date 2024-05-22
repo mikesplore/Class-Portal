@@ -1,4 +1,4 @@
-package com.app.fitnessapp
+package com.app.classportal
 
 import android.content.Context
 import android.widget.Toast
@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.app.fitnessapp.ui.theme.RobotoMono
+import com.app.classportal.ui.theme.RobotoMono
 
 
 val textfieldColor = Color(0xff89CFF3)
@@ -91,10 +91,6 @@ val textfieldColor = Color(0xff89CFF3)
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-
-
-
-
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -123,7 +119,7 @@ val textfieldColor = Color(0xff89CFF3)
 
                             // Instructions
                             Text(
-                                text = "Enter Student ID (Format: BSBS/108J/2021)",
+                                text = "Enter Student ID",
                                 fontFamily = RobotoMono,
                                 fontSize = 16.sp,
                                 color = textcolor

@@ -1,4 +1,4 @@
-package com.app.fitnessapp
+package com.app.classportal
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,7 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.app.fitnessapp.ui.theme.RobotoMono
+import com.app.classportal.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

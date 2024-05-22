@@ -1,19 +1,20 @@
-package com.app.fitnessapp
+package com.app.classportal
 
 import android.content.Context
-import com.app.fitnessapp.AttendanceRecord
-import com.app.fitnessapp.Student
 import java.io.File
 
 object FileUtil {
 
     private const val STUDENT_FILE = "students.txt"
     private const val ATTENDANCE_FILE = "attendance.txt"
+    private const val ANNOUNCEMENT_FILE = "announcements.txt"
 
     fun saveStudents(context: Context, students: List<Student>) {
         val file = File(context.filesDir, STUDENT_FILE)
         file.writeText(students.joinToString("\n") { "${it.registrationID},${it.studentname}" })
     }
+
+
 
     fun loadStudents(context: Context): List<Student> {
         val file = File(context.filesDir, STUDENT_FILE)
@@ -62,4 +63,20 @@ object FileUtil {
             file.writeText("")
         }
     }
+
+    fun saveAnnouncement(context: Context, announcements: List<Announcement>) {
+        val file = File(context.filesDir, ANNOUNCEMENT_FILE)
+        file.writeText(announcements.joinToString("\n") { "${it.id},${it.date},${it.title},${it.description}" })
+    }
+
+    fun loadAnnouncement(context: Context): List<Announcement> {
+        val file = File(context.filesDir, ANNOUNCEMENT_FILE)
+        if (!file.exists()) return emptyList()
+        return file.readLines().map { line ->
+            val parts = line.split(",")
+            Announcement(parts[0].toInt(), parts[1], parts[2], parts[3])
+        }
+    }
 }
+
+

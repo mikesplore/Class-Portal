@@ -18,8 +18,8 @@ import java.sql.Date
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
-    var firstname: MutableState<String> = mutableStateOf("Mike"),
-    var regID: MutableState<String> = mutableStateOf("BSCS/108J/2021"),
+    var firstname: MutableState<String> = mutableStateOf(""),
+    var regID: MutableState<String> = mutableStateOf(""),
 
 )
 data class Student(val registrationID: String, val studentname: String)

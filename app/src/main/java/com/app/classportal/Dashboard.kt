@@ -228,7 +228,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     color = textColor,
                                     )
                             }else{
-                                Text(text = "No Announcements",
+                                Text(text = "No Announcements(Tap to add)",
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
@@ -258,7 +258,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     fontSize = 16.sp,
                                     color = textColor)
                             }else{
-                                Text(text = "No Announcements",
+                                Text(text = "New announcements will appear here",
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
@@ -274,11 +274,13 @@ fun Dashboard(navController: NavController, context: Context) {
                                     color = textColor,
                                     textAlign = TextAlign.Center)
                             }else{
-                                Text(text = "You will find announcements here",
+                                Text(text = "I have finished implementing the announcements and attendance system +" +
+                                        "I'm now working on the study resources and gallery(partially done)",
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Light,
                                     fontSize = 15.sp,
-                                    color = textColor,)
+                                    color = textColor,
+                                    textAlign = TextAlign.Center)
                             }
                         }
 

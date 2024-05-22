@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,7 +43,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import coil.compose.AsyncImage
 import com.app.classportal.FileUtil.loadAnnouncement
 
@@ -294,33 +292,37 @@ fun Dashboard(navController: NavController, context: Context) {
                             .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
                     ){
                         Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(route = "AttendanceReport",
+                        MiddleRows(
+                            route = "AttendanceReport",
                             content = "View Attendance report",
                             navController = navController,
-                            image = painterResource(id = R.drawable.view))
+                            link = "https://img.freepik.com/free-vector/appointment-booking-with-calendar_23-2148553008.jpg"
+                        )
                         Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(route = "RecordAttendance",
+                        MiddleRows(
+                            route = "RecordAttendance",
                             content = "Record Attendance",
                             navController = navController,
-                            image = painterResource(id = R.drawable.sign))
+                            link =  "https://media.licdn.com/dms/image/D4D12AQEdDcCKmY1fhg/article-cover_image-shrink_720_1280/0/1688121586524?e=2147483647&v=beta&t=LaOWGAh5B6MP0JxXhqaTrtz0qkJJexFS7MjzaRXkqEw")
                         Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(route = "DeleteStudent",
+                        MiddleRows(
+                            route = "DeleteStudent",
                             content = "Delete Student",
                             navController = navController,
-                            image = painterResource(id = R.drawable.delete))
+                            link = "https://d1nhio0ox7pgb.cloudfront.net/_img/v_collection_png/512x512/shadow/businessman_delete.png")
                         Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(route = "AddStudent",
+                        MiddleRows(
+                            route = "AddStudent",
                             content = "Add Student",
                             navController = navController,
-                            image = painterResource(id = R.drawable.add))
+                            link = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf3aESFZ0LL4RlleixQf4Rn42ZuRxGsvRrGA&usqp=CAU")
                         Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(route = "EditStudent",
+                        MiddleRows(
+                            route = "EditStudent",
                             content = "Edit Student",
                             navController = navController,
-                            image = painterResource(id = R.drawable.edit))
+                            link = "https://d1nhio0ox7pgb.cloudfront.net/_img/v_collection_png/512x512/shadow/businessman_edit.png")
                         Spacer(modifier = Modifier.width(10.dp))
-
-
 
 
                     }
@@ -450,12 +452,10 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
 }
 
 @Composable
-fun MiddleRows(image: Painter, content: String,route: String,navController: NavController) {
+fun MiddleRows(link: String, content: String, route: String, navController: NavController) {
     Row(
         modifier = Modifier
-            .clickable {
-                navController.navigate(route)
-            }
+            .clickable { navController.navigate(route) }
             .background(Color.Transparent, shape = RoundedCornerShape(30.dp))
             .fillMaxHeight()
             .width(150.dp)
@@ -466,35 +466,29 @@ fun MiddleRows(image: Painter, content: String,route: String,navController: NavC
                     .clip(RoundedCornerShape(30.dp))
                     .fillMaxSize()
             ) {
-                Image(
-                    painter = image,
+                AsyncImage(
+                    model = link,
                     contentDescription = "sample",
                     modifier = Modifier
-                        .fillMaxSize(),
-                    contentScale = ContentScale.Crop
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(30.dp)), // Clip the image to match the Box's shape
+                    contentScale = ContentScale.Crop // Ensure the image fills the space and is cropped if necessary
                 )
 
+                // Text Overlay with Improved Readability
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .align(Alignment.BottomCenter) // Position at the bottom
-                        .background(
-                            Color.Transparent
-
-                        )
-                        .padding(16.dp),
+                        .align(Alignment.BottomCenter)
+                        .background(Color(0x99000000)) // Semi-transparent black background for contrast
+                        .padding(8.dp),
                 ) {
                     Text(
                         text = content,
-                        color = color4,
+                        color = Color.White, // White text for better contrast
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            shadow = Shadow(
-                                color = Color.Black.copy(alpha = 0.9f),
-                                offset = Offset(4f, 4f),
-                                blurRadius = 4f
-                            )
+                            fontSize = 16.sp
                         )
                     )
                 }
@@ -502,6 +496,7 @@ fun MiddleRows(image: Painter, content: String,route: String,navController: NavC
         }
     }
 }
+
 
 
 @Composable

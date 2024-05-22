@@ -46,8 +46,8 @@ import java.io.FileOutputStream
 @Composable
 fun Gallery(navController: NavController) {
     val imageUrls = listOf(
-        "https://mrslamsmusings.files.wordpress.com/2016/03/file_005.jpeg?w=763&resize=763%2C572&h=572",
-        "https://img.freepik.com/free-photo/medium-shot-women-correcting-grammar-mistakes_23-2150171141.jpg",
+        "https://github.com/mikesplore/Class-Portal/blob/master/app/src/main/res/drawable/announcement.jpeg",
+        "https://media.istockphoto.com/id/697689066/photo/three-giraffe-in-national-park-of-kenya.jpg?s=612x612&w=0&k=20&c=PkC1FAG_dl35Q89Qrfsr_N7siaC645dy8EmP5SekYCI=",
         "https://www.shutterstock.com/shutterstock/photos/1908794089/display_1500/stock-photo-academic-concept-smiling-junior-asian-school-girl-sitting-at-desk-in-classroom-writing-in-1908794089.jpg",
         "https://st2.depositphotos.com/1037987/10995/i/450/depositphotos_109959356-stock-photo-teacher-helping-elementary-school-boy.jpg",
         "https://cdn.create.vista.com/api/media/small/567482940/stock-photo-cute-little-children-reading-books-floor-classroom",

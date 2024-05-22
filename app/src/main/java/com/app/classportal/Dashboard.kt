@@ -46,6 +46,7 @@ import com.app.classportal.ui.theme.RobotoMono
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import coil.compose.AsyncImage
+import com.app.classportal.FileUtil.loadAnnouncement
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,13 +60,15 @@ fun Dashboard(navController: NavController, context: Context) {
     val textColor = Color.White
     val horizontalScrollState = rememberScrollState()
     var expanded by remember { mutableStateOf(false) } // Changed to false initially
+    val announcements = loadAnnouncement(context)
 
+    val firstAnnouncement = if (announcements.isNotEmpty()) announcements[0] else null
     // Define the list of boxes
     val boxes = listOf(
-        R.drawable.announcement to "Announcements" to "soon",
-        R.drawable.attendance to "Attendance" to "attendance",
-        R.drawable.assignment to "Assignment" to "timetable",
-        R.drawable.timetable to "Timetable" to "soon"
+        R.drawable.announcement to "Have you checked the announcements? Especially for date ${firstAnnouncement?.date}" to "soon",
+        R.drawable.attendance to "Did you sign your attendance?" to "attendance",
+        R.drawable.assignment to "Check your assignments" to "timetable",
+        R.drawable.timetable to "Yooh, check your timetable" to "soon"
     )
 
     val imageUrls = listOf(
@@ -87,6 +90,9 @@ fun Dashboard(navController: NavController, context: Context) {
     val delayDuration = 5000L // Duration to delay at each box
     val boxCount = boxes.size
     val boxScrollDuration = (totalDuration / boxCount)
+
+
+
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -202,6 +208,93 @@ fun Dashboard(navController: NavController, context: Context) {
 
                     }
                     Spacer(modifier = Modifier.height(10.dp))
+                    Text(text = "Announcements",
+                        modifier = Modifier.padding(10.dp),
+                        fontFamily = RobotoMono,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = textColor)
+                    Column(
+                        modifier = Modifier
+                            .clickable { navController.navigate("soon") }
+                            .padding(10.dp)
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .border(
+                                width = 2.dp,
+                                color = Color.White,
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .background(color2, shape = RoundedCornerShape(20.dp)),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceBetween,
+                    ){
+                        Row(modifier = Modifier
+                            .border(
+                                width = 2.dp,
+                                color = Color.White,
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .background(color, shape = RoundedCornerShape(20.dp))
+                            .height(50.dp)
+                            .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            verticalAlignment = Alignment.CenterVertically){
+                            if (firstAnnouncement != null) {
+                                Text(text = firstAnnouncement.title,
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp,
+                                    color = textColor)
+                            }else{
+                                Text(text = "No Announcements",
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp,
+                                    color = textColor)
+                            }
+
+                        }
+
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Column(modifier = Modifier
+                            .height(130.dp),
+
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Top){
+                            if (firstAnnouncement != null) {
+                                Text(text = firstAnnouncement.date,
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp,
+                                    color = textColor)
+                            }else{
+                                Text(text = "No Announcements",
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp,
+                                    color = textColor)
+                            }
+                            Spacer(modifier = Modifier.height(5.dp))
+
+                            if (firstAnnouncement != null) {
+                                Text(text =firstAnnouncement.description,
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Light,
+                                    fontSize = 15.sp,
+                                    color = textColor,
+                                    textAlign = TextAlign.Center)
+                            }else{
+                                Text(text = "You will found announcements here",
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Light,
+                                    fontSize = 15.sp,
+                                    color = textColor,)
+                            }
+                        }
+
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(text = "Attendance",
                         modifier = Modifier.padding(10.dp),
                         fontFamily = RobotoMono,
@@ -246,6 +339,10 @@ fun Dashboard(navController: NavController, context: Context) {
 
 
                     }
+
+
+
+
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(text = "Class Gallery",
                         modifier = Modifier.padding(10.dp),
@@ -259,7 +356,7 @@ fun Dashboard(navController: NavController, context: Context) {
                         .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
                         .height(200.dp)){
                         Spacer(modifier = Modifier.width(10.dp))
-                        /*
+
                         MiddleRowsOnline(
                             imageUrl = imageUrls[0],
                             content = "Online Notes"
@@ -284,71 +381,7 @@ fun Dashboard(navController: NavController, context: Context) {
                             imageUrl = imageUrls[4],
                             content = "Online Library"
                         )
-                        */
 
-
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Announcements",
-                        modifier = Modifier.padding(10.dp),
-                        fontFamily = RobotoMono,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        color = textColor)
-                    Column(
-                        modifier = Modifier
-                            .clickable { navController.navigate("announcements") }
-                            .border(
-                                width = 2.dp,
-                                color = Color.White,
-                                shape = RoundedCornerShape(20.dp)
-                            )
-                            .padding(10.dp)
-                            .fillMaxWidth()
-                            .height(200.dp)
-                            .background(color2, shape = RoundedCornerShape(20.dp)),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween,
-                    ){
-                        Row(modifier = Modifier
-                            .border(
-                                width = 2.dp,
-                                color = Color.White,
-                                shape = RoundedCornerShape(20.dp)
-                            )
-                            .background(color, shape = RoundedCornerShape(20.dp))
-                            .height(50.dp)
-                            .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            verticalAlignment = Alignment.CenterVertically){
-                            Text(text = "Units Registration",
-                                fontFamily = RobotoMono,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = textColor)
-
-                        }
-
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Column(modifier = Modifier
-                            .height(130.dp),
-
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceBetween){
-                            Text(text = "20-May-2024",
-                                fontFamily = RobotoMono,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = textColor)
-                            Text(text = "You are hereby requested to register units by the end of this month, 30/9/2024, "+
-                                "failure to do so will result automatic cancellation of your continuation of the course.",
-                                fontFamily = RobotoMono,
-                                fontWeight = FontWeight.Light,
-                                fontSize = 15.sp,
-                                color = textColor,
-                                textAlign = TextAlign.Center)
-                        }
-                        
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(text = "Study Resources",
@@ -397,7 +430,7 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter) // Position at the bottom
                         .background(
-                            Color.Black.copy(alpha = 0.5f), // Semi-transparent black background
+                            Color.Black.copy(alpha = 0.3f), // Semi-transparent black background
                             shape = RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp)
                         )
                         .padding(16.dp),

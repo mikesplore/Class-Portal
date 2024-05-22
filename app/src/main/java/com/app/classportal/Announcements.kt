@@ -196,9 +196,10 @@ fun ComingSoon(navController: NavController, context: Context) {
                         )
 
                         DropdownMenuItem(
-                            text = { Text("Clear Announcement List") },
+                            text = { Text("Exit") },
                             onClick = {
                                 // Handle Delete Announcement
+                                navController.navigate("dashboard")
                                 expanded = false
                             }
                         )
@@ -259,7 +260,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                         
                         // Animated Visibility for Title and Description
                         AnimatedVisibility(
-                            visible = true,//clickedIndex == index,
+                            visible = clickedIndex == index,
                             enter = fadeIn() + expandVertically(),
                             exit = fadeOut() + shrinkVertically()
                         ) {

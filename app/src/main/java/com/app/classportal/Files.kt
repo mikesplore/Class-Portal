@@ -5,9 +5,9 @@ import java.io.File
 
 object FileUtil {
 
-    private const val STUDENT_FILE = "students.txt"
-    private const val ATTENDANCE_FILE = "attendance.txt"
-    private const val ANNOUNCEMENT_FILE = "announcements.txt"
+    private const val STUDENT_FILE = "studentsfile.txt"
+    private const val ATTENDANCE_FILE = "attendancefile.txt"
+    private const val ANNOUNCEMENT_FILE = "announcement.txt"
 
     fun saveStudents(context: Context, students: List<Student>) {
         val file = File(context.filesDir, STUDENT_FILE)

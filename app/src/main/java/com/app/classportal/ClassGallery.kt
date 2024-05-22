@@ -70,7 +70,7 @@ fun Gallery(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Gallery") },
+                title = { Text("Gallery",style = titleTextStyle()) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigate("dashboard") }) {
                         Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "Back")
@@ -86,7 +86,7 @@ fun Gallery(navController: NavController) {
                             permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         }
                     }) {
-                        Icon(imageVector = Icons.Default.Download, contentDescription = "Download")
+                        Icon(imageVector = Icons.Default.Download, contentDescription = "Download",)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -99,6 +99,7 @@ fun Gallery(navController: NavController) {
     ) {
         Column(
             modifier = Modifier
+                .padding(top = 77.dp)
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .background(color1)

@@ -86,9 +86,15 @@ fun LoginScreen(navController: NavController,context: Context) {
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = if (isRegistering) "Register as a ${global.selectedcategory.value.capitalize(
-                        Locale.ROOT)}" else "Login as a ${global.selectedcategory.value.capitalize(
-                        Locale.ROOT)}",
+                    text = if (isRegistering) "Register as a ${global.selectedcategory.value.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.ROOT
+                        ) else it.toString()
+                    }}" else "Login as a ${global.selectedcategory.value.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.ROOT
+                        ) else it.toString()
+                    }}",
                     color = color4,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
@@ -326,8 +332,9 @@ fun LoginScreen(navController: NavController,context: Context) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val text = if(isRegistering) "Register" else "Login"
                 val category = if (global.selectedcategory.value == "student") "Class Rep" else "student"
-                Text(text = "Register as a $category? ", fontFamily = RobotoMono, color = color4)
+                Text(text = "$text as a $category? ", fontFamily = RobotoMono, color = color4)
                 Text(
                     text = "Click here",
                     fontFamily = RobotoMono,

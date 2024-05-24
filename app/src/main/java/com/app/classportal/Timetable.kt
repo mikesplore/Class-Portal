@@ -23,10 +23,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -54,33 +54,49 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
+data class TimetableItem(
+    val unit: String,
+    val startTime: String,
+    val duration: String,
+    val lecturer: String,
+    val venue: String
+)
+
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun RecordAttendanceScreen(
-    onAttendanceRecorded: () -> Unit,
-    navController: NavController,
-    context: Context
-) {
-    val students = FileUtil.loadStudents(context)
-    val attendanceRecords = remember { mutableStateListOf<AttendanceRecord>() }
-    val units = listOf("Calculus II", "Linear Algebra", "Statistics I", "Probability and Statistics") // Replace with actual units
+fun Timetable() {
+    val units = listOf("Mon", "Tue", "Wed", "Thur", "Fri")
     val pagerState = rememberPagerState()
+
+    // Mock data for timetable items
+    val timetableData = remember {
+        listOf(
+            listOf(
+                TimetableItem("Unit 1", "9:00 AM", "1 hour", "Dr. Smith", "Room A"),
+                TimetableItem("Unit 2", "10:30 AM", "2 hours", "Prof. Johnson", "Room B"),
+                TimetableItem("Unit 3", "1:00 PM", "1.5 hours", "Dr. Brown", "Room C")
+            ),
+            listOf(
+                TimetableItem("Unit 4", "9:00 AM", "1 hour", "Dr. Smith", "Room A"),
+                TimetableItem("Unit 5", "11:00 AM", "2 hours", "Prof. Johnson", "Room B"),
+                TimetableItem("Unit 6", "2:00 PM", "1.5 hours", "Dr. Brown", "Room C")
+            ),
+            // Similar data for other days
+        )
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(" Sign Attendance", fontFamily = RobotoMono, color = color4, fontSize = 20.sp) },
+                title = { Text("Timetable", fontFamily = RobotoMono, color = color4, fontSize = 20.sp) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { }) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = color4)
                     }
                 },
                 actions = {
                     Button(onClick = {
-                        val allRecords = FileUtil.loadAttendanceRecords(context).toMutableList()
-                        allRecords.addAll(attendanceRecords)
-                        FileUtil.saveAttendanceRecords(context, allRecords)
-                        onAttendanceRecorded()
                     }, colors = ButtonDefaults.buttonColors(Transparent)) {
                         Text("Save", fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = RobotoMono, color = color4)
                     }
@@ -107,16 +123,10 @@ fun RecordAttendanceScreen(
                                 pagerState.scrollToPage(index)
                             }
                         },
-                        text = { Text(unit,
-                            color = if (pagerState.currentPage == index) color else Color.Gray) },
+                        text = { Text(unit) },
                         selectedContentColor = Color.White,
-                        unselectedContentColor = Color.Gray,
-
-                        modifier = Modifier
-                            .background(color1)
+                        modifier = Modifier.background(color1)
                     )
-
-
                 }
             }
             HorizontalPager(
@@ -124,44 +134,11 @@ fun RecordAttendanceScreen(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp)
-                ) {
-                    itemsIndexed(students) { index, student ->
-                        var present by remember { mutableStateOf(false) }
-                        var checkboxEnabled by remember { mutableStateOf(true) } // Track enabled/disabled state of checkbox
-                        val rowColor = if (index % 2 == 0) color2 else color3
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(student.studentname, color = Color.White)
-                            Checkbox(
-                                colors = CheckboxDefaults.colors(Color.White),
-                                enabled = checkboxEnabled, // Set enabled state of checkbox
-                                checked = present,
-                                onCheckedChange = { isChecked ->
-                                    if (!isChecked) {
-                                        // If checkbox is unchecked, enable it
-                                        checkboxEnabled = true
-                                    } else {
-                                        // If checkbox is checked, disable it and update present state
-                                        checkboxEnabled = false
-                                        present = true
-                                        attendanceRecords.add(AttendanceRecord(student.registrationID, "2024-05-17", true, units[page]))
-                                    }
-                                }
-                            )
-
-                        }
-                        Divider(color = Color.Gray, thickness = 1.dp)
-
+                // Display content based on selected tab
+                val timetableItems = timetableData[page]
+                LazyColumn {
+                    itemsIndexed(timetableItems) { index, item ->
+                        TimetableItemRow(item)
                     }
                 }
             }
@@ -169,9 +146,57 @@ fun RecordAttendanceScreen(
     }
 }
 
+
+@Composable
+fun TimetableItemRow(item: TimetableItem) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        // Style for unit
+        Text(
+            text = item.unit,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = color1
+        )
+
+        // Style for start time
+        Text(
+            text = item.startTime,
+            fontSize = 14.sp,
+            color = Color.Gray
+        )
+
+        // Style for duration
+        Text(
+            text = item.duration,
+            fontSize = 14.sp,
+            color = Color.Gray
+        )
+
+        // Style for lecturer
+        Text(
+            text = item.lecturer,
+            fontSize = 14.sp,
+            color = Color.Gray
+        )
+
+        // Style for venue
+        Text(
+            text = item.venue,
+            fontSize = 14.sp,
+            color = Color.Gray
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun RecordAttendanceScreenPreview() {
-    RecordAttendanceScreen(onAttendanceRecorded = {}, navController = rememberNavController(), context = LocalContext.current)
+fun TimetablePreview() {
+    Timetable()
 }
+
 

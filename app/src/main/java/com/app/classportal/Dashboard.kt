@@ -58,9 +58,9 @@ fun Dashboard(navController: NavController, context: Context) {
     var expanded by remember { mutableStateOf(false) } // Changed to false initially
     val announcements = loadAnnouncement(context)
 
-    val firstAnnouncement = if (announcements.isNotEmpty()) announcements[0] else null
+    val firstAnnouncement = if (announcements.isNotEmpty()) announcements[announcements.lastIndex] else null
     val date = if (firstAnnouncement == null) "Looks like there is no announcement"
-    else "Have you checked the announcements? Especially for ${firstAnnouncement.date}"
+    else "You have new announcement (${firstAnnouncement.title})"
     // Define the list of boxes
     val boxes = listOf(
         R.drawable.announcement to date to "soon",
@@ -254,12 +254,24 @@ fun Dashboard(navController: NavController, context: Context) {
 
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Top){
+
                             if (firstAnnouncement != null) {
+                                Column(verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+
+                                Image(painter = painterResource(id = R.drawable.student), contentDescription = "dp",
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .size(40.dp))
+                                    Text(text = firstAnnouncement.student,
+                                        style = descriptionTextStyle())}
                                 Text(text = firstAnnouncement.date,
                                     fontFamily = RobotoMono,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
                                     color = textColor)
+                                }
                             }else{
                                 Text(text = "New announcements will appear here",
                                     fontFamily = RobotoMono,

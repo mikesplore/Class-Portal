@@ -50,8 +50,16 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.compose.material3:material3:1.0.0-alpha01")
+    implementation ("androidx.compose.material:material:1.1.1")
+    implementation ("androidx.navigation:navigation-compose:2.4.0-alpha10")
+    implementation ("com.google.accompanist:accompanist-pager:0.21.2-beta")
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+    implementation ("com.google.android.material:material:1.4.0")
     implementation ("androidx.compose.ui:ui:1.6.7")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation ("com.google.accompanist:accompanist-pager:0.25.0")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.25.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation ("androidx.compose.material:material:1.3.0-alpha02")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.30.1")

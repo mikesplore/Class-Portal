@@ -14,22 +14,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import java.sql.Date
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
-    var firstname: MutableState<String> = mutableStateOf(""),
+    var firstname: MutableState<String> = mutableStateOf("Mike"),
     var regID: MutableState<String> = mutableStateOf(""),
-    var apptheme: MutableState<String> = mutableStateOf(""),
-
-
 )
-data class Student(val registrationID: String, val studentname: String)
-data class AttendanceRecord(val studentId: String, val date: String, val present: Boolean)
-data class Announcement(val id: Int, val date: String, val title: String, val description: String)
-
-
-
 
 var global = Global()
 
@@ -40,24 +30,20 @@ val color4 = Color(0xffDDE6ED)
 val textcolor = Color(0xff00A9FF)
 
 class MainActivity : ComponentActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-                enableEdgeToEdge()
-                val navController = rememberNavController()
-                NavigationComponent(navController, this)
-
+            enableEdgeToEdge()
+            val navController = rememberNavController()
+            NavigationComponent(navController, this)
         }
     }
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-
-        NavHost(navController, startDestination = "login") {
+        NavHost(navController, startDestination = "soon") {
             composable("dashboard") {
-                Dashboard( navController,context)
+                Dashboard(navController, context)
             }
             composable("AddStudent") {
                 AddStudentScreen(
@@ -69,16 +55,18 @@ class MainActivity : ComponentActivity() {
             composable("RecordAttendance") {
                 RecordAttendanceScreen(
                     context = context,
-                    onAttendanceRecorded = { navController.navigate("dashboard") }, navController = navController)
-
+                    onAttendanceRecorded = { navController.navigate("dashboard") },
+                    navController = navController
+                )
             }
             composable("AttendanceReport") {
                 AttendanceReportScreen(context = context, navController)
             }
-            composable("DeleteStudent"){ DeleteStudentScreen(
-
-                context = context,
-                navController = navController)
+            composable("DeleteStudent") {
+                DeleteStudentScreen(
+                    context = context,
+                    navController = navController
+                )
             }
             composable("EditStudent") {
                 EditStudentScreen(
@@ -87,48 +75,34 @@ class MainActivity : ComponentActivity() {
                     navController = navController
                 )
             }
-            composable("welcome"){
+            composable("welcome") {
                 WelcomeScreen(navController)
             }
-            composable("logincategory"){ LoginCategory(
-                navController = navController)
+            composable("logincategory") {
+                LoginCategory(navController = navController)
             }
-
-            composable("gender"){ GenderScreen(
-                navController = navController,context)
+            composable("gender") {
+                GenderScreen(navController = navController, context)
             }
-
-            composable("notification"){ NotificationScreen(
-                navController = navController)
+            composable("notification") {
+                NotificationScreen(navController = navController)
             }
-            composable("soon"){ ComingSoon(
-                navController = navController,context)
+            composable("soon") {
+                ComingSoon(navController = navController, context)
             }
-            composable("login"){ LoginScreen(
-                navController = navController,context)
+            composable("login") {
+                LoginScreen(navController = navController, context)
             }
-
-            composable("resources"){ Resources(
-                navController = navController)
+            composable("gallery") {
+                Gallery(navController)
             }
-            composable("gallery"){ Gallery(navController)
-            }
-
-
+            
         }
     }
-@Preview
-@Composable
-fun DefaultPreview() {
-    NavigationComponent(rememberNavController(), this)
+
+    @Preview
+    @Composable
+    fun DefaultPreview() {
+        NavigationComponent(rememberNavController(), this)
+    }
 }
-
-}
-
-
-
-
-
-
-
-

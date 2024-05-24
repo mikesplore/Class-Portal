@@ -22,7 +22,7 @@ class Global(
 )
 
 var global = Global()
-
+val color  = Color(0xff00A9FF)
 val color1 = Color(0xff27374D)
 val color2 = Color(0xff526D82)
 val color3 = Color(0xff9DB2BF)
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-        NavHost(navController, startDestination = "soon") {
+        NavHost(navController, startDestination = "welcome") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }
@@ -81,12 +81,7 @@ class MainActivity : ComponentActivity() {
             composable("logincategory") {
                 LoginCategory(navController = navController)
             }
-            composable("gender") {
-                GenderScreen(navController = navController, context)
-            }
-            composable("notification") {
-                NotificationScreen(navController = navController)
-            }
+
             composable("soon") {
                 ComingSoon(navController = navController, context)
             }

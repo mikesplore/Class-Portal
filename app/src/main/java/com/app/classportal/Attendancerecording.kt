@@ -132,7 +132,6 @@ fun RecordAttendanceScreen(
                     itemsIndexed(students) { index, student ->
                         var present by remember { mutableStateOf(false) }
                         var checkboxEnabled by remember { mutableStateOf(true) } // Track enabled/disabled state of checkbox
-                        val rowColor = if (index % 2 == 0) color2 else color3
 
                         Row(
                             modifier = Modifier

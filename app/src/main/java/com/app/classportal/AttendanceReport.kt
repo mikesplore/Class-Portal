@@ -50,12 +50,14 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Attendance Report", fontFamily = RobotoMono) },
+                title = { Text("Attendance Report", fontFamily = RobotoMono,color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = color4)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = color1)
+
             )
         }
     ) { innerPadding ->
@@ -77,7 +79,20 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                                 pagerState.scrollToPage(index)
                             }
                         },
-                        text = { Text(unit) }
+                        text = {
+                            Text(
+                                unit,
+                                color = if (pagerState.currentPage == index) color else Color.Gray
+                            )
+                        },
+
+                        selectedContentColor = Color.White,
+                        unselectedContentColor = Color.Gray,
+
+                        modifier = Modifier
+                            .background(color1),
+                        
+
                     )
                 }
             }
@@ -100,26 +115,24 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                     item {
                         Row(
                             modifier = Modifier
-                                .border(width = 1.dp, color = color)
-                                .background(color = color)
+                                .background(color = color1)
                                 .padding(16.dp),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("No.", modifier = Modifier.weight(0.4f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.Black)
-                            Text("Name", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.Black)
-                            Text("Total Present", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.Black)
-                            Text("Total Absent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.Black)
-                            Text("Percent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.Black)
+                            Text("Name", modifier = Modifier.weight(1f), textAlign = TextAlign.Start, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.White)
+                            Text("Present", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.White)
+                            Text("Absent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.White)
+                            Text("Percent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = Color.White)
+
                         }
+                        Divider(color = Color.Gray, thickness = 1.dp)
                     }
                     itemsIndexed(studentAttendance) { index, studentAttendance ->
                         val backgroundColor = if (index % 2 == 0) color2 else color3
 
                         Row(
                             modifier = Modifier
-                                .background(backgroundColor)
-                                .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground)
                                 .padding(16.dp)
                         ) {
                             val percentageColor = when {
@@ -128,12 +141,12 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                                 else -> Color.Red
                             }
 
-                            Text("${index + 1}", modifier = Modifier.weight(0.5f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = Color.Black)
-                            Text(studentAttendance.student.studentname, modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = Color.Black)
-                            Text("${studentAttendance.totalPresent}", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = Color.Black)
-                            Text("${studentAttendance.totalAbsent}", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = Color.Black)
+                            Text(studentAttendance.student.studentname, modifier = Modifier.weight(1f), textAlign = TextAlign.Start, fontFamily = RobotoMono, color = Color.White)
+                            Text("${studentAttendance.totalPresent}", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = Color.White)
+                            Text("${studentAttendance.totalAbsent}", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = Color.White)
                             Text("${studentAttendance.attendancePercentage}%", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = percentageColor, fontFamily = RobotoMono, fontWeight = FontWeight.Bold)
                         }
+                        Divider(color = Color.Gray, thickness = 1.dp)
                     }
                 }
             }

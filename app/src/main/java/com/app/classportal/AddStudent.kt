@@ -208,7 +208,7 @@ fun CustomTextField(
     TextField(
         value = value,
         textStyle = TextStyle(
-            color = color1,
+            color = Color.White,
             fontFamily = RobotoMono,
             fontSize = 16.sp
         ),

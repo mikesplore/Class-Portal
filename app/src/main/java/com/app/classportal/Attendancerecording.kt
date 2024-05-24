@@ -140,7 +140,7 @@ fun RecordAttendanceScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(student.studentname, color = Color.White)
+                            Text(student.firstName, color = Color.White)
                             Checkbox(
                                 colors = CheckboxDefaults.colors(Color.White),
                                 enabled = checkboxEnabled, // Set enabled state of checkbox

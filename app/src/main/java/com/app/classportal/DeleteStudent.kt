@@ -50,7 +50,8 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
     var students by remember { mutableStateOf(FileUtil.loadStudents(context)) }
     var studentIdToDelete by remember { mutableStateOf("") }
     var showConfirmationDialog by remember { mutableStateOf(false) }
-    var studentNameToDelete by remember { mutableStateOf("") }
+    var firstNameToDelete by remember { mutableStateOf("") }
+    var lastNameToDelete by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -98,7 +99,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             .background(rowlist)
                             .clickable {
                                 studentIdToDelete = student.registrationID
-                                studentNameToDelete = student.studentname
+                                firstNameToDelete = student.firstName
                                 showConfirmationDialog = true
                             },
                         horizontalArrangement = Arrangement.SpaceAround,
@@ -109,7 +110,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             color = color4,
                             fontSize = 20.sp,
                             fontFamily = RobotoMono,)
-                        Text(student.studentname)
+                        Text(student.firstName)
                     }
                 }
             }
@@ -143,7 +144,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                     text = {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("You are about to delete this student",fontFamily = RobotoMono,color = color1)
-                            Text(studentNameToDelete, fontWeight = FontWeight.Bold,fontFamily = RobotoMono,fontSize = 20.sp)
+                            Text("$firstNameToDelete, $lastNameToDelete", fontWeight = FontWeight.Bold,fontFamily = RobotoMono,fontSize = 20.sp)
                         }
 
                         },

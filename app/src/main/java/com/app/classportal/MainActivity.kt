@@ -17,7 +17,8 @@ import androidx.navigation.compose.rememberNavController
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
-    var firstname: MutableState<String> = mutableStateOf("Mike"),
+    var firstname: MutableState<String> = mutableStateOf(""),
+    var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),
 )
 

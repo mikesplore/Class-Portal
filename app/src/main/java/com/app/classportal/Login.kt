@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +30,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -49,7 +49,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -70,6 +69,10 @@ val brush = Brush.linearGradient(
         Color(0xffC738BD)
     )
 )
+val focused = Color(0xff850F8D)
+val unfocused = Color.Gray
+val unselected  = Color.Transparent
+
 val gradientColors = listOf(
     Color(0xff850F8D),
     Color(0xffC738BD)
@@ -85,6 +88,7 @@ fun LoginScreen(navController: NavController,context: Context) {
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var isRegistering by remember { mutableStateOf(false) }
     val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
+    val boxselected = remember { mutableStateOf(false) }
 Scaffold(
     topBar = {
         TopAppBar(
@@ -106,8 +110,11 @@ Scaffold(
                         .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
                         .size(50.dp),
                         contentAlignment = Alignment.Center){
-                        Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "Back",
-                            tint = Color.White,)
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIosNew,
+                            contentDescription = "Back",
+                            tint = Color.White,
+                        )
                     }
 
                 }
@@ -123,58 +130,82 @@ Scaffold(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
+        Column(
             modifier = Modifier
+                .padding(top = 50.dp)
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(200.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = if (isRegistering) "Register as one of the following" else "Login as one of the following",
+            Text(
+                text = if (isRegistering) "Register as one of the following" else "Login as one of the following",
                 fontFamily = RobotoMono,
                 color = Color.White,
                 fontWeight = FontWeight.Normal,
-                fontSize = 20.sp,)
+                fontSize = 16.sp,
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ){
+
+                Box(modifier = Modifier
+
+                    .border(
+                        width = 1.dp,
+                        color = Color.White,
+                        shape = RoundedCornerShape(10.dp)
+
+                    )
+                    .clickable {
+                        global.selectedcategory.value = "Class Rep"
+
+                    }
+                    .background(if(global.selectedcategory.value == "Class Rep") focused else unselected, shape = RoundedCornerShape(10.dp))
+                    .fillMaxHeight()
+                    .width(130.dp),
+                    contentAlignment = Alignment.Center){
+                    Text(
+                        text = "Class Rep",
+                        fontFamily = RobotoMono,
+                        color = Color.White,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 15.sp,
+                    )
+                }
+                Box(modifier = Modifier
+                    .clickable {
+                        global.selectedcategory.value = "student"
+
+                    }
+                    .background(if(global.selectedcategory.value == "student") focused else unselected, shape = RoundedCornerShape(10.dp))
+                    .border(
+                        width = 1.dp,
+                        color = Color.White,
+                        shape = RoundedCornerShape(10.dp)
+
+                    )
+                    .fillMaxHeight()
+                    .width(130.dp),
+                    contentAlignment = Alignment.Center){
+                    Text(
+                        text = "Student",
+                        fontFamily = RobotoMono,
+                        color = Color.White,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 15.sp,
+                    )
+                }
+
+            }
 
         }
 
-        Row (modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,){
 
-            Box(modifier = Modifier
-                .border(
-                    width = 1.dp,
-                    color = Color.White,
-                    shape = RoundedCornerShape(10.dp)
-
-                )
-                .fillMaxHeight()
-                .width(130.dp),
-                contentAlignment = Alignment.Center){
-                Text(text = "Class Rep",
-                    fontFamily = RobotoMono,
-                    color = Color.White,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 15.sp,)
-            }
-            Box(modifier = Modifier
-                .border(
-                    width = 1.dp,
-                    color = Color.White,
-                    shape = RoundedCornerShape(10.dp)
-
-                )
-                .fillMaxHeight()
-                .width(130.dp),
-                contentAlignment = Alignment.Center){
-                Text(text = "Student",
-                    fontFamily = RobotoMono,
-                    color = Color.White,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 15.sp,)
-            }
-
-        }
 
         Column(
             modifier = Modifier
@@ -184,33 +215,86 @@ Scaffold(
             verticalArrangement = Arrangement.SpaceAround
         ) {
             AnimatedVisibility(visible = isRegistering) {
-                TextField(
-                    value = global.firstname.value,
-                    textStyle = TextStyle(fontFamily = RobotoMono),
-                    onValueChange = { global.firstname.value = it },
-                    label = { Text(text = "First Name", fontFamily = RobotoMono) },
-                    singleLine = true,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = color2,
-                        unfocusedContainerColor = color2,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedLabelColor = color4,
-                        cursorColor = color4,
-                        unfocusedLabelColor = color4,
-                        focusedTextColor = color4,
-                        unfocusedTextColor = color4
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier
-                        .shadow(
-                            elevation = 10.dp,
-                            shape = RoundedCornerShape(20.dp),
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+
+                    ) {
+                    OutlinedTextField(
+                        value = global.firstname.value,
+                        textStyle = TextStyle(fontFamily = RobotoMono),
+                        onValueChange = { global.firstname.value = it },
+                        label = {
+                            Text(
+                                text = "First Name",
+                                fontFamily = RobotoMono,
+                                color = Color.White,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 15.sp
                             )
-                )
+                        },
+                        singleLine = true,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedIndicatorColor = focused,
+                            unfocusedIndicatorColor = unfocused,
+                            focusedLabelColor = Color.White,
+                            cursorColor = Color.Black,
+                            unfocusedLabelColor = Color.White,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier
+                            .height(60.dp)
+                            .width(130.dp)
+                            .shadow(
+                                elevation = 10.dp,
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    )
+                    OutlinedTextField(
+                        value = global.lastname.value,
+                        textStyle = TextStyle(fontFamily = RobotoMono),
+                        onValueChange = { global.lastname.value = it },
+                        label = {
+                            Text(
+                                text = "Last Name",
+                                fontFamily = RobotoMono,
+                                color = Color.White,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 15.sp
+                            )
+                        },
+                        singleLine = true,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedIndicatorColor = focused,
+                            unfocusedIndicatorColor = unfocused,
+                            focusedLabelColor = Color.White,
+                            cursorColor = Color.Black,
+                            unfocusedLabelColor = Color.White,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+
+                            ),
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier
+                            .height(60.dp)
+                            .width(130.dp)
+                            .shadow(
+                                elevation = 10.dp,
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    )
             }
-            TextField(
+        }
+            OutlinedTextField(
                 value = global.regID.value,
                 textStyle = TextStyle(fontFamily = RobotoMono),
                 onValueChange = { global.regID.value = it },
@@ -219,8 +303,8 @@ Scaffold(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Black,
                     unfocusedContainerColor = Color.Black,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = focused,
+                    unfocusedIndicatorColor = unfocused,
                     focusedLabelColor = Color.White,
                     cursorColor = Color.Black,
                     unfocusedLabelColor = Color.White,
@@ -230,11 +314,6 @@ Scaffold(
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .width(300.dp)
-                    .border(
-                        width = 1.dp,
-                        brush = brush,
-                        shape = RoundedCornerShape(10.dp)
-                    )
                     .shadow(
                         elevation = 10.dp,
                         shape = RoundedCornerShape(20.dp),
@@ -242,7 +321,7 @@ Scaffold(
                         )
             )
 
-            TextField(
+            OutlinedTextField(
                 value = password,
                 textStyle = TextStyle(fontFamily = RobotoMono),
                 onValueChange = { password = it },
@@ -261,8 +340,8 @@ Scaffold(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Black,
                     unfocusedContainerColor = Color.Black,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = focused,
+                    unfocusedIndicatorColor = unfocused,
                     focusedLabelColor = Color.White,
                     cursorColor = Color.Black,
                     unfocusedLabelColor = Color.White,
@@ -272,11 +351,6 @@ Scaffold(
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .width(300.dp)
-                    .border(
-                        width = 1.dp,
-                        brush = brush,
-                        shape = RoundedCornerShape(10.dp)
-                    )
                     .shadow(
                         elevation = 10.dp,
                         shape = RoundedCornerShape(20.dp),
@@ -285,7 +359,7 @@ Scaffold(
             )
 
             AnimatedVisibility(visible = isRegistering) {
-                TextField(
+                OutlinedTextField(
                     value = confirmPassword,
                     textStyle = TextStyle(fontFamily = RobotoMono),
                     onValueChange = { confirmPassword = it },
@@ -306,8 +380,8 @@ Scaffold(
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Black,
                         unfocusedContainerColor = Color.Black,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
                         focusedLabelColor = Color.White,
                         cursorColor = Color.Black,
                         unfocusedLabelColor = Color.White,
@@ -316,12 +390,7 @@ Scaffold(
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
-                        .width(250.dp)
-                        .border(
-                            width = 1.dp,
-                            brush = brush,
-                            shape = RoundedCornerShape(10.dp)
-                        )
+                        .width(300.dp)
                         .shadow(
                             elevation = 10.dp,
                             shape = RoundedCornerShape(20.dp),
@@ -360,7 +429,9 @@ Scaffold(
                                     updatedStudents.add(
                                         Student(
                                             registrationID = global.regID.value,
-                                            studentname = global.firstname.value
+                                            firstName = global.firstname.value,
+                                            lastName = global.lastname.value,
+
                                         )
                                     )
                                     FileUtil.saveStudents(context, updatedStudents)
@@ -417,20 +488,29 @@ Scaffold(
                     }
                 },
                 modifier = Modifier
-                    .background(brush, RoundedCornerShape(10.dp))
-                    .width(300.dp)
-                    .height(50.dp)
+                    .width(350.dp)
+                    .height(70.dp)
                     .shadow(
                         elevation = 10.dp,
                         shape = RoundedCornerShape(20.dp),
                     ),
                 shape = RoundedCornerShape(20.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.White
+                )
 
 
 
 
 
             ) {
+                Row(modifier = Modifier
+                    .background(brush, shape = RoundedCornerShape(10.dp))
+                    .height(50.dp)
+                    .width(300.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically) {
 
                 Text(
                     text = if (isRegistering) "Register" else "Login",
@@ -438,7 +518,7 @@ Scaffold(
                     fontWeight = FontWeight.Normal,
                     fontSize = 15.sp,
                     fontFamily = RobotoMono
-                )
+                )}
             }
         }
 

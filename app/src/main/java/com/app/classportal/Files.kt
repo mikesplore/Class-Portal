@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
-data class Student(val registrationID: String, val studentname: String)
+data class Student(val registrationID: String, val firstName: String, val lastName: String)
 data class AttendanceRecord(
     val studentId: String,
     val date: String,
@@ -30,7 +30,7 @@ object FileUtil {
 
     fun saveStudents(context: Context, students: List<Student>) {
         val file = File(context.filesDir, STUDENT_FILE)
-        file.writeText(students.joinToString("\n") { "${it.registrationID},${it.studentname}" })
+        file.writeText(students.joinToString("\n") { "${it.registrationID},${it.firstName}, ${it.lastName}" })
     }
 
 
@@ -40,7 +40,7 @@ object FileUtil {
         if (!file.exists()) return emptyList()
         return file.readLines().map { line ->
             val parts = line.split(",")
-            Student(parts[0], parts[1])
+            Student(parts[0], parts[1], parts[2])
         }
     }
 

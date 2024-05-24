@@ -1,6 +1,7 @@
 package com.app.classportal
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +51,8 @@ import com.app.classportal.ui.theme.RobotoMono
 @Composable
 fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavController) {
     var studentId by remember { mutableStateOf("") }
-    var newStudentName by remember { mutableStateOf("") }
+    var newfirstName by remember { mutableStateOf("") }
+    var newlastName by remember { mutableStateOf("") }
     var studentFound by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
 
@@ -115,7 +117,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     val students = FileUtil.loadStudents(context)
                     val student = students.find { it.registrationID == studentId }
                     if (student != null) {
-                        newStudentName = student.studentname
+                        newfirstName = student.firstName
                         studentFound = true
                     } else {
                         showDialog = true
@@ -143,14 +145,38 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
             if (studentFound) {
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
-                    value = newStudentName,
+                    value = newfirstName,
                     textStyle = TextStyle(
                         color = Color.Black,
                         fontSize = 16.sp,
                         fontFamily = RobotoMono
                     ),
-                    onValueChange = { newStudentName = it },
-                    label = { Text("New Student Name", fontFamily = RobotoMono) },
+                    onValueChange = { newfirstName = it },
+                    label = { Text("New First Name", fontFamily = RobotoMono) },
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color(0xffA0E9FF),
+                        unfocusedIndicatorColor = Color(0xffA0E9FF),
+                        focusedContainerColor = Color(0xffA0E9FF),
+                        unfocusedContainerColor = Color(0xffA0E9FF)),
+                    singleLine = true,
+                    modifier = Modifier
+                        .shadow(
+                            elevation = 10.dp,
+                            shape = RoundedCornerShape(10.dp),
+                            clip = true
+                        )
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = newlastName,
+                    textStyle = TextStyle(
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontFamily = RobotoMono
+                    ),
+                    onValueChange = { newlastName = it },
+                    label = { Text("New Last Name", fontFamily = RobotoMono) },
                     colors = TextFieldDefaults.colors(
                         focusedIndicatorColor = Color(0xffA0E9FF),
                         unfocusedIndicatorColor = Color(0xffA0E9FF),
@@ -167,8 +193,11 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        FileUtil.editStudent(context, Student(studentId, newStudentName))
+                        FileUtil.editStudent(context, Student(studentId, newfirstName, newlastName))
                         studentFound = false
+                        newfirstName = ""
+                        newlastName = ""
+                        Toast.makeText(context, "Student updated successfully", Toast.LENGTH_SHORT).show()
                         onBack()
                     },
                     modifier = Modifier

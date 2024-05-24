@@ -3,14 +3,19 @@ package com.app.classportal
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -49,30 +54,41 @@ val textfieldColor = Color(0xff89CFF3)
 @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController: NavController) {
-        var studentname by remember { mutableStateOf("") }
+        var firstName by remember { mutableStateOf("") }
+        var lastName by remember { mutableStateOf("") }
         var studentId by remember { mutableStateOf("") }
         val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("") },
+                    title = { Text(text = "   Add Student",
+                        fontFamily = RobotoMono,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 25.sp)},
                     navigationIcon = {
-                        IconButton(onClick = { /* Handle back navigation */ }) {
-                            Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
-                                tint = color4,
-                                modifier = Modifier.clickable {
-                                    navController.popBackStack()
+                        IconButton(onClick = { navController.navigate("welcome") },
+                            modifier = Modifier.absolutePadding(left = 10.dp)) {
+                            Box(modifier = Modifier
 
-                                })
+                                .border(
+                                    width = 1.dp,
+                                    color = Color.White,
+                                    shape = RoundedCornerShape(10.dp)
+                                )
+                                .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                                .size(50.dp),
+                                contentAlignment = Alignment.Center){
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBackIosNew,
+                                    contentDescription = "Back",
+                                    tint = Color.White,
+                                )
+                            }
+
                         }
                     },
-                    actions = {
-                        // Add any additional actions (e.g., settings icon) here
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = color1,
-                        titleContentColor = textcolor,
-                    )
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Black)
                 )
             }
         ) { innerPadding ->
@@ -85,7 +101,7 @@ val textfieldColor = Color(0xff89CFF3)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(color1)
+                        .background(Color.Black)
                         .padding(16.dp),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -109,9 +125,9 @@ val textfieldColor = Color(0xff89CFF3)
 
                             // CustomTextField for student name
                             CustomTextField(
-                                value = studentname,
+                                value = firstName,
 
-                                onValueChange = { studentname = it },
+                                onValueChange = { firstName = it },
                                 placeholder = "Student name"
                             )
 
@@ -137,11 +153,11 @@ val textfieldColor = Color(0xff89CFF3)
                             // Button to add student
                             Button(
                                 onClick = {
-                                    if (studentname.isNotEmpty() && pattern.matches(studentId)) {
+                                    if (firstName.isNotEmpty() && pattern.matches(studentId)) {
                                         val students = FileUtil.loadStudents(context).toMutableList()
-                                        students.add(Student(registrationID = studentId, studentname = studentname))
+                                        students.add(Student(registrationID = studentId, firstName = firstName, lastName = lastName))
                                         FileUtil.saveStudents(context, students)
-                                        studentname = ""
+                                        firstName = ""
                                         studentId = ""
                                         Toast.makeText(context, "Student added successfully", Toast.LENGTH_SHORT).show()
                                         onStudentAdded()
@@ -150,18 +166,27 @@ val textfieldColor = Color(0xff89CFF3)
                                     }
                                 },
                                 modifier = Modifier
-                                    .width(200.dp)
-                                    .height(50.dp),
+                                    .width(350.dp)
+                                    .height(70.dp),
                                 shape = RoundedCornerShape(10.dp),
-                                colors = ButtonDefaults.buttonColors(color)
+                                colors = ButtonDefaults.buttonColors(Color.Transparent)
                             ) {
-                                Text(
-                                    "Add Student",
-                                    color = Color.White,
-                                    fontFamily = RobotoMono,
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
+
+                                    Row(modifier = Modifier
+                                        .background(brush, shape = RoundedCornerShape(10.dp))
+                                        .height(50.dp)
+                                        .width(300.dp),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically) {
+
+                                        Text(
+                                            text = "Add Student",
+                                            color = color4,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 15.sp,
+                                            fontFamily = RobotoMono
+                                        )}
+
                             }
                         }
                     }
@@ -191,14 +216,15 @@ fun CustomTextField(
         modifier = modifier
             .height(50.dp),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = textfieldColor,
-            unfocusedContainerColor = textfieldColor,
-            focusedIndicatorColor = textfieldColor,
-            unfocusedIndicatorColor = textfieldColor,
-            focusedTextColor = color1,
-            unfocusedTextColor = color1,
-            focusedLabelColor = color1,
-            unfocusedLabelColor = color1
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            focusedIndicatorColor = focused,
+            unfocusedIndicatorColor = unfocused,
+            focusedLabelColor = Color.White,
+            cursorColor = Color.Black,
+            unfocusedLabelColor = Color.White,
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
         ),
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
@@ -213,3 +239,4 @@ fun CustomTextField(
 fun AddStudentScreenPreview() {
     AddStudentScreen(onStudentAdded = {},navController = rememberNavController(), context = LocalContext.current)
 }
+

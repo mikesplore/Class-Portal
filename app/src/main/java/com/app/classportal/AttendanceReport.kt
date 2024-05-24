@@ -141,7 +141,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                                 else -> Color.Red
                             }
 
-                            Text(studentAttendance.student.studentname, modifier = Modifier.weight(1f), textAlign = TextAlign.Start, fontFamily = RobotoMono, color = Color.White)
+                            Text(studentAttendance.student.firstName, modifier = Modifier.weight(1f), textAlign = TextAlign.Start, fontFamily = RobotoMono, color = Color.White)
                             Text("${studentAttendance.totalPresent}", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = Color.White)
                             Text("${studentAttendance.totalAbsent}", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = Color.White)
                             Text("${studentAttendance.attendancePercentage}%", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = percentageColor, fontFamily = RobotoMono, fontWeight = FontWeight.Bold)

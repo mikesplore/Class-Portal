@@ -82,7 +82,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val students = FileUtil.loadStudents(context)
     val student = students.find { it.registrationID == global.regID.value }
     if (student != null) {
-        global.firstname.value = student.studentname
+        global.firstname.value = student.firstName
     }
 
     // Calculate the duration for each box

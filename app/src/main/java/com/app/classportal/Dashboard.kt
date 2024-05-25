@@ -6,20 +6,24 @@ import android.widget.Toast
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,16 +31,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,37 +55,38 @@ import com.app.classportal.ui.theme.RobotoMono
 import kotlinx.coroutines.delay
 import coil.compose.AsyncImage
 import com.app.classportal.FileUtil.loadAnnouncement
+import kotlinx.coroutines.launch
 
-
+val imageUrls = listOf(
+    "https://images.template.net/wp-content/uploads/2019/07/Certificate-of-attendance-Format1.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRDw9hpory-3_RlKQZOuaWZybojpUjO3X0RQ&usqp=CAU",
+    "https://www.shutterstock.com/shutterstock/photos/1908794089/display_1500/stock-photo-academic-concept-smiling-junior-asian-school-girl-sitting-at-desk-in-classroom-writing-in-1908794089.jpg",
+    "https://st2.depositphotos.com/1037987/10995/i/450/depositphotos_109959356-stock-photo-teacher-helping-elementary-school-boy.jpg",
+    "https://cdn.create.vista.com/api/media/small/567482940/stock-photo-cute-little-children-reading-books-floor-classroom",
+    "https://interiordesign.net/wp-content/uploads/2023/03/Interior-Design-Beaverbrook-Art-Gallery-idx230301_intervention02-1024x580.jpg",
+    "https://media.istockphoto.com/id/911030028/photo/group-photo-at-school.jpg?s=612x612&w=0&k=20&c=iteKL8IJfHntwPsOqGVpwJQOIck3YCeSvf0lJoJL_Wo="
+)
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Dashboard(navController: NavController, context: Context) {
-    val primaryColor = Color(0xFF27374D)
-    val textColor = Color.White
     val horizontalScrollState = rememberScrollState()
-    var expanded by remember { mutableStateOf(false) } // Changed to false initially
+    var expanded by remember { mutableStateOf(false) }
     val announcements = loadAnnouncement(context)
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
 
     val firstAnnouncement = if (announcements.isNotEmpty()) announcements[announcements.lastIndex] else null
     val date = if (firstAnnouncement == null) "Looks like there is no announcement"
-    else "You have new announcement (${firstAnnouncement.title})"
+    else "You have new announcement from ${firstAnnouncement.student}"
     // Define the list of boxes
     val boxes = listOf(
         R.drawable.announcement to date to "soon",
-        R.drawable.attendance to "Did you sign your attendance?" to "RecordAttendanceScreen",
+        R.drawable.attendance to "Did you sign your attendance?" to "RecordAttendance",
         R.drawable.assignment to "Check your assignments" to "soon",
-        R.drawable.timetable to "Yooh, check your timetable" to "soon"
-    )
-
-    val imageUrls = listOf(
-        "https://mrslamsmusings.files.wordpress.com/2016/03/file_005.jpeg?w=763&resize=763%2C572&h=572",
-        "https://img.freepik.com/free-photo/medium-shot-women-correcting-grammar-mistakes_23-2150171141.jpg",
-        "https://www.shutterstock.com/shutterstock/photos/1908794089/display_1500/stock-photo-academic-concept-smiling-junior-asian-school-girl-sitting-at-desk-in-classroom-writing-in-1908794089.jpg",
-        "https://st2.depositphotos.com/1037987/10995/i/450/depositphotos_109959356-stock-photo-teacher-helping-elementary-school-boy.jpg",
-        "https://cdn.create.vista.com/api/media/small/567482940/stock-photo-cute-little-children-reading-books-floor-classroom",
-        "https://interiordesign.net/wp-content/uploads/2023/03/Interior-Design-Beaverbrook-Art-Gallery-idx230301_intervention02-1024x580.jpg",
-        "https://media.istockphoto.com/id/911030028/photo/group-photo-at-school.jpg?s=612x612&w=0&k=20&c=iteKL8IJfHntwPsOqGVpwJQOIck3YCeSvf0lJoJL_Wo="
+        R.drawable.timetable to "Yooh, check your timetable" to "timetable"
     )
 
     val students = FileUtil.loadStudents(context)
@@ -85,31 +95,21 @@ fun Dashboard(navController: NavController, context: Context) {
         global.firstname.value = student.firstName
     }
 
-    // Calculate the duration for each box
-    val totalDuration = 10000 // Total duration for the entire scroll
-    val delayDuration = 5000L // Duration to delay at each box
+    val totalDuration = 10000
+    val delayDuration = 5000L
     val boxCount = boxes.size
     val boxScrollDuration = (totalDuration / boxCount)
-
-
-
 
     LaunchedEffect(Unit) {
         while (true) {
             for (i in 0 until boxCount) {
-                // Calculate the target scroll position for each box
                 val targetScrollPosition = i * (horizontalScrollState.maxValue / (boxCount - 1))
-
-                // Animate to the target position
                 horizontalScrollState.animateScrollTo(
                     targetScrollPosition,
                     animationSpec = tween(durationMillis = boxScrollDuration, easing = EaseInOut)
                 )
-                // Delay at each box
                 delay(delayDuration)
             }
-
-            // Instantaneous return to the start for a seamless loop
             horizontalScrollState.scrollTo(0)
         }
     }
@@ -118,7 +118,7 @@ fun Dashboard(navController: NavController, context: Context) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Hello, ${global.firstname.value}", color = textColor, fontFamily = RobotoMono) },
+                    title = { Text("Welcome, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}") },
 
                     actions = {
                         Box {
@@ -134,7 +134,7 @@ fun Dashboard(navController: NavController, context: Context) {
                             DropdownMenu(
                                 expanded = expanded,
                                 onDismissRequest = { expanded = false },
-                                modifier = Modifier.background(color1)
+                                modifier = Modifier.background(primaryColor)
                             ) {
                                 Row(modifier = Modifier.fillMaxWidth()){
                                 DropdownMenuItem(
@@ -164,21 +164,23 @@ fun Dashboard(navController: NavController, context: Context) {
             content = {
                 Column(
                     modifier = Modifier
-                        .background(color1)
+                        .background(primaryColor)
                         .padding(top = 70.dp)
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.Center,
                 ) {
-                    // Horizontally scrollable row below the top app bar
+                    Spacer(modifier = Modifier.height(22.dp))
+
                     Row(
                         modifier = Modifier
                             .requiredHeight(200.dp)
                             .fillMaxWidth()
-                            .horizontalScroll(horizontalScrollState)
-                            .padding(10.dp),
+                            .horizontalScroll(horizontalScrollState),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Spacer(modifier = Modifier.width(10.dp))
+
                         boxes.forEach { item ->
                             TopBoxes(
                                 image = painterResource(id = item.first.first),
@@ -188,250 +190,151 @@ fun Dashboard(navController: NavController, context: Context) {
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                         }
-
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Announcements",
-                        modifier = Modifier.padding(10.dp),
-                        fontFamily = RobotoMono,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        color = textColor)
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
                     Column(
                         modifier = Modifier
-                            .clickable { navController.navigate("soon") }
-                            .padding(10.dp)
+                            .background(secondaryColor, shape = RoundedCornerShape(30.dp, 30.dp))
                             .fillMaxWidth()
-                            .height(200.dp)
-                            .border(
-                                width = 2.dp,
-                                color = Color.White,
-                                shape = RoundedCornerShape(20.dp)
+                            .weight(1f)
+                    ) {
+                        //start of the bottom tabs
+                        Spacer(modifier = Modifier.height(27.dp))
+                        val tabTitles = listOf("Announcements", "Attendance", "Timetable", "Resources", "Gallery")
+                        val indicator = @Composable { tabPositions: List<TabPosition> ->
+                            Box(
+                                modifier = Modifier
+                                    .tabIndicatorOffset(tabPositions[selectedTabIndex])
+                                    .height(4.dp)
+                                    .width(screenWidth / tabTitles.size) // Divide by the number of tabs
+                                    .background(textColor, CircleShape)
                             )
-                            .background(color2, shape = RoundedCornerShape(20.dp)),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween,
-                    ){
-                        Row(modifier = Modifier
-                            .border(
-                                width = 2.dp,
-                                color = Color.White,
-                                shape = RoundedCornerShape(20.dp)
-                            )
-                            .background(color, shape = RoundedCornerShape(20.dp))
-                            .height(50.dp)
-                            .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            verticalAlignment = Alignment.CenterVertically){
-                            if (firstAnnouncement != null) {
-                                Text(text = firstAnnouncement.title,
-                                    fontFamily = RobotoMono,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp,
-                                    color = textColor,
-                                    )
-                            }else{
-                                Text(text = "No Announcements (Tap to add)",
-                                    fontFamily = RobotoMono,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp,
-                                    color = textColor,
-                                    style = TextStyle(
-                                        shadow = Shadow(
-                                            color = Color.Black.copy(alpha = 0.9f),
-                                            offset = Offset(4f, 4f),
-                                            blurRadius = 4f
-                                        )
-                                    )
-                                    )
-                            }
-
                         }
 
-                        Spacer(modifier = Modifier.height(5.dp))
-                        Column(modifier = Modifier
-                            .height(130.dp),
 
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Top){
+                        val coroutineScope = rememberCoroutineScope()
 
-                            if (firstAnnouncement != null) {
-                                Column(verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        ScrollableTabRow(
+                            selectedTabIndex = selectedTabIndex,
+                            modifier = Modifier.background(secondaryColor),
+                            contentColor = primaryColor,
+                            indicator = indicator,
+                            edgePadding = 0.dp,
 
-                                Image(painter = painterResource(id = R.drawable.student), contentDescription = "dp",
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .size(40.dp))
-                                    Text(text = firstAnnouncement.student,
-                                        style = descriptionTextStyle())}
-                                Text(text = firstAnnouncement.date,
-                                    fontFamily = RobotoMono,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp,
-                                    color = textColor)
-                                }
-                            }else{
-                                Text(text = "New announcements will appear here",
-                                    fontFamily = RobotoMono,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp,
-                                    color = textColor)
-                            }
-                            Spacer(modifier = Modifier.height(5.dp))
+                            ) {
+                            tabTitles.forEachIndexed { index, title ->
+                                Tab(
+                                    selected = selectedTabIndex == index,
+                                    onClick = {
+                                        selectedTabIndex = index
+                                        coroutineScope.launch {
+                                            tabRowHorizontalScrollState.animateScrollTo(
+                                                (screenWidth.value / tabTitles.size * index).toInt()
+                                            )
+                                        }
+                                    },
+                                    text = {
+                                        Box(
+                                            modifier = Modifier
+                                                .background(
+                                                    if (selectedTabIndex == index) primaryColor else secondaryColor,
+                                                    RoundedCornerShape(8.dp)
+                                                )
+                                                .padding(8.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = title,
+                                                fontSize = 13.sp,
+                                                color = if (selectedTabIndex == index) textColor else Color.LightGray
+                                            )
+                                        }
+                                    },
+                                    modifier = Modifier.background(secondaryColor)
 
-                            if (firstAnnouncement != null) {
-                                Text(text =firstAnnouncement.description,
-                                    fontFamily = RobotoMono,
-                                    fontWeight = FontWeight.Light,
-                                    fontSize = 15.sp,
-                                    color = textColor,
-                                    textAlign = TextAlign.Center)
-                            }else{
-                                Text(text = "I have completed the implementation of  the Announcements and Attendance system " +
-                                        "I'm now working on the study resources and gallery system(partially done)",
-                                    fontFamily = RobotoMono,
-                                    fontWeight = FontWeight.Light,
-                                    fontSize = 15.sp,
-                                    color = textColor,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.padding(5.dp))
+                                )
                             }
                         }
 
+
+
+
+                        // Content based on selected tab
+                        when (selectedTabIndex) {
+                            0 -> AnnouncementTabContent()
+                            1 -> AttendanceTabContent(context, navController)
+                            2 -> TimetableTabContent()
+                            3 -> ResourcesTabContent()
+                            4 -> GalleryTabContent()
+
+                        }
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Attendance",
-                        modifier = Modifier.padding(10.dp),
-                        fontFamily = RobotoMono,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        color = textColor)
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState())
-                            .fillMaxWidth()
-                            .height(200.dp)
-                            .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
-                    ){
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(
-                            route = "AttendanceReport",
-                            content = "View Attendance report",
-                            navController = navController,
-                            link = "https://img.freepik.com/free-vector/appointment-booking-with-calendar_23-2148553008.jpg"
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(
-                            route = "RecordAttendance",
-                            content = "Record Attendance",
-                            navController = navController,
-                            link =  "https://media.licdn.com/dms/image/D4D12AQEdDcCKmY1fhg/article-cover_image-shrink_720_1280/0/1688121586524?e=2147483647&v=beta&t=LaOWGAh5B6MP0JxXhqaTrtz0qkJJexFS7MjzaRXkqEw")
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(
-                            route = "DeleteStudent",
-                            content = "Delete Student",
-                            navController = navController,
-                            link = "https://d1nhio0ox7pgb.cloudfront.net/_img/v_collection_png/512x512/shadow/businessman_delete.png")
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(
-                            route = "AddStudent",
-                            content = "Add Student",
-                            navController = navController,
-                            link = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf3aESFZ0LL4RlleixQf4Rn42ZuRxGsvRrGA&usqp=CAU")
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRows(
-                            route = "EditStudent",
-                            content = "Edit Student",
-                            navController = navController,
-                            link = "https://d1nhio0ox7pgb.cloudfront.net/_img/v_collection_png/512x512/shadow/businessman_edit.png")
-                        Spacer(modifier = Modifier.width(10.dp))
-
-
-                    }
-
-
-
-
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Class Gallery",
-                        modifier = Modifier
-                            .clickable {
-                                navController.navigate("gallery")
-                            }
-                            .padding(10.dp),
-                        fontFamily = RobotoMono,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        color = textColor,
-
-                        )
-
-
-                    Row (modifier = Modifier
-                        .horizontalScroll(rememberScrollState())
-                        .fillMaxWidth()
-                        .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
-                        .height(200.dp)){
-                        Spacer(modifier = Modifier.width(10.dp))
-
-                        MiddleRowsOnline(
-                            imageUrl = imageUrls[0],
-                            content = "Online Notes"
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRowsOnline(
-                            imageUrl = imageUrls[1],
-                            content = "Online Quiz"
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRowsOnline(
-                            imageUrl = imageUrls[2],
-                            content = "Online Exam"
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRowsOnline(
-                            imageUrl = imageUrls[3],
-                            content = "Online Assignment"
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRowsOnline(
-                            imageUrl = imageUrls[4],
-                            content = "Online Library"
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRowsOnline(
-                            imageUrl = imageUrls[5],
-                            content = "Online Gallery"
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        MiddleRowsOnline(
-                            imageUrl = imageUrls[6],
-                            content = "Online School"
-                        )
-
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Study Resources",
-                        modifier = Modifier.padding(10.dp),
-                        fontFamily = RobotoMono,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        color = textColor)
-                    Column {
-                        Text(text = "Coming Soon!!!",
-                            modifier = Modifier.padding(10.dp),
-                            fontFamily = RobotoMono,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            color = textColor)
-                    }
-
                 }
+
             }
         )
     }
+
+
+@Composable
+fun LatestAnnouncement() {
+    val announcements = loadAnnouncement(LocalContext.current)
+    val latestAnnouncement = announcements.firstOrNull()
+
+    Column(
+        modifier = Modifier
+            .border(width = 1.dp, color = primaryColor, shape = RoundedCornerShape(30.dp))
+            .height(200.dp)
+            .fillMaxWidth()
+            .background(buttonBrush, shape = RoundedCornerShape(30.dp))
+            .padding(10.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = latestAnnouncement?.title ?: "New UI",
+                style = myTextStyle,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = textColor,
+                modifier = Modifier.padding(10.dp)
+            )
+            Text(
+                text = latestAnnouncement?.date ?: "25/05/2024",
+                color = textColor,
+                modifier = Modifier.padding(10.dp)
+            )
+        }
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            Text(
+                text = latestAnnouncement?.description ?: "I decided to redesign the User Interface, how do you rate it out of 10?",
+                fontWeight = FontWeight.Normal,
+                style = myTextStyle,
+                textAlign = TextAlign.Center,
+                fontSize = 15.sp,
+                modifier = Modifier.padding(10.dp)
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
+        ) {
+            Text(text = "Posted by", style = myTextStyle)
+            Text(
+                text = latestAnnouncement?.student ?: "Developer",
+                style = myTextStyle,
+                color = textColor,
+                modifier = Modifier.padding(10.dp)
+            )
+        }
+    }
+}
 
 
 
@@ -446,7 +349,7 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
             }
             .background(Color.Transparent, shape = RoundedCornerShape(30.dp))
             .fillMaxHeight()
-            .width(300.dp)
+            .width(350.dp)
     ) {
         Box(modifier = Modifier) {
             Box(
@@ -467,14 +370,14 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter) // Position at the bottom
                         .background(
-                            Color.Black.copy(alpha = 0.3f), // Semi-transparent black background
+                            secondaryColor.copy(alpha = 0.3f), // Semi-transparent black background
                             shape = RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp)
                         )
                         .padding(16.dp),
                 ) {
                     Text(
                         text = description,
-                        color = Color.White,
+                        color = textColor,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -491,60 +394,6 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
     }
 }
 
-@Composable
-fun MiddleRows(link: String, content: String, route: String, navController: NavController) {
-    Row(
-        modifier = Modifier
-            .clickable { navController.navigate(route) }
-            .background(Color.Transparent, shape = RoundedCornerShape(30.dp))
-            .fillMaxHeight()
-            .width(150.dp)
-    ) {
-
-        Box(modifier = Modifier) {
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(30.dp))
-                    .fillMaxSize()
-            ) {
-
-                AsyncImage(
-                    model = link,
-                    contentDescription = "sample",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(30.dp)), // Clip the image to match the Box's shape
-                    contentScale = ContentScale.Crop,
-                    error = painterResource(id = R.drawable.error_image),
-                    placeholder = painterResource(id = R.drawable.loading_image)// Ensure the image fills the space and is cropped if necessary
-                )
-
-                // Text Overlay with Improved Readability
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                        .background(color.copy(alpha = 0.3f)) // Semi-transparent black background for contrast
-                        .padding(8.dp),
-                ) {
-                    Text(
-                        text = content,
-                        color = Color.Black, // White text for better contrast
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            shadow = Shadow(
-                                color = Color.Black.copy(alpha = 0.9f),
-                                offset = Offset(4f, 4f),
-                                blurRadius = 4f)
-                        )
-                    )
-                }
-            }
-        }
-    }
-}
-
 
 
 @Composable
@@ -552,14 +401,13 @@ fun MiddleRowsOnline(
     imageUrl: String,
     content: String,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.White,
     shadowColor: Color = Color.Black
 ) {
     Row(
         modifier = modifier
             .background(Color.Transparent, shape = RoundedCornerShape(20.dp))
             .fillMaxHeight()
-            .width(350.dp)
+            .width(200.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Box(
@@ -590,7 +438,7 @@ fun MiddleRowsOnline(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             shadow = Shadow(
-                                color = shadowColor.copy(alpha = 0.9f),
+                                color = primaryColor.copy(alpha = 0.9f),
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )
@@ -603,6 +451,212 @@ fun MiddleRowsOnline(
 }
 
 
+@Composable
+fun AnnouncementTabContent() {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+    ) {
+        val announcements = loadAnnouncement(LocalContext.current)
+        Text("Top Announcements",
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor,
+            fontFamily = RobotoMono,
+            modifier = Modifier.padding(16.dp))
+        Row(
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .height(200.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Always display 3 AnnouncementBoxes
+            repeat(3) { index ->
+                val announcement = announcements.getOrNull(index)
+                AnnouncementBoxes(
+                    date = announcement?.date ?: "No announcement",
+                    title = announcement?.title ?: "No announcement",
+                    student = announcement?.student ?: "No announcement",
+                    content =  announcement?.description ?: "No announcement"
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text("Latest Announcement",
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor,
+            fontFamily = RobotoMono,
+            modifier = Modifier.padding(16.dp))
+        LatestAnnouncement()
+
+
+    }
+}
+
+@Composable
+fun AttendanceTabContent(context: Context, navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(primaryColor)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
+
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(250.dp),
+                contentAlignment = Alignment.BottomCenter // Change alignment
+            ){
+                AttendanceReportContent(context = context)
+
+                Box(
+                    modifier = Modifier
+                        .clickable { navController.navigate("AttendanceReport") }
+                        .fillMaxWidth()
+                        .background(secondaryColor) // Semi-transparent background
+                        .padding(8.dp),
+                    contentAlignment = Alignment.Center // Center text in the box
+                ) {
+                    Text(text = "View full attendance", color = Color.White)
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Row(
+            modifier = Modifier
+                .height(200.dp)
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+        ) {
+            Spacer(modifier = Modifier.width(10.dp))
+            MiddleRowsOnline(imageUrl = imageUrls[0], content = "Sign Attendance")
+            Spacer(modifier = Modifier.width(10.dp))
+            MiddleRowsOnline(imageUrl = imageUrls[1], content = "View Attendance Report")
+            Spacer(modifier = Modifier.width(10.dp))
+
+
+
+
+
+            }
+        }
+    }
+
+
+
+
+
+
+@Composable
+fun TimetableTabContent() {
+    CurrentDayEventsScreen()
+
+}
+@Composable
+fun ResourcesTabContent() {
+   Column(
+       modifier = Modifier
+           .fillMaxSize()
+           .background(primaryColor),
+       horizontalAlignment = Alignment.CenterHorizontally,
+       verticalArrangement = Arrangement.Center
+   ) {
+       Text(text = "Resources Content Coming Soon!",
+           style = myTextStyle,
+           modifier = Modifier.padding(16.dp))
+
+   }
+}
+@Composable
+fun GalleryTabContent() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(primaryColor),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Gallery Content Coming Soon!",
+            style = myTextStyle,
+            modifier = Modifier.padding(16.dp))
+
+    }
+}
+
+
+@Composable
+fun AnnouncementBoxes(date: String, student: String, title: String,content: String){
+    Box(
+        modifier = Modifier
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(20.dp),
+                ambientColor = primaryColor,
+                spotColor = tertiaryColor
+            )
+            .background(buttonBrush, shape = RoundedCornerShape(30.dp))
+            .fillMaxHeight()
+            .width(200.dp),
+        contentAlignment = Alignment.Center
+    ){
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Text(
+                text = date,
+                color = textColor,
+                modifier = Modifier.padding(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly){
+                Image(painter = painterResource(id = R.drawable.student), contentDescription = "student",
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(50.dp))
+                Text(
+                    text = student,
+                    color = textColor,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                )
+
+            }
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = if (title.length > 10) "${title.take(10)}..." else title, // Truncate with ellipsis
+                    style = myTextStyle,
+                    modifier = Modifier.padding(10.dp)
+                )
+                Text(
+                    text = if (content.length > 10) "${content.take(10)}..." else content,
+                    fontWeight = FontWeight.Bold,
+                    style = myTextStyle,
+                    modifier = Modifier.padding(10.dp),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+
+
+        }
+
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -610,3 +664,10 @@ fun DashboardPreview() {
     val navController = rememberNavController()
     Dashboard(navController,LocalContext.current)
 }
+
+
+val myTextStyle = TextStyle(
+    fontFamily = RobotoMono,
+    color = textColor,
+    fontSize = 15.sp
+)

@@ -17,9 +17,11 @@ import androidx.navigation.compose.rememberNavController
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
-    var firstname: MutableState<String> = mutableStateOf("Christopher"),
-    var lastname: MutableState<String> = mutableStateOf("Odhiambo"),
+    var firstname: MutableState<String> = mutableStateOf(""),
+    var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),
+    var loggedinuser: MutableState<String> = mutableStateOf("Anonymous"),
+
 )
 
 var global = Global()
@@ -42,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-        NavHost(navController, startDestination = "dashboard") {
+        NavHost(navController, startDestination = "login") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }
@@ -91,6 +93,9 @@ class MainActivity : ComponentActivity() {
             }
             composable("gallery") {
                 Gallery(navController)
+            }
+            composable("timetable") {
+                Timetable(navController)
             }
             
         }

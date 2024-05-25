@@ -63,20 +63,13 @@ import com.app.classportal.ui.theme.RobotoMono
 import java.util.Locale
 
 
-val brush = Brush.linearGradient(
-    listOf(
-        Color(0xff850F8D),
-        Color(0xffC738BD)
-    )
-)
-val focused = Color(0xff850F8D)
-val unfocused = Color.Gray
-val unselected  = Color.Transparent
 
-val gradientColors = listOf(
-    Color(0xff850F8D),
-    Color(0xffC738BD)
-)
+val focused = tertiaryColor
+val unfocused = primaryColor
+val unselected  = Color.Transparent
+var selected = primaryColor
+
+
 val center = Offset(0.5f, 0.5f)
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -94,7 +87,7 @@ Scaffold(
         TopAppBar(
             title = { Text(text = if (isRegistering) "   Register" else "   Login",
                 fontFamily = RobotoMono,
-                color = Color.White,
+                color = textColor,
                 fontWeight = FontWeight.Bold,
                 fontSize = 25.sp)},
             navigationIcon = {
@@ -104,7 +97,7 @@ Scaffold(
 
                         .border(
                             width = 1.dp,
-                            color = Color.White,
+                            color = textColor,
                             shape = RoundedCornerShape(10.dp)
                         )
                         .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -113,20 +106,20 @@ Scaffold(
                         Icon(
                             imageVector = Icons.Default.ArrowBackIosNew,
                             contentDescription = "Back",
-                            tint = Color.White,
+                            tint = textColor,
                         )
                     }
 
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Black)
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
         )
     }
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(backbrush),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -141,7 +134,7 @@ Scaffold(
             Text(
                 text = if (isRegistering) "Register as one of the following" else "Login as one of the following",
                 fontFamily = RobotoMono,
-                color = Color.White,
+                color = textColor,
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
             )
@@ -157,7 +150,7 @@ Scaffold(
 
                     .border(
                         width = 1.dp,
-                        color = Color.White,
+                        color = textColor,
                         shape = RoundedCornerShape(10.dp)
 
                     )
@@ -165,14 +158,14 @@ Scaffold(
                         global.selectedcategory.value = "Class Rep"
 
                     }
-                    .background(if(global.selectedcategory.value == "Class Rep") focused else unselected, shape = RoundedCornerShape(10.dp))
+                    .background(if(global.selectedcategory.value == "Class Rep") selected else unselected, shape = RoundedCornerShape(10.dp))
                     .fillMaxHeight()
                     .width(130.dp),
                     contentAlignment = Alignment.Center){
                     Text(
                         text = "Class Rep",
                         fontFamily = RobotoMono,
-                        color = Color.White,
+                        color = textColor,
                         fontWeight = FontWeight.Normal,
                         fontSize = 15.sp,
                     )
@@ -180,12 +173,11 @@ Scaffold(
                 Box(modifier = Modifier
                     .clickable {
                         global.selectedcategory.value = "student"
-
                     }
-                    .background(if(global.selectedcategory.value == "student") focused else unselected, shape = RoundedCornerShape(10.dp))
+                    .background(if(global.selectedcategory.value == "student") selected else unselected, shape = RoundedCornerShape(10.dp))
                     .border(
                         width = 1.dp,
-                        color = Color.White,
+                        color = textColor,
                         shape = RoundedCornerShape(10.dp)
 
                     )
@@ -195,7 +187,7 @@ Scaffold(
                     Text(
                         text = "Student",
                         fontFamily = RobotoMono,
-                        color = Color.White,
+                        color = textColor,
                         fontWeight = FontWeight.Normal,
                         fontSize = 15.sp,
                     )
@@ -230,7 +222,7 @@ Scaffold(
                             Text(
                                 text = "First Name",
                                 fontFamily = RobotoMono,
-                                color = Color.White,
+                                color = textColor,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 15.sp
                             )
@@ -241,11 +233,11 @@ Scaffold(
                             unfocusedContainerColor = Color.Transparent,
                             focusedIndicatorColor = focused,
                             unfocusedIndicatorColor = unfocused,
-                            focusedLabelColor = Color.White,
-                            cursorColor = Color.White,
-                            unfocusedLabelColor = Color.White,
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
+                            focusedLabelColor = textColor,
+                            cursorColor = textColor,
+                            unfocusedLabelColor = textColor,
+                            focusedTextColor = textColor,
+                            unfocusedTextColor = textColor,
 
                         ),
                         shape = RoundedCornerShape(10.dp),
@@ -265,7 +257,7 @@ Scaffold(
                             Text(
                                 text = "Last Name",
                                 fontFamily = RobotoMono,
-                                color = Color.White,
+                                color = textColor,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 15.sp
                             )
@@ -276,11 +268,11 @@ Scaffold(
                             unfocusedContainerColor = Color.Transparent,
                             focusedIndicatorColor = focused,
                             unfocusedIndicatorColor = unfocused,
-                            focusedLabelColor = Color.White,
-                            cursorColor = Color.White,
-                            unfocusedLabelColor = Color.White,
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
+                            focusedLabelColor = textColor,
+                            cursorColor = textColor,
+                            unfocusedLabelColor = textColor,
+                            focusedTextColor = textColor,
+                            unfocusedTextColor = textColor,
 
                             ),
                         shape = RoundedCornerShape(10.dp),
@@ -301,15 +293,15 @@ Scaffold(
                 label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Black,
-                    unfocusedContainerColor = Color.Black,
+                    focusedContainerColor = primaryColor,
+                    unfocusedContainerColor = primaryColor,
                     focusedIndicatorColor = focused,
                     unfocusedIndicatorColor = unfocused,
-                    focusedLabelColor = Color.White,
-                    cursorColor = Color.White,
-                    unfocusedLabelColor = Color.White,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
+                    focusedLabelColor = textColor,
+                    cursorColor = textColor,
+                    unfocusedLabelColor = textColor,
+                    focusedTextColor = textColor,
+                    unfocusedTextColor = textColor
                 ),
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
@@ -338,15 +330,15 @@ Scaffold(
                 },
                 visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Black,
-                    unfocusedContainerColor = Color.Black,
+                    focusedContainerColor = primaryColor,
+                    unfocusedContainerColor = primaryColor,
                     focusedIndicatorColor = focused,
                     unfocusedIndicatorColor = unfocused,
-                    focusedLabelColor = Color.White,
-                    cursorColor = Color.White,
-                    unfocusedLabelColor = Color.White,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
+                    focusedLabelColor = textColor,
+                    cursorColor = textColor,
+                    unfocusedLabelColor = textColor,
+                    focusedTextColor = textColor,
+                    unfocusedTextColor = textColor
                 ),
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
@@ -378,15 +370,15 @@ Scaffold(
                     },
                     visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Black,
-                        unfocusedContainerColor = Color.Black,
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
                         focusedIndicatorColor = focused,
                         unfocusedIndicatorColor = unfocused,
-                        focusedLabelColor = Color.White,
-                        cursorColor = Color.White,
-                        unfocusedLabelColor = Color.White,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -464,23 +456,23 @@ Scaffold(
                             students.find { it.registrationID == global.regID.value } // Use regID.text directly
 
                         // Check if student exists and credentials match
-                        if (student != null && password.text == student.registrationID && pattern.matches(
-                                global.regID.value
-                            )
-                        ) {
+                        if (student != null && password.text == student.registrationID && pattern.matches(global.regID.value)) {
                             Toast.makeText(
                                 navController.context,
                                 "Logged in successfully",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            global.firstname.value =
-                                global.firstname.value // Update global username
+                            global.loggedinuser.value = student.firstName
                             navController.navigate("dashboard") // Navigate after successful login
                         } else {
                             Toast.makeText(
                                 navController.context,
                                 "Invalid credentials or ${
-                                    global.selectedcategory.value.capitalize(Locale.ROOT)
+                                    global.selectedcategory.value.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            Locale.ROOT
+                                        ) else it.toString()
+                                    }
                                 } not found or Blank spaces",
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -489,15 +481,12 @@ Scaffold(
                 },
                 modifier = Modifier
                     .width(350.dp)
-                    .height(70.dp)
-                    .shadow(
-                        elevation = 10.dp,
-                        shape = RoundedCornerShape(20.dp),
-                    ),
+                    .height(70.dp),
+
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
-                    contentColor = Color.White
+
                 )
 
 
@@ -505,20 +494,28 @@ Scaffold(
 
 
             ) {
-                Row(modifier = Modifier
-                    .background(brush, shape = RoundedCornerShape(10.dp))
-                    .height(50.dp)
-                    .width(300.dp),
+                Row(
+                    modifier = Modifier
+                        .shadow(
+                            elevation = 10.dp,
+                            shape = RoundedCornerShape(20.dp)
+                        )
+                        .background(backbrush, RoundedCornerShape(10.dp))
+                        .height(50.dp)
+                        .width(300.dp)
+                        .padding(8.dp), // Add padding for better visual spacing
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically) {
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if (isRegistering) "Register" else "Login",
+                        color = color4,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 15.sp,
+                        fontFamily = RobotoMono
+                    )
+                }
 
-                Text(
-                    text = if (isRegistering) "Register" else "Login",
-                    color = color4,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 15.sp,
-                    fontFamily = RobotoMono
-                )}
             }
         }
 
@@ -542,7 +539,7 @@ Scaffold(
                 )
                 Text(
                     text = if (isRegistering) "Login" else "Register",
-                    color = textcolor,
+                    color = primaryColor,
                     fontFamily = RobotoMono,
                     modifier = Modifier.clickable {
                         isRegistering = !isRegistering
@@ -557,11 +554,11 @@ Scaffold(
                 val text = if (isRegistering) "Register" else "Login"
                 val category =
                     if (global.selectedcategory.value == "student") "Class Rep" else "student"
-                Text(text = "$text as a $category? ", fontFamily = RobotoMono, color = color4)
+                Text(text = "$text as a $category? ", fontFamily = RobotoMono, color = textColor)
                 Text(
                     text = "Click here",
                     fontFamily = RobotoMono,
-                    color = textcolor,
+                    color = primaryColor,
                     modifier = Modifier.clickable {
                         global.selectedcategory.value = category
                     }

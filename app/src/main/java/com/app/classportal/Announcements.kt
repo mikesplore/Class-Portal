@@ -27,6 +27,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -46,6 +47,14 @@ val secondaryColor = Color(0xff135D66)
 val tertiaryColor = Color(0xff77B0AA)
 val textColor = Color(0xffE3FEF7)
 
+val backbrush = Brush.verticalGradient(
+    listOf(
+        primaryColor,
+        secondaryColor,
+        tertiaryColor
+    )
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -55,7 +64,7 @@ fun ComingSoon(navController: NavController, context: Context) {
     var showAddDialog by remember { mutableStateOf(false) }
     var showEditDialog by remember { mutableStateOf(false) }
     var currentId by remember { mutableIntStateOf(0) }
-    var student = global.firstname.value
+    val student = global.loggedinuser.value
     var selectedAnnouncementIndex by remember { mutableIntStateOf(-1) }
     var clickedIndex by remember { mutableIntStateOf(-1) }
 
@@ -207,6 +216,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                 modifier = Modifier
                     .padding(paddingValues)
                     .verticalScroll(rememberScrollState())
+                    .background(backbrush)
                     .fillMaxSize()
             ) {
                 // Display Announcements
@@ -245,8 +255,9 @@ fun ComingSoon(navController: NavController, context: Context) {
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Column {
+                                        loadAnnouncement(context)
                                         Text(
-                                            text = student,
+                                            text = announcement.student,
                                             fontSize = 16.sp,
                                             color = textColor
                                         )

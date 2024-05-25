@@ -14,6 +14,17 @@ data class AttendanceRecord(
     val present: Boolean,
     val unit: String
 )
+
+data class TimetableItem(
+
+    val unit: String,
+    val startTime: String,
+    val duration: String,
+    val lecturer: String,
+    val venue: String,
+    val day: String,
+)
+
 data class Announcement(val id: Int, val date: String, val title: String, val description: String, val student: String)
 
 fun getCurrentDateFormatted(): String {
@@ -23,6 +34,7 @@ fun getCurrentDateFormatted(): String {
 
 object FileUtil {
     private const val STUDENT_FILE = "studentsfile.json"
+    private const val TIMETABLE_FILE = "timetablefile.json"
     private const val ATTENDANCE_FILE = "attendancerecords.json"
     private const val ANNOUNCEMENT_FILE = "announcement.json"
     private val gson = Gson()
@@ -85,6 +97,18 @@ object FileUtil {
         val file = File(context.filesDir, ANNOUNCEMENT_FILE)
         if (!file.exists()) return emptyList()
         val type = object : TypeToken<List<Announcement>>() {}.type
+        return gson.fromJson(file.readText(), type)
+    }
+
+    fun saveTimetable(context: Context, timetable: List<List<TimetableItem>>) {
+        val file = File(context.filesDir, TIMETABLE_FILE)
+        file.writeText(gson.toJson(timetable))
+    }
+
+    fun loadTimetable(context: Context): List<List<TimetableItem>> {
+        val file = File(context.filesDir, TIMETABLE_FILE)
+        if (!file.exists()) return List(5) { emptyList() } // Return a list of 5 empty lists for Mon-Fri
+        val type = object : TypeToken<List<List<TimetableItem>>>() {}.type
         return gson.fromJson(file.readText(), type)
     }
 }

@@ -71,7 +71,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
 
                             .border(
                                 width = 1.dp,
-                                color = Color.White,
+                                color = textColor,
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -80,34 +80,34 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = Color.White,
+                                tint = textColor,
                             )
                         }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Black,
-                    titleContentColor = Color.White,
+                    containerColor = primaryColor,
+                    titleContentColor = textColor,
                 )
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(Color.Black)
+                .background(backbrush)
                 .fillMaxSize()
                 .padding(innerPadding),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             LazyColumn (modifier = Modifier
-                .border(1.dp, Color.Black,
+                .border(1.dp, secondaryColor,
                     RoundedCornerShape(8.dp))){
                 item {
                     Text("Total Students: ${students.size}",
                         modifier = Modifier.padding(16.dp),
                         fontWeight = FontWeight.Bold,
                         fontFamily = RobotoMono,
-                        color = Color.White)
+                        color = textColor)
                 }
                 itemsIndexed(students) { index, student ->
                     val rowlist = if (index % 2 == 0) color2 else color3
@@ -134,19 +134,19 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             horizontalArrangement = Arrangement.SpaceEvenly,) {
                             Text(student.firstName,
                                 fontWeight = FontWeight.Normal,
-                                color = Color.White,
+                                color = textColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,)
                             Text(student.lastName,
                                 fontWeight = FontWeight.Normal,
-                                color = Color.White,
+                                color = textColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,)
                         }
 
                         Text(student.registrationID,
                             fontFamily = RobotoMono,
-                            color = Color.White,
+                            color = textColor,
                             fontSize = 16.sp,)
                     }
                     Divider(color = Color.Gray, thickness = 1.dp)

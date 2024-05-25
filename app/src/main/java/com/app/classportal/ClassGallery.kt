@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -71,10 +73,25 @@ fun Gallery(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Gallery",style = titleTextStyle()) },
+                title = { Text(" Gallery",style = titleTextStyle()) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate("dashboard") }) {
-                        Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "Back")
+                    IconButton(onClick = { navController.navigate("dashboard") },
+                        modifier = Modifier.absolutePadding(10.dp)) {
+                        Box(modifier = Modifier
+                            .border(
+                                width = 1.dp,
+                                color = textColor,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                            .size(50.dp),
+                            contentAlignment = Alignment.Center){
+                            Icon(
+                                imageVector = Icons.Default.ArrowBackIosNew,
+                                contentDescription = "Back",
+                                tint = textColor,
+                            )
+                        }
                     }
                 },
                 actions = {
@@ -88,26 +105,26 @@ fun Gallery(navController: NavController) {
                         }
                     }) {
                         Icon(imageVector = Icons.Default.AddAPhoto, contentDescription = "Download",
-                            tint = color4,
+                            tint = textColor,
                             modifier = Modifier.clickable {
                                 Toast.makeText(context, "Feature coming soon!", Toast.LENGTH_SHORT).show()
                             })
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = color1
+                    containerColor = primaryColor
                 )
             )
 
         },
-        containerColor = color1
+        containerColor = primaryColor
     ) {
         Column(
             modifier = Modifier
                 .padding(top = 77.dp)
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .background(color1)
+                .background(primaryColor)
                 .padding(16.dp)
         ) {
             imageUrls.forEach { imageUrl ->

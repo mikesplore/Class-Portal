@@ -42,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalContext
@@ -55,7 +56,14 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 import kotlinx.coroutines.delay
 
+val buttonBrush = Brush.linearGradient(
+    listOf(
+        primaryColor,
+        secondaryColor,
+        tertiaryColor
 
+    )
+)
 @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController: NavController) {
@@ -68,17 +76,17 @@ import kotlinx.coroutines.delay
                 TopAppBar(
                     title = { Text(text = "   Add Student",
                         fontFamily = RobotoMono,
-                        color = Color.White,
+                        color = textColor,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp)},
                     navigationIcon = {
-                        IconButton(onClick = { navController.navigate("welcome") },
+                        IconButton(onClick = { navController.navigate("dashboard") },
                             modifier = Modifier.absolutePadding(left = 10.dp)) {
                             Box(modifier = Modifier
 
                                 .border(
                                     width = 1.dp,
-                                    color = Color.White,
+                                    color = textColor,
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -87,7 +95,7 @@ import kotlinx.coroutines.delay
                                 Icon(
                                     imageVector = Icons.Default.ArrowBackIosNew,
                                     contentDescription = "Back",
-                                    tint = Color.White,
+                                    tint = textColor,
                                 )
                             }
 
@@ -99,14 +107,15 @@ import kotlinx.coroutines.delay
         ) { innerPadding ->
             Column(
                 modifier = Modifier
+                    .background(backbrush)
                     .fillMaxSize()
-                    .padding(innerPadding) // Use innerPadding for proper content positioning
+                    .padding(innerPadding)
             ) {
-                // Your main content goes here
+                // main content
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(primaryColor)
+                        .background(backbrush)
                         .padding(16.dp),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -125,7 +134,7 @@ import kotlinx.coroutines.delay
                                 text = "Enter First Name",
                                 fontFamily = RobotoMono,
                                 fontSize = 16.sp,
-                                color = Color.White
+                                color = textColor
                             )
 
                             // CustomTextField for student name
@@ -133,7 +142,7 @@ import kotlinx.coroutines.delay
                                 value = firstName,
 
                                 onValueChange = { firstName = it },
-                                placeholder = "First name"
+                                label = "First name"
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -141,7 +150,7 @@ import kotlinx.coroutines.delay
                                 text = "Enter Last Name",
                                 fontFamily = RobotoMono,
                                 fontSize = 16.sp,
-                                color = Color.White
+                                color = textColor
                             )
 
                             // CustomTextField for student name
@@ -149,7 +158,7 @@ import kotlinx.coroutines.delay
                                 value = lastName,
 
                                 onValueChange = { lastName = it },
-                                placeholder = "Last name"
+                                label = "Last name"
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -159,14 +168,14 @@ import kotlinx.coroutines.delay
                                 text = "Enter Student ID",
                                 fontFamily = RobotoMono,
                                 fontSize = 16.sp,
-                                color = Color.White
+                                color = textColor
                             )
 
                             // CustomTextField for student ID
                             CustomTextField(
                                 value = studentId,
                                 onValueChange = { studentId = it },
-                                placeholder = "Student ID"
+                                label = "Student ID"
                             )
 
                             Spacer(modifier = Modifier.height(16.dp))
@@ -174,43 +183,39 @@ import kotlinx.coroutines.delay
                             // Button to add student
                             Button(
                                 onClick = {
-                                    if (firstName.isNotEmpty() && pattern.matches(studentId)) {
-                                        val students = FileUtil.loadStudents(context).toMutableList()
-                                        students.add(Student(registrationID = studentId, firstName = firstName, lastName = lastName))
-                                        FileUtil.saveStudents(context, students)
-
+                                    val isValid = firstName.isNotEmpty() && pattern.matches(studentId)
+                                    if (isValid) {
+                                        FileUtil.loadStudents(context).toMutableList().apply {
+                                            add(Student(studentId, firstName, lastName))
+                                            FileUtil.saveStudents(context, this) // Save directly within 'apply'
+                                        }
+                                        // Clear fields & show success message (combined)
                                         firstName = ""
                                         lastName = ""
                                         studentId = ""
                                         Toast.makeText(context, "Student added successfully", Toast.LENGTH_SHORT).show()
                                         onStudentAdded()
                                     } else {
+                                        // Show invalid ID message
                                         Toast.makeText(context, "Please enter a valid student ID", Toast.LENGTH_SHORT).show()
                                     }
                                 },
                                 modifier = Modifier
-                                    .width(350.dp)
-                                    .height(70.dp),
-                                shape = RoundedCornerShape(10.dp),
+                                    .width(300.dp)
+                                    .height(60.dp)
+                                    .background(backbrush, RoundedCornerShape(10.dp)), // Background moved to outer Modifier
                                 colors = ButtonDefaults.buttonColors(Color.Transparent)
                             ) {
-
-                                    Row(modifier = Modifier
-                                        .background(brush, shape = RoundedCornerShape(10.dp))
-                                        .height(50.dp)
-                                        .width(300.dp),
-                                        horizontalArrangement = Arrangement.Center,
-                                        verticalAlignment = Alignment.CenterVertically) {
-
-                                        Text(
-                                            text = "Add Student",
-                                            color = color4,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 15.sp,
-                                            fontFamily = RobotoMono
-                                        )
-                                    }
+                                Text(
+                                    text = "Add Student",
+                                    color = color4,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 15.sp,
+                                    fontFamily = RobotoMono,
+                                    modifier = Modifier.padding(10.dp) // Add padding to the Text
+                                )
                             }
+
                         }
 
                 }
@@ -227,15 +232,16 @@ fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: String? = null
+    label: String = ""
 ) {
     TextField(
         value = value,
         textStyle = TextStyle(
-            color = Color.White,
+            color = textColor,
             fontFamily = RobotoMono,
             fontSize = 16.sp
         ),
+        label = { Text(text = label, style = TextStyle(color = textColor, fontSize = 16.sp, fontFamily = RobotoMono))},
         onValueChange = onValueChange,
         modifier = modifier
             .height(50.dp),
@@ -244,16 +250,16 @@ fun CustomTextField(
             unfocusedContainerColor = Color.Transparent,
             focusedIndicatorColor = focused,
             unfocusedIndicatorColor = unfocused,
-            focusedLabelColor = Color.White,
-            cursorColor = Color.White,
-            unfocusedLabelColor = Color.White,
-            focusedTextColor = Color.White,
-            unfocusedTextColor = Color.White,
+            focusedLabelColor = textColor,
+            cursorColor = textColor,
+            unfocusedLabelColor = textColor,
+            focusedTextColor = textColor,
+            unfocusedTextColor = textColor,
             
         ),
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
-        placeholder = { placeholder?.let { Text(it) } }
+
     )
 }
 

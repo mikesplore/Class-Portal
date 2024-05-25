@@ -2,9 +2,11 @@ package com.app.classportal
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.*
@@ -52,10 +54,25 @@ fun RecordAttendanceScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Sign Attendance", fontFamily = RobotoMono, color = Color.White, fontSize = 20.sp) },
+                title = { Text(" Sign Attendance", fontFamily = RobotoMono, color = textColor, fontSize = 20.sp) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = Color.White)
+                    IconButton(onClick = { navController.popBackStack()},
+                        modifier = Modifier.absolutePadding(10.dp)) {
+                        Box(modifier = Modifier
+                            .border(
+                                width = 1.dp,
+                                color = textColor,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                            .size(50.dp),
+                            contentAlignment = Alignment.Center){
+                            Icon(
+                                imageVector = Icons.Default.ArrowBackIosNew,
+                                contentDescription = "Back",
+                                tint = textColor,
+                            )
+                        }
                     }
                 },
                 actions = {
@@ -71,16 +88,16 @@ fun RecordAttendanceScreen(
                         FileUtil.saveAttendanceRecords(context, allRecords)
                         onAttendanceRecorded()
                     }, colors = ButtonDefaults.buttonColors(Color.Transparent)) {
-                        Text("Save", fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = RobotoMono, color = Color.White)
+                        Text("Save", fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = RobotoMono, color = textColor)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Black, titleContentColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor, titleContentColor = textColor)
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(Color.Black)
+                .background(backbrush)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -98,10 +115,10 @@ fun RecordAttendanceScreen(
                         },
                         text = { Text(unit,
                             fontFamily = RobotoMono,
-                            color = if (pagerState.currentPage == index) Color.White else Color.Gray) },
-                        selectedContentColor = Color.White,
+                            color = if (pagerState.currentPage == index) textColor else Color.Gray) },
+                        selectedContentColor = textColor,
                         unselectedContentColor = Color.Gray,
-                        modifier = Modifier.background(Color.Black)
+                        modifier = Modifier.background(primaryColor)
                     )
                 }
             }
@@ -127,10 +144,10 @@ fun RecordAttendanceScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(student.firstName, color = Color.White)
+                            Text(student.firstName, color = textColor)
 
                             Checkbox(
-                                colors = CheckboxDefaults.colors(Color.White),
+                                colors = CheckboxDefaults.colors(textColor),
                                 enabled = checkboxEnabled.value,
                                 checked = isPresent.value,
                                 onCheckedChange = { isChecked ->

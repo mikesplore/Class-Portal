@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Fitness APP"
+rootProject.name = "Class Portal"
 include(":app")

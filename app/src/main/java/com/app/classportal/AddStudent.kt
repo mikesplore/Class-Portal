@@ -2,6 +2,7 @@ package com.app.classportal
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,11 +18,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +35,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -48,9 +53,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
+import kotlinx.coroutines.delay
 
 
-val textfieldColor = Color(0xff89CFF3)
 @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController: NavController) {
@@ -88,7 +93,7 @@ val textfieldColor = Color(0xff89CFF3)
 
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Black)
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
                 )
             }
         ) { innerPadding ->
@@ -101,7 +106,7 @@ val textfieldColor = Color(0xff89CFF3)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.Black)
+                        .background(primaryColor)
                         .padding(16.dp),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -110,17 +115,17 @@ val textfieldColor = Color(0xff89CFF3)
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(300.dp)
+                                .height(400.dp)
                                 .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceEvenly
                         ) {
                             // Instructions
                             Text(
-                                text = "Enter Student Name",
+                                text = "Enter First Name",
                                 fontFamily = RobotoMono,
                                 fontSize = 16.sp,
-                                color = textcolor
+                                color = Color.White
                             )
 
                             // CustomTextField for student name
@@ -128,7 +133,23 @@ val textfieldColor = Color(0xff89CFF3)
                                 value = firstName,
 
                                 onValueChange = { firstName = it },
-                                placeholder = "Student name"
+                                placeholder = "First name"
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "Enter Last Name",
+                                fontFamily = RobotoMono,
+                                fontSize = 16.sp,
+                                color = Color.White
+                            )
+
+                            // CustomTextField for student name
+                            CustomTextField(
+                                value = lastName,
+
+                                onValueChange = { lastName = it },
+                                placeholder = "Last name"
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -138,7 +159,7 @@ val textfieldColor = Color(0xff89CFF3)
                                 text = "Enter Student ID",
                                 fontFamily = RobotoMono,
                                 fontSize = 16.sp,
-                                color = textcolor
+                                color = Color.White
                             )
 
                             // CustomTextField for student ID
@@ -157,7 +178,9 @@ val textfieldColor = Color(0xff89CFF3)
                                         val students = FileUtil.loadStudents(context).toMutableList()
                                         students.add(Student(registrationID = studentId, firstName = firstName, lastName = lastName))
                                         FileUtil.saveStudents(context, students)
+
                                         firstName = ""
+                                        lastName = ""
                                         studentId = ""
                                         Toast.makeText(context, "Student added successfully", Toast.LENGTH_SHORT).show()
                                         onStudentAdded()
@@ -185,11 +208,12 @@ val textfieldColor = Color(0xff89CFF3)
                                             fontWeight = FontWeight.Normal,
                                             fontSize = 15.sp,
                                             fontFamily = RobotoMono
-                                        )}
-
+                                        )
+                                    }
                             }
                         }
-                    }
+
+                }
 
 
                 }
@@ -221,10 +245,11 @@ fun CustomTextField(
             focusedIndicatorColor = focused,
             unfocusedIndicatorColor = unfocused,
             focusedLabelColor = Color.White,
-            cursorColor = Color.Black,
+            cursorColor = Color.White,
             unfocusedLabelColor = Color.White,
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
+            
         ),
         singleLine = true,
         shape = RoundedCornerShape(10.dp),

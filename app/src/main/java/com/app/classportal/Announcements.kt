@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -40,6 +41,10 @@ import com.app.classportal.FileUtil.loadAnnouncement
 import com.app.classportal.FileUtil.saveAnnouncement
 import com.app.classportal.ui.theme.RobotoMono
 
+val primaryColor = Color(0xff003C43)
+val secondaryColor = Color(0xff135D66)
+val tertiaryColor = Color(0xff77B0AA)
+val textColor = Color(0xffE3FEF7)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -105,7 +110,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                         decorationBox = { innerTextField ->
                             Box(
                                 modifier = Modifier
-                                    .background(color2, shape = MaterialTheme.shapes.small)
+                                    .background(tertiaryColor, shape = MaterialTheme.shapes.small)
                                     .padding(8.dp)
                             ) {
                                 if (title.isEmpty()) {
@@ -124,7 +129,8 @@ fun ComingSoon(navController: NavController, context: Context) {
                         decorationBox = { innerTextField ->
                             Box(
                                 modifier = Modifier
-                                    .background(color2, shape = MaterialTheme.shapes.small)
+                                    .background(tertiaryColor, shape = MaterialTheme.shapes.small)
+                                    .height(100.dp)
                                     .padding(8.dp)
                             ) {
                                 if (description.isEmpty()) {
@@ -153,7 +159,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                         style = descriptionTextStyle())
                 }
             },
-            containerColor = color1,
+            containerColor = primaryColor,
 
         )
     }
@@ -165,24 +171,17 @@ fun ComingSoon(navController: NavController, context: Context) {
                 actions = {
                     IconButton(onClick = { expanded = true }) {
                         Icon(Icons.Filled.MoreVert, contentDescription = "More",
-                            tint = Color.White)
+                            tint = textColor)
                     }
                     DropdownMenu(
                         expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.background(secondaryColor)
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Add Announcement") },
+                            text = { Text("Dashboard",
+                                style = descriptionTextStyle()) },
                             onClick = {
-                                showAddDialog = true
-                                expanded = false
-                            }
-                        )
-
-                        DropdownMenuItem(
-                            text = { Text("Exit") },
-                            onClick = {
-                                // Handle Delete Announcement
                                 navController.navigate("dashboard")
                                 expanded = false
                             }
@@ -190,16 +189,16 @@ fun ComingSoon(navController: NavController, context: Context) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = color1,
-                    titleContentColor = Color.White
+                    containerColor = primaryColor,
+                    titleContentColor = textColor
                 )
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddDialog = true },
-                containerColor = color2,) {
+                containerColor = secondaryColor) {
                 Icon(Icons.Filled.Add, contentDescription = "Add Announcement",
-                    tint = Color.White)
+                    tint = textColor)
             }
         },
         content = { paddingValues ->
@@ -208,7 +207,6 @@ fun ComingSoon(navController: NavController, context: Context) {
                 modifier = Modifier
                     .padding(paddingValues)
                     .verticalScroll(rememberScrollState())
-                    .background(color1)
                     .fillMaxSize()
             ) {
                 // Display Announcements
@@ -216,14 +214,17 @@ fun ComingSoon(navController: NavController, context: Context) {
                     announcements.forEachIndexed { index, announcement ->
                         Card(
                             modifier = Modifier
+                                .border(
+                                    width = 1.dp,
+                                    color = textColor,
+                                    shape = MaterialTheme.shapes.medium
+                                )
                                 .padding(8.dp)
                                 .fillMaxWidth()
                                 .clickable {
                                     clickedIndex = if (clickedIndex == index) -1 else index
                                 },
-                            colors = CardDefaults.cardColors(
-                                color
-                            ),
+                            colors = CardDefaults.cardColors(tertiaryColor),
                             shape = MaterialTheme.shapes.medium,
                             elevation = CardDefaults.cardElevation(
                                 defaultElevation = 4.dp
@@ -247,12 +248,12 @@ fun ComingSoon(navController: NavController, context: Context) {
                                         Text(
                                             text = student,
                                             fontSize = 16.sp,
-                                            color = Color.White
+                                            color = textColor
                                         )
                                         Text(
                                             text = announcement.date,
                                             style = descriptionTextStyle(),
-                                            color = Color.White
+                                            color = textColor
                                         )
                                     }
                                 }
@@ -279,7 +280,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                                         Text(
                                             text = announcement.title,
                                             style = titleTextStyle(),
-                                            color = Color.White
+                                            color = textColor
                                         )
                                         Text(
                                             text = announcement.description,
@@ -300,7 +301,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                                         Row(
                                             modifier = Modifier
                                                 .background(
-                                                    color1,
+                                                    primaryColor,
                                                     shape = RoundedCornerShape(8.dp)
                                                 )
                                                 .padding(horizontal = 8.dp),
@@ -347,7 +348,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(color1),
+                            .background(primaryColor),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -364,7 +365,7 @@ fun ComingSoon(navController: NavController, context: Context) {
             }
 //
         },
-        containerColor = color1
+        containerColor = primaryColor
     )
 
     if (showAddDialog) {
@@ -402,7 +403,7 @@ fun PreviewComingSoon() {
 fun titleTextStyle() = TextStyle(
     fontSize = 24.sp,
     fontWeight = FontWeight.Bold,
-    color = Color.White,
+    color = textColor,
     fontFamily = RobotoMono
 
 )
@@ -411,7 +412,7 @@ fun titleTextStyle() = TextStyle(
 fun descriptionTextStyle() = TextStyle(
     fontSize = 16.sp,
     fontWeight = FontWeight.Normal,
-    color = Color.White,
+    color = textColor,
     fontFamily = RobotoMono)
 
 

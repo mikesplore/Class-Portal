@@ -6,12 +6,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +24,7 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,25 +61,40 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Delete Student",
+                title = { Text(" Delete Student",
                     fontWeight = FontWeight.Bold,
                     fontFamily = RobotoMono) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
-                            tint = color4)
+                    IconButton(onClick = { navController.popBackStack() },
+                        modifier = Modifier.absolutePadding(10.dp)) {
+                        Box(modifier = Modifier
+
+                            .border(
+                                width = 1.dp,
+                                color = Color.White,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                            .size(50.dp),
+                            contentAlignment = Alignment.Center){
+                            Icon(
+                                imageVector = Icons.Default.ArrowBackIosNew,
+                                contentDescription = "Back",
+                                tint = Color.White,
+                            )
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = color1,
-                    titleContentColor = textcolor,
+                    containerColor = Color.Black,
+                    titleContentColor = Color.White,
                 )
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(color1)
+                .background(Color.Black)
                 .fillMaxSize()
                 .padding(innerPadding),
             verticalArrangement = Arrangement.SpaceBetween
@@ -87,31 +107,49 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                         modifier = Modifier.padding(16.dp),
                         fontWeight = FontWeight.Bold,
                         fontFamily = RobotoMono,
-                        color = color4)
+                        color = Color.White)
                 }
                 itemsIndexed(students) { index, student ->
                     val rowlist = if (index % 2 == 0) color2 else color3
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-
                             .height(50.dp)
-                            .background(rowlist)
+                            .border(
+                                width = 1.dp,
+                                color = Color.Gray,
+                                shape = RoundedCornerShape(8.dp)
+                            )
                             .clickable {
                                 studentIdToDelete = student.registrationID
                                 firstNameToDelete = student.firstName
+                                lastNameToDelete = student.lastName
                                 showConfirmationDialog = true
                             },
-                        horizontalArrangement = Arrangement.SpaceAround,
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        Row(modifier = Modifier
+                            .width(200.dp),
+                            horizontalArrangement = Arrangement.SpaceEvenly,) {
+                            Text(student.firstName,
+                                fontWeight = FontWeight.Normal,
+                                color = Color.White,
+                                fontSize = 16.sp,
+                                fontFamily = RobotoMono,)
+                            Text(student.lastName,
+                                fontWeight = FontWeight.Normal,
+                                color = Color.White,
+                                fontSize = 16.sp,
+                                fontFamily = RobotoMono,)
+                        }
+
                         Text(student.registrationID,
-                            fontWeight = FontWeight.Bold,
-                            color = color4,
-                            fontSize = 20.sp,
-                            fontFamily = RobotoMono,)
-                        Text(student.firstName)
+                            fontFamily = RobotoMono,
+                            color = Color.White,
+                            fontSize = 16.sp,)
                     }
+                    Divider(color = Color.Gray, thickness = 1.dp)
                 }
             }
             Text("Select Student to Delete", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold,color = color4)
@@ -144,7 +182,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                     text = {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("You are about to delete this student",fontFamily = RobotoMono,color = color1)
-                            Text("$firstNameToDelete, $lastNameToDelete", fontWeight = FontWeight.Bold,fontFamily = RobotoMono,fontSize = 20.sp)
+                            Text("$firstNameToDelete$lastNameToDelete", fontWeight = FontWeight.Bold,fontFamily = RobotoMono,fontSize = 20.sp)
                         }
 
                         },

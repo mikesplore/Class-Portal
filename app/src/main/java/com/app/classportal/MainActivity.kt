@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-        NavHost(navController, startDestination = "welcome") {
+        NavHost(navController, startDestination = "dashboard") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }

@@ -56,14 +56,14 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = color4)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = color1)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Black)
 
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(color1)
+                .background(Color.Black)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -90,7 +90,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                         unselectedContentColor = Color.Gray,
 
                         modifier = Modifier
-                            .background(color1),
+                            .background(Color.Black),
                         
 
                     )
@@ -115,7 +115,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                     item {
                         Row(
                             modifier = Modifier
-                                .background(color = color1)
+                                .background(color = Color.Black)
                                 .padding(16.dp),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
@@ -129,7 +129,6 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                         Divider(color = Color.Gray, thickness = 1.dp)
                     }
                     itemsIndexed(studentAttendance) { index, studentAttendance ->
-                        val backgroundColor = if (index % 2 == 0) color2 else color3
 
                         Row(
                             modifier = Modifier
@@ -166,5 +165,6 @@ fun AttendanceReportScreenPreview() {
     val navController = rememberNavController()
     AttendanceReportScreen(LocalContext.current, navController)
 }
+
 
 

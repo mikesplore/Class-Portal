@@ -1,46 +1,17 @@
 package com.app.classportal
+
 import android.content.Context
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.ScrollableTabRow
-import androidx.compose.material.Tab
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,36 +33,54 @@ fun RecordAttendanceScreen(
     context: Context
 ) {
     val students = FileUtil.loadStudents(context)
-    val attendanceRecords = remember { mutableStateListOf<AttendanceRecord>() }
     val units = listOf("Calculus II", "Linear Algebra", "Statistics I", "Probability and Statistics") // Replace with actual units
     val pagerState = rememberPagerState()
+    val attendanceRecords = remember { mutableStateMapOf<String, MutableState<Boolean>>() }
+    val checkboxStates = remember { mutableStateMapOf<String, MutableState<Boolean>>() }
+
+    // Initialize the attendance and checkbox states
+    units.forEach { unit ->
+        students.forEach { student ->
+            val key = "${student.registrationID}-$unit"
+            if (key !in attendanceRecords) {
+                attendanceRecords[key] = mutableStateOf(false)
+                checkboxStates[key] = mutableStateOf(true)
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(" Sign Attendance", fontFamily = RobotoMono, color = color4, fontSize = 20.sp) },
+                title = { Text("Sign Attendance", fontFamily = RobotoMono, color = Color.White, fontSize = 20.sp) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = color4)
+                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = Color.White)
                     }
                 },
                 actions = {
                     Button(onClick = {
                         val allRecords = FileUtil.loadAttendanceRecords(context).toMutableList()
-                        allRecords.addAll(attendanceRecords)
+                        units.forEach { unit ->
+                            students.forEach { student ->
+                                val key = "${student.registrationID}-$unit"
+                                val isPresent = attendanceRecords[key]?.value ?: false
+                                allRecords.add(AttendanceRecord(student.registrationID, "2024-05-17", isPresent, unit))
+                            }
+                        }
                         FileUtil.saveAttendanceRecords(context, allRecords)
                         onAttendanceRecorded()
-                    }, colors = ButtonDefaults.buttonColors(Transparent)) {
-                        Text("Save", fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = RobotoMono, color = color4)
+                    }, colors = ButtonDefaults.buttonColors(Color.Transparent)) {
+                        Text("Save", fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = RobotoMono, color = Color.White)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = color1, titleContentColor = color4)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Black, titleContentColor = Color.White)
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(color1)
+                .background(Color.Black)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -108,15 +97,12 @@ fun RecordAttendanceScreen(
                             }
                         },
                         text = { Text(unit,
-                            color = if (pagerState.currentPage == index) color else Color.Gray) },
+                            fontFamily = RobotoMono,
+                            color = if (pagerState.currentPage == index) Color.White else Color.Gray) },
                         selectedContentColor = Color.White,
                         unselectedContentColor = Color.Gray,
-
-                        modifier = Modifier
-                            .background(color1)
+                        modifier = Modifier.background(Color.Black)
                     )
-
-
                 }
             }
             HorizontalPager(
@@ -129,9 +115,10 @@ fun RecordAttendanceScreen(
                         .fillMaxSize()
                         .padding(8.dp)
                 ) {
-                    itemsIndexed(students) { index, student ->
-                        var present by remember { mutableStateOf(false) }
-                        var checkboxEnabled by remember { mutableStateOf(true) } // Track enabled/disabled state of checkbox
+                    itemsIndexed(students) { _, student ->
+                        val key = "${student.registrationID}-${units[page]}"
+                        val isPresent = attendanceRecords[key] ?: mutableStateOf(false)
+                        val checkboxEnabled = checkboxStates[key] ?: mutableStateOf(true)
 
                         Row(
                             modifier = Modifier
@@ -141,26 +128,20 @@ fun RecordAttendanceScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(student.firstName, color = Color.White)
+
                             Checkbox(
                                 colors = CheckboxDefaults.colors(Color.White),
-                                enabled = checkboxEnabled, // Set enabled state of checkbox
-                                checked = present,
+                                enabled = checkboxEnabled.value,
+                                checked = isPresent.value,
                                 onCheckedChange = { isChecked ->
-                                    if (!isChecked) {
-                                        // If checkbox is unchecked, enable it
-                                        checkboxEnabled = true
-                                    } else {
-                                        // If checkbox is checked, disable it and update present state
-                                        checkboxEnabled = false
-                                        present = true
-                                        attendanceRecords.add(AttendanceRecord(student.registrationID, "2024-05-17", true, units[page]))
+                                    if (isChecked) {
+                                        checkboxEnabled.value = false
+                                        isPresent.value = true
                                     }
                                 }
                             )
-
                         }
                         Divider(color = Color.Gray, thickness = 1.dp)
-
                     }
                 }
             }
@@ -173,4 +154,3 @@ fun RecordAttendanceScreen(
 fun RecordAttendanceScreenPreview() {
     RecordAttendanceScreen(onAttendanceRecorded = {}, navController = rememberNavController(), context = LocalContext.current)
 }
-

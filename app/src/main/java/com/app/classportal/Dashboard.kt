@@ -79,7 +79,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val horizontalScrollState = rememberScrollState()
     var expanded by remember { mutableStateOf(false) }
     val announcements = loadAnnouncement(context)
-    var selectedTabIndex by remember { mutableIntStateOf(4) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }

@@ -190,6 +190,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // Button to add student
+                    Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = {
                             val isValid = firstName.isNotEmpty() && pattern.matches(studentId)
@@ -256,6 +257,7 @@ fun CustomTextField(
     modifier: Modifier = Modifier,
     label: String = ""
 ) {
+    Spacer(modifier = Modifier.height(8.dp))
     TextField(
         value = value,
         textStyle = TextStyle(

@@ -70,7 +70,10 @@ val imageUrls = listOf(
     "https://st2.depositphotos.com/1037987/10995/i/450/depositphotos_109959356-stock-photo-teacher-helping-elementary-school-boy.jpg",
     "https://cdn.create.vista.com/api/media/small/567482940/stock-photo-cute-little-children-reading-books-floor-classroom",
     "https://interiordesign.net/wp-content/uploads/2023/03/Interior-Design-Beaverbrook-Art-Gallery-idx230301_intervention02-1024x580.jpg",
-    "https://media.istockphoto.com/id/911030028/photo/group-photo-at-school.jpg?s=612x612&w=0&k=20&c=iteKL8IJfHntwPsOqGVpwJQOIck3YCeSvf0lJoJL_Wo="
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTknkpvaMofoem9OZv0toFmWNDgfeHliHMY1A&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRInVw4qxvUo72Ndlw8iqnfYjiABqgjQLcDag&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOfrTVFZxNPUYN-zSlUqqdS-OTE6Rm3nLiPw&usqp=CAU"
+
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -622,12 +625,12 @@ fun AttendanceBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomStart) // Position at the bottom
-                        .background(Color.Transparent)
+                        .background(primaryColor.copy(0.5f))
                         .padding(16.dp)
                 ) {
                     Text(
                         text = content,
-                        color = primaryColor,
+                        color = textColor,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -808,7 +811,6 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
 
         }
 
-
         // Filter Button Row
         Row(
             modifier = Modifier
@@ -886,53 +888,132 @@ fun StudentsTabContent(navController: NavController, context: Context) {
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .background(backbrush, RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp))
-                    .fillMaxHeight()
-                    .width(200.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Add Student",
-                    style = myTextStyle,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable
-                    { navController.navigate("AddStudent") })
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            Box(
-                modifier = Modifier
-                    .background(backbrush, RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp))
-                    .fillMaxHeight()
-                    .width(200.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Edit Student",
-                    style = myTextStyle,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable
-                    { navController.navigate("EditStudent") })
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            Box(
-                modifier = Modifier
-                    .background(backbrush, RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp))
-                    .fillMaxHeight()
-                    .width(200.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Delete Student",
-                    style = myTextStyle,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable
-                    { navController.navigate("DeleteStudent") })
-            }
-            Spacer(modifier = Modifier.width(10.dp))
 
+            Box(
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate("AddStudent")
+                    }
+                    .clip(RoundedCornerShape(20.dp))
+                    .width(200.dp)
+                    .fillMaxHeight()
+            ) {
+                AsyncImage(
+                    model = imageUrls[6],
+                    contentDescription = "sample",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.error_image),
+                    placeholder = painterResource(id = R.drawable.loading_image)
+                )
 
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomStart) // Position at the bottom
+                        .background(primaryColor.copy(0.5f))
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "Add Student",
+                        color = textColor,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            shadow = Shadow(
+                                color = primaryColor.copy(alpha = 0.9f),
+                                offset = Offset(4f, 4f),
+                                blurRadius = 4f
+                            )
+                        )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(15.dp))
+            Box(
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate("EditStudent")
+                    }
+                    .clip(RoundedCornerShape(20.dp))
+                    .width(200.dp)
+                    .fillMaxHeight()
+            ) {
+                AsyncImage(
+                    model = imageUrls[8],
+                    contentDescription = "sample",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.error_image),
+                    placeholder = painterResource(id = R.drawable.loading_image)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomStart) // Position at the bottom
+                        .background(primaryColor.copy(0.5f))
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "Edit Student",
+                        color = textColor,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            shadow = Shadow(
+                                color = primaryColor.copy(alpha = 0.9f),
+                                offset = Offset(4f, 4f),
+                                blurRadius = 4f
+                            )
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.width(15.dp))
+            Box(
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate("DeleteStudent")
+                    }
+                    .clip(RoundedCornerShape(20.dp))
+                    .width(200.dp)
+                    .fillMaxHeight()
+            ) {
+                AsyncImage(
+                    model = imageUrls[7],
+                    contentDescription = "sample",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.error_image),
+                    placeholder = painterResource(id = R.drawable.loading_image)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomStart) // Position at the bottom
+                        .background(primaryColor.copy(0.5f))
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "Delete Student",
+                        color = textColor,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            shadow = Shadow(
+                                color = primaryColor.copy(alpha = 0.9f),
+                                offset = Offset(4f, 4f),
+                                blurRadius = 4f
+                            )
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.width(15.dp))
         }
-
-
     }
 }
 

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -119,6 +120,9 @@ fun ShowStudentsScreen(context: Context) {
                 .padding(innerPadding),
             verticalArrangement = Arrangement.Top
         ) {
+            Text(text = "Sort by: ",
+                style = myTextStyle,
+                modifier = Modifier.absolutePadding(8.dp,5.dp))
             Row (modifier = Modifier
                 .horizontalScroll(rememberScrollState()),
                 verticalAlignment = Alignment.CenterVertically,){

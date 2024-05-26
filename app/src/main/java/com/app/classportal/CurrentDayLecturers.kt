@@ -2,6 +2,7 @@
 package com.app.classportal
 
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,9 +12,11 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,7 +45,6 @@ fun CurrentDayEventsScreen() {
                         Text("Today's Lectures", fontFamily = RobotoMono, color = textColor, fontSize = 20.sp)
                     }
 
-
                         },
                 actions = {
                 },
@@ -56,23 +58,47 @@ fun CurrentDayEventsScreen() {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+            if (lecturesToday.isEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "No activities Scheduled for today",
+                        style = myTextStyle,
+                        textAlign = TextAlign.Center,
+                        fontSize = 30.sp
+                    )
+                }
+            } else {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
+
                 itemsIndexed(lecturesToday) { _, item ->
                     TimetableItemRow(item,
                         onEdit = {
-                            // No edit action for this screen
+                            Toast.makeText(
+                                context,
+                                "Please go to the timetable screen to perform this action",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         },
                         onDelete = {
-                            // No delete action for this screen
+                            Toast.makeText(
+                                context,
+                                "Please go to the timetable screen to perform this action",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     )
                     Divider(color = Color.Gray, thickness = 1.dp)
                 }
             }
+        }
         }
     }
 }

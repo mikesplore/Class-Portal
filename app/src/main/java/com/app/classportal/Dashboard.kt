@@ -830,19 +830,61 @@ fun StudentsTabContent(navController: NavController, context: Context) {
         modifier = Modifier
             .fillMaxSize()
             .background(primaryColor),
-        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
         Box(modifier = Modifier
             .height(250.dp)) {
             ShowStudentsScreen(context = context)
         }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(text = "Manage Student",
+            style = myTextStyle,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(10.dp))
         Row(
             modifier = Modifier
                 .horizontalScroll(rememberScrollState())
+                .padding(10.dp)
                 .fillMaxWidth()
                 .height(200.dp)
         ){
+            Box(modifier = Modifier
+                .background(backbrush, RoundedCornerShape(20.dp,0.dp,20.dp,0.dp))
+                .fillMaxHeight()
+                .width(200.dp),
+                contentAlignment = Alignment.Center){
+                Text(text = "Add Student",
+                    style = myTextStyle,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable
+                    { navController.navigate("AddStudent") })
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+            Box(modifier = Modifier
+                .background(backbrush, RoundedCornerShape(20.dp,0.dp,20.dp,0.dp))
+                .fillMaxHeight()
+                .width(200.dp),
+                contentAlignment = Alignment.Center){
+                Text(text = "Edit Student",
+                    style = myTextStyle,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable
+                    { navController.navigate("EditStudent") })
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+            Box(modifier = Modifier
+                .background(backbrush, RoundedCornerShape(20.dp,0.dp,20.dp,0.dp))
+                .fillMaxHeight()
+                .width(200.dp),
+                contentAlignment = Alignment.Center){
+                Text(text = "Delete Student",
+                    style = myTextStyle,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable
+                    { navController.navigate("DeleteStudent") })
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+
 
         }
 

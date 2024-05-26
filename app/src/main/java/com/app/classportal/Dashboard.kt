@@ -488,7 +488,7 @@ fun AnnouncementTabContent(navController: NavController) {
         ) {
             // Always display 3 AnnouncementBoxes
             repeat(3) { index ->
-                val announcement = announcements.getOrNull(index)
+                val announcement = announcements.asReversed().getOrNull(index)
                 AnnouncementBoxes(
                     date = announcement?.date ?: "No announcement",
                     title = announcement?.title ?: "No announcement",

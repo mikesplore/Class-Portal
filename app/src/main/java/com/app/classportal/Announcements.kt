@@ -156,21 +156,25 @@ fun ComingSoon(navController: NavController, context: Context) {
                     onConfirm(date, title, description)
                     onDismiss()
                 }) {
-                    Text("Confirm",
+                    Text(
+                        "Confirm",
                         fontSize = 15.sp,
-                        style = descriptionTextStyle())
+                        style = descriptionTextStyle()
+                    )
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel",
+                    Text(
+                        "Cancel",
                         fontSize = 15.sp,
-                        style = descriptionTextStyle())
+                        style = descriptionTextStyle()
+                    )
                 }
             },
             containerColor = primaryColor,
 
-        )
+            )
     }
 
     Scaffold(
@@ -179,8 +183,10 @@ fun ComingSoon(navController: NavController, context: Context) {
                 title = { Text("Announcements") },
                 actions = {
                     IconButton(onClick = { expanded = true }) {
-                        Icon(Icons.Filled.MoreVert, contentDescription = "More",
-                            tint = textColor)
+                        Icon(
+                            Icons.Filled.MoreVert, contentDescription = "More",
+                            tint = textColor
+                        )
                     }
                     DropdownMenu(
                         expanded = expanded,
@@ -188,8 +194,12 @@ fun ComingSoon(navController: NavController, context: Context) {
                         modifier = Modifier.background(secondaryColor)
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Dashboard",
-                                style = descriptionTextStyle()) },
+                            text = {
+                                Text(
+                                    "Home",
+                                    style = descriptionTextStyle()
+                                )
+                            },
                             onClick = {
                                 navController.navigate("dashboard")
                                 expanded = false
@@ -204,10 +214,14 @@ fun ComingSoon(navController: NavController, context: Context) {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { showAddDialog = true },
-                containerColor = secondaryColor) {
-                Icon(Icons.Filled.Add, contentDescription = "Add Announcement",
-                    tint = textColor)
+            FloatingActionButton(
+                onClick = { showAddDialog = true },
+                containerColor = secondaryColor
+            ) {
+                Icon(
+                    Icons.Filled.Add, contentDescription = "Add Announcement",
+                    tint = textColor
+                )
             }
         },
         content = { paddingValues ->
@@ -338,7 +352,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                                             }
                                         }
                                     }
-                                    AnimatedVisibility(clickedIndex != index){
+                                    AnimatedVisibility(clickedIndex != index) {
                                         Text(
                                             text = announcement.title,
                                             style = titleTextStyle(),
@@ -369,7 +383,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                     }
                 }
             }
-//
+
         },
         containerColor = primaryColor
     )
@@ -377,7 +391,7 @@ fun ComingSoon(navController: NavController, context: Context) {
     if (showAddDialog) {
         AnnouncementDialog(
             onDismiss = { showAddDialog = false },
-            onConfirm = { date, title, description,  ->
+            onConfirm = { date, title, description ->
                 val newAnnouncement = Announcement(currentId++, date, title, description, student)
                 addAnnouncement(newAnnouncement)
             }
@@ -389,7 +403,8 @@ fun ComingSoon(navController: NavController, context: Context) {
         AnnouncementDialog(
             onDismiss = { showEditDialog = false },
             onConfirm = { date, title, description ->
-                val updatedAnnouncement = Announcement(announcementToEdit.id, date, title, description, student)
+                val updatedAnnouncement =
+                    Announcement(announcementToEdit.id, date, title, description, student)
                 editAnnouncement(selectedAnnouncementIndex, updatedAnnouncement)
             },
             initialDate = announcementToEdit.date,
@@ -419,7 +434,8 @@ fun descriptionTextStyle() = TextStyle(
     fontSize = 16.sp,
     fontWeight = FontWeight.Normal,
     color = textColor,
-    fontFamily = RobotoMono)
+    fontFamily = RobotoMono
+)
 
 
 

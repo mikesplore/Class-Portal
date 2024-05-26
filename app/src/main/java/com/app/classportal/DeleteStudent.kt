@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -28,8 +30,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -41,7 +45,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,6 +63,8 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
     var showConfirmationDialog by remember { mutableStateOf(false) }
     var firstNameToDelete by remember { mutableStateOf("") }
     var lastNameToDelete by remember { mutableStateOf("") }
+    val originalStudents = remember { students.toList() } // Store a copy of original data
+    var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
 
     Scaffold(
         topBar = {
@@ -106,20 +114,51 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                 .background(backbrush)
                 .fillMaxSize()
                 .padding(innerPadding),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyColumn(
                 modifier = Modifier
-                    .border(1.dp, secondaryColor)
+                    .border(1.dp, secondaryColor),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 item {
-                    Text(
-                        "Total Students: ${students.size}",
-                        modifier = Modifier.padding(16.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = RobotoMono,
-                        color = textColor
+                    Spacer(modifier = Modifier.height(5.dp))
+                    OutlinedTextField(
+                        value = searchQuery,
+                        onValueChange = { query ->
+                            searchQuery = query
+                            students = if (query.text.isNotBlank()) {
+                                originalStudents.filter {
+                                    it.firstName.contains(query.text, ignoreCase = true) ||
+                                            it.lastName.contains(query.text, ignoreCase = true) ||
+                                            it.registrationID.contains(query.text, ignoreCase = true)
+                                }
+                            } else {
+                                originalStudents
+                            }
+                        },
+                        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search",
+                            tint = textColor) },
+                        placeholder = { Text("Search", fontFamily = RobotoMono, color = textColor) },
+                        modifier = Modifier
+                            .height(50.dp)
+                            .fillMaxWidth(0.9f),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = primaryColor,
+                            unfocusedContainerColor = primaryColor,
+                            focusedIndicatorColor = focused,
+                            unfocusedIndicatorColor = unfocused,
+                            focusedLabelColor = textColor,
+                            cursorColor = textColor,
+                            unfocusedLabelColor = textColor,
+                            focusedTextColor = textColor,
+                            unfocusedTextColor = textColor
+                        ),
+                        textStyle = TextStyle(fontFamily = RobotoMono, color = textColor)
                     )
+
                 }
                 itemsIndexed(students) { _, student ->
                     Row(

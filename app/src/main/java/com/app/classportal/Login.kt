@@ -229,15 +229,15 @@ Scaffold(
                         },
                         singleLine = true,
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
+                            focusedContainerColor = primaryColor,
+                            unfocusedContainerColor = primaryColor,
                             focusedIndicatorColor = focused,
                             unfocusedIndicatorColor = unfocused,
                             focusedLabelColor = textColor,
                             cursorColor = textColor,
                             unfocusedLabelColor = textColor,
                             focusedTextColor = textColor,
-                            unfocusedTextColor = textColor,
+                            unfocusedTextColor = textColor
 
                         ),
                         shape = RoundedCornerShape(10.dp),
@@ -264,15 +264,15 @@ Scaffold(
                         },
                         singleLine = true,
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
+                            focusedContainerColor = primaryColor,
+                            unfocusedContainerColor = primaryColor,
                             focusedIndicatorColor = focused,
                             unfocusedIndicatorColor = unfocused,
                             focusedLabelColor = textColor,
                             cursorColor = textColor,
                             unfocusedLabelColor = textColor,
                             focusedTextColor = textColor,
-                            unfocusedTextColor = textColor,
+                            unfocusedTextColor = textColor
 
                             ),
                         shape = RoundedCornerShape(10.dp),

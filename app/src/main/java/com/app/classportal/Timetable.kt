@@ -1,6 +1,5 @@
 package com.app.classportal
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -43,24 +42,21 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-
-@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun Timetable(navController: NavController) {
     val context = LocalContext.current
-
-    val pagerState = rememberPagerState()
+    // Get the day of the week
+    val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    val calendar = Calendar.getInstance()
+    val dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7
+    val pagerState = rememberPagerState(initialPage = dayOfWeek)
     val coroutineScope = rememberCoroutineScope()
-
-    // Load timetable data from file
     var timetableData by remember { mutableStateOf(loadTimetable(context)) }
-
-    // Dialog state
     var showDialog by remember { mutableStateOf(false) }
-    var currentDayIndex by remember { mutableIntStateOf(0) }
+    var currentDayIndex by remember { mutableIntStateOf(dayOfWeek) }
     var editItemIndex by remember { mutableStateOf(-1) }
-    var currentItem by remember { mutableStateOf(TimetableItem("", "", "", "", "","")) }
+    var currentItem by remember { mutableStateOf(TimetableItem("", "", "", "", "", "")) }
 
     Scaffold(
         topBar = {
@@ -81,7 +77,6 @@ fun Timetable(navController: NavController) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
-
             )
         }
     ) { innerPadding ->
@@ -95,7 +90,7 @@ fun Timetable(navController: NavController) {
                 selectedTabIndex = pagerState.currentPage,
                 edgePadding = 0.dp
             ) {
-                days.forEachIndexed { index, unit ->
+                days.forEachIndexed { index, day ->
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = {
@@ -103,7 +98,7 @@ fun Timetable(navController: NavController) {
                                 pagerState.scrollToPage(index)
                             }
                         },
-                        text = { Text(unit, color = if (pagerState.currentPage == index) textColor else secondaryColor) },
+                        text = { Text(day, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) textColor else secondaryColor) },
                         selectedContentColor = Color.White,
                         modifier = Modifier.background(primaryColor)
                     )
@@ -127,8 +122,6 @@ fun Timetable(navController: NavController) {
                                 currentItem = item
                                 editItemIndex = index
                                 currentDayIndex = page
-
-
                                 showDialog = true
                             },
                             onDelete = {
@@ -149,7 +142,7 @@ fun Timetable(navController: NavController) {
 
     if (showDialog) {
         AddEditTimetableItemDialog(
-            day = days[currentDayIndex],
+            day = days[pagerState.currentPage], // Pass the current page's day
             item = currentItem,
             onDismiss = { showDialog = false },
             onSave = { item ->
@@ -159,7 +152,7 @@ fun Timetable(navController: NavController) {
                             set(editItemIndex, item)
                         }
                     } else {
-                        this[currentDayIndex] = this[currentDayIndex].toMutableList().apply {
+                        this[pagerState.currentPage] = this[pagerState.currentPage].toMutableList().apply { // Add to the selected page
                             add(item)
                         }
                     }
@@ -340,7 +333,6 @@ fun AddEditTimetableItemDialog(
                         lecturer.text,
                         venue.text,
                         day
-
                     )
                 )
             }) {
@@ -355,12 +347,8 @@ fun AddEditTimetableItemDialog(
     )
 }
 
-
-
-
 @Preview(showBackground = true)
 @Composable
 fun TimetablePreview() {
     Timetable(navController = rememberNavController())
 }
-

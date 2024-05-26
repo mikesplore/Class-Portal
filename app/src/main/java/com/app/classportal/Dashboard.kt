@@ -84,9 +84,9 @@ fun Dashboard(navController: NavController, context: Context) {
     // Define the list of boxes
     val boxes = listOf(
         R.drawable.announcement to date to "soon",
-        R.drawable.attendance to "Did you sign your attendance?" to "RecordAttendance",
-        R.drawable.assignment to "Check your assignments" to "soon",
-        R.drawable.timetable to "Yooh, check your timetable" to "timetable"
+        R.drawable.attendance to "Have you updated attendance sheet?" to "RecordAttendance",
+        R.drawable.assignment to "No due assignments" to "soon",
+        R.drawable.timetable to "Yooh, you have new timetable" to "timetable"
     )
 
     val students = FileUtil.loadStudents(context)
@@ -118,7 +118,11 @@ fun Dashboard(navController: NavController, context: Context) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Welcome, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}") },
+                    title = { Text("Welcome, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}",
+                        color = textColor,
+                        fontWeight = FontWeight.Normal,
+                        style = myTextStyle,
+                        fontSize = 20.sp,) },
 
                     actions = {
                         Box {
@@ -247,6 +251,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                         ) {
                                             Text(
                                                 text = title,
+                                                fontFamily = RobotoMono,
                                                 fontSize = 13.sp,
                                                 color = if (selectedTabIndex == index) textColor else Color.LightGray
                                             )
@@ -263,7 +268,7 @@ fun Dashboard(navController: NavController, context: Context) {
 
                         // Content based on selected tab
                         when (selectedTabIndex) {
-                            0 -> AnnouncementTabContent()
+                            0 -> AnnouncementTabContent(navController)
                             1 -> AttendanceTabContent(context, navController)
                             2 -> TimetableTabContent()
                             3 -> ResourcesTabContent()
@@ -307,12 +312,13 @@ fun LatestAnnouncement() {
             Text(
                 text = latestAnnouncement?.date ?: "25/05/2024",
                 color = textColor,
+                style = myTextStyle,
                 modifier = Modifier.padding(10.dp)
             )
         }
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(
-                text = latestAnnouncement?.description ?: "I decided to redesign the User Interface, how do you rate it out of 10?",
+                text = latestAnnouncement?.description ?: "I decided to re-design the User Interface, how do you rate it out of 10?",
                 fontWeight = FontWeight.Normal,
                 style = myTextStyle,
                 textAlign = TextAlign.Center,
@@ -379,6 +385,7 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
                         text = description,
                         color = textColor,
                         style = TextStyle(
+                            fontFamily = RobotoMono,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             shadow = Shadow(
@@ -386,7 +393,8 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )
-                        )
+                            
+                        ),
                     )
                 }
             }
@@ -397,11 +405,12 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
 
 
 @Composable
-fun MiddleRowsOnline(
+fun AttendanceBox(
     imageUrl: String,
     content: String,
+    route: String,
+    navController: NavController,
     modifier: Modifier = Modifier,
-    shadowColor: Color = Color.Black
 ) {
     Row(
         modifier = modifier
@@ -412,6 +421,9 @@ fun MiddleRowsOnline(
         Box(modifier = Modifier.fillMaxSize()) {
             Box(
                 modifier = Modifier
+                    .clickable {
+                        navController.navigate(route)
+                    }
                     .clip(RoundedCornerShape(20.dp))
                     .fillMaxSize()
             ) {
@@ -452,7 +464,7 @@ fun MiddleRowsOnline(
 
 
 @Composable
-fun AnnouncementTabContent() {
+fun AnnouncementTabContent(navController: NavController) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -481,7 +493,9 @@ fun AnnouncementTabContent() {
                     date = announcement?.date ?: "No announcement",
                     title = announcement?.title ?: "No announcement",
                     student = announcement?.student ?: "No announcement",
-                    content =  announcement?.description ?: "No announcement"
+                    content =  announcement?.description ?: "No announcement",
+                    route = "soon",
+                    navController = navController
                 )
             }
         }
@@ -527,7 +541,7 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
                         .padding(8.dp),
                     contentAlignment = Alignment.Center // Center text in the box
                 ) {
-                    Text(text = "View full attendance", color = Color.White)
+                    Text(text = "View full attendance", style = myTextStyle)
                 }
             }
         }
@@ -539,9 +553,9 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
                 .horizontalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.width(10.dp))
-            MiddleRowsOnline(imageUrl = imageUrls[0], content = "Sign Attendance")
+            AttendanceBox(imageUrl = imageUrls[0], content = "Sign Attendance","RecordAttendance",navController)
             Spacer(modifier = Modifier.width(10.dp))
-            MiddleRowsOnline(imageUrl = imageUrls[1], content = "View Attendance Report")
+            AttendanceBox(imageUrl = imageUrls[1], content = "View Attendance Report","AttendanceReport",navController)
             Spacer(modifier = Modifier.width(10.dp))
 
 
@@ -595,7 +609,7 @@ fun GalleryTabContent() {
 
 
 @Composable
-fun AnnouncementBoxes(date: String, student: String, title: String,content: String){
+fun AnnouncementBoxes(date: String, student: String, title: String,content: String, route: String, navController: NavController){
     Box(
         modifier = Modifier
             .shadow(
@@ -606,6 +620,7 @@ fun AnnouncementBoxes(date: String, student: String, title: String,content: Stri
             )
             .background(buttonBrush, shape = RoundedCornerShape(30.dp))
             .fillMaxHeight()
+            .clickable { navController.navigate(route) }
             .width(200.dp),
         contentAlignment = Alignment.Center
     ){
@@ -617,9 +632,13 @@ fun AnnouncementBoxes(date: String, student: String, title: String,content: Stri
             Text(
                 text = date,
                 color = textColor,
+                style = myTextStyle,
                 modifier = Modifier.padding(10.dp))
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly){
+            Row(modifier = Modifier
+                .absolutePadding(7.dp)
+                .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically){
                 Image(painter = painterResource(id = R.drawable.student), contentDescription = "student",
                     modifier = Modifier
                         .clip(CircleShape)
@@ -627,6 +646,7 @@ fun AnnouncementBoxes(date: String, student: String, title: String,content: Stri
                 Text(
                     text = student,
                     color = textColor,
+                    style = myTextStyle,
                     modifier = Modifier
                         .padding(top = 10.dp)
                 )

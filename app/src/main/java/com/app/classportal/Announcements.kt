@@ -281,12 +281,7 @@ fun ComingSoon(navController: NavController, context: Context) {
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = Arrangement.Center
                                     ) {
-                                        Text(
-                                            text = announcement.title,
-                                            fontSize = 20.sp,
-                                            color = textcolor,
-                                            style = titleTextStyle()
-                                        )
+
                                         Spacer(modifier = Modifier.height(8.dp))
                                         Text(
                                             text = announcement.title,

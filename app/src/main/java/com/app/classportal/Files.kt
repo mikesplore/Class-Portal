@@ -107,7 +107,7 @@ object FileUtil {
 
     fun loadTimetable(context: Context): List<List<TimetableItem>> {
         val file = File(context.filesDir, TIMETABLE_FILE)
-        if (!file.exists()) return List(5) { emptyList() } // Return a list of 5 empty lists for Mon-Fri
+        if (!file.exists()) return List(7) { emptyList() } // Return a list of 5 empty lists for Mon-Fri
         val type = object : TypeToken<List<List<TimetableItem>>>() {}.type
         return gson.fromJson(file.readText(), type)
     }

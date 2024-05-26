@@ -29,7 +29,7 @@ fun CurrentDayEventsScreen() {
     val context = LocalContext.current
 
     val calendar = Calendar.getInstance()
-    val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+    val dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7
     val timetableData = remember { loadTimetable(context) }
     val lecturesToday = timetableData[dayOfWeek] ?: emptyList()
 
@@ -61,7 +61,7 @@ fun CurrentDayEventsScreen() {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                itemsIndexed(lecturesToday) { index, item ->
+                itemsIndexed(lecturesToday) { _, item ->
                     TimetableItemRow(item,
                         onEdit = {
                             // No edit action for this screen

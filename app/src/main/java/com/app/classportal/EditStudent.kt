@@ -74,15 +74,15 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     // Add any additional actions (e.g., settings icon) here
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = color1,
-                    titleContentColor = textcolor
+                    containerColor = primaryColor,
+                    titleContentColor = textColor
                 )
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(color1)
+                .background(backbrush)
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -98,10 +98,15 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 onValueChange = { studentId = it },
                 label = { Text("Enter Student ID", fontFamily = RobotoMono) },
                 colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color(0xffA0E9FF),
-                    unfocusedIndicatorColor = Color(0xffA0E9FF),
-                    focusedContainerColor = Color(0xffA0E9FF),
-                    unfocusedContainerColor = Color(0xffA0E9FF),
+                    focusedContainerColor = primaryColor,
+                    unfocusedContainerColor = primaryColor,
+                    focusedIndicatorColor = focused,
+                    unfocusedIndicatorColor = unfocused,
+                    focusedLabelColor = textColor,
+                    cursorColor = textColor,
+                    unfocusedLabelColor = textColor,
+                    focusedTextColor = textColor,
+                    unfocusedTextColor = textColor
                 ),
                 singleLine = true,
                 modifier = Modifier
@@ -129,9 +134,9 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                         shape = RoundedCornerShape(10.dp),
                         clip = true
                     )
-                    .width(200.dp)
+                    .width(275.dp)
                     .height(50.dp),
-                colors = ButtonDefaults.buttonColors(color),
+                colors = ButtonDefaults.buttonColors(secondaryColor),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text("Find Student",
@@ -154,10 +159,15 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     onValueChange = { newfirstName = it },
                     label = { Text("New First Name", fontFamily = RobotoMono) },
                     colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color(0xffA0E9FF),
-                        unfocusedIndicatorColor = Color(0xffA0E9FF),
-                        focusedContainerColor = Color(0xffA0E9FF),
-                        unfocusedContainerColor = Color(0xffA0E9FF)),
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor),
                     singleLine = true,
                     modifier = Modifier
                         .shadow(
@@ -178,10 +188,15 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     onValueChange = { newlastName = it },
                     label = { Text("New Last Name", fontFamily = RobotoMono) },
                     colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color(0xffA0E9FF),
-                        unfocusedIndicatorColor = Color(0xffA0E9FF),
-                        focusedContainerColor = Color(0xffA0E9FF),
-                        unfocusedContainerColor = Color(0xffA0E9FF)),
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor),
                     singleLine = true,
                     modifier = Modifier
                         .shadow(

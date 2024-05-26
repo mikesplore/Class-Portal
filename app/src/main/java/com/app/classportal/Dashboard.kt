@@ -836,7 +836,13 @@ fun StudentsTabContent(navController: NavController, context: Context) {
         Box(modifier = Modifier
             .height(250.dp)) {
             ShowStudentsScreen(context = context)
-
+        }
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .fillMaxWidth()
+                .height(200.dp)
+        ){
 
         }
 

@@ -216,6 +216,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 },
                                 onClick = {
+                                    navController.navigate("RecordAttendance")
 
                                 },
                                 leadingIcon = {
@@ -237,6 +238,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 },
                                 onClick = {
+                                    navController.navigate("timetable")
 
                                 },
                                 leadingIcon = {
@@ -258,6 +260,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 },
                                 onClick = {
+                                    navController.navigate("assignments")
 
                                 },
                                 leadingIcon = {
@@ -279,6 +282,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 },
                                 onClick = {
+                                    navController.navigate("AddStudent")
 
                                 },
                                 leadingIcon = {
@@ -300,6 +304,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 },
                                 onClick = {
+                                    navController.navigate("logout")
 
                                 },
                                 leadingIcon = {

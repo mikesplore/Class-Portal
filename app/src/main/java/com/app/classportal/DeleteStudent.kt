@@ -92,6 +92,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
             )
         }
     ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .background(backbrush)
@@ -100,8 +101,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             LazyColumn (modifier = Modifier
-                .border(1.dp, secondaryColor,
-                    RoundedCornerShape(8.dp))){
+                .border(1.dp, secondaryColor)){
                 item {
                     Text("Total Students: ${students.size}",
                         modifier = Modifier.padding(16.dp),
@@ -109,17 +109,11 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                         fontFamily = RobotoMono,
                         color = textColor)
                 }
-                itemsIndexed(students) { index, student ->
-                    val rowlist = if (index % 2 == 0) color2 else color3
+                itemsIndexed(students) { _, student ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color.Gray,
-                                shape = RoundedCornerShape(8.dp)
-                            )
                             .clickable {
                                 studentIdToDelete = student.registrationID
                                 firstNameToDelete = student.firstName
@@ -149,7 +143,6 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             color = textColor,
                             fontSize = 16.sp,)
                     }
-                    Divider(color = Color.Gray, thickness = 1.dp)
                 }
             }
             Text("Select Student to Delete", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold,color = color4)
@@ -191,6 +184,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                 )
             }
         }
+
     }
 }
 

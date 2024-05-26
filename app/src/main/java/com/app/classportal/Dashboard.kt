@@ -79,7 +79,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val horizontalScrollState = rememberScrollState()
     var expanded by remember { mutableStateOf(false) }
     val announcements = loadAnnouncement(context)
-    var selectedTabIndex by remember { mutableIntStateOf(1) }
+    var selectedTabIndex by remember { mutableIntStateOf(4) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
@@ -363,7 +363,7 @@ fun Dashboard(navController: NavController, context: Context) {
                     //start of the bottom tabs
                     Spacer(modifier = Modifier.height(27.dp))
                     val tabTitles =
-                        listOf("Announcements", "Attendance", "Timetable", "Assignments", "Gallery")
+                        listOf("Announcements", "Attendance", "Timetable", "Assignments", "Manage Students")
                     val indicator = @Composable { tabPositions: List<TabPosition> ->
                         Box(
                             modifier = Modifier
@@ -427,7 +427,7 @@ fun Dashboard(navController: NavController, context: Context) {
                         1 -> AttendanceTabContent(context, navController)
                         2 -> TimetableTabContent()
                         3 -> AssignmentsTabContent(navController, context)
-                        4 -> GalleryTabContent()
+                        4 -> StudentsTabContent(navController, context)
 
                     }
                 }
@@ -825,19 +825,21 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
 
 
 @Composable
-fun GalleryTabContent() {
+fun StudentsTabContent(navController: NavController, context: Context) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(primaryColor),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
-        Text(
-            text = "Gallery Content Coming Soon!",
-            style = myTextStyle,
-            modifier = Modifier.padding(16.dp)
-        )
+        Box(modifier = Modifier
+            .height(250.dp)) {
+            ShowStudentsScreen(context = context)
+
+
+        }
+
 
     }
 }

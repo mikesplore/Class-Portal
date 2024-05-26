@@ -35,7 +35,12 @@ fun RecordAttendanceScreen(
     context: Context
 ) {
     val students = FileUtil.loadStudents(context)
-    val units = listOf("Calculus II", "Linear Algebra", "Statistics I", "Probability and Statistics") // Replace with actual units
+    val units = listOf(
+        "Calculus II",
+        "Linear Algebra",
+        "Statistics I",
+        "Probability and Statistics"
+    ) // Replace with actual units
     val pagerState = rememberPagerState()
     val attendanceRecords = remember { mutableStateMapOf<String, MutableState<Boolean>>() }
     val checkboxStates = remember { mutableStateMapOf<String, MutableState<Boolean>>() }
@@ -54,19 +59,30 @@ fun RecordAttendanceScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(" Sign Attendance", fontFamily = RobotoMono, color = textColor, fontSize = 20.sp) },
+                title = {
+                    Text(
+                        " Sign Attendance",
+                        fontFamily = RobotoMono,
+                        color = textColor,
+                        fontSize = 20.sp
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack()},
-                        modifier = Modifier.absolutePadding(10.dp)) {
-                        Box(modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = textColor,
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
-                            .size(50.dp),
-                            contentAlignment = Alignment.Center){
+                    IconButton(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.absolutePadding(10.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .border(
+                                    width = 1.dp,
+                                    color = textColor,
+                                    shape = RoundedCornerShape(10.dp)
+                                )
+                                .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                                .size(50.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
@@ -82,16 +98,32 @@ fun RecordAttendanceScreen(
                             students.forEach { student ->
                                 val key = "${student.registrationID}-$unit"
                                 val isPresent = attendanceRecords[key]?.value ?: false
-                                allRecords.add(AttendanceRecord(student.registrationID, "2024-05-17", isPresent, unit))
+                                allRecords.add(
+                                    AttendanceRecord(
+                                        student.registrationID,
+                                        "2024-05-17",
+                                        isPresent,
+                                        unit
+                                    )
+                                )
                             }
                         }
                         FileUtil.saveAttendanceRecords(context, allRecords)
                         onAttendanceRecorded()
                     }, colors = ButtonDefaults.buttonColors(Color.Transparent)) {
-                        Text("Save", fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = RobotoMono, color = textColor)
+                        Text(
+                            "Save",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = RobotoMono,
+                            color = textColor
+                        )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor, titleContentColor = textColor)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = primaryColor,
+                    titleContentColor = textColor
+                )
             )
         }
     ) { innerPadding ->
@@ -113,9 +145,13 @@ fun RecordAttendanceScreen(
                                 pagerState.scrollToPage(index)
                             }
                         },
-                        text = { Text(unit,
-                            fontFamily = RobotoMono,
-                            color = if (pagerState.currentPage == index) textColor else Color.Gray) },
+                        text = {
+                            Text(
+                                unit,
+                                fontFamily = RobotoMono,
+                                color = if (pagerState.currentPage == index) textColor else Color.Gray
+                            )
+                        },
                         selectedContentColor = textColor,
                         unselectedContentColor = Color.Gray,
                         modifier = Modifier.background(primaryColor)
@@ -169,5 +205,9 @@ fun RecordAttendanceScreen(
 @Preview(showBackground = true)
 @Composable
 fun RecordAttendanceScreenPreview() {
-    RecordAttendanceScreen(onAttendanceRecorded = {}, navController = rememberNavController(), context = LocalContext.current)
+    RecordAttendanceScreen(
+        onAttendanceRecorded = {},
+        navController = rememberNavController(),
+        context = LocalContext.current
+    )
 }

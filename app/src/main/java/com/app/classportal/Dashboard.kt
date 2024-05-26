@@ -286,7 +286,7 @@ fun Dashboard(navController: NavController, context: Context) {
 @Composable
 fun LatestAnnouncement() {
     val announcements = loadAnnouncement(LocalContext.current)
-    val latestAnnouncement = announcements.firstOrNull()
+    val latestAnnouncement = announcements.lastOrNull()
 
     Column(
         modifier = Modifier
@@ -614,11 +614,11 @@ fun AnnouncementBoxes(date: String, student: String, title: String,content: Stri
         modifier = Modifier
             .shadow(
                 elevation = 10.dp,
-                shape = RoundedCornerShape(20.dp),
+                shape = RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp ),
                 ambientColor = primaryColor,
                 spotColor = tertiaryColor
             )
-            .background(buttonBrush, shape = RoundedCornerShape(30.dp))
+            .background(backbrush, shape = RoundedCornerShape(30.dp, 0.dp, 30.dp, 0.dp ))
             .fillMaxHeight()
             .clickable { navController.navigate(route) }
             .width(200.dp),

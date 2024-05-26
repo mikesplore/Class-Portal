@@ -221,7 +221,7 @@ fun ComingSoon(navController: NavController, context: Context) {
             ) {
                 // Display Announcements
                 if (announcements.isNotEmpty()) {
-                    announcements.forEachIndexed { index, announcement ->
+                    announcements.asReversed().forEachIndexed { index, announcement ->
                         Card(
                             modifier = Modifier
                                 .border(

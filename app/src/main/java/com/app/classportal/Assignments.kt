@@ -235,7 +235,11 @@ fun AddEditAssignmentDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = "Add/Edit Assignment") },
+        title = { Text(text = "Add or Edit Assignment",
+            style = myTextStyle, fontSize = 20.sp,
+            color = primaryColor,
+            fontWeight = FontWeight.Bold)
+                },
         text = {
             Column(
                 modifier = Modifier
@@ -243,7 +247,7 @@ fun AddEditAssignmentDialog(
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("Assignment Title") },
+                    label = { Text("Assignment Title", style = myTextStyle) },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = primaryColor,
                         unfocusedContainerColor = primaryColor,
@@ -260,7 +264,7 @@ fun AddEditAssignmentDialog(
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text("Content") },
+                    label = { Text("Content", style = myTextStyle) },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = primaryColor,
                         unfocusedContainerColor = primaryColor,
@@ -289,12 +293,16 @@ fun AddEditAssignmentDialog(
                 )
 
             }) {
-                Text("Save")
+                Text("Save",
+                    style = myTextStyle,
+                    color = primaryColor,)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text("Cancel",
+                    style = myTextStyle,
+                    color = primaryColor)
             }
         },
         containerColor = tertiaryColor,

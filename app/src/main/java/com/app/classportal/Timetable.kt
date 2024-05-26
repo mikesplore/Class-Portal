@@ -193,7 +193,9 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
                         imageVector = Icons.Default.AccessTime,
                         contentDescription = "Start Time",
                         tint = textColor,
-                        modifier = Modifier.size(20.dp).padding(end = 4.dp)
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(end = 4.dp)
                     )
                     Text(
                         text = "Start Time: ",
@@ -212,7 +214,9 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
                         imageVector = Icons.Default.Schedule,
                         contentDescription = "Duration",
                         tint = textColor,
-                        modifier = Modifier.size(20.dp).padding(end = 4.dp)
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(end = 4.dp)
                     )
                     Text(
                         text = "Duration: ",
@@ -231,7 +235,9 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
                         imageVector = Icons.Default.Person,
                         contentDescription = "Lecturer",
                         tint = textColor,
-                        modifier = Modifier.size(20.dp).padding(end = 4.dp)
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(end = 4.dp)
                     )
                     Text(
                         text = "Lecturer: ",
@@ -249,7 +255,9 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
                         imageVector = Icons.Default.LocationOn,
                         contentDescription = "Venue",
                         tint = textColor,
-                        modifier = Modifier.size(20.dp).padding(end = 4.dp)
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(end = 4.dp)
                     )
                     Text(
                         text = "Venue: ",
@@ -288,38 +296,95 @@ fun AddEditTimetableItemDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = "Add/Edit Timetable Item") },
+        title = { Text(text = "Add/Edit Timetable Item",
+            style = myTextStyle,
+            fontSize = 20.sp) },
         text = {
             Column {
                 OutlinedTextField(
                     value = unit,
                     onValueChange = { unit = it },
                     label = { Text("Unit") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor
+                    )
                 )
                 OutlinedTextField(
                     value = startTime,
                     onValueChange = { startTime = it },
                     label = { Text("Start Time") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor
+                    )
                 )
                 OutlinedTextField(
                     value = duration,
                     onValueChange = { duration = it },
                     label = { Text("Duration") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor
+                    )
                 )
                 OutlinedTextField(
                     value = lecturer,
                     onValueChange = { lecturer = it },
                     label = { Text("Lecturer") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor
+                    )
                 )
                 OutlinedTextField(
                     value = venue,
                     onValueChange = { venue = it },
                     label = { Text("Venue") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor
+                    )
                 )
             }
         },
@@ -336,14 +401,17 @@ fun AddEditTimetableItemDialog(
                     )
                 )
             }) {
-                Text("Save")
+                Text("Save",
+                    style = myTextStyle)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text("Cancel",
+                    style = myTextStyle)
             }
-        }
+        },
+        containerColor = secondaryColor
     )
 }
 

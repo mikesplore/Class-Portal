@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Schedule
@@ -90,7 +91,7 @@ fun Dashboard(navController: NavController, context: Context) {
     else "You have new announcement from ${firstAnnouncement.student}"
     // Define the list of boxes
     val boxes = listOf(
-        R.drawable.announcement to date to "soon",
+        R.drawable.announcement to date to "announcements",
         R.drawable.attendance to "Have you updated attendance sheet?" to "RecordAttendance",
         R.drawable.assignment to "No due assignments" to "assignments",
         R.drawable.timetable to "Yooh, you have new timetable" to "timetable"
@@ -239,11 +240,34 @@ fun Dashboard(navController: NavController, context: Context) {
                                 leadingIcon = {
                                     Icon(
                                         Icons.Filled.Schedule,
-                                        contentDescription = "Add Timetable",
+                                        contentDescription = "Assignment",
                                         tint = textColor
                                     )
                                 }
                             )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Make Announcement",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+                                    navController.navigate("announcements")
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Filled.AddAlert,
+                                        contentDescription = "announcement",
+                                        tint = textColor
+                                    )
+                                }
+                            )
+
                             DropdownMenuItem(
                                 text = {
                                     Text(
@@ -299,7 +323,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 },
                                 onClick = {
-                                    navController.navigate("logout")
+                                    navController.navigate("login")
 
                                 },
                                 leadingIcon = {
@@ -654,7 +678,7 @@ fun AnnouncementTabContent(navController: NavController) {
                     title = announcement?.title ?: "No announcement",
                     student = announcement?.student ?: "No announcement",
                     content = announcement?.description ?: "No announcement",
-                    route = "soon",
+                    route = "announcements",
                     navController = navController
                 )
             }

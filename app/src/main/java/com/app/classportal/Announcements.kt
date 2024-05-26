@@ -57,7 +57,7 @@ val backbrush = Brush.verticalGradient(
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ComingSoon(navController: NavController, context: Context) {
+fun AnnouncementsScreen(navController: NavController, context: Context) {
     val announcements = remember { mutableStateListOf<Announcement>() }
     var expanded by remember { mutableStateOf(false) }
     var showAddDialog by remember { mutableStateOf(false) }
@@ -415,8 +415,8 @@ fun ComingSoon(navController: NavController, context: Context) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewComingSoon() {
-    ComingSoon(navController = rememberNavController(), context = LocalContext.current)
+fun AnnouncementsScreenPreview() {
+    AnnouncementsScreen(navController = rememberNavController(), context = LocalContext.current)
 }
 
 @Composable

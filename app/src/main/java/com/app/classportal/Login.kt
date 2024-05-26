@@ -492,7 +492,8 @@ Scaffold(
 
                     Text(
                         text = if (isRegistering) "Register" else "Login",
-                        style = myTextStyle
+                        style = myTextStyle,
+
                     )
             }
         }
@@ -517,6 +518,7 @@ Scaffold(
                 Text(
                     text = if (isRegistering) "Login" else "Register",
                     style = myTextStyle,
+                    color = primaryColor,
                     modifier = Modifier.clickable {
                         isRegistering = !isRegistering
                     }

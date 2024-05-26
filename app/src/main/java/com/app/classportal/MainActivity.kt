@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-        NavHost(navController, startDestination = "dashboard") {
+        NavHost(navController, startDestination = "login") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }
@@ -85,8 +85,8 @@ class MainActivity : ComponentActivity() {
                 LoginCategory(navController = navController)
             }
 
-            composable("soon") {
-                ComingSoon(navController = navController, context)
+            composable("announcements") {
+                AnnouncementsScreen(navController = navController, context)
             }
             composable("login") {
                 LoginScreen(navController = navController, context)

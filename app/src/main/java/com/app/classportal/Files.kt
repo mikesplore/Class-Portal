@@ -30,7 +30,6 @@ data class TimetableItem(
 data class Assignment(
     val title: String,
     val description: String,
-    val filePath: String
 )
 
 
@@ -142,45 +141,7 @@ object FileUtil {
         file.writeText(json)
     }
 
-    // Function to get the file path from Uri
-    fun getPath(context: Context, uri: Uri): String? {
-        return if (DocumentsContract.isDocumentUri(context, uri)) {
-            val docId = DocumentsContract.getDocumentId(uri)
-            val split = docId.split(":").toTypedArray()
-            val type = split[0]
-            if ("primary".equals(type, true)) {
-                return "${context.getExternalFilesDir(null)}/${split[1]}"
-            } else {
-                val contentUri = when (type) {
-                    "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                    "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                    else -> null
-                }
-                contentUri?.let {
-                    getDataColumn(context, it, "_id=?", arrayOf(split[1]))
-                }
-            }
-        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
-            getDataColumn(context, uri, null, null)
-        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
-            uri.path
-        } else {
-            null
-        }
-    }
 
-    private fun getDataColumn(context: Context, uri: Uri, selection: String?, selectionArgs: Array<String>?): String? {
-        val column = "_data"
-        val projection = arrayOf(column)
-        context.contentResolver.query(uri, projection, selection, selectionArgs, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndexOrThrow(column)
-                return cursor.getString(columnIndex)
-            }
-        }
-        return null
-    }
 
 
 }

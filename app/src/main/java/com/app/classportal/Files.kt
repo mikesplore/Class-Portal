@@ -141,6 +141,25 @@ object FileUtil {
         file.writeText(json)
     }
 
+    fun getAssignment(context: Context, unitIndex: Int, assignmentIndex: Int): Assignment? {
+        val assignmentData = loadAssignments(context)
+
+        // Check if the unit index is valid
+        if (unitIndex < 0 || unitIndex >= assignmentData.size) {
+            return null // Unit not found
+        }
+
+        val unitAssignments = assignmentData[unitIndex]
+
+        // Check if the assignment index is valid
+        if (assignmentIndex < 0 || assignmentIndex >= unitAssignments.size) {
+            return null // Assignment not found
+        }
+
+        return unitAssignments[assignmentIndex]
+    }
+
+
 
 
 

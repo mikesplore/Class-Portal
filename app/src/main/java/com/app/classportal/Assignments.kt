@@ -1,12 +1,8 @@
 package com.app.classportal
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.provider.OpenableColumns
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -21,8 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -32,19 +28,20 @@ import com.app.classportal.FileUtil.saveAssignments
 import com.app.classportal.ui.theme.RobotoMono
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AssignmentScreen(navController: NavController) {
     val context = LocalContext.current
-    val units = listOf("Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5", "Unit 6", "Unit 7")
+    val units = listOf("Calculus II", "Linear Algebra", "Discrete Mathematics", "Statistics", "Probability", "Computer Science","Computer Science")
     val pagerState = rememberPagerState(initialPage = 0)
     val coroutineScope = rememberCoroutineScope()
     var assignmentData by remember { mutableStateOf(loadAssignments(context)) }
     var showDialog by remember { mutableStateOf(false) }
     var currentUnitIndex by remember { mutableIntStateOf(0) }
     var editItemIndex by remember { mutableStateOf(-1) }
-    var currentItem by remember { mutableStateOf(Assignment("", "", "")) }
+    var currentItem by remember { mutableStateOf(Assignment("", "")) }
 
     Scaffold(
         topBar = {
@@ -57,7 +54,7 @@ fun AssignmentScreen(navController: NavController) {
                 },
                 actions = {
                     IconButton(onClick = {
-                        currentItem = Assignment("", "", "")
+                        currentItem = Assignment("", "")
                         editItemIndex = -1
                         showDialog = true
                     }) {
@@ -121,7 +118,7 @@ fun AssignmentScreen(navController: NavController) {
                                 saveAssignments(context, assignmentData)
                             }
                         )
-                        Divider(color = Color.Gray, thickness = 1.dp)
+
                     }
                 }
             }
@@ -159,90 +156,70 @@ fun AssignmentScreen(navController: NavController) {
 
 @Composable
 fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit) {
-    val context = LocalContext.current
-    var showUnsupportedFileTypeAlert by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+    var expandedmenu by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
-            .background(primaryColor)
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { expanded = !expanded },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(8.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .background(secondaryColor)
+                .background(primaryColor)
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+        ) { // Use Column instead of Row
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = item.title,
                     style = myTextStyle,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-                val fileName = if (item.filePath.isNotEmpty()) { "Selected File: ${item.filePath}" } else { "No File Selected"}
-                Text(
-                    text = fileName,
-                    style = myTextStyle,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(horizontalAlignment = Alignment.End) {
-                Button(
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = Uri.parse(item.filePath)
-                            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        }
-                        if (intent.resolveActivity(context.packageManager) != null) {
-                            context.startActivity(intent)
-                        } else {
-                            showUnsupportedFileTypeAlert = true
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
-                ) {
-                    Text("View File", color = Color.White)
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(onClick = { expandedmenu = true }) {
+                    Icon(Icons.Filled.MoreVert, contentDescription = "More", tint = textColor)
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row {
-                    IconButton(onClick = onEdit) {
-                        Icon(Icons.Filled.Edit, contentDescription = "Edit", tint = textColor)
-                    }
-                    IconButton(onClick = onDelete) {
-                        Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = Color.Red)
-                    }
+                DropdownMenu(expanded = expandedmenu,
+                    onDismissRequest = { expandedmenu = false },
+                    offset = DpOffset(0.dp, 48.dp),
+                    modifier = Modifier
+                        .align(
+                            Alignment.Bottom
+                        )
+                        .background(secondaryColor),
+
+
+                    ) {
+                    DropdownMenuItem(text = { Text("Edit", style = myTextStyle) }, onClick = {
+                        onEdit()
+                        expandedmenu = false
+                    })
+                    DropdownMenuItem(text = { Text("Delete", style = myTextStyle) }, onClick = {
+                        onEdit()
+                        expandedmenu = false
+                    })
+
+                    
+                }
+
+            }
+            // Show/hide description based on expanded state
+            AnimatedVisibility(expanded) {
+                Column {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = item.description,
+                        style = myTextStyle
+                    )
                 }
             }
         }
     }
-
-    // Alert dialog for unsupported file type
-    if (showUnsupportedFileTypeAlert) {
-        AlertDialog(
-            onDismissRequest = { showUnsupportedFileTypeAlert = false },
-            title = { Text("Unsupported File Type") },
-            text = { Text("There is no app installed to handle this file type.") },
-            confirmButton = {
-                TextButton(onClick = { showUnsupportedFileTypeAlert = false }) {
-                    Text("OK")
-                }
-            }
-        )
-    }
 }
-
-
-    // Alert dialog for unsupported file type
-
 
 
 
@@ -255,63 +232,62 @@ fun AddEditAssignmentDialog(
 ) {
     var title by remember { mutableStateOf(TextFieldValue(item.title)) }
     var description by remember { mutableStateOf(TextFieldValue(item.description)) }
-    var selectedFileUri by remember { mutableStateOf<Uri?>(null) }
-    var selectedFileName by remember { mutableStateOf("") }
-
-    val context = LocalContext.current
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        selectedFileUri = uri
-        selectedFileName = uri?.let { getFileName(context, it) } ?: ""
-    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = "Add/Edit Assignment") },
         text = {
-            Column {
+            Column(
+                modifier = Modifier
+            ) {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("Title") },
+                    label = { Text("Assignment Title") },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor
+                    ),
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text("Description") },
-                    modifier = Modifier.fillMaxWidth()
+                    label = { Text("Content") },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = primaryColor,
+                        unfocusedContainerColor = primaryColor,
+                        focusedIndicatorColor = focused,
+                        unfocusedIndicatorColor = unfocused,
+                        focusedLabelColor = textColor,
+                        cursorColor = textColor,
+                        unfocusedLabelColor = textColor,
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor
+                    ),
+                    modifier = Modifier
+                        .height(200.dp)
+                        .fillMaxWidth()
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(top = 8.dp)
-                ) {
-                    Text(
-                        text = "Selected File: $selectedFileName", // Display selected file name
-                        style = myTextStyle,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Button(onClick = { launcher.launch("*/*") }) {
-                        Text("Select File")
-                    }
-                }
+
             }
         },
         confirmButton = {
             TextButton(onClick = {
-                val filePath = selectedFileUri?.let { FileUtil.getPath(context, it) }
-                if (filePath.isNullOrEmpty()) {
-                    // Show an error message or handle the case where file path is empty
-                    // For simplicity, we'll just log it here
-                    println("File path is empty or null")
-                } else {
-                    onSave(
-                        Assignment(
-                            title.text,
-                            description.text,
-                            filePath
-                        )
+                onSave(
+                    Assignment(
+                        title = title.text,
+                        description = description.text
                     )
-                }
+                )
+
             }) {
                 Text("Save")
             }
@@ -320,39 +296,15 @@ fun AddEditAssignmentDialog(
             TextButton(onClick = onDismiss) {
                 Text("Cancel")
             }
-        }
-    )
-}
+        },
+        containerColor = tertiaryColor,
 
-fun getFileName(context: Context, uri: Uri): String {
-    var result: String? = null
-    if (uri.scheme == "content") {
-        context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (columnIndex != -1) {
-                    result = cursor.getString(columnIndex)
-                }
-            }
-        }
-    }
-    if (result == null) {
-        result = uri.path
-        val cut = result?.lastIndexOf('/')
-        if (cut != -1 && cut != null) {
-            result = result?.substring(cut + 1)
-        }
-    }
-    return result ?: "unknown"
+    )
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun AssignmentScreenPreview() {
-    AssignmentItemRow(
-        item = Assignment("Assignment 1", "Description of Assignment 1", ""),
-        onEdit = {},
-        onDelete = {}
-    )
+    AssignmentScreen(navController = rememberNavController())
 }

@@ -12,12 +12,19 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
@@ -54,8 +61,11 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 import kotlinx.coroutines.delay
 import coil.compose.AsyncImage
+import com.app.classportal.FileUtil.getAssignment
 import com.app.classportal.FileUtil.loadAnnouncement
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
+import java.util.Calendar
 
 val imageUrls = listOf(
     "https://images.template.net/wp-content/uploads/2019/07/Certificate-of-attendance-Format1.jpg",
@@ -66,19 +76,21 @@ val imageUrls = listOf(
     "https://interiordesign.net/wp-content/uploads/2023/03/Interior-Design-Beaverbrook-Art-Gallery-idx230301_intervention02-1024x580.jpg",
     "https://media.istockphoto.com/id/911030028/photo/group-photo-at-school.jpg?s=612x612&w=0&k=20&c=iteKL8IJfHntwPsOqGVpwJQOIck3YCeSvf0lJoJL_Wo="
 )
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Dashboard(navController: NavController, context: Context) {
     val horizontalScrollState = rememberScrollState()
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(true) }
     val announcements = loadAnnouncement(context)
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(3) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
 
-    val firstAnnouncement = if (announcements.isNotEmpty()) announcements[announcements.lastIndex] else null
+    val firstAnnouncement =
+        if (announcements.isNotEmpty()) announcements[announcements.lastIndex] else null
     val date = if (firstAnnouncement == null) "Looks like there is no announcement"
     else "You have new announcement from ${firstAnnouncement.student}"
     // Define the list of boxes
@@ -114,173 +126,316 @@ fun Dashboard(navController: NavController, context: Context) {
         }
     }
 
-     //modal navigation drawer
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text("Welcome, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}",
+    //modal navigation drawer
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        "Welcome, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}",
                         color = textColor,
                         fontWeight = FontWeight.Normal,
                         style = myTextStyle,
-                        fontSize = 20.sp,) },
-
-                    actions = {
-                        Box {
-                            IconButton(onClick = { expanded = true }) {
-                                Icon(
-                                    imageVector = Icons.Filled.AccountCircle,
-                                    contentDescription = "Profile",
-                                    tint = textColor,
-                                    modifier = Modifier.size(35.dp)
-                                )
-                            }
-
-                            DropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false },
-                                modifier = Modifier.background(primaryColor)
-                            ) {
-                                Row(modifier = Modifier.fillMaxWidth()){
-                                DropdownMenuItem(
-                                    text = { Text("Account Settings",color = textColor, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = RobotoMono) },
-                                    onClick = {
-                                        Toast.makeText(context, "Feature coming soon!", Toast.LENGTH_SHORT).show()
-                                        expanded = false }
-                                )}
-                                DropdownMenuItem(
-                                    text = { Text("Logout", color = textColor, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = RobotoMono) },
-                                    onClick = {
-                                        expanded = false
-                                        navController.navigate("login")
-                                    }
-                                )
-                            }
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = primaryColor,
-                        navigationIconContentColor = textColor,
-                        titleContentColor = textColor,
-                        actionIconContentColor = textColor
+                        fontSize = 20.sp,
                     )
-                )
-            },
-            content = {
-                Column(
-                    modifier = Modifier
-                        .background(primaryColor)
-                        .padding(top = 70.dp)
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Spacer(modifier = Modifier.height(22.dp))
+                },
 
-                    Row(
-                        modifier = Modifier
-                            .requiredHeight(200.dp)
-                            .fillMaxWidth()
-                            .horizontalScroll(horizontalScrollState),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Spacer(modifier = Modifier.width(10.dp))
-
-                        boxes.forEach { item ->
-                            TopBoxes(
-                                image = painterResource(id = item.first.first),
-                                description = item.first.second,
-                                route = item.second,
-                                navController = navController
+                actions = {
+                    Box {
+                        IconButton(onClick = { expanded = true }) {
+                            Icon(
+                                imageVector = Icons.Filled.AccountCircle,
+                                contentDescription = "Profile",
+                                tint = textColor,
+                                modifier = Modifier.size(35.dp)
                             )
-                            Spacer(modifier = Modifier.width(10.dp))
+                        }
+
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier
+                                .width(180.dp)
+                                .background(primaryColor)
+                        ) {
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Quick Tasks",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 15.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Filled.Menu,
+                                        contentDescription = "Quick Tasks",
+                                        tint = textColor
+                                    )
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Account Settings",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+                                    Toast.makeText(
+                                        context,
+                                        "Feature coming soon!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Filled.Settings,
+                                        contentDescription = "Account Settings",
+                                        tint = textColor
+                                    )
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Sign Attendance",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Filled.Edit,
+                                        contentDescription = "Sign Attendance",
+                                        tint = textColor
+                                    )
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Add Timetable",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Filled.Schedule,
+                                        contentDescription = "Add Timetable",
+                                        tint = textColor
+                                    )
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Add Assignment",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.Assignment,
+                                        contentDescription = "Add Assignment",
+                                        tint = textColor
+                                    )
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Add Student",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.Assignment,
+                                        contentDescription = "Add Assignment",
+                                        tint = textColor
+                                    )
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Logout",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.ExitToApp,
+                                        contentDescription = "Logout",
+                                        tint = textColor
+                                    )
+                                }
+                            )
                         }
                     }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = primaryColor,
+                    navigationIconContentColor = textColor,
+                    titleContentColor = textColor,
+                    actionIconContentColor = textColor
+                )
+            )
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .background(primaryColor)
+                    .padding(top = 70.dp)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Spacer(modifier = Modifier.height(22.dp))
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier
+                        .requiredHeight(200.dp)
+                        .fillMaxWidth()
+                        .horizontalScroll(horizontalScrollState),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Spacer(modifier = Modifier.width(10.dp))
 
-                    Column(
-                        modifier = Modifier
-                            .background(secondaryColor, shape = RoundedCornerShape(30.dp, 30.dp))
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                        //start of the bottom tabs
-                        Spacer(modifier = Modifier.height(27.dp))
-                        val tabTitles = listOf("Announcements", "Attendance", "Timetable", "Resources", "Gallery")
-                        val indicator = @Composable { tabPositions: List<TabPosition> ->
-                            Box(
-                                modifier = Modifier
-                                    .tabIndicatorOffset(tabPositions[selectedTabIndex])
-                                    .height(4.dp)
-                                    .width(screenWidth / tabTitles.size) // Divide by the number of tabs
-                                    .background(textColor, CircleShape)
-                            )
-                        }
-
-
-                        val coroutineScope = rememberCoroutineScope()
-
-                        ScrollableTabRow(
-                            selectedTabIndex = selectedTabIndex,
-                            modifier = Modifier.background(secondaryColor),
-                            contentColor = primaryColor,
-                            indicator = indicator,
-                            edgePadding = 0.dp,
-
-                            ) {
-                            tabTitles.forEachIndexed { index, title ->
-                                Tab(
-                                    selected = selectedTabIndex == index,
-                                    onClick = {
-                                        selectedTabIndex = index
-                                        coroutineScope.launch {
-                                            tabRowHorizontalScrollState.animateScrollTo(
-                                                (screenWidth.value / tabTitles.size * index).toInt()
-                                            )
-                                        }
-                                    },
-                                    text = {
-                                        Box(
-                                            modifier = Modifier
-                                                .background(
-                                                    if (selectedTabIndex == index) primaryColor else secondaryColor,
-                                                    RoundedCornerShape(8.dp)
-                                                )
-                                                .padding(8.dp),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Text(
-                                                text = title,
-                                                fontFamily = RobotoMono,
-                                                fontSize = 13.sp,
-                                                color = if (selectedTabIndex == index) textColor else Color.LightGray
-                                            )
-                                        }
-                                    },
-                                    modifier = Modifier.background(secondaryColor)
-
-                                )
-                            }
-                        }
-
-
-
-
-                        // Content based on selected tab
-                        when (selectedTabIndex) {
-                            0 -> AnnouncementTabContent(navController)
-                            1 -> AttendanceTabContent(context, navController)
-                            2 -> TimetableTabContent()
-                            3 -> ResourcesTabContent()
-                            4 -> GalleryTabContent()
-
-                        }
+                    boxes.forEach { item ->
+                        TopBoxes(
+                            image = painterResource(id = item.first.first),
+                            description = item.first.second,
+                            route = item.second,
+                            navController = navController
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
                     }
                 }
 
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Column(
+                    modifier = Modifier
+                        .background(secondaryColor, shape = RoundedCornerShape(30.dp, 30.dp))
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    //start of the bottom tabs
+                    Spacer(modifier = Modifier.height(27.dp))
+                    val tabTitles =
+                        listOf("Announcements", "Attendance", "Timetable", "Assignments", "Gallery")
+                    val indicator = @Composable { tabPositions: List<TabPosition> ->
+                        Box(
+                            modifier = Modifier
+                                .tabIndicatorOffset(tabPositions[selectedTabIndex])
+                                .height(4.dp)
+                                .width(screenWidth / tabTitles.size) // Divide by the number of tabs
+                                .background(textColor, CircleShape)
+                        )
+                    }
+
+
+                    val coroutineScope = rememberCoroutineScope()
+
+                    ScrollableTabRow(
+                        selectedTabIndex = selectedTabIndex,
+                        modifier = Modifier.background(secondaryColor),
+                        contentColor = primaryColor,
+                        indicator = indicator,
+                        edgePadding = 0.dp,
+
+                        ) {
+                        tabTitles.forEachIndexed { index, title ->
+                            Tab(
+                                selected = selectedTabIndex == index,
+                                onClick = {
+                                    selectedTabIndex = index
+                                    coroutineScope.launch {
+                                        tabRowHorizontalScrollState.animateScrollTo(
+                                            (screenWidth.value / tabTitles.size * index).toInt()
+                                        )
+                                    }
+                                },
+                                text = {
+                                    Box(
+                                        modifier = Modifier
+                                            .background(
+                                                if (selectedTabIndex == index) primaryColor else secondaryColor,
+                                                RoundedCornerShape(8.dp)
+                                            )
+                                            .padding(8.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = title,
+                                            fontFamily = RobotoMono,
+                                            fontSize = 13.sp,
+                                            color = if (selectedTabIndex == index) textColor else Color.LightGray
+                                        )
+                                    }
+                                },
+                                modifier = Modifier.background(secondaryColor)
+
+                            )
+                        }
+                    }
+
+
+                    // Content based on selected tab
+                    when (selectedTabIndex) {
+                        0 -> AnnouncementTabContent(navController)
+                        1 -> AttendanceTabContent(context, navController)
+                        2 -> TimetableTabContent()
+                        3 -> AssignmentsTabContent(navController, context)
+                        4 -> GalleryTabContent()
+
+                    }
+                }
             }
-        )
-    }
+
+        }
+    )
+}
 
 
 @Composable
@@ -318,7 +473,8 @@ fun LatestAnnouncement() {
         }
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(
-                text = latestAnnouncement?.description ?: "I decided to re-design the User Interface, how do you rate it out of 10?",
+                text = latestAnnouncement?.description
+                    ?: "I decided to re-design the User Interface, how do you rate it out of 10?",
                 fontWeight = FontWeight.Normal,
                 style = myTextStyle,
                 textAlign = TextAlign.Center,
@@ -343,11 +499,8 @@ fun LatestAnnouncement() {
 }
 
 
-
-
-
 @Composable
-fun TopBoxes(image: Painter, description: String,route: String,navController: NavController) {
+fun TopBoxes(image: Painter, description: String, route: String, navController: NavController) {
     Row(
         modifier = Modifier
             .clickable {
@@ -393,7 +546,7 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )
-                            
+
                         ),
                     )
                 }
@@ -401,7 +554,6 @@ fun TopBoxes(image: Painter, description: String,route: String,navController: Na
         }
     }
 }
-
 
 
 @Composable
@@ -471,13 +623,15 @@ fun AnnouncementTabContent(navController: NavController) {
             .fillMaxSize()
     ) {
         val announcements = loadAnnouncement(LocalContext.current)
-        Text("Top Announcements",
+        Text(
+            "Top Announcements",
             textAlign = TextAlign.Center,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = textColor,
             fontFamily = RobotoMono,
-            modifier = Modifier.padding(16.dp))
+            modifier = Modifier.padding(16.dp)
+        )
         Row(
             modifier = Modifier
                 .padding(5.dp)
@@ -493,20 +647,22 @@ fun AnnouncementTabContent(navController: NavController) {
                     date = announcement?.date ?: "No announcement",
                     title = announcement?.title ?: "No announcement",
                     student = announcement?.student ?: "No announcement",
-                    content =  announcement?.description ?: "No announcement",
+                    content = announcement?.description ?: "No announcement",
                     route = "soon",
                     navController = navController
                 )
             }
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Text("Latest Announcement",
+        Text(
+            "Latest Announcement",
             textAlign = TextAlign.Center,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = textColor,
             fontFamily = RobotoMono,
-            modifier = Modifier.padding(16.dp))
+            modifier = Modifier.padding(16.dp)
+        )
         LatestAnnouncement()
 
 
@@ -530,7 +686,7 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
                 modifier = Modifier
                     .height(250.dp),
                 contentAlignment = Alignment.BottomCenter // Change alignment
-            ){
+            ) {
                 AttendanceReportContent(context = context)
 
                 Box(
@@ -553,22 +709,25 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
                 .horizontalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.width(10.dp))
-            AttendanceBox(imageUrl = imageUrls[0], content = "Sign Attendance","RecordAttendance",navController)
+            AttendanceBox(
+                imageUrl = imageUrls[0],
+                content = "Sign Attendance",
+                "RecordAttendance",
+                navController
+            )
             Spacer(modifier = Modifier.width(10.dp))
-            AttendanceBox(imageUrl = imageUrls[1], content = "View Attendance Report","AttendanceReport",navController)
+            AttendanceBox(
+                imageUrl = imageUrls[1],
+                content = "View Attendance Report",
+                "AttendanceReport",
+                navController
+            )
             Spacer(modifier = Modifier.width(10.dp))
 
 
-
-
-
-            }
         }
     }
-
-
-
-
+}
 
 
 @Composable
@@ -576,21 +735,87 @@ fun TimetableTabContent() {
     CurrentDayEventsScreen()
 
 }
-@Composable
-fun ResourcesTabContent() {
-   Column(
-       modifier = Modifier
-           .fillMaxSize()
-           .background(primaryColor),
-       horizontalAlignment = Alignment.CenterHorizontally,
-       verticalArrangement = Arrangement.Center
-   ) {
-       Text(text = "Resources Content Coming Soon!",
-           style = myTextStyle,
-           modifier = Modifier.padding(16.dp))
 
-   }
+@Composable
+fun AssignmentsTabContent(navController: NavController, context: Context) {
+    val subjects = listOf(
+        "Calculus II",
+        "Linear Algebra",
+        "Discrete Mathematics",
+        "Statistics",
+        "Probability",
+        "Computer Science"
+    )
+    var selectedSubjectIndex by remember { mutableStateOf(0) } // Default to index 0 ("Calculus II")
+    val filteredAssignment = getAssignment(context, selectedSubjectIndex, 0)
+
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+            .background(secondaryColor),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Box(
+            modifier = Modifier
+                .background(primaryColor, RoundedCornerShape(10.dp))
+        ) {
+            Text(
+                text = "Add Assignment",
+                style = myTextStyle,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clickable { navController.navigate("assignments") }
+                    .padding(16.dp)
+            )
+
+        }
+
+
+        // Filter Button Row
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            subjects.forEachIndexed { index, subject ->
+                Button(
+                    onClick = { selectedSubjectIndex = index },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (index == selectedSubjectIndex) primaryColor else Color.Transparent
+                    )
+                ) {
+                    Text(text = subject, color = textColor)
+                }
+            }
+        }
+
+        if (filteredAssignment != null) {
+            Text(
+                text = filteredAssignment.title,
+                style = myTextStyle,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = filteredAssignment.description,
+                style = myTextStyle,
+                textAlign = TextAlign.Center
+            )
+        } else {
+            Text(
+                text = "No assignment found for ${subjects[selectedSubjectIndex]}",
+                style = myTextStyle,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
 }
+
+
 @Composable
 fun GalleryTabContent() {
     Column(
@@ -600,49 +825,64 @@ fun GalleryTabContent() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Gallery Content Coming Soon!",
+        Text(
+            text = "Gallery Content Coming Soon!",
             style = myTextStyle,
-            modifier = Modifier.padding(16.dp))
+            modifier = Modifier.padding(16.dp)
+        )
 
     }
 }
 
 
 @Composable
-fun AnnouncementBoxes(date: String, student: String, title: String,content: String, route: String, navController: NavController){
+fun AnnouncementBoxes(
+    date: String,
+    student: String,
+    title: String,
+    content: String,
+    route: String,
+    navController: NavController
+) {
     Box(
         modifier = Modifier
             .shadow(
                 elevation = 10.dp,
-                shape = RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp ),
+                shape = RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp),
                 ambientColor = primaryColor,
                 spotColor = tertiaryColor
             )
-            .background(backbrush, shape = RoundedCornerShape(30.dp, 0.dp, 30.dp, 0.dp ))
+            .background(backbrush, shape = RoundedCornerShape(30.dp, 0.dp, 30.dp, 0.dp))
             .fillMaxHeight()
             .clickable { navController.navigate(route) }
             .width(200.dp),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             Text(
                 text = date,
                 color = textColor,
                 style = myTextStyle,
-                modifier = Modifier.padding(10.dp))
-            Row(modifier = Modifier
-                .absolutePadding(7.dp)
-                .fillMaxWidth(),
+                modifier = Modifier.padding(10.dp)
+            )
+            Row(
+                modifier = Modifier
+                    .absolutePadding(7.dp)
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically){
-                Image(painter = painterResource(id = R.drawable.student), contentDescription = "student",
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.student),
+                    contentDescription = "student",
                     modifier = Modifier
                         .clip(CircleShape)
-                        .size(50.dp))
+                        .size(50.dp)
+                )
                 Text(
                     text = student,
                     color = textColor,
@@ -672,7 +912,6 @@ fun AnnouncementBoxes(date: String, student: String, title: String,content: Stri
             }
 
 
-
         }
 
     }
@@ -682,7 +921,7 @@ fun AnnouncementBoxes(date: String, student: String, title: String,content: Stri
 @Composable
 fun DashboardPreview() {
     val navController = rememberNavController()
-    Dashboard(navController,LocalContext.current)
+    Dashboard(navController, LocalContext.current)
 }
 
 

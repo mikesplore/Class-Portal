@@ -480,33 +480,16 @@ Scaffold(
                     }
                 },
                 modifier = Modifier
-                    .width(350.dp)
-                    .height(70.dp),
-
-                shape = RoundedCornerShape(20.dp),
+                    .width(300.dp)
+                    .height(50.dp),
+                shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
+                    containerColor = primaryColor,
 
                 )
 
-
-
-
-
             ) {
-                Row(
-                    modifier = Modifier
-                        .shadow(
-                            elevation = 10.dp,
-                            shape = RoundedCornerShape(20.dp)
-                        )
-                        .background(backbrush, RoundedCornerShape(10.dp))
-                        .height(50.dp)
-                        .width(300.dp)
-                        .padding(8.dp), // Add padding for better visual spacing
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+
                     Text(
                         text = if (isRegistering) "Register" else "Login",
                         color = color4,
@@ -514,8 +497,6 @@ Scaffold(
                         fontSize = 15.sp,
                         fontFamily = RobotoMono
                     )
-                }
-
             }
         }
 

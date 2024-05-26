@@ -12,10 +12,7 @@ import java.util.Date
 
 data class Student(val registrationID: String, val firstName: String, val lastName: String)
 data class AttendanceRecord(
-    val studentId: String,
-    val date: String,
-    val present: Boolean,
-    val unit: String
+    val studentId: String, val date: String, val present: Boolean, val unit: String
 )
 
 data class TimetableItem(
@@ -27,14 +24,16 @@ data class TimetableItem(
     val venue: String,
     val day: String,
 )
+
 data class Assignment(
     val title: String,
     val description: String,
 )
 
 
-
-data class Announcement(val id: Int, val date: String, val title: String, val description: String, val student: String)
+data class Announcement(
+    val id: Int, val date: String, val title: String, val description: String, val student: String
+)
 
 fun getCurrentDateFormatted(): String {
     val dateFormat = SimpleDateFormat("dd/MM/yyyy")
@@ -123,7 +122,6 @@ object FileUtil {
     }
 
 
-
     fun loadAssignments(context: Context): List<List<Assignment>> {
         val file = File(context.filesDir, ASSIGNMENTS_FILE)
         return if (file.exists()) {
@@ -158,9 +156,6 @@ object FileUtil {
 
         return unitAssignments[assignmentIndex]
     }
-
-
-
 
 
 }

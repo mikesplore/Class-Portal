@@ -28,7 +28,6 @@ import com.app.classportal.FileUtil.saveAssignments
 import com.app.classportal.ui.theme.RobotoMono
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable

@@ -492,10 +492,7 @@ Scaffold(
 
                     Text(
                         text = if (isRegistering) "Register" else "Login",
-                        color = color4,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 15.sp,
-                        fontFamily = RobotoMono
+                        style = myTextStyle
                     )
             }
         }
@@ -515,13 +512,11 @@ Scaffold(
             ) {
                 Text(
                     text = if (isRegistering) "Already have an account? " else "Don't have an account? ",
-                    fontFamily = RobotoMono,
-                    color = color4
+                    style = myTextStyle,
                 )
                 Text(
                     text = if (isRegistering) "Login" else "Register",
-                    color = primaryColor,
-                    fontFamily = RobotoMono,
+                    style = myTextStyle,
                     modifier = Modifier.clickable {
                         isRegistering = !isRegistering
                     }
@@ -535,10 +530,10 @@ Scaffold(
                 val text = if (isRegistering) "Register" else "Login"
                 val category =
                     if (global.selectedcategory.value == "student") "Class Rep" else "student"
-                Text(text = "$text as a $category? ", fontFamily = RobotoMono, color = textColor)
+                Text(text = "$text as a $category? ", style = myTextStyle)
                 Text(
                     text = "Click here",
-                    fontFamily = RobotoMono,
+                    style = myTextStyle,
                     color = primaryColor,
                     modifier = Modifier.clickable {
                         global.selectedcategory.value = category

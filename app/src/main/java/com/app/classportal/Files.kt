@@ -1,6 +1,9 @@
 package com.app.classportal
 
 import android.content.Context
+import android.net.Uri
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
@@ -24,6 +27,13 @@ data class TimetableItem(
     val venue: String,
     val day: String,
 )
+data class Assignment(
+    val title: String,
+    val description: String,
+    val filePath: String
+)
+
+
 
 data class Announcement(val id: Int, val date: String, val title: String, val description: String, val student: String)
 
@@ -33,6 +43,7 @@ fun getCurrentDateFormatted(): String {
 }
 
 object FileUtil {
+    private const val ASSIGNMENTS_FILE = "assignments.json"
     private const val STUDENT_FILE = "studentsfile.json"
     private const val TIMETABLE_FILE = "timetablefile.json"
     private const val ATTENDANCE_FILE = "attendancerecords.json"
@@ -111,4 +122,65 @@ object FileUtil {
         val type = object : TypeToken<List<List<TimetableItem>>>() {}.type
         return gson.fromJson(file.readText(), type)
     }
+
+
+
+    fun loadAssignments(context: Context): List<List<Assignment>> {
+        val file = File(context.filesDir, ASSIGNMENTS_FILE)
+        return if (file.exists()) {
+            val json = file.readText()
+            val type = object : TypeToken<List<List<Assignment>>>() {}.type
+            Gson().fromJson(json, type)
+        } else {
+            emptyList()
+        }
+    }
+
+    fun saveAssignments(context: Context, assignments: List<List<Assignment>>) {
+        val file = File(context.filesDir, ASSIGNMENTS_FILE)
+        val json = Gson().toJson(assignments)
+        file.writeText(json)
+    }
+
+    // Function to get the file path from Uri
+    fun getPath(context: Context, uri: Uri): String? {
+        return if (DocumentsContract.isDocumentUri(context, uri)) {
+            val docId = DocumentsContract.getDocumentId(uri)
+            val split = docId.split(":").toTypedArray()
+            val type = split[0]
+            if ("primary".equals(type, true)) {
+                return "${context.getExternalFilesDir(null)}/${split[1]}"
+            } else {
+                val contentUri = when (type) {
+                    "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                    "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                    else -> null
+                }
+                contentUri?.let {
+                    getDataColumn(context, it, "_id=?", arrayOf(split[1]))
+                }
+            }
+        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
+            getDataColumn(context, uri, null, null)
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+            uri.path
+        } else {
+            null
+        }
+    }
+
+    private fun getDataColumn(context: Context, uri: Uri, selection: String?, selectionArgs: Array<String>?): String? {
+        val column = "_data"
+        val projection = arrayOf(column)
+        context.contentResolver.query(uri, projection, selection, selectionArgs, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(columnIndex)
+            }
+        }
+        return null
+    }
+
+
 }

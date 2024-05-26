@@ -85,7 +85,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val boxes = listOf(
         R.drawable.announcement to date to "soon",
         R.drawable.attendance to "Have you updated attendance sheet?" to "RecordAttendance",
-        R.drawable.assignment to "No due assignments" to "soon",
+        R.drawable.assignment to "No due assignments" to "assignments",
         R.drawable.timetable to "Yooh, you have new timetable" to "timetable"
     )
 

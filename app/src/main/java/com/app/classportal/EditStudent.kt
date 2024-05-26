@@ -3,14 +3,17 @@ package com.app.classportal
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -59,15 +62,26 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Edit Student",
+                title = { Text("  Edit Student",
                     fontFamily = RobotoMono) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back",
-                            tint = color4,
-                            modifier = Modifier.clickable {
-                                navController.popBackStack()
-                            })
+                        Box(modifier = Modifier
+
+                            .border(
+                                width = 1.dp,
+                                color = textColor,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                            .size(50.dp),
+                            contentAlignment = Alignment.Center){
+                            Icon(
+                                imageVector = Icons.Default.ArrowBackIosNew,
+                                contentDescription = "Back",
+                                tint = textColor,
+                            )
+                        }
                     }
                 },
                 actions = {
@@ -91,8 +105,6 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
             // Your main content goes here
             TextField(
                 value = studentId, textStyle = TextStyle(
-                    color = Color.Black,
-                    fontSize = 16.sp,
                     fontFamily = RobotoMono
                 ),
                 onValueChange = { studentId = it },
@@ -140,10 +152,9 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text("Find Student",
-                    fontSize = 16.sp,
-                    color = Color.White,
+                    style = myTextStyle,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = RobotoMono
+                    
                 )
             }
 
@@ -152,8 +163,6 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 TextField(
                     value = newfirstName,
                     textStyle = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp,
                         fontFamily = RobotoMono
                     ),
                     onValueChange = { newfirstName = it },
@@ -181,8 +190,6 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 TextField(
                     value = newlastName,
                     textStyle = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp,
                         fontFamily = RobotoMono
                     ),
                     onValueChange = { newlastName = it },
@@ -221,16 +228,14 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                             shape = RoundedCornerShape(10.dp),
                             clip = true
                         )
-                        .width(200.dp)
+                        .width(275.dp)
                         .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(color),
+                    colors = ButtonDefaults.buttonColors(secondaryColor),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text("Update Student",
-                        fontSize = 16.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Normal,
-                        fontFamily = RobotoMono
+                        style = myTextStyle,
+                        fontWeight = FontWeight.Bold,
                     )
                 }
             }
@@ -241,24 +246,20 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     onDismissRequest = { showDialog = false },
                     confirmButton = {
                         Button(onClick = { showDialog = false },
-                            colors = ButtonDefaults.buttonColors(textcolor),
+                            colors = ButtonDefaults.buttonColors(primaryColor),
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier.fillMaxWidth()) {
                             Text("OK",
-                                fontFamily = RobotoMono,
-                                fontSize = 16.sp,
-                                color = color1)
+                                style = myTextStyle,)
                         }
                     },
                     title = { Text("Student Not Found",
-                        fontFamily = RobotoMono,
-                        fontSize = 16.sp,
-                        color = color1,
+                        style = myTextStyle,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold) },
                     text = { Text("The student with ID $studentId was not found.",
-                        fontFamily = RobotoMono,
-                        fontSize = 16.sp,
-                        color = color1) }
+                        style = myTextStyle,) },
+                    containerColor = secondaryColor,
                 )
             }
         }

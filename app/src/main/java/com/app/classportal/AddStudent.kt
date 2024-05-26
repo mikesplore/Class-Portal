@@ -64,25 +64,33 @@ val buttonBrush = Brush.linearGradient(
 
     )
 )
+
 @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController: NavController) {
-        var firstName by remember { mutableStateOf("") }
-        var lastName by remember { mutableStateOf("") }
-        var studentId by remember { mutableStateOf("") }
-        val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = "   Add Student",
+@Composable
+fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController: NavController) {
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
+    var studentId by remember { mutableStateOf("") }
+    val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "   Add Student",
                         fontFamily = RobotoMono,
                         color = textColor,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp)},
-                    navigationIcon = {
-                        IconButton(onClick = { navController.navigate("dashboard") },
-                            modifier = Modifier.absolutePadding(left = 10.dp)) {
-                            Box(modifier = Modifier
+                        fontSize = 25.sp
+                    )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = { navController.navigate("dashboard") },
+                        modifier = Modifier.absolutePadding(left = 10.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
 
                                 .border(
                                     width = 1.dp,
@@ -91,141 +99,155 @@ val buttonBrush = Brush.linearGradient(
                                 )
                                 .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
                                 .size(50.dp),
-                                contentAlignment = Alignment.Center){
-                                Icon(
-                                    imageVector = Icons.Default.ArrowBackIosNew,
-                                    contentDescription = "Back",
-                                    tint = textColor,
-                                )
-                            }
-
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBackIosNew,
+                                contentDescription = "Back",
+                                tint = textColor,
+                            )
                         }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
-                )
-            }
-        ) { innerPadding ->
+
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .background(backbrush)
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            // main content
             Column(
                 modifier = Modifier
-                    .background(backbrush)
                     .fillMaxSize()
-                    .padding(innerPadding)
+                    .background(backbrush)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // main content
+
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(backbrush)
+                        .fillMaxWidth()
+                        .height(400.dp)
                         .padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceEvenly,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly
                 ) {
+                    // Instructions
+                    Text(
+                        text = "Enter First Name",
+                        fontFamily = RobotoMono,
+                        fontSize = 16.sp,
+                        color = textColor
+                    )
 
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(400.dp)
-                                .padding(16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            // Instructions
-                            Text(
-                                text = "Enter First Name",
-                                fontFamily = RobotoMono,
-                                fontSize = 16.sp,
-                                color = textColor
-                            )
+                    // CustomTextField for student name
+                    CustomTextField(
+                        value = firstName,
 
-                            // CustomTextField for student name
-                            CustomTextField(
-                                value = firstName,
+                        onValueChange = { firstName = it },
+                        label = "First name"
+                    )
 
-                                onValueChange = { firstName = it },
-                                label = "First name"
-                            )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Enter Last Name",
+                        fontFamily = RobotoMono,
+                        fontSize = 16.sp,
+                        color = textColor
+                    )
 
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "Enter Last Name",
-                                fontFamily = RobotoMono,
-                                fontSize = 16.sp,
-                                color = textColor
-                            )
+                    // CustomTextField for student name
+                    CustomTextField(
+                        value = lastName,
 
-                            // CustomTextField for student name
-                            CustomTextField(
-                                value = lastName,
+                        onValueChange = { lastName = it },
+                        label = "Last name"
+                    )
 
-                                onValueChange = { lastName = it },
-                                label = "Last name"
-                            )
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                            Spacer(modifier = Modifier.height(8.dp))
+                    // Instructions
+                    Text(
+                        text = "Enter Student ID",
+                        fontFamily = RobotoMono,
+                        fontSize = 16.sp,
+                        color = textColor
+                    )
 
-                            // Instructions
-                            Text(
-                                text = "Enter Student ID",
-                                fontFamily = RobotoMono,
-                                fontSize = 16.sp,
-                                color = textColor
-                            )
+                    // CustomTextField for student ID
+                    CustomTextField(
+                        value = studentId,
+                        onValueChange = { studentId = it },
+                        label = "Student ID"
+                    )
 
-                            // CustomTextField for student ID
-                            CustomTextField(
-                                value = studentId,
-                                onValueChange = { studentId = it },
-                                label = "Student ID"
-                            )
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                            Spacer(modifier = Modifier.height(16.dp))
-
-                            // Button to add student
-                            Button(
-                                onClick = {
-                                    val isValid = firstName.isNotEmpty() && pattern.matches(studentId)
-                                    if (isValid) {
-                                        FileUtil.loadStudents(context).toMutableList().apply {
-                                            add(Student(studentId, firstName, lastName))
-                                            FileUtil.saveStudents(context, this) // Save directly within 'apply'
-                                        }
-                                        // Clear fields & show success message (combined)
-                                        firstName = ""
-                                        lastName = ""
-                                        studentId = ""
-                                        Toast.makeText(context, "Student added successfully", Toast.LENGTH_SHORT).show()
-                                        onStudentAdded()
-                                    } else {
-                                        // Show invalid ID message
-                                        Toast.makeText(context, "Please enter a valid student ID", Toast.LENGTH_SHORT).show()
-                                    }
-                                },
-                                modifier = Modifier
-                                    .width(300.dp)
-                                    .height(60.dp)
-                                    .background(backbrush, RoundedCornerShape(10.dp)), // Background moved to outer Modifier
-                                colors = ButtonDefaults.buttonColors(Color.Transparent)
-                            ) {
-                                Text(
-                                    text = "Add Student",
-                                    color = color4,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 15.sp,
-                                    fontFamily = RobotoMono,
-                                    modifier = Modifier.padding(10.dp) // Add padding to the Text
-                                )
+                    // Button to add student
+                    Button(
+                        onClick = {
+                            val isValid = firstName.isNotEmpty() && pattern.matches(studentId)
+                            if (isValid) {
+                                FileUtil.loadStudents(context).toMutableList().apply {
+                                    add(Student(studentId, firstName, lastName))
+                                    FileUtil.saveStudents(
+                                        context,
+                                        this
+                                    ) // Save directly within 'apply'
+                                }
+                                // Clear fields & show success message (combined)
+                                firstName = ""
+                                lastName = ""
+                                studentId = ""
+                                Toast.makeText(
+                                    context,
+                                    "Student added successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                onStudentAdded()
+                            } else {
+                                // Show invalid ID message
+                                Toast.makeText(
+                                    context,
+                                    "Please enter a valid student ID",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-
-                        }
-
-                }
-
+                        },
+                        modifier = Modifier
+                            .width(275.dp)
+                            .background(
+                                backbrush,
+                                RoundedCornerShape(10.dp)
+                            ), // Background moved to outer Modifier
+                        colors = ButtonDefaults.buttonColors(Color.Transparent)
+                    ) {
+                        Text(
+                            text = "Add Student",
+                            color = color4,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 15.sp,
+                            fontFamily = RobotoMono,
+                            modifier = Modifier.padding(10.dp) // Add padding to the Text
+                        )
+                    }
 
                 }
 
             }
 
+
+        }
+
     }
+
+}
 
 @Composable
 fun CustomTextField(
@@ -241,33 +263,41 @@ fun CustomTextField(
             fontFamily = RobotoMono,
             fontSize = 16.sp
         ),
-        label = { Text(text = label, style = TextStyle(color = textColor, fontSize = 16.sp, fontFamily = RobotoMono))},
+        label = {
+            Text(
+                text = label,
+                style = TextStyle(color = textColor, fontSize = 16.sp, fontFamily = RobotoMono)
+            )
+        },
         onValueChange = onValueChange,
         modifier = modifier
             .height(50.dp),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor = Color.Transparent,
+            focusedContainerColor = primaryColor,
+            unfocusedContainerColor = primaryColor,
             focusedIndicatorColor = focused,
             unfocusedIndicatorColor = unfocused,
             focusedLabelColor = textColor,
             cursorColor = textColor,
             unfocusedLabelColor = textColor,
             focusedTextColor = textColor,
-            unfocusedTextColor = textColor,
-            
+            unfocusedTextColor = textColor
+
         ),
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
 
-    )
+        )
 }
-
 
 
 @Preview
 @Composable
 fun AddStudentScreenPreview() {
-    AddStudentScreen(onStudentAdded = {},navController = rememberNavController(), context = LocalContext.current)
+    AddStudentScreen(
+        onStudentAdded = {},
+        navController = rememberNavController(),
+        context = LocalContext.current
+    )
 }
 

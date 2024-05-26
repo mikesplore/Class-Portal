@@ -100,6 +100,9 @@ class MainActivity : ComponentActivity() {
             composable("assignments") {
                 AssignmentScreen(navController)
             }
+            composable("students"){
+                ShowStudentsScreen(context, navController)
+            }
             
         }
     }

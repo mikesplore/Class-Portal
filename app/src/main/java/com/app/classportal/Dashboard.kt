@@ -93,11 +93,13 @@ fun Dashboard(navController: NavController, context: Context) {
     val date = if (firstAnnouncement == null) "Looks like there is no announcement"
     else "You have new announcement from ${firstAnnouncement.student}"
     // Define the list of boxes
+    val assignment = if(announcements.isNotEmpty()) "Hey ${global.loggedinuser.value}, check posted assignments" else "No assignment posted"
+    val timetable = if(announcements.isNotEmpty()) "Yoh ${global.loggedinuser.value} check timetable" else "No timetable event posted"
     val boxes = listOf(
         R.drawable.announcement to date to "announcements",
         R.drawable.attendance to "Have you updated attendance sheet?" to "RecordAttendance",
-        R.drawable.assignment to "No due assignments" to "assignments",
-        R.drawable.timetable to "Yooh, you have new timetable" to "timetable"
+        R.drawable.assignment to assignment to "assignments",
+        R.drawable.timetable to timetable to "timetable"
     )
 
     val students = FileUtil.loadStudents(context)
@@ -216,6 +218,28 @@ fun Dashboard(navController: NavController, context: Context) {
                                 },
                                 onClick = {
                                     navController.navigate("RecordAttendance")
+
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Filled.Edit,
+                                        contentDescription = "Sign Attendance",
+                                        tint = textColor
+                                    )
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "View Students",
+                                        color = textColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        fontFamily = RobotoMono
+                                    )
+                                },
+                                onClick = {
+                                    navController.navigate("students")
 
                                 },
                                 leadingIcon = {
@@ -872,7 +896,7 @@ fun StudentsTabContent(navController: NavController, context: Context) {
             modifier = Modifier
                 .height(250.dp)
         ) {
-            ShowStudentsScreen(context = context)
+            ShowStudentsScreen(context = context, navController)
         }
         Spacer(modifier = Modifier.height(10.dp))
         Text(

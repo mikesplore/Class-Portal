@@ -3,6 +3,7 @@ package com.app.classportal
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,11 +48,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShowStudentsScreen(context: Context) {
+fun ShowStudentsScreen(context: Context, navController: NavController) {
     var students by remember { mutableStateOf(FileUtil.loadStudents(context)) }
     val originalStudents = remember { students.toList() } // Store a copy of original data
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
@@ -69,7 +72,10 @@ fun ShowStudentsScreen(context: Context) {
                         Text(
                             "Students",
                             fontWeight = FontWeight.Bold,
-                            fontFamily = RobotoMono
+                            fontFamily = RobotoMono,
+                            modifier = Modifier.clickable{
+                                navController.navigate("students")
+                            }
                         )
 
                         OutlinedTextField(
@@ -239,5 +245,5 @@ fun ShowStudentsScreen(context: Context) {
 @Preview
 @Composable
 fun ShowStudents() {
-    ShowStudentsScreen(LocalContext.current)
+    ShowStudentsScreen(LocalContext.current, rememberNavController())
 }

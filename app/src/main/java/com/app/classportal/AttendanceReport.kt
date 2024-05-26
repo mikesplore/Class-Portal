@@ -34,19 +34,29 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("   Attendance Report", fontFamily = RobotoMono, color = textColor) },
+                title = {
+                    Text(
+                        "   Attendance Report",
+                        fontFamily = RobotoMono,
+                        color = textColor
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() },
-                        modifier = Modifier.absolutePadding(10.dp)) {
-                        Box(modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = textColor,
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
-                            .size(50.dp),
-                            contentAlignment = Alignment.Center){
+                    IconButton(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.absolutePadding(10.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .border(
+                                    width = 1.dp,
+                                    color = textColor,
+                                    shape = RoundedCornerShape(10.dp)
+                                )
+                                .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                                .size(50.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
@@ -75,7 +85,8 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
 fun AttendanceReportContent(context: Context) {
     val students = FileUtil.loadStudents(context)
     val attendanceRecords = FileUtil.loadAttendanceRecords(context)
-    val units = listOf("Calculus II", "Linear Algebra", "Statistics I", "Probability and Statistics")
+    val units =
+        listOf("Calculus II", "Linear Algebra", "Statistics I", "Probability and Statistics")
     val pagerState = rememberPagerState()
 
     Column(
@@ -116,14 +127,19 @@ fun AttendanceReportContent(context: Context) {
             val filteredAttendanceRecords = attendanceRecords.filter { it.unit == units[page] }
 
             val studentAttendance = students.map { student ->
-                val totalPresent = filteredAttendanceRecords.count { it.studentId == student.registrationID && it.present }
-                val totalAbsent = filteredAttendanceRecords.count { it.studentId == student.registrationID && !it.present }
+                val totalPresent =
+                    filteredAttendanceRecords.count { it.studentId == student.registrationID && it.present }
+                val totalAbsent =
+                    filteredAttendanceRecords.count { it.studentId == student.registrationID && !it.present }
                 val totalSessions = totalPresent + totalAbsent
-                val attendancePercentage = if (totalSessions > 0) (totalPresent * 100 / totalSessions) else 0
+                val attendancePercentage =
+                    if (totalSessions > 0) (totalPresent * 100 / totalSessions) else 0
                 StudentAttendance(student, totalPresent, totalAbsent, attendancePercentage)
             }.sortedByDescending { it.attendancePercentage }
 
-            LazyColumn(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+            LazyColumn(modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)) {
                 item {
                     Row(
                         modifier = Modifier
@@ -132,10 +148,38 @@ fun AttendanceReportContent(context: Context) {
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Name", modifier = Modifier.weight(1f), textAlign = TextAlign.Start, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = textColor)
-                        Text("Present", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = textColor)
-                        Text("Absent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = textColor)
-                        Text("Percent", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, fontWeight = FontWeight.Bold, color = textColor)
+                        Text(
+                            "Name",
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Start,
+                            fontFamily = RobotoMono,
+                            fontWeight = FontWeight.Bold,
+                            color = textColor
+                        )
+                        Text(
+                            "Present",
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center,
+                            fontFamily = RobotoMono,
+                            fontWeight = FontWeight.Bold,
+                            color = textColor
+                        )
+                        Text(
+                            "Absent",
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center,
+                            fontFamily = RobotoMono,
+                            fontWeight = FontWeight.Bold,
+                            color = textColor
+                        )
+                        Text(
+                            "Percent",
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center,
+                            fontFamily = RobotoMono,
+                            fontWeight = FontWeight.Bold,
+                            color = textColor
+                        )
                     }
                     Divider(color = Color.Gray, thickness = 1.dp)
                 }
@@ -149,10 +193,35 @@ fun AttendanceReportContent(context: Context) {
                             else -> Color.Red
                         }
 
-                        Text(studentAttendance.student.firstName, modifier = Modifier.weight(1f), textAlign = TextAlign.Start, fontFamily = RobotoMono, color = textColor)
-                        Text("${studentAttendance.totalPresent}", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = textColor)
-                        Text("${studentAttendance.totalAbsent}", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = RobotoMono, color = textColor)
-                        Text("${studentAttendance.attendancePercentage}%", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = percentageColor, fontFamily = RobotoMono, fontWeight = FontWeight.Bold)
+                        Text(
+                            studentAttendance.student.firstName,
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Start,
+                            fontFamily = RobotoMono,
+                            color = textColor
+                        )
+                        Text(
+                            "${studentAttendance.totalPresent}",
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center,
+                            fontFamily = RobotoMono,
+                            color = textColor
+                        )
+                        Text(
+                            "${studentAttendance.totalAbsent}",
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center,
+                            fontFamily = RobotoMono,
+                            color = textColor
+                        )
+                        Text(
+                            "${studentAttendance.attendancePercentage}%",
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center,
+                            color = percentageColor,
+                            fontFamily = RobotoMono,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                     Divider(color = Color.Gray, thickness = 1.dp)
                 }

@@ -12,7 +12,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,9 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -64,8 +61,6 @@ import coil.compose.AsyncImage
 import com.app.classportal.FileUtil.getAssignment
 import com.app.classportal.FileUtil.loadAnnouncement
 import kotlinx.coroutines.launch
-import java.time.DayOfWeek
-import java.util.Calendar
 
 val imageUrls = listOf(
     "https://images.template.net/wp-content/uploads/2019/07/Certificate-of-attendance-Format1.jpg",
@@ -82,9 +77,9 @@ val imageUrls = listOf(
 @Composable
 fun Dashboard(navController: NavController, context: Context) {
     val horizontalScrollState = rememberScrollState()
-    var expanded by remember { mutableStateOf(true) }
+    var expanded by remember { mutableStateOf(false) }
     val announcements = loadAnnouncement(context)
-    var selectedTabIndex by remember { mutableIntStateOf(3) }
+    var selectedTabIndex by remember { mutableIntStateOf(1) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
@@ -602,7 +597,7 @@ fun AttendanceBox(
                 ) {
                     Text(
                         text = content,
-                        color = textColor,
+                        color = primaryColor,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -707,6 +702,10 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
             }
         }
         Spacer(modifier = Modifier.height(10.dp))
+        Text(text = "Sign or view the attendance",
+            style = myTextStyle,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(10.dp))
         Row(
             modifier = Modifier
                 .height(200.dp)
@@ -751,7 +750,7 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
         "Probability",
         "Computer Science"
     )
-    var selectedSubjectIndex by remember { mutableStateOf(0) } // Default to index 0 ("Calculus II")
+    var selectedSubjectIndex by remember { mutableIntStateOf(0) } // Default to index 0 ("Calculus II")
     val filteredAssignment = getAssignment(context, selectedSubjectIndex, 0)
 
     Column(
@@ -790,11 +789,13 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
             subjects.forEachIndexed { index, subject ->
                 Button(
                     onClick = { selectedSubjectIndex = index },
+                    shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (index == selectedSubjectIndex) primaryColor else Color.Transparent
                     )
                 ) {
-                    Text(text = subject, color = textColor)
+                    Text(text = subject,
+                        style = myTextStyle)
                 }
             }
         }
@@ -803,6 +804,8 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
             Text(
                 text = filteredAssignment.title,
                 style = myTextStyle,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
                 textAlign = TextAlign.Center
             )
             Text(

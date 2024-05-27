@@ -222,11 +222,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 },
                                 onClick = {
-                                    Toast.makeText(
-                                        context,
-                                        "Feature coming soon!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    navController.navigate("settings")
 
                                 },
                                 leadingIcon = {
@@ -452,12 +448,12 @@ fun Dashboard(navController: NavController, context: Context) {
                                 palleteDialog = false
                             },
                                 shape = RoundedCornerShape(10.dp),
-                                colors = ButtonDefaults.buttonColors(primaryColor)) {
+                                colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                 Text(text = "Default colors", style = myTextStyle)
                             }
                             Button(onClick = { palleteDialog = false },
                                 shape = RoundedCornerShape(10.dp),
-                                colors = ButtonDefaults.buttonColors(primaryColor)) {
+                                colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                 Text(text = "Ok",
                                     style = myTextStyle,)
                             }}

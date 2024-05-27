@@ -16,16 +16,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-val primaryColor = Color(0xff003C43)
-val secondaryColor = Color(0xff135D66)
-val tertiaryColor = Color(0xff77B0AA)
-val textColor = Color(0xffE3FEF7)
+
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("Student"),
     var firstname: MutableState<String> = mutableStateOf(""),
     var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),
     var loggedinuser: MutableState<String> = mutableStateOf("Anonymous"),
+    var loggedinlastname: MutableState<String> = mutableStateOf("Ochieng"),
+    var loggedinregID: MutableState<String> = mutableStateOf(""),
+    var enableEdgeToEdge: MutableState<Boolean> = mutableStateOf(true),
+    var usernames: MutableState<String> = mutableStateOf(""),
 
 
 
@@ -38,7 +39,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            enableEdgeToEdge()
+            if (global.enableEdgeToEdge.value){
+            enableEdgeToEdge()}
+            LaunchedEffect(Unit) {
+                globalcolors.currentScheme = globalcolors.loadColorScheme(this@MainActivity)
+            }
             val navController = rememberNavController()
             NavigationComponent(navController, this)
         }
@@ -46,9 +51,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-        LaunchedEffect(Unit) {
-            globalcolors.currentScheme = globalcolors.loadColorScheme(context)
-        }
+        
         NavHost(navController, startDestination = "login") {
             composable("dashboard") {
                 Dashboard(navController, context)
@@ -86,9 +89,6 @@ class MainActivity : ComponentActivity() {
             composable("welcome") {
                 WelcomeScreen(navController)
             }
-            composable("logincategory") {
-                LoginCategory(navController = navController)
-            }
 
             composable("announcements") {
                 AnnouncementsScreen(navController = navController, context)
@@ -107,6 +107,9 @@ class MainActivity : ComponentActivity() {
             }
             composable("students"){
                 ShowStudentsScreen(context, navController)
+            }
+            composable("settings"){
+                SettingsScreen(navController, context)
             }
             
         }

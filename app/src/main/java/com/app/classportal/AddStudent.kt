@@ -223,7 +223,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                     ) {
                         Text(
                             text = "Add Student",
-                            color = color4,
+                            color = textColor,
                             fontWeight = FontWeight.Normal,
                             fontSize = 15.sp,
                             fontFamily = RobotoMono,

@@ -55,7 +55,7 @@ fun CurrentDayEventsScreen() {
                 title = {
                     Row (modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center){
-                        Text("Today's Lectures", fontFamily = RobotoMono, color = textColor, fontSize = 20.sp)
+                        Text("Today's Lectures", fontFamily = RobotoMono, color = globalcolors.textColor, fontSize = 20.sp)
                     }
 
                         },

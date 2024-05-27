@@ -67,7 +67,6 @@ import java.util.Locale
 val focused = globalcolors.tertiaryColor
 val unfocused = globalcolors.primaryColor
 val unselected  = Color.Transparent
-var selected = globalcolors.primaryColor
 
 
 val center = Offset(0.5f, 0.5f)
@@ -157,7 +156,7 @@ Scaffold(
                         global.selectedcategory.value = "Class Rep"
 
                     }
-                    .background(if(global.selectedcategory.value == "Class Rep") selected else unselected, shape = RoundedCornerShape(10.dp))
+                    .background(if(global.selectedcategory.value == "Class Rep") globalcolors.primaryColor else unselected, shape = RoundedCornerShape(10.dp))
                     .fillMaxHeight()
                     .width(130.dp),
                     contentAlignment = Alignment.Center){
@@ -173,7 +172,7 @@ Scaffold(
                     .clickable {
                         global.selectedcategory.value = "student"
                     }
-                    .background(if(global.selectedcategory.value == "student") selected else unselected, shape = RoundedCornerShape(10.dp))
+                    .background(if(global.selectedcategory.value == "student") globalcolors.primaryColor else unselected, shape = RoundedCornerShape(10.dp))
                     .border(
                         width = 1.dp,
                         color = globalcolors.textColor,
@@ -230,8 +229,8 @@ Scaffold(
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = globalcolors.primaryColor,
                             unfocusedContainerColor = globalcolors.primaryColor,
-                            focusedIndicatorColor = focused,
-                            unfocusedIndicatorColor = unfocused,
+                            focusedIndicatorColor = globalcolors.tertiaryColor,
+                            unfocusedIndicatorColor = globalcolors.primaryColor,
                             focusedLabelColor = globalcolors.textColor,
                             cursorColor = globalcolors.textColor,
                             unfocusedLabelColor = globalcolors.textColor,
@@ -265,8 +264,8 @@ Scaffold(
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = globalcolors.primaryColor,
                             unfocusedContainerColor = globalcolors.primaryColor,
-                            focusedIndicatorColor = focused,
-                            unfocusedIndicatorColor = unfocused,
+                            focusedIndicatorColor = globalcolors.tertiaryColor,
+                            unfocusedIndicatorColor = globalcolors.primaryColor,
                             focusedLabelColor = globalcolors.textColor,
                             cursorColor = globalcolors.textColor,
                             unfocusedLabelColor = globalcolors.textColor,
@@ -294,7 +293,7 @@ Scaffold(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = globalcolors.primaryColor,
                     unfocusedContainerColor = globalcolors.primaryColor,
-                    focusedIndicatorColor = focused,
+                    focusedIndicatorColor = globalcolors.tertiaryColor,
                     unfocusedIndicatorColor = unfocused,
                     focusedLabelColor = globalcolors.textColor,
                     cursorColor = globalcolors.textColor,
@@ -331,8 +330,8 @@ Scaffold(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = globalcolors.primaryColor,
                     unfocusedContainerColor = globalcolors.primaryColor,
-                    focusedIndicatorColor = focused,
-                    unfocusedIndicatorColor = unfocused,
+                    focusedIndicatorColor = globalcolors.tertiaryColor,
+                    unfocusedIndicatorColor = globalcolors.primaryColor,
                     focusedLabelColor = globalcolors.textColor,
                     cursorColor = globalcolors.textColor,
                     unfocusedLabelColor = globalcolors.textColor,
@@ -371,8 +370,8 @@ Scaffold(
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = globalcolors.primaryColor,
                         unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = focused,
-                        unfocusedIndicatorColor = unfocused,
+                        focusedIndicatorColor = globalcolors.tertiaryColor,
+                        unfocusedIndicatorColor = globalcolors.primaryColor,
                         focusedLabelColor = globalcolors.textColor,
                         cursorColor = globalcolors.textColor,
                         unfocusedLabelColor = globalcolors.textColor,

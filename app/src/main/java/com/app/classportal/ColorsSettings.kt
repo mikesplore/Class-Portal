@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.classportal.ui.theme.RobotoMono
 import com.google.gson.Gson
-import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import java.io.File
 
@@ -33,7 +32,6 @@ fun parseColor(hex: String): Color {
     }
 }
 
-
 object globalcolors {
     private const val COLORS_FILE_NAME = "color_scheme.json"
 
@@ -45,7 +43,7 @@ object globalcolors {
             val json = file.readText()
             Gson().fromJson(json, ColorScheme::class.java)
         } else {
-            ColorScheme("003C43", "135D66", "77B0AA", "E3FEF7") // Default colors
+            ColorScheme("00A9FF", "89CFF3", "A0E9FF", "CDF5FD") // Default colors
         }
     }
 
@@ -69,14 +67,12 @@ object globalcolors {
         get() = parseColor(currentScheme.textColor)
 }
 
-
-
 @Composable
 fun ColorSettings(context: Context) {
-    var primaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).primaryColor) }
-    var secondaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).secondaryColor) }
-    var tertiaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).tertiaryColor) }
-    var textColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).textColor) }
+    var primaryColor by remember { mutableStateOf(globalcolors.currentScheme.primaryColor) }
+    var secondaryColor by remember { mutableStateOf(globalcolors.currentScheme.secondaryColor) }
+    var tertiaryColor by remember { mutableStateOf(globalcolors.currentScheme.tertiaryColor) }
+    var textColor by remember { mutableStateOf(globalcolors.currentScheme.textColor) }
 
     Column(
         modifier = Modifier.height(350.dp),
@@ -144,15 +140,16 @@ fun OutlinedColorTextField(
         label = { Text(text = label, fontFamily = RobotoMono) },
         singleLine = true,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = parseColor(colorValue),
+            focusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
             unfocusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
-            focusedIndicatorColor = parseColor(colorValue),
-            unfocusedIndicatorColor = parseColor(colorValue),
-            focusedLabelColor = parseColor(globalcolors.currentScheme.textColor),
+            focusedIndicatorColor = focused,
+            unfocusedIndicatorColor = unfocused,
+            focusedLabelColor = globalcolors.textColor,
             cursorColor = parseColor(globalcolors.currentScheme.textColor),
             unfocusedLabelColor = parseColor(globalcolors.currentScheme.textColor),
             focusedTextColor = parseColor(globalcolors.currentScheme.textColor),
             unfocusedTextColor = parseColor(globalcolors.currentScheme.textColor)
+
         ),
         shape = RoundedCornerShape(10.dp),
         modifier = modifier
@@ -167,11 +164,6 @@ fun OutlinedColorTextField(
 @Preview
 @Composable
 fun ColorSettingsPreview() {
-    ColorSettings(context = LocalContext.current)
+    val context = LocalContext.current
+    ColorSettings(context = context)
 }
-
-
-
-
-
-

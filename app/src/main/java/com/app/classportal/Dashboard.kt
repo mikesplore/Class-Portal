@@ -21,6 +21,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.Feed
+import androidx.compose.material.icons.automirrored.filled.NoteAdd
 import androidx.compose.material.icons.automirrored.filled.Rule
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddAlert
@@ -28,6 +30,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
@@ -197,24 +200,19 @@ fun Dashboard(navController: NavController, context: Context) {
                                         color = globalcolors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 15.sp,
-                                        fontFamily = RobotoMono
+                                        fontFamily = RobotoMono,
+
                                     )
                                 },
                                 onClick = {
 
                                 },
-                                leadingIcon = {
-                                    Icon(
-                                        Icons.Filled.Menu,
-                                        contentDescription = "Quick Tasks",
-                                        tint = globalcolors.textColor
-                                    )
-                                }
+
                             )
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        "Account Settings",
+                                        "Settings",
                                         color = globalcolors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
@@ -271,8 +269,8 @@ fun Dashboard(navController: NavController, context: Context) {
                                 },
                                 leadingIcon = {
                                     Icon(
-                                        Icons.Filled.Edit,
-                                        contentDescription = "Sign Attendance",
+                                        Icons.Filled.Visibility,
+                                        contentDescription = "view students",
                                         tint = globalcolors.textColor
                                     )
                                 }
@@ -360,7 +358,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 },
                                 leadingIcon = {
                                     Icon(
-                                        Icons.AutoMirrored.Filled.Assignment,
+                                        Icons.AutoMirrored.Default.NoteAdd,
                                         contentDescription = "Add Assignment",
                                         tint = globalcolors.textColor
                                     )
@@ -382,7 +380,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 },
                                 leadingIcon = {
                                     Icon(
-                                        Icons.AutoMirrored.Filled.Rule,
+                                        Icons.AutoMirrored.Filled.Feed,
                                         contentDescription = "color",
                                         tint = globalcolors.textColor
                                     )
@@ -454,6 +452,7 @@ fun Dashboard(navController: NavController, context: Context) {
                             Button(onClick = { 
                                 
                                 palleteDialog = false
+                                Toast.makeText(context, "Color pallete updated! If you still see some old colors, please navigate back and forth to refresh", Toast.LENGTH_SHORT).show()
                                              },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {

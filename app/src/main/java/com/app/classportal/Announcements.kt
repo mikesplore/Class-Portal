@@ -42,16 +42,6 @@ import com.app.classportal.FileUtil.saveAnnouncement
 import com.app.classportal.ui.theme.RobotoMono
 
 
-
-val backbrush = Brush.verticalGradient(
-    listOf(
-        globalcolors.primaryColor,
-        globalcolors.secondaryColor,
-        globalcolors.tertiaryColor
-        
-    )
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -64,6 +54,17 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
     val student = global.loggedinuser.value
     var selectedAnnouncementIndex by remember { mutableIntStateOf(-1) }
     var clickedIndex by remember { mutableIntStateOf(-1) }
+    val announcementbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
 
     // Load announcements initially
@@ -169,7 +170,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                     )
                 }
             },
-            containerColor = primaryColor,
+            containerColor = globalcolors.primaryColor,
 
             )
     }
@@ -188,7 +189,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                     DropdownMenu(
                         expanded = expanded,
                         onDismissRequest = { expanded = false },
-                        modifier = Modifier.background(secondaryColor)
+                        modifier = Modifier.background(globalcolors.secondaryColor)
                     ) {
                         DropdownMenuItem(
                             text = {
@@ -205,7 +206,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = primaryColor,
+                    containerColor = globalcolors.primaryColor,
                     titleContentColor = globalcolors.textColor
                 )
             )
@@ -213,7 +214,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showAddDialog = true },
-                containerColor = secondaryColor
+                containerColor = globalcolors.secondaryColor
             ) {
                 Icon(
                     Icons.Filled.Add, contentDescription = "Add Announcement",
@@ -227,7 +228,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                 modifier = Modifier
                     .padding(paddingValues)
                     .verticalScroll(rememberScrollState())
-                    .background(backbrush)
+                    .background(announcementbackbrush)
                     .fillMaxSize()
             ) {
                 // Display Announcements

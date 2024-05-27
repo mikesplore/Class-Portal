@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -41,6 +42,17 @@ fun AssignmentScreen(navController: NavController) {
     var currentUnitIndex by remember { mutableIntStateOf(0) }
     var editItemIndex by remember { mutableStateOf(-1) }
     var currentItem by remember { mutableStateOf(Assignment("", "")) }
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     Scaffold(
         topBar = {
@@ -66,7 +78,7 @@ fun AssignmentScreen(navController: NavController) {
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(backbrush)
+                .background(addbackbrush)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -96,7 +108,7 @@ fun AssignmentScreen(navController: NavController) {
                 val unitAssignments = assignmentData.getOrElse(page) { emptyList() }
                 LazyColumn(
                     modifier = Modifier
-                        .background(backbrush)
+                        .background(addbackbrush)
                         .fillMaxSize()
                         .padding(16.dp)
                 ) {

@@ -57,6 +57,18 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
     var lastName by remember { mutableStateOf("") }
     var studentId by remember { mutableStateOf("") }
     val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -64,7 +76,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                     Text(
                         text = "   Add Student",
                         fontFamily = RobotoMono,
-                        color = textColor,
+                        color = globalcolors.textColor,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp
                     )
@@ -79,7 +91,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
 
                                 .border(
                                     width = 1.dp,
-                                    color = textColor,
+                                    color = globalcolors.textColor,
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -89,7 +101,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = textColor,
+                                tint = globalcolors.textColor,
                             )
                         }
 
@@ -101,7 +113,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(backbrush)
+                .background(addbackbrush)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -109,7 +121,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(backbrush)
+                    .background(addbackbrush)
                     .padding(16.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -128,7 +140,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                         text = "Enter First Name",
                         fontFamily = RobotoMono,
                         fontSize = 16.sp,
-                        color = textColor
+                        color = globalcolors.textColor
                     )
 
                     // CustomTextField for student name
@@ -144,7 +156,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                         text = "Enter Last Name",
                         fontFamily = RobotoMono,
                         fontSize = 16.sp,
-                        color = textColor
+                        color = globalcolors.textColor
                     )
 
                     // CustomTextField for student name
@@ -162,7 +174,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                         text = "Enter Student ID",
                         fontFamily = RobotoMono,
                         fontSize = 16.sp,
-                        color = textColor
+                        color = globalcolors.textColor
                     )
 
                     // CustomTextField for student ID
@@ -209,14 +221,14 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                         modifier = Modifier
                             .width(275.dp)
                             .background(
-                                backbrush,
+                                addbackbrush,
                                 RoundedCornerShape(10.dp)
                             ), // Background moved to outer Modifier
                         colors = ButtonDefaults.buttonColors(Color.Transparent)
                     ) {
                         Text(
                             text = "Add Student",
-                            color = textColor,
+                            color = globalcolors.textColor,
                             fontWeight = FontWeight.Normal,
                             fontSize = 15.sp,
                             fontFamily = RobotoMono,
@@ -246,14 +258,14 @@ fun CustomTextField(
     TextField(
         value = value,
         textStyle = TextStyle(
-            color = textColor,
+            color = globalcolors.textColor,
             fontFamily = RobotoMono,
             fontSize = 16.sp
         ),
         label = {
             Text(
                 text = label,
-                style = TextStyle(color = textColor, fontSize = 16.sp, fontFamily = RobotoMono)
+                style = TextStyle(color = globalcolors.textColor, fontSize = 16.sp, fontFamily = RobotoMono)
             )
         },
         onValueChange = onValueChange,
@@ -264,11 +276,11 @@ fun CustomTextField(
             unfocusedContainerColor = globalcolors.primaryColor,
             focusedIndicatorColor = focused,
             unfocusedIndicatorColor = unfocused,
-            focusedLabelColor = textColor,
-            cursorColor = textColor,
-            unfocusedLabelColor = textColor,
-            focusedTextColor = textColor,
-            unfocusedTextColor = textColor
+            focusedLabelColor = globalcolors.textColor,
+            cursorColor = globalcolors.textColor,
+            unfocusedLabelColor = globalcolors.textColor,
+            focusedTextColor = globalcolors.textColor,
+            unfocusedTextColor = globalcolors.textColor
 
         ),
         singleLine = true,

@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -44,6 +45,17 @@ fun RecordAttendanceScreen(
     val pagerState = rememberPagerState()
     val attendanceRecords = remember { mutableStateMapOf<String, MutableState<Boolean>>() }
     val checkboxStates = remember { mutableStateMapOf<String, MutableState<Boolean>>() }
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     // Initialize the attendance and checkbox states
     units.forEach { unit ->
@@ -129,7 +141,7 @@ fun RecordAttendanceScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(backbrush)
+                .background(addbackbrush)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {

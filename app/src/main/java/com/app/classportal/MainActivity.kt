@@ -25,12 +25,6 @@ class Global(
 )
 
 var global = Global()
-val color  = Color(0xff00A9FF)
-val color1 = Color(0xff27374D)
-val color2 = Color(0xff526D82)
-val color3 = Color(0xff9DB2BF)
-val color4 = Color(0xffDDE6ED)
-val textcolor = Color(0xff00A9FF)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

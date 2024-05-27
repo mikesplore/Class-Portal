@@ -428,6 +428,7 @@ Scaffold(
                                             registrationID = global.regID.value,
                                             firstName = global.firstname.value,
                                             lastName = global.lastname.value,
+                                            ""
 
                                         )
                                     )
@@ -468,6 +469,8 @@ Scaffold(
                                 Toast.LENGTH_SHORT
                             ).show()
                             global.loggedinuser.value = student.firstName
+                            global.loggedinlastname.value = student.lastName
+                            global.loggedinregID.value = student.registrationID
                             navController.navigate("dashboard") // Navigate after successful login
                         } else {
                             Toast.makeText(

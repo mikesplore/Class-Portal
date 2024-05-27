@@ -490,50 +490,7 @@ fun Dashboard(navController: NavController, context: Context) {
                     }
                 }
             }
-            AlertDialog(
-                title = { Text(text = "Change Color Pallete", style = myTextStyle) },
 
-                onDismissRequest = { /*TODO*/ },
-                text = {
-                       Column(modifier = Modifier.height(200.dp)) {
-                           OutlinedTextField(
-                               value = global.regID.value,
-                               textStyle = TextStyle(fontFamily = RobotoMono),
-                               onValueChange = { global.regID.value = it },
-                               label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
-                               singleLine = true,
-                               colors = TextFieldDefaults.colors(
-                                   focusedContainerColor = primaryColor,
-                                   unfocusedContainerColor = primaryColor,
-                                   focusedIndicatorColor = focused,
-                                   unfocusedIndicatorColor = unfocused,
-                                   focusedLabelColor = textColor,
-                                   cursorColor = textColor,
-                                   unfocusedLabelColor = textColor,
-                                   focusedTextColor = textColor,
-                                   unfocusedTextColor = textColor
-                               ),
-                               shape = RoundedCornerShape(10.dp),
-                               modifier = Modifier
-                                   .width(300.dp)
-                                   .shadow(
-                                       elevation = 10.dp,
-                                       shape = RoundedCornerShape(20.dp),
-
-                                       )
-                           )
-
-                       }
-                },
-                confirmButton = {
-                    Button(onClick = { /*TODO*/ },
-                        modifier = Modifier.fillMaxWidth()) {
-                        Text(text = "Ok", style = myTextStyle)
-
-                    }
-                },
-                containerColor = primaryColor
-                )
 
         }
 

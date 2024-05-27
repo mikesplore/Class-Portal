@@ -177,9 +177,9 @@ Scaffold(
                 }
                 Box(modifier = Modifier
                     .clickable {
-                        global.selectedcategory.value = "student"
+                        global.selectedcategory.value = "Student"
                     }
-                    .background(if(global.selectedcategory.value == "student") globalcolors.primaryColor else unselected, shape = RoundedCornerShape(10.dp))
+                    .background(if(global.selectedcategory.value == "Student") globalcolors.primaryColor else unselected, shape = RoundedCornerShape(10.dp))
                     .border(
                         width = 1.dp,
                         color = globalcolors.textColor,

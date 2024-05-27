@@ -103,7 +103,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
-    var palleteDialog by remember { mutableStateOf(true) }
+    var palleteDialog by remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -438,7 +438,7 @@ fun Dashboard(navController: NavController, context: Context) {
                     AlertDialog(
                         title = { Text(text = "Colors Settings", style = myTextStyle) },
                         text = {
-                            ColorSettings(context,{})
+                            ColorSettings(context)
                         },
                         onDismissRequest = { palleteDialog = false },
                         confirmButton = {
@@ -455,9 +455,14 @@ fun Dashboard(navController: NavController, context: Context) {
                                 colors = ButtonDefaults.buttonColors(primaryColor)) {
                                 Text(text = "Default colors", style = myTextStyle)
                             }
-                            }
+                            Button(onClick = { palleteDialog = false },
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(primaryColor)) {
+                                Text(text = "Ok",
+                                    style = myTextStyle,)
+                            }}
                         },
-                        modifier = Modifier.height(470.dp),
+                        modifier = Modifier.height(420.dp),
                         containerColor = globalcolors.secondaryColor
                     )
                 }

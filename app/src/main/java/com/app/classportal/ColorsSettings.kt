@@ -1,24 +1,20 @@
 package com.app.classportal
 
 import android.content.Context
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import androidx.compose.ui.draw.shadow
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.app.classportal.ui.theme.RobotoMono
 import com.google.gson.Gson
+import androidx.compose.ui.platform.LocalContext
 import java.io.File
 
 data class ColorScheme(
@@ -77,8 +73,9 @@ object globalcolors {
         get() = parseColor(currentScheme.textColor)
 }
 
+
 @Composable
-fun ColorSettings(context: Context, onSave: (ColorScheme) -> Unit, onReset: () -> Unit) {
+fun ColorSettings(context: Context) {
     var primaryColor by remember { mutableStateOf(globalcolors.currentScheme.primaryColor) }
     var secondaryColor by remember { mutableStateOf(globalcolors.currentScheme.secondaryColor) }
     var tertiaryColor by remember { mutableStateOf(globalcolors.currentScheme.tertiaryColor) }
@@ -93,7 +90,7 @@ fun ColorSettings(context: Context, onSave: (ColorScheme) -> Unit, onReset: () -
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier.height(350.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -101,46 +98,48 @@ fun ColorSettings(context: Context, onSave: (ColorScheme) -> Unit, onReset: () -
             label = "Primary color",
             colorValue = primaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = { newValue -> primaryColor = newValue }
+            onValueChange = { newValue ->
+                primaryColor = newValue
+                val newScheme = globalcolors.currentScheme.copy(primaryColor = newValue)
+                globalcolors.saveColorScheme(context, newScheme)
+            }
         )
 
         OutlinedColorTextField(
             label = "Secondary color",
             colorValue = secondaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = { newValue -> secondaryColor = newValue }
+            onValueChange = { newValue ->
+                secondaryColor = newValue
+                val newScheme = globalcolors.currentScheme.copy(secondaryColor = newValue)
+                globalcolors.saveColorScheme(context, newScheme)
+            }
         )
 
         OutlinedColorTextField(
             label = "Tertiary color",
             colorValue = tertiaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = { newValue -> tertiaryColor = newValue }
+            onValueChange = { newValue ->
+                tertiaryColor = newValue
+                val newScheme = globalcolors.currentScheme.copy(tertiaryColor = newValue)
+                globalcolors.saveColorScheme(context, newScheme)
+            }
         )
 
         OutlinedColorTextField(
             label = "Text color",
             colorValue = textColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = { newValue -> textColor = newValue }
+            onValueChange = { newValue ->
+                textColor = newValue
+                val newScheme = globalcolors.currentScheme.copy(textColor = newValue)
+                globalcolors.saveColorScheme(context, newScheme)
+            }
         )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Button(onClick = { onReset() }) {
-                Text(text = "Revert to Default")
-            }
-            Button(onClick = {
-                val newScheme = ColorScheme(primaryColor, secondaryColor, tertiaryColor, textColor)
-                onSave(newScheme)
-            }) {
-                Text(text = "Save")
-            }
-        }
     }
 }
+
 
 @Composable
 fun OutlinedColorTextField(
@@ -157,15 +156,16 @@ fun OutlinedColorTextField(
         label = { Text(text = label, fontFamily = RobotoMono) },
         singleLine = true,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = globalcolors.primaryColor,
-            unfocusedContainerColor = globalcolors.primaryColor,
-            focusedIndicatorColor = globalcolors.tertiaryColor,
+            focusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
+            unfocusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
+            focusedIndicatorColor = globalcolors.textColor,
             unfocusedIndicatorColor = globalcolors.primaryColor,
             focusedLabelColor = globalcolors.textColor,
-            cursorColor = globalcolors.textColor,
-            unfocusedLabelColor = globalcolors.textColor,
-            focusedTextColor = globalcolors.textColor,
-            unfocusedTextColor = globalcolors.textColor
+            cursorColor = parseColor(globalcolors.currentScheme.textColor),
+            unfocusedLabelColor = parseColor(globalcolors.currentScheme.textColor),
+            focusedTextColor = parseColor(globalcolors.currentScheme.textColor),
+            unfocusedTextColor = parseColor(globalcolors.currentScheme.textColor)
+
         ),
         shape = RoundedCornerShape(10.dp),
         modifier = modifier
@@ -177,39 +177,9 @@ fun OutlinedColorTextField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MainScreen(context: Context) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Color Settings") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = globalcolors.primaryColor,
-                    titleContentColor = globalcolors.textColor
-                ),
-
-            )
-        },
-        content = { padding ->
-            Box(modifier = Modifier.padding(padding)) {
-                ColorSettings(
-                    context = context,
-                    onSave = { newScheme ->
-                        globalcolors.saveColorScheme(context, newScheme)
-                    },
-                    onReset = {
-                        globalcolors.resetToDefaultColors(context)
-                    }
-                )
-            }
-        }
-    )
-}
-
 @Preview
 @Composable
-fun MainScreenPreview() {
+fun ColorSettingsPreview() {
     val context = LocalContext.current
 
     // Load the color scheme when the composable is launched
@@ -217,7 +187,5 @@ fun MainScreenPreview() {
         globalcolors.currentScheme = globalcolors.loadColorScheme(context)
     }
 
-    MainScreen(context = context)
+    ColorSettings(context = context)
 }
-
-

@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Brush
@@ -45,6 +46,9 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
+        LaunchedEffect(Unit) {
+            globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        }
         NavHost(navController, startDestination = "login") {
             composable("dashboard") {
                 Dashboard(navController, context)

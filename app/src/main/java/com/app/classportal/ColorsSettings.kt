@@ -1,20 +1,24 @@
 package com.app.classportal
 
 import android.content.Context
-import androidx.compose.ui.draw.shadow
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.app.classportal.ui.theme.RobotoMono
 import com.google.gson.Gson
-import androidx.compose.ui.platform.LocalContext
 import java.io.File
 
 data class ColorScheme(
@@ -73,9 +77,8 @@ object globalcolors {
         get() = parseColor(currentScheme.textColor)
 }
 
-
 @Composable
-fun ColorSettings(context: Context) {
+fun ColorSettings(context: Context, onSave: (ColorScheme) -> Unit, onReset: () -> Unit) {
     var primaryColor by remember { mutableStateOf(globalcolors.currentScheme.primaryColor) }
     var secondaryColor by remember { mutableStateOf(globalcolors.currentScheme.secondaryColor) }
     var tertiaryColor by remember { mutableStateOf(globalcolors.currentScheme.tertiaryColor) }
@@ -90,7 +93,7 @@ fun ColorSettings(context: Context) {
     }
 
     Column(
-        modifier = Modifier.height(350.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -98,48 +101,46 @@ fun ColorSettings(context: Context) {
             label = "Primary color",
             colorValue = primaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = { newValue ->
-                primaryColor = newValue
-                val newScheme = globalcolors.currentScheme.copy(primaryColor = newValue)
-                globalcolors.saveColorScheme(context, newScheme)
-            }
+            onValueChange = { newValue -> primaryColor = newValue }
         )
 
         OutlinedColorTextField(
             label = "Secondary color",
             colorValue = secondaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = { newValue ->
-                secondaryColor = newValue
-                val newScheme = globalcolors.currentScheme.copy(secondaryColor = newValue)
-                globalcolors.saveColorScheme(context, newScheme)
-            }
+            onValueChange = { newValue -> secondaryColor = newValue }
         )
 
         OutlinedColorTextField(
             label = "Tertiary color",
             colorValue = tertiaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = { newValue ->
-                tertiaryColor = newValue
-                val newScheme = globalcolors.currentScheme.copy(tertiaryColor = newValue)
-                globalcolors.saveColorScheme(context, newScheme)
-            }
+            onValueChange = { newValue -> tertiaryColor = newValue }
         )
 
         OutlinedColorTextField(
             label = "Text color",
             colorValue = textColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = { newValue ->
-                textColor = newValue
-                val newScheme = globalcolors.currentScheme.copy(textColor = newValue)
-                globalcolors.saveColorScheme(context, newScheme)
-            }
+            onValueChange = { newValue -> textColor = newValue }
         )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(onClick = { onReset() }) {
+                Text(text = "Revert to Default")
+            }
+            Button(onClick = {
+                val newScheme = ColorScheme(primaryColor, secondaryColor, tertiaryColor, textColor)
+                onSave(newScheme)
+            }) {
+                Text(text = "Save")
+            }
+        }
     }
 }
-
 
 @Composable
 fun OutlinedColorTextField(
@@ -156,16 +157,15 @@ fun OutlinedColorTextField(
         label = { Text(text = label, fontFamily = RobotoMono) },
         singleLine = true,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
-            unfocusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
-            focusedIndicatorColor = globalcolors.textColor,
+            focusedContainerColor = globalcolors.primaryColor,
+            unfocusedContainerColor = globalcolors.primaryColor,
+            focusedIndicatorColor = globalcolors.tertiaryColor,
             unfocusedIndicatorColor = globalcolors.primaryColor,
             focusedLabelColor = globalcolors.textColor,
-            cursorColor = parseColor(globalcolors.currentScheme.textColor),
-            unfocusedLabelColor = parseColor(globalcolors.currentScheme.textColor),
-            focusedTextColor = parseColor(globalcolors.currentScheme.textColor),
-            unfocusedTextColor = parseColor(globalcolors.currentScheme.textColor)
-
+            cursorColor = globalcolors.textColor,
+            unfocusedLabelColor = globalcolors.textColor,
+            focusedTextColor = globalcolors.textColor,
+            unfocusedTextColor = globalcolors.textColor
         ),
         shape = RoundedCornerShape(10.dp),
         modifier = modifier
@@ -177,9 +177,39 @@ fun OutlinedColorTextField(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainScreen(context: Context) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Color Settings") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = globalcolors.primaryColor,
+                    titleContentColor = globalcolors.textColor
+                ),
+
+            )
+        },
+        content = { padding ->
+            Box(modifier = Modifier.padding(padding)) {
+                ColorSettings(
+                    context = context,
+                    onSave = { newScheme ->
+                        globalcolors.saveColorScheme(context, newScheme)
+                    },
+                    onReset = {
+                        globalcolors.resetToDefaultColors(context)
+                    }
+                )
+            }
+        }
+    )
+}
+
 @Preview
 @Composable
-fun ColorSettingsPreview() {
+fun MainScreenPreview() {
     val context = LocalContext.current
 
     // Load the color scheme when the composable is launched
@@ -187,35 +217,7 @@ fun ColorSettingsPreview() {
         globalcolors.currentScheme = globalcolors.loadColorScheme(context)
     }
 
-    ColorSettings(context = context)
+    MainScreen(context = context)
 }
 
 
-/* i have extracted this code in another part of the project
-if(palleteDialog){
-                AlertDialog(
-
-                    title = { Text(text = "Colors Settings", style = myTextStyle) },
-                    text = {
-                           ColorSettings(context)
-                    },
-                    onDismissRequest = { palleteDialog  }, confirmButton = {
-                        Button(onClick = { palleteDialog = false}) {
-                            Text(text = "Default colors")
-
-                        }
-                        Button(onClick = { palleteDialog = false}) {
-                        Text(text = "Ok")
-
-                    } },
-                    modifier = Modifier.height(420.dp),
-                    containerColor = globalcolors.secondaryColor)}
-*
-* */
-
-//so i want you to make the buton "default" colors to work
-//and i want when i load the app, i want it to load the colors that are saved in the files.
-// for example i have put my custom colors, when i close the app and open it again afresh, it should load the colors
-//that i had set myself before,
-//when i press the default colors in the button
-// the original colors should be applied back

@@ -82,7 +82,6 @@ val imageUrls = listOf(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOfrTVFZxNPUYN-zSlUqqdS-OTE6Rm3nLiPw&usqp=CAU"
 
 )
-@RequiresApi(Build.VERSION_CODES.O)
 fun getGreetingMessage(): String {
     val currentTime = LocalTime.now()
     return when (currentTime.hour) {
@@ -93,7 +92,6 @@ fun getGreetingMessage(): String {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -105,7 +103,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
-    var palleteDialog by remember { mutableStateOf(false) }
+    var palleteDialog by remember { mutableStateOf(true) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -440,7 +438,7 @@ fun Dashboard(navController: NavController, context: Context) {
                     AlertDialog(
                         title = { Text(text = "Colors Settings", style = myTextStyle) },
                         text = {
-                            ColorSettings(context)
+                            ColorSettings(context,{})
                         },
                         onDismissRequest = { palleteDialog = false },
                         confirmButton = {
@@ -457,14 +455,9 @@ fun Dashboard(navController: NavController, context: Context) {
                                 colors = ButtonDefaults.buttonColors(primaryColor)) {
                                 Text(text = "Default colors", style = myTextStyle)
                             }
-                            Button(onClick = { palleteDialog = false },
-                                shape = RoundedCornerShape(10.dp),
-                                colors = ButtonDefaults.buttonColors(primaryColor)) {
-                                Text(text = "Ok",
-                                    style = myTextStyle,)
-                            }}
+                            }
                         },
-                        modifier = Modifier.height(420.dp),
+                        modifier = Modifier.height(470.dp),
                         containerColor = globalcolors.secondaryColor
                     )
                 }
@@ -1243,7 +1236,6 @@ fun AnnouncementBoxes(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun DashboardPreview() {

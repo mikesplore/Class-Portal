@@ -45,9 +45,10 @@ import com.app.classportal.ui.theme.RobotoMono
 
 val backbrush = Brush.verticalGradient(
     listOf(
-        primaryColor,
-        secondaryColor,
-        tertiaryColor
+        globalcolors.primaryColor,
+        globalcolors.secondaryColor,
+        globalcolors.tertiaryColor
+        
     )
 )
 

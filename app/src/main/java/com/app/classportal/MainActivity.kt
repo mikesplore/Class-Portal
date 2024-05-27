@@ -24,10 +24,8 @@ class Global(
     var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),
     var loggedinuser: MutableState<String> = mutableStateOf("Anonymous"),
-    var primaryColor: MutableState<Color> = mutableStateOf(Color(0xff003C43)),
-    var secondaryColor: MutableState<Color> = mutableStateOf(Color(0xff135D66)),
-    var tertiaryColor: MutableState<Color> = mutableStateOf(Color(0xff77B0AA)),
-    var textColor: MutableState<Color> = mutableStateOf(Color(0xffE3FEF7)),
+
+
 
 )
 

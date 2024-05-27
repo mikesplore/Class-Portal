@@ -30,6 +30,7 @@ import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -136,7 +137,7 @@ fun Dashboard(navController: NavController, context: Context) {
                 title = {
                     Text(
                         "Welcome, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}",
-                        color = globalcolors.textColor,
+                        color = globalcolors.primaryColor,
                         fontWeight = FontWeight.Normal,
                         style = myTextStyle,
                         fontSize = 20.sp,
@@ -551,7 +552,7 @@ fun LatestAnnouncement() {
             )
             .height(200.dp)
             .fillMaxWidth()
-            .background(buttonBrush, shape = RoundedCornerShape(30.dp))
+            .background(backbrush, shape = RoundedCornerShape(30.dp))
             .padding(10.dp)
     ) {
         Row(

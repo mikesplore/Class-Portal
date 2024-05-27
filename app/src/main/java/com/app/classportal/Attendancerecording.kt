@@ -63,7 +63,7 @@ fun RecordAttendanceScreen(
                     Text(
                         " Sign Attendance",
                         fontFamily = RobotoMono,
-                        color = textColor,
+                        color = globalcolors.textColor,
                         fontSize = 20.sp
                     )
                 },
@@ -76,7 +76,7 @@ fun RecordAttendanceScreen(
                             modifier = Modifier
                                 .border(
                                     width = 1.dp,
-                                    color = textColor,
+                                    color = globalcolors.textColor,
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -86,7 +86,7 @@ fun RecordAttendanceScreen(
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = textColor,
+                                tint = globalcolors.textColor,
                             )
                         }
                     }
@@ -116,13 +116,13 @@ fun RecordAttendanceScreen(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = RobotoMono,
-                            color = textColor
+                            color = globalcolors.textColor
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = primaryColor,
-                    titleContentColor = textColor
+                    titleContentColor = globalcolors.textColor
                 )
             )
         }
@@ -149,10 +149,10 @@ fun RecordAttendanceScreen(
                             Text(
                                 unit,
                                 fontFamily = RobotoMono,
-                                color = if (pagerState.currentPage == index) textColor else Color.Gray
+                                color = if (pagerState.currentPage == index) globalcolors.textColor else Color.Gray
                             )
                         },
-                        selectedContentColor = textColor,
+                        selectedContentColor = globalcolors.textColor,
                         unselectedContentColor = Color.Gray,
                         modifier = Modifier.background(primaryColor)
                     )
@@ -180,10 +180,10 @@ fun RecordAttendanceScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(student.firstName, color = textColor)
+                            Text(student.firstName, color = globalcolors.textColor)
 
                             Checkbox(
-                                colors = CheckboxDefaults.colors(textColor),
+                                colors = CheckboxDefaults.colors(globalcolors.textColor),
                                 enabled = checkboxEnabled.value,
                                 checked = isPresent.value,
                                 onCheckedChange = { isChecked ->

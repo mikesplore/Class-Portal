@@ -116,7 +116,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                         decorationBox = { innerTextField ->
                             Box(
                                 modifier = Modifier
-                                    .background(tertiaryColor, shape = MaterialTheme.shapes.small)
+                                    .background(globalcolors.tertiaryColor, shape = MaterialTheme.shapes.small)
                                     .padding(8.dp)
                             ) {
                                 if (title.isEmpty()) {
@@ -135,7 +135,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                         decorationBox = { innerTextField ->
                             Box(
                                 modifier = Modifier
-                                    .background(tertiaryColor, shape = MaterialTheme.shapes.small)
+                                    .background(globalcolors.tertiaryColor, shape = MaterialTheme.shapes.small)
                                     .height(100.dp)
                                     .padding(8.dp)
                             ) {
@@ -182,7 +182,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                     IconButton(onClick = { expanded = true }) {
                         Icon(
                             Icons.Filled.MoreVert, contentDescription = "More",
-                            tint = textColor
+                            tint = globalcolors.textColor
                         )
                     }
                     DropdownMenu(
@@ -206,7 +206,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = primaryColor,
-                    titleContentColor = textColor
+                    titleContentColor = globalcolors.textColor
                 )
             )
         },
@@ -217,7 +217,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
             ) {
                 Icon(
                     Icons.Filled.Add, contentDescription = "Add Announcement",
-                    tint = textColor
+                    tint = globalcolors.textColor
                 )
             }
         },
@@ -237,7 +237,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                             modifier = Modifier
                                 .border(
                                     width = 1.dp,
-                                    color = textColor,
+                                    color = globalcolors.textColor,
                                     shape = MaterialTheme.shapes.medium
                                 )
                                 .padding(8.dp)
@@ -245,7 +245,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                 .clickable {
                                     clickedIndex = if (clickedIndex == index) -1 else index
                                 },
-                            colors = CardDefaults.cardColors(tertiaryColor),
+                            colors = CardDefaults.cardColors(globalcolors.tertiaryColor),
                             shape = MaterialTheme.shapes.medium,
                             elevation = CardDefaults.cardElevation(
                                 defaultElevation = 4.dp
@@ -270,12 +270,12 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                         Text(
                                             text = announcement.student,
                                             fontSize = 16.sp,
-                                            color = textColor
+                                            color = globalcolors.textColor
                                         )
                                         Text(
                                             text = announcement.date,
                                             style = descriptionTextStyle(),
-                                            color = textColor
+                                            color = globalcolors.textColor
                                         )
                                     }
                                 }
@@ -297,7 +297,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                         Text(
                                             text = announcement.title,
                                             style = titleTextStyle(),
-                                            color = textColor
+                                            color = globalcolors.textColor
                                         )
                                         Text(
                                             text = announcement.description,
@@ -318,7 +318,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                         Row(
                                             modifier = Modifier
                                                 .background(
-                                                    primaryColor,
+                                                    globalcolors.primaryColor,
                                                     shape = RoundedCornerShape(8.dp)
                                                 )
                                                 .padding(horizontal = 8.dp),
@@ -365,7 +365,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(primaryColor),
+                            .background(globalcolors.primaryColor),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -382,7 +382,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
             }
 
         },
-        containerColor = primaryColor
+        containerColor = globalcolors.primaryColor
     )
 
     if (showAddDialog) {
@@ -421,7 +421,7 @@ fun AnnouncementsScreenPreview() {
 fun titleTextStyle() = TextStyle(
     fontSize = 24.sp,
     fontWeight = FontWeight.Bold,
-    color = textColor,
+    color = globalcolors.textColor,
     fontFamily = RobotoMono
 
 )
@@ -430,7 +430,7 @@ fun titleTextStyle() = TextStyle(
 fun descriptionTextStyle() = TextStyle(
     fontSize = 16.sp,
     fontWeight = FontWeight.Normal,
-    color = textColor,
+    color = globalcolors.textColor,
     fontFamily = RobotoMono
 )
 

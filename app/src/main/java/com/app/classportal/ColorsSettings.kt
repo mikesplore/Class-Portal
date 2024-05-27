@@ -1,5 +1,6 @@
 package com.app.classportal
 
+import android.content.Context
 import androidx.compose.ui.draw.shadow
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +13,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.classportal.ui.theme.RobotoMono
+import com.google.gson.Gson
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import java.io.File
+
+data class ColorScheme(
+    val primaryColor: String,
+    val secondaryColor: String,
+    val tertiaryColor: String,
+    val textColor: String
+)
 
 fun parseColor(hex: String): Color {
     return try {
@@ -21,138 +33,136 @@ fun parseColor(hex: String): Color {
     }
 }
 
+
+object globalcolors {
+    private const val COLORS_FILE_NAME = "color_scheme.json"
+
+    var currentScheme by mutableStateOf(ColorScheme("003C43", "135D66", "77B0AA", "E3FEF7"))
+
+    fun loadColorScheme(context: Context): ColorScheme {
+        val file = File(context.filesDir, COLORS_FILE_NAME)
+        return if (file.exists()) {
+            val json = file.readText()
+            Gson().fromJson(json, ColorScheme::class.java)
+        } else {
+            ColorScheme("003C43", "135D66", "77B0AA", "E3FEF7") // Default colors
+        }
+    }
+
+    fun saveColorScheme(context: Context, scheme: ColorScheme) {
+        val json = Gson().toJson(scheme)
+        val file = File(context.filesDir, COLORS_FILE_NAME)
+        file.writeText(json)
+        currentScheme = scheme
+    }
+
+    val primaryColor: Color
+        get() = parseColor(currentScheme.primaryColor)
+
+    val secondaryColor: Color
+        get() = parseColor(currentScheme.secondaryColor)
+
+    val tertiaryColor: Color
+        get() = parseColor(currentScheme.tertiaryColor)
+
+    val textColor: Color
+        get() = parseColor(currentScheme.textColor)
+}
+
+
+
 @Composable
 fun ColorSettings() {
-    var primaryColor by remember { mutableStateOf("003C43") }
-    var secondaryColor by remember { mutableStateOf("135D66") }
-    var tertiaryColor by remember { mutableStateOf("77B0AA") }
-    var textColor by remember { mutableStateOf("E3FEF7") }
+    val context = LocalContext.current
+    var primaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).primaryColor) }
+    var secondaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).secondaryColor) }
+    var tertiaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).tertiaryColor) }
+    var textColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).textColor) }
 
-    Column(modifier = Modifier.height(350.dp),
+    Column(
+        modifier = Modifier.height(350.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
-    horizontalAlignment = Alignment.CenterHorizontally) {
-        OutlinedTextField(
-            value = primaryColor,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        OutlinedColorTextField(
+            label = "Primary color",
+            colorValue = primaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = {
-                primaryColor = it
-                globalcolors.primaryColor = parseColor(it)
-            },
-            label = { Text(text = "Primary color", fontFamily = RobotoMono) },
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = parseColor(primaryColor),
-                unfocusedContainerColor = parseColor(primaryColor),
-                focusedIndicatorColor = parseColor(primaryColor),
-                unfocusedIndicatorColor = parseColor(primaryColor),
-                focusedLabelColor = parseColor(textColor),
-                cursorColor = parseColor(textColor),
-                unfocusedLabelColor = parseColor(textColor),
-                focusedTextColor = parseColor(textColor),
-                unfocusedTextColor = parseColor(textColor)
-            ),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
+            onValueChange = { newValue ->
+                primaryColor = newValue
+                val newScheme = globalcolors.currentScheme.copy(primaryColor = newValue)
+                globalcolors.saveColorScheme(context, newScheme)
+            }
+        )
 
-                .width(300.dp)
-                .shadow(
-                    elevation = 10.dp,
-                    shape = RoundedCornerShape(20.dp),
-                )
-        )
-        OutlinedTextField(
-            value = secondaryColor,
+        OutlinedColorTextField(
+            label = "Secondary color",
+            colorValue = secondaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = {
-                secondaryColor = it
-                globalcolors.secondaryColor = parseColor(it)
-            },
-            label = { Text(text = "Secondary color", fontFamily = RobotoMono) },
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = parseColor(secondaryColor),
-                unfocusedContainerColor = parseColor(primaryColor),
-                focusedIndicatorColor = parseColor(secondaryColor),
-                unfocusedIndicatorColor = parseColor(secondaryColor),
-                focusedLabelColor = parseColor(textColor),
-                cursorColor = parseColor(textColor),
-                unfocusedLabelColor = parseColor(textColor),
-                focusedTextColor = parseColor(textColor),
-                unfocusedTextColor = parseColor(textColor)
-            ),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .width(300.dp)
-                .shadow(
-                    elevation = 10.dp,
-                    shape = RoundedCornerShape(20.dp),
-                )
+            onValueChange = { newValue ->
+                secondaryColor = newValue
+                val newScheme = globalcolors.currentScheme.copy(secondaryColor = newValue)
+                globalcolors.saveColorScheme(context, newScheme)
+            }
         )
-        OutlinedTextField(
-            value = tertiaryColor,
+
+        OutlinedColorTextField(
+            label = "Tertiary color",
+            colorValue = tertiaryColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = {
-                tertiaryColor = it
-                globalcolors.tertiaryColor = parseColor(it)
-            },
-            label = { Text(text = "Tertiary color", fontFamily = RobotoMono) },
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = parseColor(secondaryColor),
-                unfocusedContainerColor = parseColor(primaryColor),
-                focusedIndicatorColor = parseColor(secondaryColor),
-                unfocusedIndicatorColor = parseColor(secondaryColor),
-                focusedLabelColor = parseColor(textColor),
-                cursorColor = parseColor(textColor),
-                unfocusedLabelColor = parseColor(textColor),
-                focusedTextColor = parseColor(textColor),
-                unfocusedTextColor = parseColor(textColor)
-            ),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .width(300.dp)
-                .shadow(
-                    elevation = 10.dp,
-                    shape = RoundedCornerShape(20.dp),
-                )
+            onValueChange = { newValue ->
+                tertiaryColor = newValue
+                val newScheme = globalcolors.currentScheme.copy(tertiaryColor = newValue)
+                globalcolors.saveColorScheme(context, newScheme)
+            }
         )
-        OutlinedTextField(
-            value = textColor,
+
+        OutlinedColorTextField(
+            label = "Text color",
+            colorValue = textColor,
             textStyle = TextStyle(fontFamily = RobotoMono),
-            onValueChange = {
-                textColor = it
-                globalcolors.textColor = parseColor(it)
-            },
-            label = { Text(text = "Text color", fontFamily = RobotoMono) },
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = parseColor(secondaryColor),
-                unfocusedContainerColor = parseColor(primaryColor),
-                focusedIndicatorColor = parseColor(secondaryColor),
-                unfocusedIndicatorColor = parseColor(secondaryColor),
-                focusedLabelColor = parseColor(textColor),
-                cursorColor = parseColor(textColor),
-                unfocusedLabelColor = parseColor(textColor),
-                focusedTextColor = parseColor(textColor),
-                unfocusedTextColor = parseColor(textColor)
-            ),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .width(300.dp)
-                .shadow(
-                    elevation = 10.dp,
-                    shape = RoundedCornerShape(20.dp),
-                )
+            onValueChange = { newValue ->
+                textColor = newValue
+                val newScheme = globalcolors.currentScheme.copy(textColor = newValue)
+                globalcolors.saveColorScheme(context, newScheme)
+            }
         )
     }
 }
 
-// Define global colors
-object globalcolors {
-    var primaryColor by mutableStateOf(parseColor("003C43"))
-    var secondaryColor by mutableStateOf(parseColor("135D66"))
-    var tertiaryColor by mutableStateOf(parseColor("77B0AA"))
-    var textColor by mutableStateOf(parseColor("E3FEF7"))
+@Composable
+fun OutlinedColorTextField(
+    label: String,
+    colorValue: String,
+    textStyle: TextStyle,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = colorValue,
+        textStyle = textStyle,
+        onValueChange = onValueChange,
+        label = { Text(text = label, fontFamily = RobotoMono) },
+        singleLine = true,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = parseColor(colorValue),
+            unfocusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
+            focusedIndicatorColor = parseColor(colorValue),
+            unfocusedIndicatorColor = parseColor(colorValue),
+            focusedLabelColor = parseColor(globalcolors.currentScheme.textColor),
+            cursorColor = parseColor(globalcolors.currentScheme.textColor),
+            unfocusedLabelColor = parseColor(globalcolors.currentScheme.textColor),
+            focusedTextColor = parseColor(globalcolors.currentScheme.textColor),
+            unfocusedTextColor = parseColor(globalcolors.currentScheme.textColor)
+        ),
+        shape = RoundedCornerShape(10.dp),
+        modifier = modifier
+            .width(300.dp)
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(20.dp)
+            )
+    )
 }
 
 @Preview
@@ -160,3 +170,9 @@ object globalcolors {
 fun ColorSettingsPreview() {
     ColorSettings()
 }
+
+
+
+
+
+

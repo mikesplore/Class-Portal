@@ -48,14 +48,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 
-val buttonBrush = Brush.linearGradient(
-    listOf(
-        primaryColor,
-        secondaryColor,
-        tertiaryColor
 
-    )
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -102,7 +95,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
 
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
             )
         }
     ) { innerPadding ->
@@ -267,8 +260,8 @@ fun CustomTextField(
 
 
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = primaryColor,
-            unfocusedContainerColor = primaryColor,
+            focusedContainerColor = globalcolors.primaryColor,
+            unfocusedContainerColor = globalcolors.primaryColor,
             focusedIndicatorColor = focused,
             unfocusedIndicatorColor = unfocused,
             focusedLabelColor = textColor,

@@ -45,10 +45,10 @@ fun AssignmentScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Assignments", fontFamily = RobotoMono, color = textColor, fontSize = 20.sp) },
+                title = { Text("Assignments", fontFamily = RobotoMono, color = globalcolors.textColor, fontSize = 20.sp) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigate("dashboard") }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = textColor)
+                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = globalcolors.textColor)
                     }
                 },
                 actions = {
@@ -57,10 +57,10 @@ fun AssignmentScreen(navController: NavController) {
                         editItemIndex = -1
                         showDialog = true
                     }) {
-                        Icon(Icons.Filled.Add, contentDescription = "Add", tint = textColor)
+                        Icon(Icons.Filled.Add, contentDescription = "Add", tint = globalcolors.textColor)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
             )
         }
     ) { innerPadding ->
@@ -82,9 +82,9 @@ fun AssignmentScreen(navController: NavController) {
                                 pagerState.scrollToPage(index)
                             }
                         },
-                        text = { Text(unit, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) textColor else secondaryColor) },
+                        text = { Text(unit, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.secondaryColor) },
                         selectedContentColor = Color.White,
-                        modifier = Modifier.background(primaryColor)
+                        modifier = Modifier.background(globalcolors.primaryColor)
                     )
                 }
             }
@@ -168,7 +168,7 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
     ) {
         Column(
             modifier = Modifier
-                .background(primaryColor)
+                .background(globalcolors.primaryColor)
                 .fillMaxWidth()
                 .padding(16.dp),
         ) { // Use Column instead of Row
@@ -180,7 +180,7 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { expandedmenu = true }) {
-                    Icon(Icons.Filled.MoreVert, contentDescription = "More", tint = textColor)
+                    Icon(Icons.Filled.MoreVert, contentDescription = "More", tint = globalcolors.textColor)
                 }
                 DropdownMenu(expanded = expandedmenu,
                     onDismissRequest = { expandedmenu = false },
@@ -189,7 +189,7 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
                         .align(
                             Alignment.Bottom
                         )
-                        .background(secondaryColor),
+                        .background(globalcolors.secondaryColor),
 
 
                     ) {
@@ -202,7 +202,7 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
                         expandedmenu = false
                     })
 
-                    
+
                 }
 
             }
@@ -236,7 +236,7 @@ fun AddEditAssignmentDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = "Add or Edit Assignment",
             style = myTextStyle, fontSize = 20.sp,
-            color = primaryColor,
+            color = globalcolors.primaryColor,
             fontWeight = FontWeight.Bold)
                 },
         text = {
@@ -248,15 +248,15 @@ fun AddEditAssignmentDialog(
                     onValueChange = { title = it },
                     label = { Text("Assignment Title", style = myTextStyle) },
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = primaryColor,
-                        unfocusedContainerColor = primaryColor,
+                        focusedContainerColor = globalcolors.primaryColor,
+                        unfocusedContainerColor = globalcolors.primaryColor,
                         focusedIndicatorColor = focused,
                         unfocusedIndicatorColor = unfocused,
-                        focusedLabelColor = textColor,
-                        cursorColor = textColor,
-                        unfocusedLabelColor = textColor,
-                        focusedTextColor = textColor,
-                        unfocusedTextColor = textColor
+                        focusedLabelColor = globalcolors.textColor,
+                        cursorColor = globalcolors.textColor,
+                        unfocusedLabelColor = globalcolors.textColor,
+                        focusedTextColor = globalcolors.textColor,
+                        unfocusedTextColor = globalcolors.textColor
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -265,15 +265,15 @@ fun AddEditAssignmentDialog(
                     onValueChange = { description = it },
                     label = { Text("Content", style = myTextStyle) },
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = primaryColor,
-                        unfocusedContainerColor = primaryColor,
+                        focusedContainerColor = globalcolors.primaryColor,
+                        unfocusedContainerColor = globalcolors.primaryColor,
                         focusedIndicatorColor = focused,
                         unfocusedIndicatorColor = unfocused,
-                        focusedLabelColor = textColor,
-                        cursorColor = textColor,
-                        unfocusedLabelColor = textColor,
-                        focusedTextColor = textColor,
-                        unfocusedTextColor = textColor
+                        focusedLabelColor = globalcolors.textColor,
+                        cursorColor = globalcolors.textColor,
+                        unfocusedLabelColor = globalcolors.textColor,
+                        focusedTextColor = globalcolors.textColor,
+                        unfocusedTextColor = globalcolors.textColor
                     ),
                     modifier = Modifier
                         .height(200.dp)
@@ -294,17 +294,17 @@ fun AddEditAssignmentDialog(
             }) {
                 Text("Save",
                     style = myTextStyle,
-                    color = primaryColor,)
+                    color = globalcolors.primaryColor,)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text("Cancel",
                     style = myTextStyle,
-                    color = primaryColor)
+                    color = globalcolors.primaryColor)
             }
         },
-        containerColor = tertiaryColor,
+        containerColor = globalcolors.tertiaryColor,
 
     )
 }

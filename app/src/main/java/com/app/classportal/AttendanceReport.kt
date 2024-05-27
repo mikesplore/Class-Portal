@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -46,7 +47,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                     Text(
                         "   Attendance Report",
                         fontFamily = RobotoMono,
-                        color = textColor
+                        color = globalcolors.textColor
                     )
                 },
                 navigationIcon = {
@@ -58,7 +59,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                             modifier = Modifier
                                 .border(
                                     width = 1.dp,
-                                    color = textColor,
+                                    color = globalcolors.textColor,
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -68,18 +69,18 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = textColor,
+                                tint = globalcolors.textColor,
                             )
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(primaryColor)
+                .background(globalcolors.primaryColor)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -98,10 +99,21 @@ fun AttendanceReportContent(context: Context) {
     val pagerState = rememberPagerState()
     val originalStudents = remember { students.toList() } // Store a copy of original data
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     Column(
         modifier = Modifier
-            .background(backbrush)
+            .background(addbackbrush)
             .fillMaxSize()
     ) {
         ScrollableTabRow(
@@ -120,12 +132,12 @@ fun AttendanceReportContent(context: Context) {
                         Text(
                             unit,
                             style = myTextStyle,
-                            color = if (pagerState.currentPage == index) textColor else Color.Gray
+                            color = if (pagerState.currentPage == index) globalcolors.textColor else Color.Gray
                         )
                     },
-                    selectedContentColor = textColor,
+                    selectedContentColor = globalcolors.textColor,
                     unselectedContentColor = Color.Gray,
-                    modifier = Modifier.background(primaryColor),
+                    modifier = Modifier.background(globalcolors.primaryColor),
                 )
             }
         }
@@ -178,14 +190,14 @@ fun AttendanceReportContent(context: Context) {
                                 Icon(
                                     Icons.Filled.Search,
                                     contentDescription = "Search",
-                                    tint = textColor
+                                    tint = globalcolors.textColor
                                 )
                             },
                             placeholder = {
                                 Text(
                                     "Search",
                                     fontFamily = RobotoMono,
-                                    color = textColor
+                                    color = globalcolors.textColor
                                 )
                             },
                             modifier = Modifier
@@ -193,23 +205,23 @@ fun AttendanceReportContent(context: Context) {
                                 .fillMaxWidth(),
                             shape = RoundedCornerShape(8.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedContainerColor = primaryColor,
-                                unfocusedContainerColor = primaryColor,
+                                focusedContainerColor = globalcolors.primaryColor,
+                                unfocusedContainerColor = globalcolors.primaryColor,
                                 focusedIndicatorColor = focused,
                                 unfocusedIndicatorColor = unfocused,
-                                focusedLabelColor = textColor,
-                                cursorColor = textColor,
-                                unfocusedLabelColor = textColor,
-                                focusedTextColor = textColor,
-                                unfocusedTextColor = textColor
+                                focusedLabelColor = globalcolors.textColor,
+                                cursorColor = globalcolors.textColor,
+                                unfocusedLabelColor = globalcolors.textColor,
+                                focusedTextColor = globalcolors.textColor,
+                                unfocusedTextColor = globalcolors.textColor
 
                             ),
-                            textStyle = TextStyle(fontFamily = RobotoMono, color = textColor)
+                            textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.textColor)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Row(
                             modifier = Modifier
-                                .background(color = primaryColor)
+                                .background(color = globalcolors.primaryColor)
                                 .padding(16.dp),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
@@ -220,7 +232,7 @@ fun AttendanceReportContent(context: Context) {
                                 textAlign = TextAlign.Start,
                                 fontFamily = RobotoMono,
                                 fontWeight = FontWeight.Bold,
-                                color = textColor
+                                color = globalcolors.textColor
                             )
                             Text(
                                 "Present",
@@ -228,7 +240,7 @@ fun AttendanceReportContent(context: Context) {
                                 textAlign = TextAlign.Center,
                                 fontFamily = RobotoMono,
                                 fontWeight = FontWeight.Bold,
-                                color = textColor
+                                color = globalcolors.textColor
                             )
                             Text(
                                 "Absent",
@@ -236,7 +248,7 @@ fun AttendanceReportContent(context: Context) {
                                 textAlign = TextAlign.Center,
                                 fontFamily = RobotoMono,
                                 fontWeight = FontWeight.Bold,
-                                color = textColor
+                                color = globalcolors.textColor
                             )
                             Text(
                                 "Percent",
@@ -244,7 +256,7 @@ fun AttendanceReportContent(context: Context) {
                                 textAlign = TextAlign.Center,
                                 fontFamily = RobotoMono,
                                 fontWeight = FontWeight.Bold,
-                                color = textColor
+                                color = globalcolors.textColor
                             )
                         }
                         Divider(color = Color.Gray, thickness = 1.dp)
@@ -266,21 +278,21 @@ fun AttendanceReportContent(context: Context) {
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Start,
                             fontFamily = RobotoMono,
-                            color = textColor
+                            color = globalcolors.textColor
                         )
                         Text(
                             "${studentAttendance.totalPresent}",
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
                             fontFamily = RobotoMono,
-                            color = textColor
+                            color = globalcolors.textColor
                         )
                         Text(
                             "${studentAttendance.totalAbsent}",
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
                             fontFamily = RobotoMono,
-                            color = textColor
+                            color = globalcolors.textColor
                         )
                         Text(
                             "${studentAttendance.attendancePercentage}%",

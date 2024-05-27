@@ -1106,11 +1106,11 @@ fun AnnouncementBoxes(
                 Text(
                     text = if (title.length > 10) "${title.take(10)}..." else title, // Truncate with ellipsis
                     style = myTextStyle,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(10.dp)
                 )
                 Text(
                     text = if (content.length > 10) "${content.take(10)}..." else content,
-                    fontWeight = FontWeight.Bold,
                     style = myTextStyle,
                     modifier = Modifier.padding(10.dp),
                     maxLines = 1,

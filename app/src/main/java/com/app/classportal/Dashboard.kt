@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.painter.Painter
@@ -78,6 +79,8 @@ val imageUrls = listOf(
 
 )
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -90,6 +93,17 @@ fun Dashboard(navController: NavController, context: Context) {
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
     var palleteDialog by remember { mutableStateOf(false) }
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     val firstAnnouncement =
         if (announcements.isNotEmpty()) announcements[announcements.lastIndex] else null
@@ -542,6 +556,17 @@ fun Dashboard(navController: NavController, context: Context) {
 fun LatestAnnouncement() {
     val announcements = loadAnnouncement(LocalContext.current)
     val latestAnnouncement = announcements.lastOrNull()
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     Column(
         modifier = Modifier
@@ -552,7 +577,7 @@ fun LatestAnnouncement() {
             )
             .height(200.dp)
             .fillMaxWidth()
-            .background(backbrush, shape = RoundedCornerShape(30.dp))
+            .background(addbackbrush, shape = RoundedCornerShape(30.dp))
             .padding(10.dp)
     ) {
         Row(
@@ -1098,6 +1123,17 @@ fun AnnouncementBoxes(
     route: String,
     navController: NavController
 ) {
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
     Box(
         modifier = Modifier
             .shadow(
@@ -1106,7 +1142,7 @@ fun AnnouncementBoxes(
                 ambientColor = globalcolors.primaryColor,
                 spotColor = globalcolors.tertiaryColor
             )
-            .background(backbrush, shape = RoundedCornerShape(30.dp, 0.dp, 30.dp, 0.dp))
+            .background(addbackbrush, shape = RoundedCornerShape(30.dp, 0.dp, 30.dp, 0.dp))
             .fillMaxHeight()
             .clickable { navController.navigate(route) }
             .width(200.dp),

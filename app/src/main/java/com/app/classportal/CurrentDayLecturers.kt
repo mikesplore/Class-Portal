@@ -11,9 +11,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -35,6 +37,17 @@ fun CurrentDayEventsScreen() {
     val dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7
     val timetableData = remember { loadTimetable(context) }
     val lecturesToday = timetableData[dayOfWeek] ?: emptyList()
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     Scaffold(
         topBar = {
@@ -48,13 +61,13 @@ fun CurrentDayEventsScreen() {
                         },
                 actions = {
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(backbrush)
+                .background(addbackbrush)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {

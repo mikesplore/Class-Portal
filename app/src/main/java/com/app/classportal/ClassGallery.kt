@@ -80,7 +80,7 @@ fun Gallery(navController: NavController) {
                         Box(modifier = Modifier
                             .border(
                                 width = 1.dp,
-                                color = textColor,
+                                color = globalcolors.textColor,
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -89,7 +89,7 @@ fun Gallery(navController: NavController) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = textColor,
+                                tint = globalcolors.textColor,
                             )
                         }
                     }
@@ -105,26 +105,26 @@ fun Gallery(navController: NavController) {
                         }
                     }) {
                         Icon(imageVector = Icons.Default.AddAPhoto, contentDescription = "Download",
-                            tint = textColor,
+                            tint = globalcolors.textColor,
                             modifier = Modifier.clickable {
                                 Toast.makeText(context, "Feature coming soon!", Toast.LENGTH_SHORT).show()
                             })
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = primaryColor
+                    containerColor = globalcolors.primaryColor
                 )
             )
 
         },
-        containerColor = primaryColor
+        containerColor = globalcolors.primaryColor
     ) {
         Column(
             modifier = Modifier
                 .padding(top = 77.dp)
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .background(primaryColor)
+                .background(globalcolors.primaryColor)
                 .padding(16.dp)
         ) {
             imageUrls.forEach { imageUrl ->

@@ -85,6 +85,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                             "Students",
                             fontWeight = FontWeight.Bold,
                             fontFamily = RobotoMono,
+                            color = globalcolors.textColor,
                             modifier = Modifier.clickable{
                                 navController.navigate("students")
                             }
@@ -105,8 +106,8 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                                 }
                             },
                             leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search",
-                                tint = globalcolors.primaryColor) },
-                            placeholder = { Text("Search", fontFamily = RobotoMono, color = globalcolors.primaryColor) },
+                                tint = globalcolors.textColor) },
+                            placeholder = { Text("Search", fontFamily = RobotoMono, color = globalcolors.textColor) },
                             modifier = Modifier
                                 .height(50.dp)
                                 .width(200.dp),
@@ -125,7 +126,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = globalcolors.primaryColor,
-                    titleContentColor = globalcolors.primaryColor,
+                    titleContentColor = globalcolors.textColor,
                 )
             )
         }
@@ -153,7 +154,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = globalcolors.primaryColor,
-                        contentColor = globalcolors.primaryColor
+                        contentColor = globalcolors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -168,7 +169,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = globalcolors.primaryColor,
-                        contentColor = globalcolors.primaryColor
+                        contentColor = globalcolors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -183,7 +184,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = globalcolors.primaryColor,
-                        contentColor = globalcolors.primaryColor
+                        contentColor = globalcolors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -208,7 +209,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         Text(
                             (index + 1).toString(),
                             fontWeight = FontWeight.Normal,
-                            color = globalcolors.primaryColor,
+                            color = globalcolors.textColor,
                             fontSize = 16.sp,
                             fontFamily = RobotoMono,
                             modifier = Modifier.width(30.dp)
@@ -220,14 +221,14 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                             Text(
                                 student.firstName,
                                 fontWeight = FontWeight.Normal,
-                                color = globalcolors.primaryColor,
+                                color = globalcolors.textColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,
                             )
                             Text(
                                 student.lastName,
                                 fontWeight = FontWeight.Normal,
-                                color = globalcolors.primaryColor,
+                                color = globalcolors.textColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,
                             )
@@ -235,7 +236,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         Text(
                             student.registrationID,
                             fontFamily = RobotoMono,
-                            color = globalcolors.primaryColor,
+                            color = globalcolors.textColor,
                             fontSize = 16.sp,
                         )
                     }

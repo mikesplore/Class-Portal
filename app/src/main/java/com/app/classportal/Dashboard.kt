@@ -151,7 +151,7 @@ fun Dashboard(navController: NavController, context: Context) {
                 title = {
                     Text(
                         "Welcome, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}",
-                        color = globalcolors.primaryColor,
+                        color = globalcolors.textColor,
                         fontWeight = FontWeight.Normal,
                         style = myTextStyle,
                         fontSize = 20.sp,
@@ -671,7 +671,7 @@ fun TopBoxes(image: Painter, description: String, route: String, navController: 
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             shadow = Shadow(
-                                color = Color.Black.copy(alpha = 0.9f),
+                                color = globalcolors.primaryColor.copy(alpha = 0.9f),
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )

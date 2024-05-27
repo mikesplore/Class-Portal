@@ -133,7 +133,7 @@ fun RecordAttendanceScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = primaryColor,
+                    containerColor = globalcolors.primaryColor,
                     titleContentColor = globalcolors.textColor
                 )
             )
@@ -166,7 +166,7 @@ fun RecordAttendanceScreen(
                         },
                         selectedContentColor = globalcolors.textColor,
                         unselectedContentColor = Color.Gray,
-                        modifier = Modifier.background(primaryColor)
+                        modifier = Modifier.background(globalcolors.primaryColor)
                     )
                 }
             }

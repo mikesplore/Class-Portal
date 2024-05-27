@@ -43,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -65,6 +66,17 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
     var lastNameToDelete by remember { mutableStateOf("") }
     val originalStudents = remember { students.toList() } // Store a copy of original data
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     Scaffold(
         topBar = {
@@ -86,7 +98,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
 
                                 .border(
                                     width = 1.dp,
-                                    color = textColor,
+                                    color = globalcolors.textColor,
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -96,14 +108,14 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = textColor,
+                                tint = globalcolors.textColor,
                             )
                         }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = primaryColor,
-                    titleContentColor = textColor,
+                    containerColor = globalcolors.primaryColor,
+                    titleContentColor = globalcolors.textColor,
                 )
             )
         }
@@ -111,7 +123,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
 
         Column(
             modifier = Modifier
-                .background(backbrush)
+                .background(addbackbrush)
                 .fillMaxSize()
                 .padding(innerPadding),
             verticalArrangement = Arrangement.SpaceBetween,
@@ -119,7 +131,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
         ) {
             LazyColumn(
                 modifier = Modifier
-                    .border(1.dp, secondaryColor),
+                    .border(1.dp, globalcolors.secondaryColor),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 item {
@@ -139,24 +151,24 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             }
                         },
                         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search",
-                            tint = textColor) },
-                        placeholder = { Text("Search", fontFamily = RobotoMono, color = textColor) },
+                            tint = globalcolors.textColor) },
+                        placeholder = { Text("Search", fontFamily = RobotoMono, color = globalcolors.textColor) },
                         modifier = Modifier
                             .height(50.dp)
                             .fillMaxWidth(0.9f),
                         shape = RoundedCornerShape(8.dp),
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = primaryColor,
-                            unfocusedContainerColor = primaryColor,
+                            focusedContainerColor = globalcolors.primaryColor,
+                            unfocusedContainerColor = globalcolors.primaryColor,
                             focusedIndicatorColor = focused,
                             unfocusedIndicatorColor = unfocused,
-                            focusedLabelColor = textColor,
-                            cursorColor = textColor,
-                            unfocusedLabelColor = textColor,
-                            focusedTextColor = textColor,
-                            unfocusedTextColor = textColor
+                            focusedLabelColor = globalcolors.textColor,
+                            cursorColor = globalcolors.textColor,
+                            unfocusedLabelColor = globalcolors.textColor,
+                            focusedTextColor = globalcolors.textColor,
+                            unfocusedTextColor = globalcolors.textColor
                         ),
-                        textStyle = TextStyle(fontFamily = RobotoMono, color = textColor)
+                        textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.textColor)
                     )
 
                 }
@@ -182,14 +194,14 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             Text(
                                 student.firstName,
                                 fontWeight = FontWeight.Normal,
-                                color = textColor,
+                                color = globalcolors.textColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,
                             )
                             Text(
                                 student.lastName,
                                 fontWeight = FontWeight.Normal,
-                                color = textColor,
+                                color = globalcolors.textColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,
                             )
@@ -198,7 +210,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                         Text(
                             student.registrationID,
                             fontFamily = RobotoMono,
-                            color = textColor,
+                            color = globalcolors.textColor,
                             fontSize = 16.sp,
                         )
                     }
@@ -208,7 +220,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                 "Select Student to Delete",
                 modifier = Modifier.padding(16.dp),
                 fontWeight = FontWeight.Bold,
-                color = textColor
+                color = globalcolors.textColor
             )
 
             if (showConfirmationDialog) {
@@ -228,7 +240,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = textColor)
+                            colors = ButtonDefaults.buttonColors(containerColor = globalcolors.textColor)
                         ) {
                             Text(
                                 "Delete",
@@ -239,7 +251,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                     dismissButton = {
                         Button(
                             onClick = { showConfirmationDialog = false },
-                            colors = ButtonDefaults.buttonColors(containerColor = textColor)
+                            colors = ButtonDefaults.buttonColors(containerColor = globalcolors.textColor)
                         ) {
                             Text(
                                 "Cancel",
@@ -254,7 +266,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             Text(
                                 "You are about to delete this student",
                                 fontFamily = RobotoMono,
-                                color = primaryColor
+                                color = globalcolors.primaryColor
                             )
                             Text(
                                 "$firstNameToDelete$lastNameToDelete",
@@ -265,7 +277,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                         }
 
                     },
-                    containerColor = secondaryColor
+                    containerColor = globalcolors.secondaryColor
 
                 )
             }

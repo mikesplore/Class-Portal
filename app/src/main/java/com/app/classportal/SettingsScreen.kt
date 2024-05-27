@@ -169,7 +169,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
             )
 
             PreferenceItem(
-                label = "Enable Notifications",
+                label = "Enable Notifications(Coming soon)",
                 checked = notificationsEnabled,
                 onCheckedChange = { notificationsEnabled = it }
             )

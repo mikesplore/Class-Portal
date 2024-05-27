@@ -23,7 +23,7 @@ class Global(
     var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),
     var loggedinuser: MutableState<String> = mutableStateOf("Anonymous"),
-    var loggedinlastname: MutableState<String> = mutableStateOf("Ochieng"),
+    var loggedinlastname: MutableState<String> = mutableStateOf(""),
     var loggedinregID: MutableState<String> = mutableStateOf(""),
     var enableEdgeToEdge: MutableState<Boolean> = mutableStateOf(true),
     var usernames: MutableState<String> = mutableStateOf(""),

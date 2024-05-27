@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -57,6 +58,17 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
     var newlastName by remember { mutableStateOf("") }
     var studentFound by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     Scaffold(
         topBar = {
@@ -69,7 +81,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
 
                             .border(
                                 width = 1.dp,
-                                color = textColor,
+                                color = globalcolors.textColor,
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -78,7 +90,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = textColor,
+                                tint = globalcolors.textColor,
                             )
                         }
                     }
@@ -87,15 +99,15 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     // Add any additional actions (e.g., settings icon) here
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = primaryColor,
-                    titleContentColor = textColor
+                    containerColor = globalcolors.primaryColor,
+                    titleContentColor = globalcolors.textColor
                 )
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(backbrush)
+                .background(addbackbrush)
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -109,15 +121,15 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 onValueChange = { studentId = it },
                 label = { Text("Enter Student ID", fontFamily = RobotoMono) },
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = primaryColor,
-                    unfocusedContainerColor = primaryColor,
+                    focusedContainerColor = globalcolors.primaryColor,
+                    unfocusedContainerColor = globalcolors.primaryColor,
                     focusedIndicatorColor = focused,
                     unfocusedIndicatorColor = unfocused,
-                    focusedLabelColor = textColor,
-                    cursorColor = textColor,
-                    unfocusedLabelColor = textColor,
-                    focusedTextColor = textColor,
-                    unfocusedTextColor = textColor
+                    focusedLabelColor = globalcolors.textColor,
+                    cursorColor = globalcolors.textColor,
+                    unfocusedLabelColor = globalcolors.textColor,
+                    focusedTextColor =  globalcolors.textColor,
+                    unfocusedTextColor = globalcolors.textColor
                 ),
                 singleLine = true,
                 modifier = Modifier
@@ -167,15 +179,15 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     onValueChange = { newfirstName = it },
                     label = { Text("New First Name", fontFamily = RobotoMono) },
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = primaryColor,
-                        unfocusedContainerColor = primaryColor,
+                        focusedContainerColor = globalcolors.primaryColor,
+                        unfocusedContainerColor = globalcolors.primaryColor,
                         focusedIndicatorColor = focused,
                         unfocusedIndicatorColor = unfocused,
-                        focusedLabelColor = textColor,
-                        cursorColor = textColor,
-                        unfocusedLabelColor = textColor,
-                        focusedTextColor = textColor,
-                        unfocusedTextColor = textColor),
+                        focusedLabelColor = globalcolors.textColor,
+                        cursorColor = globalcolors.textColor,
+                        unfocusedLabelColor = globalcolors.textColor,
+                        focusedTextColor =  globalcolors.textColor,
+                        unfocusedTextColor = globalcolors.textColor),
                     singleLine = true,
                     modifier = Modifier
                         .shadow(
@@ -194,15 +206,15 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     onValueChange = { newlastName = it },
                     label = { Text("New Last Name", fontFamily = RobotoMono) },
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = primaryColor,
-                        unfocusedContainerColor = primaryColor,
+                        focusedContainerColor = globalcolors.primaryColor,
+                        unfocusedContainerColor = globalcolors.primaryColor,
                         focusedIndicatorColor = focused,
                         unfocusedIndicatorColor = unfocused,
-                        focusedLabelColor = textColor,
-                        cursorColor = textColor,
-                        unfocusedLabelColor = textColor,
-                        focusedTextColor = textColor,
-                        unfocusedTextColor = textColor),
+                        focusedLabelColor = globalcolors.textColor,
+                        cursorColor = globalcolors.textColor,
+                        unfocusedLabelColor = globalcolors.textColor,
+                        focusedTextColor =  globalcolors.textColor,
+                        unfocusedTextColor = globalcolors.textColor),
                     singleLine = true,
                     modifier = Modifier
                         .shadow(
@@ -245,7 +257,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     onDismissRequest = { showDialog = false },
                     confirmButton = {
                         Button(onClick = { showDialog = false },
-                            colors = ButtonDefaults.buttonColors(primaryColor),
+                            colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier.fillMaxWidth()) {
                             Text("OK",

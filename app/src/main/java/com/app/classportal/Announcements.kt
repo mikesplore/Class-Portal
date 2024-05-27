@@ -41,10 +41,7 @@ import com.app.classportal.FileUtil.loadAnnouncement
 import com.app.classportal.FileUtil.saveAnnouncement
 import com.app.classportal.ui.theme.RobotoMono
 
-val primaryColor = Color(0xff003C43)
-val secondaryColor = Color(0xff135D66)
-val tertiaryColor = Color(0xff77B0AA)
-val textColor = Color(0xffE3FEF7)
+
 
 val backbrush = Brush.verticalGradient(
     listOf(

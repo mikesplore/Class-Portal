@@ -14,13 +14,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-
+val primaryColor = Color(0xff003C43)
+val secondaryColor = Color(0xff135D66)
+val tertiaryColor = Color(0xff77B0AA)
+val textColor = Color(0xffE3FEF7)
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("student"),
     var firstname: MutableState<String> = mutableStateOf(""),
     var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),
     var loggedinuser: MutableState<String> = mutableStateOf("Anonymous"),
+    var primaryColor: MutableState<Color> = mutableStateOf(Color(0xff003C43)),
+    var secondaryColor: MutableState<Color> = mutableStateOf(Color(0xff135D66)),
+    var tertiaryColor: MutableState<Color> = mutableStateOf(Color(0xff77B0AA)),
+    var textColor: MutableState<Color> = mutableStateOf(Color(0xffE3FEF7)),
 
 )
 

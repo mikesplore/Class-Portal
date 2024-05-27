@@ -81,7 +81,6 @@ fun LoginScreen(navController: NavController,context: Context) {
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var isRegistering by remember { mutableStateOf(false) }
     val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
-    val boxselected = remember { mutableStateOf(false) }
 Scaffold(
     topBar = {
         TopAppBar(

@@ -323,7 +323,7 @@ Scaffold(
                     IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                         Icon(
                             imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                            tint = color4,
+                            tint = textColor,
                             contentDescription = if (passwordVisibility) "Hide password" else "Show password"
                         )
                     }
@@ -363,7 +363,7 @@ Scaffold(
                         }) {
                             Icon(
                                 imageVector = if (confirmPasswordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                tint = color4,
+                                tint = textColor,
                                 contentDescription = if (confirmPasswordVisibility) "Hide password" else "Show password"
                             )
                         }

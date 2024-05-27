@@ -36,7 +36,7 @@ fun LoginCategory(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         Text(text = "Choose your role",
-            color = textcolor,
+            color = textColor,
             fontFamily = RobotoMono,
             fontSize = 30.sp,
             fontWeight = FontWeight.SemiBold
@@ -60,7 +60,7 @@ fun LoginCategory(navController: NavController){
             ) {
                 Column(
                     modifier = Modifier
-                        .background(color2, shape = RoundedCornerShape(20.dp))
+                        .background(secondaryColor, shape = RoundedCornerShape(20.dp))
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -73,7 +73,7 @@ fun LoginCategory(navController: NavController){
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
                         text = "Student",
-                        color = color4,
+                        color = textColor,
                         fontSize = 20.sp,
                         fontFamily = RobotoMono
                     )
@@ -93,7 +93,7 @@ fun LoginCategory(navController: NavController){
             ) {
                 Column(
                     modifier = Modifier
-                        .background(color2, shape = RoundedCornerShape(20.dp))
+                        .background(secondaryColor, shape = RoundedCornerShape(20.dp))
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -106,7 +106,7 @@ fun LoginCategory(navController: NavController){
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
                         text = "ClassRep",
-                        color = color4,
+                        color = textColor,
                         fontSize = 20.sp,
                         fontFamily = RobotoMono
                     )

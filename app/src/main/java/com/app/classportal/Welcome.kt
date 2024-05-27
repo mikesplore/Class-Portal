@@ -66,7 +66,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun WelcomeScreen(navController: NavController) {
     Box(modifier = Modifier
-        .background(color1)
+        .background(primaryColor)
         .fillMaxSize(),
 
         ) {
@@ -98,7 +98,7 @@ fun WelcomeScreen(navController: NavController) {
                     .height(50.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = color,
+                    containerColor = tertiaryColor,
                     contentColor = Color.Black
                 )) {
                 Text(text = "Login",
@@ -114,7 +114,7 @@ fun WelcomeScreen(navController: NavController) {
                     .height(50.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = color,
+                    containerColor = tertiaryColor,
                     contentColor = Color.Black
                 )) {
                 Text(text = "Sign Up",

@@ -208,7 +208,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                 "Select Student to Delete",
                 modifier = Modifier.padding(16.dp),
                 fontWeight = FontWeight.Bold,
-                color = color4
+                color = textColor
             )
 
             if (showConfirmationDialog) {
@@ -228,7 +228,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = textcolor)
+                            colors = ButtonDefaults.buttonColors(containerColor = textColor)
                         ) {
                             Text(
                                 "Delete",
@@ -239,7 +239,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                     dismissButton = {
                         Button(
                             onClick = { showConfirmationDialog = false },
-                            colors = ButtonDefaults.buttonColors(containerColor = textcolor)
+                            colors = ButtonDefaults.buttonColors(containerColor = textColor)
                         ) {
                             Text(
                                 "Cancel",
@@ -254,7 +254,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             Text(
                                 "You are about to delete this student",
                                 fontFamily = RobotoMono,
-                                color = color1
+                                color = primaryColor
                             )
                             Text(
                                 "$firstNameToDelete$lastNameToDelete",
@@ -265,7 +265,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                         }
 
                     },
-                    containerColor = color3
+                    containerColor = secondaryColor
 
                 )
             }

@@ -2,7 +2,9 @@ package com.app.classportal
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -65,6 +67,8 @@ import coil.compose.AsyncImage
 import com.app.classportal.FileUtil.getAssignment
 import com.app.classportal.FileUtil.loadAnnouncement
 import kotlinx.coroutines.launch
+import java.time.LocalTime
+
 
 val imageUrls = listOf(
     "https://images.template.net/wp-content/uploads/2019/07/Certificate-of-attendance-Format1.jpg",
@@ -78,9 +82,18 @@ val imageUrls = listOf(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOfrTVFZxNPUYN-zSlUqqdS-OTE6Rm3nLiPw&usqp=CAU"
 
 )
+@RequiresApi(Build.VERSION_CODES.O)
+fun getGreetingMessage(): String {
+    val currentTime = LocalTime.now()
+    return when (currentTime.hour) {
+        in 5..11 -> "Good Morning"
+        in 12..17 -> "Good Afternoon"
+        in 18..21 -> "Good Evening"
+        else -> "Good Night"
+    }
+}
 
-
-
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -104,6 +117,9 @@ fun Dashboard(navController: NavController, context: Context) {
             )
         )
     }.value
+
+
+    val greetingMessage by remember { mutableStateOf(getGreetingMessage()) }
 
     val firstAnnouncement =
         if (announcements.isNotEmpty()) announcements[announcements.lastIndex] else null
@@ -150,7 +166,7 @@ fun Dashboard(navController: NavController, context: Context) {
             TopAppBar(
                 title = {
                     Text(
-                        "Welcome, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}",
+                        "$greetingMessage, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}!",
                         color = globalcolors.textColor,
                         fontWeight = FontWeight.Normal,
                         style = myTextStyle,
@@ -420,19 +436,39 @@ fun Dashboard(navController: NavController, context: Context) {
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.Center,
             ) {
-                if(palleteDialog){
-                AlertDialog(
+                if (palleteDialog) {
+                    AlertDialog(
+                        title = { Text(text = "Colors Settings", style = myTextStyle) },
+                        text = {
+                            ColorSettings(context)
+                        },
+                        onDismissRequest = { palleteDialog = false },
+                        confirmButton = {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+                            Button(onClick = {
+                                globalcolors.resetToDefaultColors(context)
+                                palleteDialog = false
+                            },
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(primaryColor)) {
+                                Text(text = "Default colors", style = myTextStyle)
+                            }
+                            Button(onClick = { palleteDialog = false },
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(primaryColor)) {
+                                Text(text = "Ok",
+                                    style = myTextStyle,)
+                            }}
+                        },
+                        modifier = Modifier.height(420.dp),
+                        containerColor = globalcolors.secondaryColor
+                    )
+                }
 
-                    title = { Text(text = "Colors Settings", style = myTextStyle) },
-                    text = {
-                           ColorSettings(context)
-                    },
-                    onDismissRequest = { palleteDialog  }, confirmButton = { Button(onClick = { palleteDialog = false}) {
-                        Text(text = "Ok")
-                        
-                    } },
-                    modifier = Modifier.height(420.dp),
-                    containerColor = globalcolors.secondaryColor)}
                 Spacer(modifier = Modifier.height(22.dp))
 
                 Row(
@@ -618,7 +654,7 @@ fun LatestAnnouncement() {
         ) {
             Text(text = "Posted by", style = myTextStyle)
             Text(
-                text = latestAnnouncement?.student ?: "Developer",
+                text = latestAnnouncement?.student ?: "Developer Mike",
                 style = myTextStyle,
                 color = globalcolors.textColor,
                 modifier = Modifier.padding(10.dp)
@@ -1207,6 +1243,7 @@ fun AnnouncementBoxes(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun DashboardPreview() {

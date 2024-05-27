@@ -536,18 +536,20 @@ Scaffold(
             ) {
                 val text = if (isRegistering) "Register" else "Login"
                 val category =
-                    if (global.selectedcategory.value == "student") "Class Rep" else "Student"
+                    if (global.selectedcategory.value == "Student") "Class Rep" else "Student"
                 Text(text = "$text as a $category? ", style = myTextStyle)
                 Text(
                     text = "Click here",
                     style = myTextStyle,
-                    color = globalcolors.primaryColor,
+                    color = globalcolors.secondaryColor,
                     modifier = Modifier.clickable {
                         global.selectedcategory.value = category
                     }
                 )
             }
+
         }
+        Text("Developed by Mike", style = myTextStyle, fontSize = 10.sp)
     }
     }
 }

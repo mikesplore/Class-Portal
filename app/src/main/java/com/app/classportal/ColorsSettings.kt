@@ -35,7 +35,9 @@ fun parseColor(hex: String): Color {
 object globalcolors {
     private const val COLORS_FILE_NAME = "color_scheme.json"
 
-    var currentScheme by mutableStateOf(ColorScheme("003C43", "135D66", "77B0AA", "E3FEF7"))
+    private val defaultScheme = ColorScheme("003C43", "135D66", "77B0AA", "E3FEF7")
+
+    var currentScheme by mutableStateOf(defaultScheme)
 
     fun loadColorScheme(context: Context): ColorScheme {
         val file = File(context.filesDir, COLORS_FILE_NAME)
@@ -43,7 +45,7 @@ object globalcolors {
             val json = file.readText()
             Gson().fromJson(json, ColorScheme::class.java)
         } else {
-            ColorScheme("00A9FF", "89CFF3", "A0E9FF", "CDF5FD") // Default colors
+            defaultScheme
         }
     }
 
@@ -52,6 +54,10 @@ object globalcolors {
         val file = File(context.filesDir, COLORS_FILE_NAME)
         file.writeText(json)
         currentScheme = scheme
+    }
+
+    fun resetToDefaultColors(context: Context) {
+        saveColorScheme(context, defaultScheme)
     }
 
     val primaryColor: Color
@@ -67,12 +73,21 @@ object globalcolors {
         get() = parseColor(currentScheme.textColor)
 }
 
+
 @Composable
 fun ColorSettings(context: Context) {
     var primaryColor by remember { mutableStateOf(globalcolors.currentScheme.primaryColor) }
     var secondaryColor by remember { mutableStateOf(globalcolors.currentScheme.secondaryColor) }
     var tertiaryColor by remember { mutableStateOf(globalcolors.currentScheme.tertiaryColor) }
     var textColor by remember { mutableStateOf(globalcolors.currentScheme.textColor) }
+
+    // Listen to changes in global color scheme and update local states
+    LaunchedEffect(globalcolors.currentScheme) {
+        primaryColor = globalcolors.currentScheme.primaryColor
+        secondaryColor = globalcolors.currentScheme.secondaryColor
+        tertiaryColor = globalcolors.currentScheme.tertiaryColor
+        textColor = globalcolors.currentScheme.textColor
+    }
 
     Column(
         modifier = Modifier.height(350.dp),
@@ -125,6 +140,7 @@ fun ColorSettings(context: Context) {
     }
 }
 
+
 @Composable
 fun OutlinedColorTextField(
     label: String,
@@ -165,5 +181,41 @@ fun OutlinedColorTextField(
 @Composable
 fun ColorSettingsPreview() {
     val context = LocalContext.current
+
+    // Load the color scheme when the composable is launched
+    LaunchedEffect(Unit) {
+        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+    }
+
     ColorSettings(context = context)
 }
+
+
+/* i have extracted this code in another part of the project
+if(palleteDialog){
+                AlertDialog(
+
+                    title = { Text(text = "Colors Settings", style = myTextStyle) },
+                    text = {
+                           ColorSettings(context)
+                    },
+                    onDismissRequest = { palleteDialog  }, confirmButton = {
+                        Button(onClick = { palleteDialog = false}) {
+                            Text(text = "Default colors")
+
+                        }
+                        Button(onClick = { palleteDialog = false}) {
+                        Text(text = "Ok")
+
+                    } },
+                    modifier = Modifier.height(420.dp),
+                    containerColor = globalcolors.secondaryColor)}
+*
+* */
+
+//so i want you to make the buton "default" colors to work
+//and i want when i load the app, i want it to load the colors that are saved in the files.
+// for example i have put my custom colors, when i close the app and open it again afresh, it should load the colors
+//that i had set myself before,
+//when i press the default colors in the button
+// the original colors should be applied back

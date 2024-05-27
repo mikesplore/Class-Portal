@@ -159,7 +159,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     )
                     .width(275.dp)
                     .height(50.dp),
-                colors = ButtonDefaults.buttonColors(secondaryColor),
+                colors = ButtonDefaults.buttonColors(globalcolors.secondaryColor),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text("Find Student",
@@ -226,7 +226,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        FileUtil.editStudent(context, Student(studentId, newfirstName, newlastName))
+                        FileUtil.editStudent(context, Student(studentId, newfirstName, newlastName, ""))
                         studentFound = false
                         newfirstName = ""
                         newlastName = ""
@@ -241,7 +241,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                         )
                         .width(275.dp)
                         .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(secondaryColor),
+                    colors = ButtonDefaults.buttonColors(globalcolors.secondaryColor),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text("Update Student",
@@ -270,7 +270,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                         fontWeight = FontWeight.Bold) },
                     text = { Text("The student with ID $studentId was not found.",
                         style = myTextStyle,) },
-                    containerColor = secondaryColor,
+                    containerColor = globalcolors.secondaryColor,
                 )
             }
         }

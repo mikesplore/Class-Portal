@@ -72,8 +72,7 @@ object globalcolors {
 
 
 @Composable
-fun ColorSettings() {
-    val context = LocalContext.current
+fun ColorSettings(context: Context) {
     var primaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).primaryColor) }
     var secondaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).secondaryColor) }
     var tertiaryColor by remember { mutableStateOf(globalcolors.loadColorScheme(context).tertiaryColor) }
@@ -168,7 +167,7 @@ fun OutlinedColorTextField(
 @Preview
 @Composable
 fun ColorSettingsPreview() {
-    ColorSettings()
+    ColorSettings(context = LocalContext.current)
 }
 
 

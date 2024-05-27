@@ -411,7 +411,7 @@ fun Dashboard(navController: NavController, context: Context) {
 
                     title = { Text(text = "Colors Settings", style = myTextStyle) },
                     text = {
-                           ColorSettings()
+                           ColorSettings(context)
                     },
                     onDismissRequest = { palleteDialog  }, confirmButton = { Button(onClick = { palleteDialog = false}) {
                         Text(text = "Ok")

@@ -64,10 +64,10 @@ import java.util.Locale
 
 
 
-val focused = tertiaryColor
-val unfocused = primaryColor
+val focused = globalcolors.tertiaryColor
+val unfocused = globalcolors.primaryColor
 val unselected  = Color.Transparent
-var selected = primaryColor
+var selected = globalcolors.primaryColor
 
 
 val center = Offset(0.5f, 0.5f)
@@ -86,7 +86,7 @@ Scaffold(
         TopAppBar(
             title = { Text(text = if (isRegistering) "   Register" else "   Login",
                 fontFamily = RobotoMono,
-                color = textColor,
+                color = globalcolors.textColor,
                 fontWeight = FontWeight.Bold,
                 fontSize = 25.sp)},
             navigationIcon = {
@@ -96,7 +96,7 @@ Scaffold(
 
                         .border(
                             width = 1.dp,
-                            color = textColor,
+                            color = globalcolors.textColor,
                             shape = RoundedCornerShape(10.dp)
                         )
                         .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -105,13 +105,13 @@ Scaffold(
                         Icon(
                             imageVector = Icons.Default.ArrowBackIosNew,
                             contentDescription = "Back",
-                            tint = textColor,
+                            tint = globalcolors.textColor,
                         )
                     }
 
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = primaryColor)
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
         )
     }
 ) {
@@ -133,7 +133,7 @@ Scaffold(
             Text(
                 text = if (isRegistering) "Register as one of the following" else "Login as one of the following",
                 fontFamily = RobotoMono,
-                color = textColor,
+                color = globalcolors.textColor,
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
             )
@@ -149,7 +149,7 @@ Scaffold(
 
                     .border(
                         width = 1.dp,
-                        color = textColor,
+                        color = globalcolors.textColor,
                         shape = RoundedCornerShape(10.dp)
 
                     )
@@ -164,7 +164,7 @@ Scaffold(
                     Text(
                         text = "Class Rep",
                         fontFamily = RobotoMono,
-                        color = textColor,
+                        color = globalcolors.textColor,
                         fontWeight = FontWeight.Normal,
                         fontSize = 15.sp,
                     )
@@ -176,7 +176,7 @@ Scaffold(
                     .background(if(global.selectedcategory.value == "student") selected else unselected, shape = RoundedCornerShape(10.dp))
                     .border(
                         width = 1.dp,
-                        color = textColor,
+                        color = globalcolors.textColor,
                         shape = RoundedCornerShape(10.dp)
 
                     )
@@ -186,7 +186,7 @@ Scaffold(
                     Text(
                         text = "Student",
                         fontFamily = RobotoMono,
-                        color = textColor,
+                        color = globalcolors.textColor,
                         fontWeight = FontWeight.Normal,
                         fontSize = 15.sp,
                     )
@@ -221,22 +221,22 @@ Scaffold(
                             Text(
                                 text = "First Name",
                                 fontFamily = RobotoMono,
-                                color = textColor,
+                                color = globalcolors.textColor,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 15.sp
                             )
                         },
                         singleLine = true,
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = primaryColor,
-                            unfocusedContainerColor = primaryColor,
+                            focusedContainerColor = globalcolors.primaryColor,
+                            unfocusedContainerColor = globalcolors.primaryColor,
                             focusedIndicatorColor = focused,
                             unfocusedIndicatorColor = unfocused,
-                            focusedLabelColor = textColor,
-                            cursorColor = textColor,
-                            unfocusedLabelColor = textColor,
-                            focusedTextColor = textColor,
-                            unfocusedTextColor = textColor
+                            focusedLabelColor = globalcolors.textColor,
+                            cursorColor = globalcolors.textColor,
+                            unfocusedLabelColor = globalcolors.textColor,
+                            focusedTextColor = globalcolors.textColor,
+                            unfocusedTextColor = globalcolors.textColor
 
                         ),
                         shape = RoundedCornerShape(10.dp),
@@ -256,22 +256,22 @@ Scaffold(
                             Text(
                                 text = "Last Name",
                                 fontFamily = RobotoMono,
-                                color = textColor,
+                                color = globalcolors.textColor,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 15.sp
                             )
                         },
                         singleLine = true,
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = primaryColor,
-                            unfocusedContainerColor = primaryColor,
+                            focusedContainerColor = globalcolors.primaryColor,
+                            unfocusedContainerColor = globalcolors.primaryColor,
                             focusedIndicatorColor = focused,
                             unfocusedIndicatorColor = unfocused,
-                            focusedLabelColor = textColor,
-                            cursorColor = textColor,
-                            unfocusedLabelColor = textColor,
-                            focusedTextColor = textColor,
-                            unfocusedTextColor = textColor
+                            focusedLabelColor = globalcolors.textColor,
+                            cursorColor = globalcolors.textColor,
+                            unfocusedLabelColor = globalcolors.textColor,
+                            focusedTextColor = globalcolors.textColor,
+                            unfocusedTextColor = globalcolors.textColor
 
                             ),
                         shape = RoundedCornerShape(10.dp),
@@ -292,15 +292,15 @@ Scaffold(
                 label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = primaryColor,
-                    unfocusedContainerColor = primaryColor,
+                    focusedContainerColor = globalcolors.primaryColor,
+                    unfocusedContainerColor = globalcolors.primaryColor,
                     focusedIndicatorColor = focused,
                     unfocusedIndicatorColor = unfocused,
-                    focusedLabelColor = textColor,
-                    cursorColor = textColor,
-                    unfocusedLabelColor = textColor,
-                    focusedTextColor = textColor,
-                    unfocusedTextColor = textColor
+                    focusedLabelColor = globalcolors.textColor,
+                    cursorColor = globalcolors.textColor,
+                    unfocusedLabelColor = globalcolors.textColor,
+                    focusedTextColor = globalcolors.textColor,
+                    unfocusedTextColor = globalcolors.textColor
                 ),
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
@@ -322,22 +322,22 @@ Scaffold(
                     IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                         Icon(
                             imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                            tint = textColor,
+                            tint = globalcolors.textColor,
                             contentDescription = if (passwordVisibility) "Hide password" else "Show password"
                         )
                     }
                 },
                 visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = primaryColor,
-                    unfocusedContainerColor = primaryColor,
+                    focusedContainerColor = globalcolors.primaryColor,
+                    unfocusedContainerColor = globalcolors.primaryColor,
                     focusedIndicatorColor = focused,
                     unfocusedIndicatorColor = unfocused,
-                    focusedLabelColor = textColor,
-                    cursorColor = textColor,
-                    unfocusedLabelColor = textColor,
-                    focusedTextColor = textColor,
-                    unfocusedTextColor = textColor
+                    focusedLabelColor = globalcolors.textColor,
+                    cursorColor = globalcolors.textColor,
+                    unfocusedLabelColor = globalcolors.textColor,
+                    focusedTextColor = globalcolors.textColor,
+                    unfocusedTextColor = globalcolors.textColor
                 ),
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
@@ -362,22 +362,22 @@ Scaffold(
                         }) {
                             Icon(
                                 imageVector = if (confirmPasswordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                tint = textColor,
+                                tint = globalcolors.textColor,
                                 contentDescription = if (confirmPasswordVisibility) "Hide password" else "Show password"
                             )
                         }
                     },
                     visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = primaryColor,
-                        unfocusedContainerColor = primaryColor,
+                        focusedContainerColor = globalcolors.primaryColor,
+                        unfocusedContainerColor = globalcolors.primaryColor,
                         focusedIndicatorColor = focused,
                         unfocusedIndicatorColor = unfocused,
-                        focusedLabelColor = textColor,
-                        cursorColor = textColor,
-                        unfocusedLabelColor = textColor,
-                        focusedTextColor = textColor,
-                        unfocusedTextColor = textColor
+                        focusedLabelColor = globalcolors.textColor,
+                        cursorColor = globalcolors.textColor,
+                        unfocusedLabelColor = globalcolors.textColor,
+                        focusedTextColor = globalcolors.textColor,
+                        unfocusedTextColor = globalcolors.textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -483,7 +483,7 @@ Scaffold(
                     .height(50.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = primaryColor,
+                    containerColor = globalcolors.primaryColor,
 
                 )
 
@@ -517,7 +517,7 @@ Scaffold(
                 Text(
                     text = if (isRegistering) "Login" else "Register",
                     style = myTextStyle,
-                    color = primaryColor,
+                    color = globalcolors.primaryColor,
                     modifier = Modifier.clickable {
                         isRegistering = !isRegistering
                     }
@@ -535,7 +535,7 @@ Scaffold(
                 Text(
                     text = "Click here",
                     style = myTextStyle,
-                    color = primaryColor,
+                    color = globalcolors.primaryColor,
                     modifier = Modifier.clickable {
                         global.selectedcategory.value = category
                     }

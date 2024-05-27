@@ -451,7 +451,10 @@ fun Dashboard(navController: NavController, context: Context) {
                                 colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                 Text(text = "Default colors", style = myTextStyle)
                             }
-                            Button(onClick = { palleteDialog = false },
+                            Button(onClick = { 
+                                
+                                palleteDialog = false
+                                             },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                 Text(text = "Ok",

@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +32,7 @@ import androidx.navigation.compose.rememberNavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController, context: Context) {
-    var notificationsEnabled by remember { mutableStateOf(true) }
+    var notificationsEnabled by remember { mutableStateOf(false) }
     var darkThemeEnabled by remember { mutableStateOf(false) }
     var expandedColumn by remember { mutableStateOf(false) }
     var newfirstname by remember { mutableStateOf("") }
@@ -55,8 +57,23 @@ fun SettingsScreen(navController: NavController, context: Context) {
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate("dashboard") }) {
-                        Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "Back")
+                    IconButton(onClick = { navController.navigate("welcome") }) {
+                        Box(modifier = Modifier
+
+                            .border(
+                                width = 1.dp,
+                                color = globalcolors.textColor,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                            .size(50.dp),
+                            contentAlignment = Alignment.Center){
+                            Icon(
+                                imageVector = Icons.Default.ArrowBackIosNew,
+                                contentDescription = "Back",
+                                tint = globalcolors.textColor,
+                            )
+                        }
                     }
                 },
                 title = { Text("Settings", style = myTextStyle, fontWeight = FontWeight.Bold, fontSize = 30.sp) },
@@ -195,7 +212,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
 
 
             PreferenceItem(
-                label = "Disable Edge To Edge",
+                label = "Enable Edge To Edge",
                 checked = global.enableEdgeToEdge.value,
                 onCheckedChange = { global.enableEdgeToEdge.value = it }
             )
@@ -233,7 +250,9 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                         colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                         Text(text = "Default colors", style = myTextStyle)
                                     }
-                                    Button(onClick = { showPaletteDialog = false },
+                                    Button(onClick = {
+                                        Toast.makeText(context, "Color pallete updated! If you still see some old colors, please navigate back and forth to refresh", Toast.LENGTH_SHORT).show()
+                                        showPaletteDialog = false },
                                         shape = RoundedCornerShape(10.dp),
                                         colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                         Text(text = "Ok",

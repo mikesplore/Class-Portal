@@ -40,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -58,6 +59,17 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
     var students by remember { mutableStateOf(FileUtil.loadStudents(context)) }
     val originalStudents = remember { students.toList() } // Store a copy of original data
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
     Scaffold(
         topBar = {
@@ -93,27 +105,27 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                                 }
                             },
                             leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search",
-                                tint = textColor) },
-                            placeholder = { Text("Search", fontFamily = RobotoMono, color = textColor) },
+                                tint = globalcolors.primaryColor) },
+                            placeholder = { Text("Search", fontFamily = RobotoMono, color = globalcolors.primaryColor) },
                             modifier = Modifier
                                 .height(50.dp)
                                 .width(200.dp),
                             shape = RoundedCornerShape(8.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = secondaryColor,
-                                unfocusedBorderColor = primaryColor,
-                                cursorColor = textColor,
-                                containerColor = primaryColor,
-                                focusedLabelColor = textColor,
-                                unfocusedLabelColor = textColor,
+                                focusedBorderColor = globalcolors.secondaryColor,
+                                unfocusedBorderColor = globalcolors.primaryColor,
+                                cursorColor = globalcolors.primaryColor,
+                                containerColor = globalcolors.primaryColor,
+                                focusedLabelColor = globalcolors.primaryColor,
+                                unfocusedLabelColor = globalcolors.primaryColor,
                             ),
-                            textStyle = TextStyle(fontFamily = RobotoMono, color = textColor)
+                            textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.primaryColor)
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = primaryColor,
-                    titleContentColor = textColor,
+                    containerColor = globalcolors.primaryColor,
+                    titleContentColor = globalcolors.primaryColor,
                 )
             )
         }
@@ -121,7 +133,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
 
         Column(
             modifier = Modifier
-                .background(backbrush)
+                .background(addbackbrush)
                 .fillMaxSize()
                 .padding(innerPadding),
             verticalArrangement = Arrangement.Top
@@ -140,8 +152,8 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .width(150.dp)
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = primaryColor,
-                        contentColor = textColor
+                        containerColor = globalcolors.primaryColor,
+                        contentColor = globalcolors.primaryColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -155,8 +167,8 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .width(170.dp)
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = primaryColor,
-                        contentColor = textColor
+                        containerColor = globalcolors.primaryColor,
+                        contentColor = globalcolors.primaryColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -170,8 +182,8 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .width(170.dp)
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = primaryColor,
-                        contentColor = textColor
+                        containerColor = globalcolors.primaryColor,
+                        contentColor = globalcolors.primaryColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -180,7 +192,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
 
             }
 
-            LazyColumn(modifier = Modifier.border(1.dp, secondaryColor)) {
+            LazyColumn(modifier = Modifier.border(1.dp, globalcolors.secondaryColor)) {
                 itemsIndexed(students) { index, student ->
                     Row(
                         modifier = Modifier
@@ -196,7 +208,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         Text(
                             (index + 1).toString(),
                             fontWeight = FontWeight.Normal,
-                            color = textColor,
+                            color = globalcolors.primaryColor,
                             fontSize = 16.sp,
                             fontFamily = RobotoMono,
                             modifier = Modifier.width(30.dp)
@@ -208,14 +220,14 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                             Text(
                                 student.firstName,
                                 fontWeight = FontWeight.Normal,
-                                color = textColor,
+                                color = globalcolors.primaryColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,
                             )
                             Text(
                                 student.lastName,
                                 fontWeight = FontWeight.Normal,
-                                color = textColor,
+                                color = globalcolors.primaryColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,
                             )
@@ -223,7 +235,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         Text(
                             student.registrationID,
                             fontFamily = RobotoMono,
-                            color = textColor,
+                            color = globalcolors.primaryColor,
                             fontSize = 16.sp,
                         )
                     }

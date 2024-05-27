@@ -160,8 +160,8 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = globalcolors.primaryColor,
                             unfocusedContainerColor = globalcolors.primaryColor,
-                            focusedIndicatorColor = focused,
-                            unfocusedIndicatorColor = unfocused,
+                            focusedIndicatorColor = globalcolors.textColor,
+                            unfocusedIndicatorColor = globalcolors.primaryColor,
                             focusedLabelColor = globalcolors.textColor,
                             cursorColor = globalcolors.textColor,
                             unfocusedLabelColor = globalcolors.textColor,

@@ -62,12 +62,7 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 import java.util.Locale
 
-
-
-val focused = globalcolors.tertiaryColor
-val unfocused = globalcolors.primaryColor
 val unselected  = Color.Transparent
-
 
 val center = Offset(0.5f, 0.5f)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,6 +75,18 @@ fun LoginScreen(navController: NavController,context: Context) {
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var isRegistering by remember { mutableStateOf(false) }
     val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
+
 Scaffold(
     topBar = {
         TopAppBar(
@@ -117,7 +124,7 @@ Scaffold(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(backbrush),
+            .background(addbackbrush),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -294,7 +301,7 @@ Scaffold(
                     focusedContainerColor = globalcolors.primaryColor,
                     unfocusedContainerColor = globalcolors.primaryColor,
                     focusedIndicatorColor = globalcolors.tertiaryColor,
-                    unfocusedIndicatorColor = unfocused,
+                    unfocusedIndicatorColor = globalcolors.primaryColor,
                     focusedLabelColor = globalcolors.textColor,
                     cursorColor = globalcolors.textColor,
                     unfocusedLabelColor = globalcolors.textColor,
@@ -516,7 +523,7 @@ Scaffold(
                 Text(
                     text = if (isRegistering) "Login" else "Register",
                     style = myTextStyle,
-                    color = globalcolors.primaryColor,
+                    color = globalcolors.secondaryColor,
                     modifier = Modifier.clickable {
                         isRegistering = !isRegistering
                     }
@@ -529,7 +536,7 @@ Scaffold(
             ) {
                 val text = if (isRegistering) "Register" else "Login"
                 val category =
-                    if (global.selectedcategory.value == "student") "Class Rep" else "student"
+                    if (global.selectedcategory.value == "student") "Class Rep" else "Student"
                 Text(text = "$text as a $category? ", style = myTextStyle)
                 Text(
                     text = "Click here",

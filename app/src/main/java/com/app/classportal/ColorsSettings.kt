@@ -142,8 +142,8 @@ fun OutlinedColorTextField(
         colors = TextFieldDefaults.colors(
             focusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
             unfocusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
-            focusedIndicatorColor = globalcolors.primaryColor,
-            unfocusedIndicatorColor = unfocused,
+            focusedIndicatorColor = globalcolors.textColor,
+            unfocusedIndicatorColor = globalcolors.primaryColor,
             focusedLabelColor = globalcolors.textColor,
             cursorColor = parseColor(globalcolors.currentScheme.textColor),
             unfocusedLabelColor = parseColor(globalcolors.currentScheme.textColor),

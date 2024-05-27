@@ -20,7 +20,7 @@ val secondaryColor = Color(0xff135D66)
 val tertiaryColor = Color(0xff77B0AA)
 val textColor = Color(0xffE3FEF7)
 class Global(
-    var selectedcategory: MutableState<String> = mutableStateOf("student"),
+    var selectedcategory: MutableState<String> = mutableStateOf("Student"),
     var firstname: MutableState<String> = mutableStateOf(""),
     var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),

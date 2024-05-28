@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
         
-        NavHost(navController, startDestination = "welcome") {
+        NavHost(navController, startDestination = "assignments") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }
@@ -121,13 +121,16 @@ class MainActivity : ComponentActivity() {
                 Timetable(navController)
             }
             composable("assignments") {
-                AssignmentScreen(navController)
+                AssignmentScreen(navController, context)
             }
             composable("students"){
                 ShowStudentsScreen(context, navController)
             }
             composable("settings"){
                 SettingsScreen(navController, context)
+            }
+            composable("units"){
+                ManageUnitsScreen(context, navController)
             }
 
             

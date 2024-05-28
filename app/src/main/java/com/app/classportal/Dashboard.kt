@@ -26,6 +26,7 @@ import androidx.compose.material.icons.automirrored.filled.NoteAdd
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
@@ -68,6 +69,7 @@ import com.app.classportal.FileUtil.getAssignment
 import com.app.classportal.FileUtil.loadAnnouncement
 import kotlinx.coroutines.launch
 import java.time.LocalTime
+import java.util.Calendar
 
 
 val imageUrls = listOf(
@@ -115,6 +117,7 @@ fun Dashboard(navController: NavController, context: Context) {
             )
         )
     }.value
+    var onsaveDialog by remember { mutableStateOf(false) }
 
 
     val greetingMessage by remember { mutableStateOf(getGreetingMessage()) }
@@ -176,8 +179,8 @@ fun Dashboard(navController: NavController, context: Context) {
                     Box {
                         IconButton(onClick = { expanded = true }) {
                             Icon(
-                                imageVector = Icons.Filled.AccountCircle,
-                                contentDescription = "Profile",
+                                imageVector = Icons.Filled.Menu,
+                                contentDescription = "Menu",
                                 tint = globalcolors.textColor,
                                 modifier = Modifier.size(35.dp)
                             )
@@ -463,6 +466,38 @@ fun Dashboard(navController: NavController, context: Context) {
                     )
                 }
 
+                AlertDialog(
+                    title = { Text(text = "Refresh screens", style = myTextStyle) },
+                    text = {
+                        Text(text = "The app will restart for the colors to load properly",
+                            style = myTextStyle)
+                    },
+                    onDismissRequest = {  },
+                    confirmButton = {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ){
+
+                            Button(onClick = {
+
+                                palleteDialog = false
+                                navController.navigate("login")
+                                Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
+                            },
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
+                                Text(text = "Ok",
+                                    style = myTextStyle,)
+                            }}
+                    },
+
+                    containerColor = globalcolors.secondaryColor
+                )
+
+
                 Spacer(modifier = Modifier.height(22.dp))
 
                 Row(
@@ -586,6 +621,7 @@ fun Dashboard(navController: NavController, context: Context) {
 fun LatestAnnouncement() {
     val announcements = loadAnnouncement(LocalContext.current)
     val latestAnnouncement = announcements.lastOrNull()
+    val calendar = Calendar.getInstance().time
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -605,32 +641,36 @@ fun LatestAnnouncement() {
                 color = globalcolors.primaryColor,
                 shape = RoundedCornerShape(30.dp)
             )
-            .height(200.dp)
+            .height(250.dp)
             .fillMaxWidth()
             .background(addbackbrush, shape = RoundedCornerShape(30.dp))
             .padding(10.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = latestAnnouncement?.title ?: "New UI",
-                style = myTextStyle,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = globalcolors.textColor,
-                modifier = Modifier.padding(10.dp)
-            )
-            Text(
-                text = latestAnnouncement?.date ?: "25/05/2024",
-                color = globalcolors.textColor,
-                style = myTextStyle,
-                modifier = Modifier.padding(10.dp)
-            )
+                Text(
+                    text = latestAnnouncement?.title ?: "New UI",
+                    style = myTextStyle,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = globalcolors.textColor
+                )
+
+
+
         }
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f), // Make the Box take up available vertical space
+            contentAlignment = Alignment.Center
+        ) {
             Text(
                 text = latestAnnouncement?.description
                     ?: "I decided to re-design the User Interface, how do you rate it out of 10?",
@@ -641,20 +681,28 @@ fun LatestAnnouncement() {
                 modifier = Modifier.padding(10.dp)
             )
         }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End
+
+        // "Posted By" at the bottom
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Posted by", style = myTextStyle)
+            Spacer(modifier = Modifier.width(4.dp)) // Add spacing
             Text(
                 text = latestAnnouncement?.student ?: "Developer Mike",
                 style = myTextStyle,
-                color = globalcolors.textColor,
-                modifier = Modifier.padding(10.dp)
+                color = globalcolors.textColor
             )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(text = "Date: $calendar", style = myTextStyle)
         }
     }
+
+
 }
 
 
@@ -903,14 +951,7 @@ fun TimetableTabContent() {
 
 @Composable
 fun AssignmentsTabContent(navController: NavController, context: Context) {
-    val subjects = listOf(
-        "Calculus II",
-        "Linear Algebra",
-        "Discrete Mathematics",
-        "Statistics",
-        "Probability",
-        "Computer Science"
-    )
+    val subjects = FileUtil.loadUnits(context)
     var selectedSubjectIndex by remember { mutableIntStateOf(0) } // Default to index 0 ("Calculus II")
     val filteredAssignment = getAssignment(context, selectedSubjectIndex, 0)
 
@@ -955,7 +996,7 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
                     )
                 ) {
                     Text(
-                        text = subject,
+                        text = subject.unitname,
                         style = myTextStyle
                     )
                 }
@@ -977,7 +1018,7 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
             )
         } else {
             Text(
-                text = "No assignment found for ${subjects[selectedSubjectIndex]}",
+                text = "No assignment found for ${subjects[selectedSubjectIndex].unitname}",
                 style = myTextStyle,
                 fontWeight = FontWeight.Bold
             )

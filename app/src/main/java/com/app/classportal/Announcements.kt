@@ -213,7 +213,12 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { showAddDialog = true },
+                onClick = {
+                    if(global.loggedinuser.value !="Anonymous"){
+                    showAddDialog = true }
+                          else{
+                              global.showdialog.value = true
+                          }},
                 containerColor = globalcolors.secondaryColor
             ) {
                 Icon(
@@ -335,12 +340,14 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                                 )
                                             }
                                             TextButton(onClick = {
+                                                if(global.loggedinuser.value != "Anonymous"){
                                                 deleteAnnouncement(index)
                                                 Toast.makeText(
                                                     context,
                                                     "Announcement deleted",
                                                     Toast.LENGTH_SHORT
-                                                ).show()
+                                                ).show()}else{
+                                                    global.showdialog.value = true}
                                             }) {
                                                 Text(
                                                     "Delete",
@@ -396,7 +403,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
         )
     }
 
-    if (showEditDialog && selectedAnnouncementIndex >= 0) {
+    if (showEditDialog && selectedAnnouncementIndex >= 0 && global.loggedinuser.value != "Anonymous") {
         val announcementToEdit = announcements[selectedAnnouncementIndex]
         AnnouncementDialog(
             onDismiss = { showEditDialog = false },
@@ -409,6 +416,8 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
             initialTitle = announcementToEdit.title,
             initialDescription = announcementToEdit.description
         )
+    }else{
+        global.showdialog.value = true
     }
 }
 

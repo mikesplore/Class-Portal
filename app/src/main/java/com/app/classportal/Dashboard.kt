@@ -1,5 +1,6 @@
 package com.app.classportal
 
+import Assignments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
@@ -290,7 +291,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 leadingIcon = {
                                     Icon(
                                         Icons.Filled.Schedule,
-                                        contentDescription = "Assignment",
+                                        contentDescription = "timetable",
                                         tint = globalcolors.textColor
                                     )
                                 }
@@ -357,7 +358,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 leadingIcon = {
                                     Icon(
                                         Icons.AutoMirrored.Default.NoteAdd,
-                                        contentDescription = "Add Assignment",
+                                        contentDescription = "Add student",
                                         tint = globalcolors.textColor
                                     )
                                 }
@@ -948,86 +949,7 @@ fun TimetableTabContent() {
 
 @Composable
 fun AssignmentsTabContent(navController: NavController, context: Context) {
-    val subjects = listOf(
-        "Calculus II",
-        "Linear Algebra",
-        "Discrete Mathematics",
-        "Statistics",
-        "Probability",
-        "Computer Science"
-    )
-    var selectedSubjectIndex by remember { mutableIntStateOf(0) } // Default to index 0 ("Calculus II")
-    val filteredAssignment = getAssignment(context, selectedSubjectIndex, 0)
-
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
-            .background(globalcolors.secondaryColor),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-        Box(
-            modifier = Modifier
-                .background(globalcolors.primaryColor, RoundedCornerShape(10.dp))
-        ) {
-            Text(
-                text = "Add Assignment",
-                style = myTextStyle,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .clickable { navController.navigate("assignments") }
-                    .padding(16.dp)
-            )
-
-        }
-
-        // Filter Button Row
-        Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            subjects.forEachIndexed { index, subject ->
-                Button(
-                    onClick = { selectedSubjectIndex = index },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (index == selectedSubjectIndex) globalcolors.primaryColor else Color.Transparent
-                    )
-                ) {
-                    Text(
-                        text = subject,
-                        style = myTextStyle
-                    )
-                }
-            }
-        }
-
-        if (filteredAssignment != null) {
-            Text(
-                text = filteredAssignment.title,
-                style = myTextStyle,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = filteredAssignment.description,
-                style = myTextStyle,
-                textAlign = TextAlign.Center
-            )
-        } else {
-            Text(
-                text = "No assignment found for ${subjects[selectedSubjectIndex]}",
-                style = myTextStyle,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
+    Assignments(navController = navController, context = context)
 }
 
 

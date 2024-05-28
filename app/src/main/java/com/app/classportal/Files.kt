@@ -25,13 +25,15 @@ data class TimetableItem(
     val day: String,
 )
 
-data class Assignment(
-    val title: String,
-    val description: String,
+
+data class UnitData(
+    var name: String,
+    val assignments: MutableList<Assignment> = mutableListOf()
 )
 
-data class Units(
-    val unitname:String
+data class Assignment(
+    val title: String,
+    val description: String
 )
 
 
@@ -53,16 +55,32 @@ object FileUtil {
     private const val UNIT_FILE = "units.json"
     private val gson = Gson()
 
-    fun saveUnits(context: Context, units: List<Units>) {
-        val file = File(context.filesDir, UNIT_FILE)
-        file.writeText(gson.toJson(units))
+    fun loadUnitsAndAssignments(context: Context): MutableList<UnitData> {
+        val gson = Gson()
+        val file = File(context.filesDir, "units_assignments.json")
+        return if (file.exists()) {
+            val json = file.readText()
+            val type = object : TypeToken<MutableList<UnitData>>() {}.type
+            gson.fromJson(json, type)
+        } else {
+            // Initialize with default units if the file doesn't exist
+            mutableListOf(
+                UnitData("Unit 1"),
+                UnitData("Unit 2"),
+                UnitData("Unit 3"),
+                UnitData("Unit 4"),
+                UnitData("Unit 5"),
+                UnitData("Unit 6"),
+                UnitData("Unit 7")
+            )
+        }
     }
 
-    fun loadUnits(context: Context): List<Units> {
-        val file = File(context.filesDir, UNIT_FILE)
-        if (!file.exists()) return emptyList()
-        val type = object : TypeToken<List<Units>>() {}.type
-        return gson.fromJson(file.readText(), type)
+    fun saveUnitsAndAssignments(context: Context, data: List<UnitData>) {
+        val gson = Gson()
+        val json = gson.toJson(data)
+        val file = File(context.filesDir, "units_assignments.json")
+        file.writeText(json)
     }
 
     fun saveStudents(context: Context, students: List<Student>) {

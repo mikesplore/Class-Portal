@@ -40,7 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.FileUtil.loadAnnouncement
 import com.app.classportal.FileUtil.saveAnnouncement
 import com.app.classportal.ui.theme.RobotoMono
-
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -54,6 +54,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
     val student = global.loggedinuser.value
     var selectedAnnouncementIndex by remember { mutableIntStateOf(-1) }
     var clickedIndex by remember { mutableIntStateOf(-1) }
+    val notificationVisibleState = remember { mutableStateOf(false) }
     val announcementbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -66,7 +67,6 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
         )
     }.value
 
-
     // Load announcements initially
     LaunchedEffect(Unit) {
         val loadedAnnouncements = loadAnnouncement(context)
@@ -75,7 +75,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
     }
 
     fun addAnnouncement(newAnnouncement: Announcement) {
-        announcements.add(newAnnouncement)
+        announcements.add(0, newAnnouncement) // Add at the beginning
         saveAnnouncement(context, announcements)
     }
 
@@ -101,13 +101,11 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
         var title by remember { mutableStateOf(initialTitle) }
         var description by remember { mutableStateOf(initialDescription) }
 
-
         AlertDialog(
             onDismissRequest = onDismiss,
             title = { Text(text = "Announcement", style = titleTextStyle()) },
             text = {
                 Column {
-
                     Spacer(modifier = Modifier.height(8.dp))
                     BasicTextField(
                         value = title,
@@ -171,8 +169,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                 }
             },
             containerColor = globalcolors.primaryColor,
-
-            )
+        )
     }
 
     Scaffold(
@@ -214,11 +211,8 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    if(global.loggedinuser.value !="Anonymous"){
-                    showAddDialog = true }
-                          else{
-                              global.showdialog.value = true
-                          }},
+                    showAddDialog = true
+                },
                 containerColor = globalcolors.secondaryColor
             ) {
                 Icon(
@@ -236,9 +230,17 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                     .background(announcementbackbrush)
                     .fillMaxSize()
             ) {
-                // Display Announcements
+                // Display Notification
+                val notification = announcements.firstOrNull()
+
+                NotificationCard(
+                    title = notification?.title ?: "",
+                    message = notification?.description ?: "",
+                    visibleState = notificationVisibleState
+                )
+
                 if (announcements.isNotEmpty()) {
-                    announcements.asReversed().forEachIndexed { index, announcement ->
+                    announcements.forEachIndexed { index, announcement ->
                         Card(
                             modifier = Modifier
                                 .border(
@@ -272,7 +274,6 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Column {
-                                        loadAnnouncement(context)
                                         Text(
                                             text = announcement.student,
                                             fontSize = 16.sp,
@@ -298,7 +299,6 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = Arrangement.Center
                                     ) {
-
                                         Spacer(modifier = Modifier.height(8.dp))
                                         Text(
                                             text = announcement.title,
@@ -340,19 +340,17 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                                 )
                                             }
                                             TextButton(onClick = {
-                                                if(global.loggedinuser.value != "Anonymous"){
                                                 deleteAnnouncement(index)
                                                 Toast.makeText(
                                                     context,
                                                     "Announcement deleted",
                                                     Toast.LENGTH_SHORT
-                                                ).show()}else{
-                                                    global.showdialog.value = true}
+                                                ).show()
                                             }) {
                                                 Text(
                                                     "Delete",
                                                     color = Color.Red,
-                                                    style = descriptionTextStyle()
+                                                    style = TextStyle(color = Color.Red)
                                                 )
                                             }
                                         }
@@ -364,7 +362,6 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                             modifier = Modifier.padding(start = 8.dp)
                                         )
                                     }
-
                                 }
                             }
                         }
@@ -388,7 +385,6 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                     }
                 }
             }
-
         },
         containerColor = globalcolors.primaryColor
     )
@@ -399,11 +395,12 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
             onConfirm = { date, title, description ->
                 val newAnnouncement = Announcement(currentId++, date, title, description, student)
                 addAnnouncement(newAnnouncement)
+                notificationVisibleState.value = true // Show notification
             }
         )
     }
 
-    if (showEditDialog && selectedAnnouncementIndex >= 0 && global.loggedinuser.value != "Anonymous") {
+    if (showEditDialog && selectedAnnouncementIndex >= 0) {
         val announcementToEdit = announcements[selectedAnnouncementIndex]
         AnnouncementDialog(
             onDismiss = { showEditDialog = false },
@@ -411,13 +408,12 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                 val updatedAnnouncement =
                     Announcement(announcementToEdit.id, date, title, description, student)
                 editAnnouncement(selectedAnnouncementIndex, updatedAnnouncement)
+                notificationVisibleState.value = true // Show notification
             },
             initialDate = announcementToEdit.date,
             initialTitle = announcementToEdit.title,
             initialDescription = announcementToEdit.description
         )
-    }else{
-        global.showdialog.value = true
     }
 }
 
@@ -433,7 +429,6 @@ fun titleTextStyle() = TextStyle(
     fontWeight = FontWeight.Bold,
     color = globalcolors.textColor,
     fontFamily = RobotoMono
-
 )
 
 @Composable
@@ -443,6 +438,3 @@ fun descriptionTextStyle() = TextStyle(
     color = globalcolors.textColor,
     fontFamily = RobotoMono
 )
-
-
-

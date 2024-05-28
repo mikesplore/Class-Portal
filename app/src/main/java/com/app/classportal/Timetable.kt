@@ -1,5 +1,6 @@
 package com.app.classportal
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -156,6 +157,7 @@ fun Timetable(navController: NavController) {
         AddEditTimetableItemDialog(
             day = days[pagerState.currentPage], // Pass the current page's day
             item = currentItem,
+            context = context,
             onDismiss = { showDialog = false },
             onSave = { item ->
                 timetableData = timetableData.toMutableList().apply {
@@ -298,6 +300,7 @@ fun AddEditTimetableItemDialog(
     item: TimetableItem,
     day: String,
     onDismiss: () -> Unit,
+    context: Context,
     onSave: (TimetableItem) -> Unit
 ) {
     var unit by remember { mutableStateOf(TextFieldValue(item.unit)) }
@@ -412,6 +415,7 @@ fun AddEditTimetableItemDialog(
                         day
                     )
                 )
+                showNotification(context, global.loggedinuser.value, "Added/Edited Timetable Item")
             }) {
                 Text("Save",
                     style = myTextStyle)

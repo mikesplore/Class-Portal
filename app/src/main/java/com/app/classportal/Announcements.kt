@@ -115,7 +115,10 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                         decorationBox = { innerTextField ->
                             Box(
                                 modifier = Modifier
-                                    .background(globalcolors.tertiaryColor, shape = MaterialTheme.shapes.small)
+                                    .background(
+                                        globalcolors.tertiaryColor,
+                                        shape = MaterialTheme.shapes.small
+                                    )
                                     .padding(8.dp)
                             ) {
                                 if (title.isEmpty()) {
@@ -134,7 +137,10 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                         decorationBox = { innerTextField ->
                             Box(
                                 modifier = Modifier
-                                    .background(globalcolors.tertiaryColor, shape = MaterialTheme.shapes.small)
+                                    .background(
+                                        globalcolors.tertiaryColor,
+                                        shape = MaterialTheme.shapes.small
+                                    )
                                     .height(100.dp)
                                     .padding(8.dp)
                             ) {

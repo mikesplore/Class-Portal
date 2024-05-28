@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.app.classportal.Assignment
+import com.app.classportal.ColorSettings
 import com.app.classportal.FileUtil
 import com.app.classportal.UnitData
 import com.app.classportal.globalcolors
@@ -42,6 +43,7 @@ fun AssignmentScreen(navController: NavController, context: Context) {
     var currentAssignment by remember { mutableStateOf(Assignment("", "")) }
     var editUnitIndex by remember { mutableIntStateOf(-1) }
     var editAssignmentIndex by remember { mutableStateOf(-1) }
+    var showwarning by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -61,11 +63,12 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                         Icon(Icons.Filled.Add, contentDescription = "Add Unit", tint = globalcolors.textColor)
                     }
                     IconButton(onClick = {
-                        if (currentUnit.name.isNotEmpty()) {
+                       /* if (currentUnit.name.isNotEmpty()) {
                             currentAssignment = Assignment("", "")
                             editAssignmentIndex = -1
                             showAssignmentDialog = true
-                        }
+                        }*/
+                        showwarning = true
                     }) {
                         Icon(Icons.Filled.Add, contentDescription = "Add Assignment", tint = globalcolors.textColor)
                     }
@@ -80,6 +83,36 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                 .background(globalcolors.primaryColor)
                 .padding(innerPadding)
         ) {
+            if (showwarning) {
+                AlertDialog(
+                    title = { Text(text = "Feature no working", style = myTextStyle) },
+                    text = {
+                           Text(text = "I  noticed this feature is not working. I am working on it.", style = myTextStyle)
+                    },
+                    onDismissRequest = { showwarning = false },
+                    confirmButton = {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ){
+                            Button(onClick = {
+
+                                showwarning = false
+
+                            },
+                                shape = RoundedCornerShape(10.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
+                                Text(text = "Ok",
+                                    style = myTextStyle,)
+                            }}
+                    },
+                    modifier = Modifier.height(200.dp),
+                    containerColor = globalcolors.secondaryColor
+                )
+            }
+
             Row(
                 modifier = Modifier
                     .horizontalScroll(rememberScrollState())
@@ -264,7 +297,9 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
             }
             if (expanded) {
                 Column {
-                    Spacer(modifier = Modifier.height(8.dp).background(globalcolors.secondaryColor))
+                    Spacer(modifier = Modifier
+                        .height(8.dp)
+                        .background(globalcolors.secondaryColor))
                     Text(text = item.description, style = myTextStyle)
                 }
             }

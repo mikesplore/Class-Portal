@@ -129,6 +129,7 @@ class MainActivity : ComponentActivity() {
             composable("settings"){
                 SettingsScreen(navController, context)
             }
+
             
         }
     }

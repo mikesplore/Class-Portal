@@ -57,7 +57,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate("welcome") }) {
+                    IconButton(onClick = { navController.navigate("dashboard") }) {
                         Box(modifier = Modifier
 
                             .border(
@@ -251,7 +251,8 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                         Text(text = "Default colors", style = myTextStyle)
                                     }
                                     Button(onClick = {
-                                        Toast.makeText(context, "Color pallete updated! If you still see some old colors, please navigate back and forth to refresh", Toast.LENGTH_SHORT).show()
+                                        navController.navigate("dashboard")
+                                        Toast.makeText(context, "refreshing colors", Toast.LENGTH_SHORT).show()
                                         showPaletteDialog = false },
                                         shape = RoundedCornerShape(10.dp),
                                         colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {

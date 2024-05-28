@@ -67,7 +67,7 @@ fun WelcomeScreen(navController: NavHostController) {
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(
-            text = "CLASS APP",
+            text = "CLASS PORTAL",
             style = TextStyle(
                 color = Color.White,
                 fontSize = 60.sp,

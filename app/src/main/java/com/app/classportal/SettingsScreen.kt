@@ -33,7 +33,6 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun SettingsScreen(navController: NavController, context: Context) {
     var notificationsEnabled by remember { mutableStateOf(false) }
-    var darkThemeEnabled by remember { mutableStateOf(false) }
     var expandedColumn by remember { mutableStateOf(false) }
     var newfirstname by remember { mutableStateOf("") }
     var newlastname by remember { mutableStateOf("") }
@@ -42,7 +41,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
     var showPaletteDialog by remember { mutableStateOf(false) }
     var showusername by remember { mutableStateOf(false) }
 
-    val students = FileUtil.loadStudents(context)
+   /* val students = FileUtil.loadStudents(context)
     val student = students.find { it.registrationID == global.loggedinregID.value }
     if (student != null && !expandedColumn) {
         newfirstname = student.firstName
@@ -51,7 +50,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
         studentFound = true
     } else if (student == null) {
         Toast.makeText(context, "Student not found", Toast.LENGTH_SHORT).show()
-    }
+    }*/
 
     Scaffold(
         topBar = {
@@ -196,7 +195,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
                 onCheckedChange = { checked ->
                     showusername = checked
 
-                    if (checked) { // Only check when the switch is turned ON
+                   /* if (checked) { // Only check when the switch is turned ON
                         if (student != null) {
                             if (student.username.isNotEmpty()) {
                                 global.loggedinuser.value = student.username
@@ -205,7 +204,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                 showusername = false // Reset the switch if no username is set
                             }
                         }
-                    }
+                    }*/
                 }
             )
 

@@ -439,7 +439,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 verticalAlignment = Alignment.CenterVertically
                             ){
                             Button(onClick = {
-                                globalcolors.resetToDefaultColors(context)
+                              globalcolors.resetToDefaultColors(context)
                                 palleteDialog = false
                             },
                                 shape = RoundedCornerShape(10.dp),
@@ -449,7 +449,8 @@ fun Dashboard(navController: NavController, context: Context) {
                             Button(onClick = { 
                                 
                                 palleteDialog = false
-                                Toast.makeText(context, "Color pallete updated! If you still see some old colors, please navigate back and forth to refresh", Toast.LENGTH_SHORT).show()
+                                navController.navigate("login")
+                                Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
                                              },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {

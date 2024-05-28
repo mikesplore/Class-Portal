@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -270,8 +271,19 @@ fun SettingsScreen(navController: NavController, context: Context) {
                         AlertDialog(
                             title = { Text(text = "Refresh screens", style = myTextStyle) },
                             text = {
-                                Text(text = "The app will refresh for the colors to load properly",
-                                    style = myTextStyle)
+                                Column(
+                                    modifier = Modifier
+                                        .height(130.dp),
+                                    verticalArrangement = Arrangement.SpaceBetween
+                                ){
+                                    Text(text = "The app will refresh for the colors to load properly",
+                                        style = myTextStyle)
+                                    Text(text = "Please note that some parts of the app will take some time to load new colors even after screen refresh",
+                                        style = myTextStyle,
+                                        textAlign = TextAlign.Center,
+                                        color = globalcolors.textColor.copy(alpha = 0.5f))
+                                }
+
                             },
                             onDismissRequest = {  },
                             confirmButton = {

@@ -104,6 +104,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
     var palleteDialog by remember { mutableStateOf(false) }
+    var showrestarting by remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -431,7 +432,7 @@ fun Dashboard(navController: NavController, context: Context) {
                         text = {
                             ColorSettings(context)
                         },
-                        onDismissRequest = { palleteDialog = false },
+                        onDismissRequest = { palleteDialog = true },
                         confirmButton = {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -441,6 +442,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 Button(onClick = {
                                     globalcolors.resetToDefaultColors(context)
                                     palleteDialog = false
+                                    showrestarting = true
                                 },
                                     shape = RoundedCornerShape(10.dp),
                                     colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
@@ -449,8 +451,8 @@ fun Dashboard(navController: NavController, context: Context) {
                                 Button(onClick = {
 
                                     palleteDialog = false
-                                    navController.navigate("login")
-                                    Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
+                                    showrestarting = true
+
                                 },
                                     shape = RoundedCornerShape(10.dp),
                                     colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
@@ -459,6 +461,49 @@ fun Dashboard(navController: NavController, context: Context) {
                                 }}
                         },
                         modifier = Modifier.height(420.dp),
+                        containerColor = globalcolors.secondaryColor
+                    )
+                }
+                if (showrestarting) {
+                    AlertDialog(
+                        title = { Text(text = "Refresh screens", style = myTextStyle) },
+                        text = {
+                            Column(
+                                modifier = Modifier
+                                    .height(130.dp),
+                                verticalArrangement = Arrangement.SpaceBetween
+                            ){
+                                Text(text = "The app will refresh for the colors to load properly",
+                                    style = myTextStyle)
+                                Text(text = "Please note that some parts of the app will take some time to load new colors even after screen refresh",
+                                    style = myTextStyle,
+                                    textAlign = TextAlign.Center,
+                                    color = globalcolors.textColor.copy(alpha = 0.5f))
+                            }
+
+                        },
+                        onDismissRequest = {  },
+                        confirmButton = {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+
+                                Button(onClick = {
+
+                                    showrestarting = false
+                                    navController.navigate("welcome")
+                                    Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
+                                },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    shape = RoundedCornerShape(10.dp),
+                                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
+                                    Text(text = "Ok",
+                                        style = myTextStyle,)
+                                }}
+                        },
+
                         containerColor = globalcolors.secondaryColor
                     )
                 }

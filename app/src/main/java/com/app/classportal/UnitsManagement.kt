@@ -4,11 +4,15 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.MoreVert
@@ -21,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +34,24 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.FileUtil.loadUnits
 import com.app.classportal.FileUtil.saveUnits
 import com.app.classportal.ui.theme.RobotoMono
+
+/*
+* I use these functions to save data
+*fun saveUnits(context: Context, units: List<Units>) {
+        val file = File(context.filesDir, UNIT_FILE)
+        file.writeText(gson.toJson(units))
+    }
+
+    fun loadUnits(context: Context): List<Units> {
+        val file = File(context.filesDir, UNIT_FILE)
+        if (!file.exists()) return emptyList()
+        val type = object : TypeToken<List<Units>>() {}.type
+        return gson.fromJson(file.readText(), type)
+    }
+    * data class Units(
+    val unitname:String
+)
+* */
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -221,4 +244,88 @@ fun ManageUnitsScreen(context: Context, navController: NavController) {
 fun ManageUnitsScreenPreview() {
     val navController = rememberNavController()
     ManageUnitsScreen(LocalContext.current, navController)
+}
+
+@Composable
+fun AssignmentTabsScreen(navController: NavController, context: Context) {
+    val subjects = listOf( //instead of using hard coded list, let the list be loaded from the file that has the unit names
+        "Calculus II",
+        "Linear Algebra",
+        "Discrete Mathematics",
+        "Statistics",
+        "Probability",
+        "Computer Science"
+    )
+    var selectedSubjectIndex by remember { mutableIntStateOf(0) } // Default to index 0 ("Calculus II")
+    val filteredAssignment = FileUtil.getAssignment(context, selectedSubjectIndex, 0)
+
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+            .background(globalcolors.secondaryColor),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Box(
+            modifier = Modifier
+                .background(globalcolors.primaryColor, RoundedCornerShape(10.dp))
+        ) {
+            Text(
+                text = "Add Assignment",
+                style = myTextStyle,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clickable { navController.navigate("assignments") }
+                    .padding(16.dp)
+            )
+
+        }
+
+        // Filter Button Row
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            subjects.forEachIndexed { index, subject ->
+                Button(
+                    onClick = { selectedSubjectIndex = index },
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (index == selectedSubjectIndex) globalcolors.primaryColor else Color.Transparent
+                    )
+                ) {
+                    Text(
+                        text = subject,
+                        style = myTextStyle
+                    )
+                }
+            }
+        }
+
+        if (filteredAssignment != null) {
+            Text(
+                text = filteredAssignment.title,
+                style = myTextStyle,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = filteredAssignment.description,
+                style = myTextStyle,
+                textAlign = TextAlign.Center
+            )
+        } else {
+            Text(
+                text = "No assignment found for ${subjects[selectedSubjectIndex]}",
+                style = myTextStyle,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
 }

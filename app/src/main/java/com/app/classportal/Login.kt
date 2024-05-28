@@ -462,28 +462,48 @@ Scaffold(
                             students.find { it.registrationID == global.regID.value } // Use regID.text directly
 
                         // Check if student exists and credentials match
-                        if (student != null && password.text == student.registrationID && pattern.matches(global.regID.value)) {
-                            Toast.makeText(
-                                navController.context,
-                                "Logged in successfully",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            global.loggedinuser.value = student.firstName
-                            global.loggedinlastname.value = student.lastName
-                            global.loggedinregID.value = student.registrationID
-                            navController.navigate("dashboard") // Navigate after successful login
-                        } else {
-                            Toast.makeText(
-                                navController.context,
-                                "Invalid credentials or ${
-                                    global.selectedcategory.value.replaceFirstChar {
-                                        if (it.isLowerCase()) it.titlecase(
-                                            Locale.ROOT
-                                        ) else it.toString()
-                                    }
-                                } not found or Blank spaces",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        when {
+                            student == null -> {
+                                Toast.makeText(
+                                    navController.context,
+                                    "${global.selectedcategory.value.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()
+                                    }} not found",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            password.text.isBlank() -> {
+                                Toast.makeText(
+                                    navController.context,
+                                    "Password cannot be blank",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            !pattern.matches(global.regID.value) -> {
+                                Toast.makeText(
+                                    navController.context,
+                                    "Registration ID format is incorrect",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            password.text != student.registrationID -> {
+                                Toast.makeText(
+                                    navController.context,
+                                    "Invalid credentials",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            else -> {
+                                Toast.makeText(
+                                    navController.context,
+                                    "Logged in successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                global.loggedinuser.value = student.firstName
+                                global.loggedinlastname.value = student.lastName
+                                global.loggedinregID.value = student.registrationID
+                                navController.navigate("dashboard") // Navigate after successful login
+                            }
                         }
                     }
                 },
@@ -526,7 +546,7 @@ Scaffold(
                 Text(
                     text = if (isRegistering) "Login" else "Register",
                     style = myTextStyle,
-                    color = globalcolors.secondaryColor,
+                    color = globalcolors.tertiaryColor,
                     modifier = Modifier.clickable {
                         isRegistering = !isRegistering
                     }
@@ -544,7 +564,7 @@ Scaffold(
                 Text(
                     text = "Click here",
                     style = myTextStyle,
-                    color = globalcolors.secondaryColor,
+                    color = globalcolors.tertiaryColor,
                     modifier = Modifier.clickable {
                         global.selectedcategory.value = category
                     }

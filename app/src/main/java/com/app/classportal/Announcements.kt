@@ -40,7 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.FileUtil.loadAnnouncement
 import com.app.classportal.FileUtil.saveAnnouncement
 import com.app.classportal.ui.theme.RobotoMono
-import kotlinx.coroutines.launch
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -206,6 +206,24 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                                 expanded = false
                             }
                         )
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    "Clear All",
+                                    style = descriptionTextStyle()
+                                )
+                            },
+                            onClick = {
+                                announcements.removeAll(announcements)
+                                saveAnnouncement(context, announcements)
+                                Toast.makeText(
+                                    context,
+                                    "All announcements deleted",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                expanded = false
+                            }
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -246,6 +264,7 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                 )
 
                 if (announcements.isNotEmpty()) {
+
                     announcements.forEachIndexed { index, announcement ->
                         Card(
                             modifier = Modifier
@@ -444,3 +463,4 @@ fun descriptionTextStyle() = TextStyle(
     color = globalcolors.textColor,
     fontFamily = RobotoMono
 )
+

@@ -157,6 +157,8 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                 TextButton(onClick = {
                     onConfirm(date, title, description)
                     onDismiss()
+                    Toast.makeText(context, "Announcement added", Toast.LENGTH_SHORT).show()
+                    showNotification(context, global.loggedinuser.value,description)
                 }) {
                     Text(
                         "Confirm",

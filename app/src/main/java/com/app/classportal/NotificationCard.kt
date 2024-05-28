@@ -110,14 +110,4 @@ fun NotificationCardPreview() {
     )
 }
 
-@Composable
-fun showNotification(
-    title: String,
-    message: String,
-    visibleState: MutableState<Boolean>
-) {
-    // Set the notification details
-    visibleState.value = true
-}
-
 

@@ -30,7 +30,9 @@ data class Assignment(
     val description: String,
 )
 
-
+data class Units(
+    val unitname:String
+)
 
 
 data class Announcement(
@@ -48,7 +50,20 @@ object FileUtil {
     private const val TIMETABLE_FILE = "timetablefile.json"
     private const val ATTENDANCE_FILE = "attendancerecords.json"
     private const val ANNOUNCEMENT_FILE = "announcement.json"
+    private const val UNIT_FILE = "units.json"
     private val gson = Gson()
+
+    fun saveUnits(context: Context, units: List<Units>) {
+        val file = File(context.filesDir, UNIT_FILE)
+        file.writeText(gson.toJson(units))
+    }
+
+    fun loadUnits(context: Context): List<Units> {
+        val file = File(context.filesDir, UNIT_FILE)
+        if (!file.exists()) return emptyList()
+        val type = object : TypeToken<List<Units>>() {}.type
+        return gson.fromJson(file.readText(), type)
+    }
 
     fun saveStudents(context: Context, students: List<Student>) {
         val file = File(context.filesDir, STUDENT_FILE)

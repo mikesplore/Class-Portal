@@ -41,7 +41,7 @@ class Global(
     var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),
     var loggedinuser: MutableState<String> = mutableStateOf("Anonymous"),
-    var loggedinlastname: MutableState<String> = mutableStateOf(""),
+    var loggedinlastname: MutableState<String> = mutableStateOf("Odhiambo"),
     var loggedinregID: MutableState<String> = mutableStateOf(""),
     var enableEdgeToEdge: MutableState<Boolean> = mutableStateOf(true),
     var usernames: MutableState<String> = mutableStateOf(""),
@@ -64,6 +64,7 @@ class MainActivity : ComponentActivity() {
                 globalcolors.currentScheme = globalcolors.loadColorScheme(this@MainActivity)
             }
             val navController = rememberNavController()
+            createNotificationChannel(this)
             NavigationComponent(navController, this)
             LoginDialog( navController = navController)
         }
@@ -72,7 +73,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
         
-        NavHost(navController, startDestination = "assignments") {
+        NavHost(navController, startDestination = "dashboard") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }

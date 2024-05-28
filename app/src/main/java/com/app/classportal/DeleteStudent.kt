@@ -129,6 +129,8 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+
             LazyColumn(
                 modifier = Modifier
                     .border(1.dp, globalcolors.secondaryColor),
@@ -285,6 +287,8 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
 
     }
 }
+
+
 
 
 @Preview

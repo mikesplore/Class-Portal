@@ -40,6 +40,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
     var studentFound by remember { mutableStateOf(false) }
     var showPaletteDialog by remember { mutableStateOf(false) }
     var showusername by remember { mutableStateOf(false) }
+    var showrestarting by remember { mutableStateOf(false) }
 
    /* val students = FileUtil.loadStudents(context)
     val student = students.find { it.registrationID == global.loggedinregID.value }
@@ -112,7 +113,8 @@ fun SettingsScreen(navController: NavController, context: Context) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row {
                         Text(
@@ -244,15 +246,16 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                     Button(onClick = {
                                         globalcolors.resetToDefaultColors(context)
                                         showPaletteDialog = false
+                                        showrestarting = true
                                     },
                                         shape = RoundedCornerShape(10.dp),
                                         colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                         Text(text = "Default colors", style = myTextStyle)
                                     }
                                     Button(onClick = {
-                                        navController.navigate("dashboard")
-                                        Toast.makeText(context, "refreshing colors", Toast.LENGTH_SHORT).show()
-                                        showPaletteDialog = false },
+                                        showPaletteDialog = false
+                                        showrestarting = true
+                                                     },
                                         shape = RoundedCornerShape(10.dp),
                                         colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                         Text(text = "Ok",
@@ -263,6 +266,39 @@ fun SettingsScreen(navController: NavController, context: Context) {
                             containerColor = globalcolors.secondaryColor
                         )
                     }
+                    if (showrestarting) {
+                        AlertDialog(
+                            title = { Text(text = "Refresh screens", style = myTextStyle) },
+                            text = {
+                                Text(text = "The app will refresh for the colors to load properly",
+                                    style = myTextStyle)
+                            },
+                            onDismissRequest = {  },
+                            confirmButton = {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ){
+
+                                    Button(onClick = {
+
+                                        showrestarting = false
+                                        navController.navigate("welcome")
+                                        Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
+                                    },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(10.dp),
+                                        colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
+                                        Text(text = "Ok",
+                                            style = myTextStyle,)
+                                    }}
+                            },
+
+                            containerColor = globalcolors.secondaryColor
+                        )
+                    }
+
                     
                 }
 

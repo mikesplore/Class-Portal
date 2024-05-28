@@ -1,5 +1,6 @@
 package com.app.classportal
 
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,25 +24,28 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.app.classportal.FileUtil.loadAssignments
-import com.app.classportal.FileUtil.saveAssignments
 import com.app.classportal.ui.theme.RobotoMono
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.File
+
+
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AssignmentScreen(navController: NavController) {
-    val context = LocalContext.current
-    val units = listOf("Calculus II", "Linear Algebra", "Discrete Mathematics", "Statistics", "Probability", "Computer Science","Computer Science")
-    val pagerState = rememberPagerState(initialPage = 0)
-    val coroutineScope = rememberCoroutineScope()
-    var assignmentData by remember { mutableStateOf(loadAssignments(context)) }
+fun AssignmentScreen(navController: NavController, context: Context) {
+    var unitData by remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context)) }
     var showDialog by remember { mutableStateOf(false) }
+    var showUnitDialog by remember { mutableStateOf(false) }
     var currentUnitIndex by remember { mutableIntStateOf(0) }
     var editItemIndex by remember { mutableStateOf(-1) }
     var currentItem by remember { mutableStateOf(Assignment("", "")) }
+    var currentUnit by remember { mutableStateOf(UnitData("")) }
+    val pagerState = rememberPagerState(initialPage = 0)
+    val coroutineScope = rememberCoroutineScope()
+
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -71,6 +75,12 @@ fun AssignmentScreen(navController: NavController) {
                     }) {
                         Icon(Icons.Filled.Add, contentDescription = "Add", tint = globalcolors.textColor)
                     }
+                    IconButton(onClick = {
+                        currentUnit = UnitData("")
+                        showUnitDialog = true
+                    }) {
+                        Icon(Icons.Filled.Edit, contentDescription = "Manage Units", tint = globalcolors.textColor)
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
             )
@@ -86,7 +96,7 @@ fun AssignmentScreen(navController: NavController) {
                 selectedTabIndex = pagerState.currentPage,
                 edgePadding = 0.dp
             ) {
-                units.forEachIndexed { index, unit ->
+                unitData.forEachIndexed { index, unit ->
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = {
@@ -94,18 +104,18 @@ fun AssignmentScreen(navController: NavController) {
                                 pagerState.scrollToPage(index)
                             }
                         },
-                        text = { Text(unit, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.secondaryColor) },
+                        text = { Text(unit.name, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.secondaryColor) },
                         selectedContentColor = Color.White,
                         modifier = Modifier.background(globalcolors.primaryColor)
                     )
                 }
             }
             HorizontalPager(
-                count = units.size,
+                count = unitData.size,
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
-                val unitAssignments = assignmentData.getOrElse(page) { emptyList() }
+                val unitAssignments = unitData[page].assignments
                 LazyColumn(
                     modifier = Modifier
                         .background(addbackbrush)
@@ -117,19 +127,13 @@ fun AssignmentScreen(navController: NavController) {
                             onEdit = {
                                 currentItem = item
                                 editItemIndex = index
-                                currentUnitIndex = page
-                                showDialog = true
+                                showUnitDialog = true
                             },
                             onDelete = {
-                                assignmentData = assignmentData.toMutableList().apply {
-                                    this[page] = this[page].toMutableList().apply {
-                                        removeAt(index)
-                                    }
-                                }
-                                saveAssignments(context, assignmentData)
+                                unitData[page].assignments.removeAt(index)
+                                FileUtil.saveUnitsAndAssignments(context, unitData)
                             }
                         )
-
                     }
                 }
             }
@@ -138,27 +142,36 @@ fun AssignmentScreen(navController: NavController) {
 
     if (showDialog) {
         AddEditAssignmentDialog(
-            unit = units[pagerState.currentPage],
+            unit = unitData[pagerState.currentPage].name,
             item = currentItem,
             onDismiss = { showDialog = false },
             onSave = { item ->
-                if (assignmentData.size <= pagerState.currentPage) {
-                    assignmentData = assignmentData + listOf(listOf(item))
+                if (editItemIndex >= 0) {
+                    unitData[currentUnitIndex].assignments[editItemIndex] = item
                 } else {
-                    assignmentData = assignmentData.toMutableList().apply {
-                        if (editItemIndex >= 0) {
-                            this[currentUnitIndex] = this[currentUnitIndex].toMutableList().apply {
-                                set(editItemIndex, item)
-                            }
-                        } else {
-                            this[pagerState.currentPage] = this[pagerState.currentPage].toMutableList().apply {
-                                add(item)
-                            }
-                        }
+                    unitData[pagerState.currentPage].assignments.add(item)
+                }
+                FileUtil.saveUnitsAndAssignments(context, unitData)
+                showDialog = false
+            }
+        )
+    }
+
+    if (showUnitDialog) {
+        AddEditUnitDialog(
+            unit = currentUnit,
+            onDismiss = { showUnitDialog = false },
+            onSave = { unit ->
+                if (currentUnit.name.isEmpty()) {
+                    unitData.add(unit)
+                } else {
+                    val index = unitData.indexOfFirst { it.name == currentUnit.name }
+                    if (index >= 0) {
+                        unitData[index] = unit
                     }
                 }
-                saveAssignments(context, assignmentData)
-                showDialog = false
+                FileUtil.saveUnitsAndAssignments(context, unitData)
+                showUnitDialog = false
             }
         )
     }
@@ -198,27 +211,19 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
                     onDismissRequest = { expandedmenu = false },
                     offset = DpOffset(0.dp, 48.dp),
                     modifier = Modifier
-                        .align(
-                            Alignment.Bottom
-                        )
+                        .align(Alignment.Bottom)
                         .background(globalcolors.secondaryColor),
-
-
-                    ) {
+                ) {
                     DropdownMenuItem(text = { Text("Edit", style = myTextStyle) }, onClick = {
                         onEdit()
                         expandedmenu = false
                     })
                     DropdownMenuItem(text = { Text("Delete", style = myTextStyle) }, onClick = {
-                        onEdit()
+                        onDelete()
                         expandedmenu = false
                     })
-
-
                 }
-
             }
-            // Show/hide description based on expanded state
             AnimatedVisibility(expanded) {
                 Column {
                     Spacer(modifier = Modifier.height(8.dp))
@@ -232,29 +237,26 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
     }
 }
 
-
-
 @Composable
 fun AddEditAssignmentDialog(
     item: Assignment,
-    unit: String,
     onDismiss: () -> Unit,
-    onSave: (Assignment) -> Unit
+    onSave: (Assignment) -> Unit,
+    unit: String
 ) {
     var title by remember { mutableStateOf(TextFieldValue(item.title)) }
     var description by remember { mutableStateOf(TextFieldValue(item.description)) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = "Add or Edit Assignment",
-            style = myTextStyle, fontSize = 20.sp,
-            color = globalcolors.primaryColor,
-            fontWeight = FontWeight.Bold)
+        title = {
+            Text(text = "Add or Edit Assignment",
+                style = myTextStyle, fontSize = 20.sp,
+                color = globalcolors.primaryColor,
+                fontWeight = FontWeight.Bold)
         },
         text = {
-            Column(
-                modifier = Modifier
-            ) {
+            Column(modifier = Modifier) {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
@@ -291,7 +293,6 @@ fun AddEditAssignmentDialog(
                         .height(200.dp)
                         .fillMaxWidth()
                 )
-
             }
         },
         confirmButton = {
@@ -302,28 +303,87 @@ fun AddEditAssignmentDialog(
                         description = description.text
                     )
                 )
-
             }) {
-                Text("Save",
-                    style = myTextStyle,
-                    color = globalcolors.primaryColor,)
+                Text("Save", style = myTextStyle, color = globalcolors.primaryColor)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel",
-                    style = myTextStyle,
-                    color = globalcolors.primaryColor)
+                Text("Cancel", style = myTextStyle, color = globalcolors.primaryColor)
             }
         },
         containerColor = globalcolors.tertiaryColor,
+    )
+}
 
-        )
+@Composable
+fun AddEditUnitDialog(
+    unit: UnitData,
+    onDismiss: () -> Unit,
+    onSave: (UnitData) -> Unit
+) {
+    var unitName by remember { mutableStateOf(TextFieldValue(unit.name)) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = if (unit.name.isEmpty()) "Add Unit" else "Edit Unit",
+                style = myTextStyle, fontSize = 20.sp,
+                color = globalcolors.primaryColor,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Column(modifier = Modifier) {
+                OutlinedTextField(
+                    value = unitName,
+                    onValueChange = { unitName = it },
+                    label = { Text("Unit Name", style = myTextStyle) },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = globalcolors.primaryColor,
+                        unfocusedContainerColor = globalcolors.primaryColor,
+                        focusedIndicatorColor = globalcolors.textColor,
+                        unfocusedIndicatorColor = globalcolors.primaryColor,
+                        focusedLabelColor = globalcolors.textColor,
+                        cursorColor = globalcolors.textColor,
+                        unfocusedLabelColor = globalcolors.textColor,
+                        focusedTextColor = globalcolors.textColor,
+                        unfocusedTextColor = globalcolors.textColor
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = {
+                onSave(
+                    UnitData(
+                        name = unitName.text
+                    )
+                )
+            }) {
+                Text("Save", style = myTextStyle, color = globalcolors.primaryColor)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel", style = myTextStyle, color = globalcolors.primaryColor)
+            }
+        },
+        containerColor = globalcolors.tertiaryColor,
+    )
 }
 
 
-@Preview(showBackground = true)
+
+
+
+
+
+@Preview
 @Composable
 fun AssignmentScreenPreview() {
-    AssignmentScreen(navController = rememberNavController())
+    AssignmentScreen(navController = NavController(LocalContext.current), LocalContext.current)
 }
+

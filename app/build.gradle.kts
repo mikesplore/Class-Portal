@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.app.classportal"
-        minSdk = 29
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -50,20 +50,15 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-compose:2.7.7") // Latest stable
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha01")
-    implementation("androidx.compose.material:material:1.1.1") // Latest stable
-    implementation("com.google.accompanist:accompanist-pager:0.25.0") // Latest
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.25.0")
-    implementation("androidx.work:work-runtime-ktx:2.7.1")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.compose.ui:ui:1.6.7")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-    implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.30.1")
-    implementation("com.google.code.gson:gson:2.8.6")
-    implementation("androidx.compose.material:material-icons-extended-android:1.6.7")
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.material)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.coil.compose)
+    implementation(libs.gson)
+    implementation(libs.androidx.material.icons.extended.android)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

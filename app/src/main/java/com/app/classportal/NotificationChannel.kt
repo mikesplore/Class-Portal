@@ -44,7 +44,7 @@ fun showNotification(context: Context, title: String, message: String) {
         .setPriority(NotificationCompat.PRIORITY_HIGH)  // Set priority to HIGH
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
-        .setDefaults(NotificationCompat.DEFAULT_ALL)  // Ensure sound and vibration are used
+        .setDefaults(NotificationCompat.DEFAULT_ALL)  //sound and vibration are used
 
     with(NotificationManagerCompat.from(context)) {
         if (ActivityCompat.checkSelfPermission(

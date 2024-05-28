@@ -88,7 +88,7 @@ fun ManageUnitsScreen(context: Context, navController: NavController) {
                         }
                     }
                 },
-                
+
                 actions = {
                     IconButton(onClick = {
                         showmenu = !showmenu
@@ -108,7 +108,7 @@ fun ManageUnitsScreen(context: Context, navController: NavController) {
                             Toast.makeText(context, "Units cleared!", Toast.LENGTH_SHORT).show()
                             showmenu = false
                         })
-                        
+
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

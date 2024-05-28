@@ -1,6 +1,5 @@
 package com.app.classportal
 
-import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,8 +32,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AssignmentScreen(navController: NavController, context: Context) {
-    val loadedUnits = FileUtil.loadUnits(context)
+fun AssignmentScreen(navController: NavController) {
+    val context = LocalContext.current
+    val units = listOf("Calculus II", "Linear Algebra", "Discrete Mathematics", "Statistics", "Probability", "Computer Science","Computer Science")
     val pagerState = rememberPagerState(initialPage = 0)
     val coroutineScope = rememberCoroutineScope()
     var assignmentData by remember { mutableStateOf(loadAssignments(context)) }
@@ -84,11 +84,9 @@ fun AssignmentScreen(navController: NavController, context: Context) {
         ) {
             ScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
-                edgePadding = 0.dp,
-                // Custom Indicator to Remove the Underline
-                indicator = { }
+                edgePadding = 0.dp
             ) {
-                loadedUnits.forEachIndexed { index, unit ->
+                units.forEachIndexed { index, unit ->
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = {
@@ -96,22 +94,14 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                                 pagerState.scrollToPage(index)
                             }
                         },
-                        text = {
-                            Text(
-                                unit.unitname,
-                                fontFamily = RobotoMono,
-                                color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.secondaryColor
-                            )
-                        },
+                        text = { Text(unit, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.secondaryColor) },
                         selectedContentColor = Color.White,
-                        modifier = Modifier.background(globalcolors.primaryColor),
-                        enabled = true // Add enabled = true
-
+                        modifier = Modifier.background(globalcolors.primaryColor)
                     )
                 }
             }
             HorizontalPager(
-                count = loadedUnits.size,
+                count = units.size,
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
@@ -148,22 +138,24 @@ fun AssignmentScreen(navController: NavController, context: Context) {
 
     if (showDialog) {
         AddEditAssignmentDialog(
-            unit = loadedUnits[pagerState.currentPage].toString(),
+            unit = units[pagerState.currentPage],
             item = currentItem,
             onDismiss = { showDialog = false },
             onSave = { item ->
-                val currentPage = pagerState.currentPage // Get the index of the current page (selected tab)
-
-                // Update the assignmentData for the current page
-                assignmentData = assignmentData.toMutableList().also { updatedData ->
-                    if (updatedData.size <= currentPage) {
-                        // Add new lists if necessary to accommodate the new unit/page
-                        repeat(currentPage - updatedData.size + 1) {
-                            updatedData.add(mutableStateListOf())
+                if (assignmentData.size <= pagerState.currentPage) {
+                    assignmentData = assignmentData + listOf(listOf(item))
+                } else {
+                    assignmentData = assignmentData.toMutableList().apply {
+                        if (editItemIndex >= 0) {
+                            this[currentUnitIndex] = this[currentUnitIndex].toMutableList().apply {
+                                set(editItemIndex, item)
+                            }
+                        } else {
+                            this[pagerState.currentPage] = this[pagerState.currentPage].toMutableList().apply {
+                                add(item)
+                            }
                         }
                     }
-                    // Add the new assignment to the list for the current page
-                    updatedData[currentPage]+(item)
                 }
                 saveAssignments(context, assignmentData)
                 showDialog = false
@@ -258,7 +250,7 @@ fun AddEditAssignmentDialog(
             style = myTextStyle, fontSize = 20.sp,
             color = globalcolors.primaryColor,
             fontWeight = FontWeight.Bold)
-                },
+        },
         text = {
             Column(
                 modifier = Modifier
@@ -326,12 +318,12 @@ fun AddEditAssignmentDialog(
         },
         containerColor = globalcolors.tertiaryColor,
 
-    )
+        )
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun AssignmentScreenPreview() {
-    AssignmentScreen(navController = rememberNavController(), LocalContext.current)
+    AssignmentScreen(navController = rememberNavController())
 }

@@ -26,7 +26,6 @@ import androidx.compose.material.icons.automirrored.filled.NoteAdd
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
@@ -69,7 +68,6 @@ import com.app.classportal.FileUtil.getAssignment
 import com.app.classportal.FileUtil.loadAnnouncement
 import kotlinx.coroutines.launch
 import java.time.LocalTime
-import java.util.Calendar
 
 
 val imageUrls = listOf(
@@ -117,7 +115,6 @@ fun Dashboard(navController: NavController, context: Context) {
             )
         )
     }.value
-    var onsaveDialog by remember { mutableStateOf(false) }
 
 
     val greetingMessage by remember { mutableStateOf(getGreetingMessage()) }
@@ -179,8 +176,8 @@ fun Dashboard(navController: NavController, context: Context) {
                     Box {
                         IconButton(onClick = { expanded = true }) {
                             Icon(
-                                imageVector = Icons.Filled.Menu,
-                                contentDescription = "Menu",
+                                imageVector = Icons.Filled.AccountCircle,
+                                contentDescription = "Profile",
                                 tint = globalcolors.textColor,
                                 modifier = Modifier.size(35.dp)
                             )
@@ -202,13 +199,13 @@ fun Dashboard(navController: NavController, context: Context) {
                                         fontSize = 15.sp,
                                         fontFamily = RobotoMono,
 
-                                    )
+                                        )
                                 },
                                 onClick = {
 
                                 },
 
-                            )
+                                )
                             DropdownMenuItem(
                                 text = {
                                     Text(
@@ -253,7 +250,6 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 }
                             )
-
                             DropdownMenuItem(
                                 text = {
                                     Text(
@@ -442,62 +438,30 @@ fun Dashboard(navController: NavController, context: Context) {
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ){
-                            Button(onClick = {
-                              globalcolors.resetToDefaultColors(context)
-                                palleteDialog = false
-                                onsaveDialog = true
-                            },
-                                shape = RoundedCornerShape(10.dp),
-                                colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
-                                Text(text = "Default colors", style = myTextStyle)
-                            }
-                            Button(onClick = { 
+                                Button(onClick = {
+                                    globalcolors.resetToDefaultColors(context)
+                                    palleteDialog = false
+                                },
+                                    shape = RoundedCornerShape(10.dp),
+                                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
+                                    Text(text = "Default colors", style = myTextStyle)
+                                }
+                                Button(onClick = {
 
-                                palleteDialog = false
-                                onsaveDialog = true
-                                             },
-                                shape = RoundedCornerShape(10.dp),
-                                colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
-                                Text(text = "Ok",
-                                    style = myTextStyle,)
-                            }}
+                                    palleteDialog = false
+                                    navController.navigate("login")
+                                    Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
+                                },
+                                    shape = RoundedCornerShape(10.dp),
+                                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
+                                    Text(text = "Ok",
+                                        style = myTextStyle,)
+                                }}
                         },
                         modifier = Modifier.height(420.dp),
                         containerColor = globalcolors.secondaryColor
                     )
                 }
-
-                if(onsaveDialog){
-                AlertDialog(
-                    title = { Text(text = "Refresh screens", style = myTextStyle) },
-                    text = {
-                        Text(text = "The app will refresh for the colors to load properly",
-                            style = myTextStyle)
-                    },
-                    onDismissRequest = {  },
-                    confirmButton = {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ){
-
-                            Button(onClick = {
-                                onsaveDialog = false
-                                navController.navigate("welcome")
-                                Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
-                            },
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(10.dp),
-                                colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
-                                Text(text = "Ok",
-                                    style = myTextStyle,)
-                            }}
-                    },
-
-                    containerColor = globalcolors.secondaryColor
-                )}
-
 
                 Spacer(modifier = Modifier.height(22.dp))
 
@@ -622,7 +586,6 @@ fun Dashboard(navController: NavController, context: Context) {
 fun LatestAnnouncement() {
     val announcements = loadAnnouncement(LocalContext.current)
     val latestAnnouncement = announcements.lastOrNull()
-    val calendar = Calendar.getInstance().time
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -642,36 +605,32 @@ fun LatestAnnouncement() {
                 color = globalcolors.primaryColor,
                 shape = RoundedCornerShape(30.dp)
             )
-            .height(250.dp)
+            .height(200.dp)
             .fillMaxWidth()
             .background(addbackbrush, shape = RoundedCornerShape(30.dp))
             .padding(10.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-                Text(
-                    text = latestAnnouncement?.title ?: "New UI",
-                    style = myTextStyle,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = globalcolors.textColor
-                )
-
-
-
+            Text(
+                text = latestAnnouncement?.title ?: "New UI",
+                style = myTextStyle,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = globalcolors.textColor,
+                modifier = Modifier.padding(10.dp)
+            )
+            Text(
+                text = latestAnnouncement?.date ?: "25/05/2024",
+                color = globalcolors.textColor,
+                style = myTextStyle,
+                modifier = Modifier.padding(10.dp)
+            )
         }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f), // Make the Box take up available vertical space
-            contentAlignment = Alignment.Center
-        ) {
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(
                 text = latestAnnouncement?.description
                     ?: "I decided to re-design the User Interface, how do you rate it out of 10?",
@@ -682,28 +641,20 @@ fun LatestAnnouncement() {
                 modifier = Modifier.padding(10.dp)
             )
         }
-
-        // "Posted By" at the bottom
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
         ) {
             Text(text = "Posted by", style = myTextStyle)
-            Spacer(modifier = Modifier.width(4.dp)) // Add spacing
             Text(
                 text = latestAnnouncement?.student ?: "Developer Mike",
                 style = myTextStyle,
-                color = globalcolors.textColor
+                color = globalcolors.textColor,
+                modifier = Modifier.padding(10.dp)
             )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(text = "Date: $calendar", style = myTextStyle)
         }
     }
-
-
 }
 
 
@@ -952,7 +903,14 @@ fun TimetableTabContent() {
 
 @Composable
 fun AssignmentsTabContent(navController: NavController, context: Context) {
-    val subjects = FileUtil.loadUnits(context)
+    val subjects = listOf(
+        "Calculus II",
+        "Linear Algebra",
+        "Discrete Mathematics",
+        "Statistics",
+        "Probability",
+        "Computer Science"
+    )
     var selectedSubjectIndex by remember { mutableIntStateOf(0) } // Default to index 0 ("Calculus II")
     val filteredAssignment = getAssignment(context, selectedSubjectIndex, 0)
 
@@ -997,7 +955,7 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
                     )
                 ) {
                     Text(
-                        text = subject.unitname,
+                        text = subject,
                         style = myTextStyle
                     )
                 }
@@ -1019,7 +977,7 @@ fun AssignmentsTabContent(navController: NavController, context: Context) {
             )
         } else {
             Text(
-                text = "No assignment found for ${subjects[selectedSubjectIndex].unitname}",
+                text = "No assignment found for ${subjects[selectedSubjectIndex]}",
                 style = myTextStyle,
                 fontWeight = FontWeight.Bold
             )
@@ -1292,4 +1250,3 @@ val myTextStyle = TextStyle(
     color = globalcolors.textColor,
     fontSize = 15.sp
 )
-

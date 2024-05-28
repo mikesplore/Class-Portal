@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
         
-        NavHost(navController, startDestination = "login") {
+        NavHost(navController, startDestination = "welcome") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }
@@ -96,9 +96,7 @@ class MainActivity : ComponentActivity() {
             composable("login") {
                 LoginScreen(navController = navController, context)
             }
-            composable("gallery") {
-                Gallery(navController)
-            }
+
             composable("timetable") {
                 Timetable(navController)
             }

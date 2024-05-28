@@ -122,7 +122,7 @@ class MainActivity : ComponentActivity() {
                 Timetable(navController)
             }
             composable("assignments") {
-                AssignmentScreen(navController)
+                AssignmentScreen(navController, context)
             }
             composable("students"){
                 ShowStudentsScreen(context, navController)
@@ -130,9 +130,7 @@ class MainActivity : ComponentActivity() {
             composable("settings"){
                 SettingsScreen(navController, context)
             }
-            composable("units"){
-                ManageUnitsScreen(context, navController)
-            }
+
 
             
         }

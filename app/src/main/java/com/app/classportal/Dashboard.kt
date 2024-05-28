@@ -253,6 +253,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 }
                             )
+
                             DropdownMenuItem(
                                 text = {
                                     Text(
@@ -444,16 +445,16 @@ fun Dashboard(navController: NavController, context: Context) {
                             Button(onClick = {
                               globalcolors.resetToDefaultColors(context)
                                 palleteDialog = false
+                                onsaveDialog = true
                             },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
                                 Text(text = "Default colors", style = myTextStyle)
                             }
                             Button(onClick = { 
-                                
+
                                 palleteDialog = false
-                                navController.navigate("login")
-                                Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
+                                onsaveDialog = true
                                              },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
@@ -466,10 +467,11 @@ fun Dashboard(navController: NavController, context: Context) {
                     )
                 }
 
+                if(onsaveDialog){
                 AlertDialog(
                     title = { Text(text = "Refresh screens", style = myTextStyle) },
                     text = {
-                        Text(text = "The app will restart for the colors to load properly",
+                        Text(text = "The app will refresh for the colors to load properly",
                             style = myTextStyle)
                     },
                     onDismissRequest = {  },
@@ -481,9 +483,8 @@ fun Dashboard(navController: NavController, context: Context) {
                         ){
 
                             Button(onClick = {
-
-                                palleteDialog = false
-                                navController.navigate("login")
+                                onsaveDialog = false
+                                navController.navigate("welcome")
                                 Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
                             },
                                 modifier = Modifier.fillMaxWidth(),
@@ -495,7 +496,7 @@ fun Dashboard(navController: NavController, context: Context) {
                     },
 
                     containerColor = globalcolors.secondaryColor
-                )
+                )}
 
 
                 Spacer(modifier = Modifier.height(22.dp))

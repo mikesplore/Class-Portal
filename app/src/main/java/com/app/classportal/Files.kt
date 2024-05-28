@@ -52,12 +52,12 @@ object FileUtil {
     private const val TIMETABLE_FILE = "timetablefile.json"
     private const val ATTENDANCE_FILE = "attendancerecords.json"
     private const val ANNOUNCEMENT_FILE = "announcement.json"
-    private const val UNIT_FILE = "units.json"
+    private const val UNITS_ASSIGNMENTS_FILE = "units_assignments.json"
     private val gson = Gson()
 
     fun loadUnitsAndAssignments(context: Context): MutableList<UnitData> {
         val gson = Gson()
-        val file = File(context.filesDir, "units_assignments.json")
+        val file = File(context.filesDir, UNITS_ASSIGNMENTS_FILE)
         return if (file.exists()) {
             val json = file.readText()
             val type = object : TypeToken<MutableList<UnitData>>() {}.type

@@ -1,67 +1,52 @@
-package com.app.classportal
-
 import android.content.Context
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.app.classportal.Assignment
+import com.app.classportal.FileUtil
+import com.app.classportal.UnitData
+import com.app.classportal.globalcolors
+import com.app.classportal.myTextStyle
 import com.app.classportal.ui.theme.RobotoMono
-import com.google.accompanist.pager.*
-import kotlinx.coroutines.launch
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.io.File
 
 
-
-@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssignmentScreen(navController: NavController, context: Context) {
-    var unitData by remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context)) }
-    var showDialog by remember { mutableStateOf(false) }
+    var units by remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context)) }
     var showUnitDialog by remember { mutableStateOf(false) }
-    var currentUnitIndex by remember { mutableIntStateOf(0) }
-    var editItemIndex by remember { mutableStateOf(-1) }
-    var currentItem by remember { mutableStateOf(Assignment("", "")) }
+    var showAssignmentDialog by remember { mutableStateOf(false) }
     var currentUnit by remember { mutableStateOf(UnitData("")) }
-    val pagerState = rememberPagerState(initialPage = 0)
-    val coroutineScope = rememberCoroutineScope()
-
-    val addbackbrush = remember {
-        mutableStateOf(
-            Brush.verticalGradient(
-                colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
-                )
-            )
-        )
-    }.value
+    var currentAssignment by remember { mutableStateOf(Assignment("", "")) }
+    var editUnitIndex by remember { mutableIntStateOf(-1) }
+    var editAssignmentIndex by remember { mutableStateOf(-1) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Assignments", fontFamily = RobotoMono, color = globalcolors.textColor, fontSize = 20.sp) },
+                title = { Text("Assignments", style = myTextStyle, fontSize = 20.sp) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigate("dashboard") }) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = globalcolors.textColor)
@@ -69,69 +54,88 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                 },
                 actions = {
                     IconButton(onClick = {
-                        currentItem = Assignment("", "")
-                        editItemIndex = -1
-                        showDialog = true
-                    }) {
-                        Icon(Icons.Filled.Add, contentDescription = "Add", tint = globalcolors.textColor)
-                    }
-                    IconButton(onClick = {
                         currentUnit = UnitData("")
+                        editUnitIndex = -1
                         showUnitDialog = true
                     }) {
-                        Icon(Icons.Filled.Edit, contentDescription = "Manage Units", tint = globalcolors.textColor)
+                        Icon(Icons.Filled.Add, contentDescription = "Add Unit", tint = globalcolors.textColor)
+                    }
+                    IconButton(onClick = {
+                        if (currentUnit.name.isNotEmpty()) {
+                            currentAssignment = Assignment("", "")
+                            editAssignmentIndex = -1
+                            showAssignmentDialog = true
+                        }
+                    }) {
+                        Icon(Icons.Filled.Add, contentDescription = "Add Assignment", tint = globalcolors.textColor)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = globalcolors.primaryColor)
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(addbackbrush)
                 .fillMaxSize()
+                .background(globalcolors.primaryColor)
                 .padding(innerPadding)
         ) {
-            ScrollableTabRow(
-                selectedTabIndex = pagerState.currentPage,
-                edgePadding = 0.dp
+            Row(
+                modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                unitData.forEachIndexed { index, unit ->
-                    Tab(
-                        selected = pagerState.currentPage == index,
+                units.forEachIndexed { index, unit ->
+                    Button(
                         onClick = {
-                            coroutineScope.launch {
-                                pagerState.scrollToPage(index)
-                            }
+                            currentUnit = unit
+                            editUnitIndex = index
+                            showUnitDialog = true
                         },
-                        text = { Text(unit.name, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.secondaryColor) },
-                        selectedContentColor = Color.White,
-                        modifier = Modifier.background(globalcolors.primaryColor)
-                    )
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = globalcolors.secondaryColor)
+                    ) {
+                        Text(text = unit.name, style = myTextStyle)
+                    }
+                    IconButton(onClick = {
+                        units = units.toMutableList().apply { removeAt(index) }
+                        FileUtil.saveUnitsAndAssignments(context, units)
+                    }) {
+                        Icon(Icons.Filled.Delete, contentDescription = "Delete Unit", tint = globalcolors.textColor)
+                    }
                 }
             }
-            HorizontalPager(
-                count = unitData.size,
-                state = pagerState,
-                modifier = Modifier.fillMaxSize()
-            ) { page ->
-                val unitAssignments = unitData[page].assignments
-                LazyColumn(
-                    modifier = Modifier
-                        .background(addbackbrush)
-                        .fillMaxSize()
-                        .padding(16.dp)
-                ) {
-                    itemsIndexed(unitAssignments) { index, item ->
-                        AssignmentItemRow(item,
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                items(units) { unit ->
+                    Text(
+                        text = unit.name,
+                        style = myTextStyle,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                    unit.assignments.forEachIndexed { index, assignment ->
+                        AssignmentItemRow(
+                            item = assignment,
                             onEdit = {
-                                currentItem = item
-                                editItemIndex = index
-                                showUnitDialog = true
+                                currentAssignment = assignment
+                                editAssignmentIndex = index
+                                currentUnit = unit
+                                showAssignmentDialog = true
                             },
                             onDelete = {
-                                unitData[page].assignments.removeAt(index)
-                                FileUtil.saveUnitsAndAssignments(context, unitData)
+                                val unitIndex = units.indexOf(unit)
+                                units = units.toMutableList().apply {
+                                    this[unitIndex].assignments.removeAt(index)
+                                }
+                                FileUtil.saveUnitsAndAssignments(context, units)
                             }
                         )
                     }
@@ -140,63 +144,63 @@ fun AssignmentScreen(navController: NavController, context: Context) {
         }
     }
 
-    if (showDialog) {
-        AddEditAssignmentDialog(
-            unit = unitData[pagerState.currentPage].name,
-            item = currentItem,
-            onDismiss = { showDialog = false },
-            onSave = { item ->
-                if (editItemIndex >= 0) {
-                    unitData[currentUnitIndex].assignments[editItemIndex] = item
-                } else {
-                    unitData[pagerState.currentPage].assignments.add(item)
-                }
-                FileUtil.saveUnitsAndAssignments(context, unitData)
-                showDialog = false
-            }
-        )
-    }
-
     if (showUnitDialog) {
         AddEditUnitDialog(
             unit = currentUnit,
             onDismiss = { showUnitDialog = false },
             onSave = { unit ->
-                if (currentUnit.name.isEmpty()) {
-                    unitData.add(unit)
+                if (editUnitIndex >= 0) {
+                    units = units.toMutableList().apply { set(editUnitIndex, unit) }
                 } else {
-                    val index = unitData.indexOfFirst { it.name == currentUnit.name }
-                    if (index >= 0) {
-                        unitData[index] = unit
+                    units += unit
+                }
+                FileUtil.saveUnitsAndAssignments(context, units)
+                showUnitDialog = false
+            }
+        )
+    }
+
+    if (showAssignmentDialog) {
+        AddEditAssignmentDialog(
+            item = currentAssignment,
+            unit = currentUnit.name,
+            onDismiss = { showAssignmentDialog = false },
+            onSave = { assignment ->
+                val unitIndex = units.indexOf(currentUnit)
+                units = units.toMutableList().apply {
+                    if (editAssignmentIndex >= 0) {
+                        this[unitIndex].assignments[editAssignmentIndex] = assignment
+                    } else {
+                        this[unitIndex].assignments.add(assignment)
                     }
                 }
-                FileUtil.saveUnitsAndAssignments(context, unitData)
-                showUnitDialog = false
+                FileUtil.saveUnitsAndAssignments(context, units)
+                showAssignmentDialog = false
             }
         )
     }
 }
 
-
 @Composable
 fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    var expandedmenu by remember { mutableStateOf(false) }
+    var expandedMenu by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable { expanded = !expanded },
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = globalcolors.primaryColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier = Modifier
-                .background(globalcolors.primaryColor)
+                .background(globalcolors.secondaryColor)
                 .fillMaxWidth()
-                .padding(16.dp),
-        ) { // Use Column instead of Row
+                .padding(16.dp)
+        ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = item.title,
@@ -204,33 +208,64 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { expandedmenu = true }) {
+                IconButton(onClick = { expandedMenu = true }) {
                     Icon(Icons.Filled.MoreVert, contentDescription = "More", tint = globalcolors.textColor)
                 }
-                DropdownMenu(expanded = expandedmenu,
-                    onDismissRequest = { expandedmenu = false },
-                    offset = DpOffset(0.dp, 48.dp),
-                    modifier = Modifier
-                        .align(Alignment.Bottom)
-                        .background(globalcolors.secondaryColor),
+                DropdownMenu(
+                    expanded = expandedMenu,
+                    onDismissRequest = { expandedMenu = false },
+                    modifier = Modifier.background(globalcolors.secondaryColor)
                 ) {
-                    DropdownMenuItem(text = { Text("Edit", style = myTextStyle) }, onClick = {
-                        onEdit()
-                        expandedmenu = false
-                    })
-                    DropdownMenuItem(text = { Text("Delete", style = myTextStyle) }, onClick = {
-                        onDelete()
-                        expandedmenu = false
-                    })
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                "Edit",
+                                color = globalcolors.textColor,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp,
+                                fontFamily = RobotoMono
+                            )
+                        },
+                        onClick = {
+                            onEdit()
+                            expandedMenu = false
+                        },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Filled.Edit,
+                                contentDescription = "Edit Assignment",
+                                tint = globalcolors.textColor
+                            )
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                "Delete",
+                                color = globalcolors.textColor,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp,
+                                fontFamily = RobotoMono
+                            )
+                        },
+                        onClick = {
+                            onDelete()
+                            expandedMenu = false
+                        },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Filled.Delete,
+                                contentDescription = "Delete Assignment",
+                                tint = globalcolors.textColor
+                            )
+                        }
+                    )
                 }
             }
-            AnimatedVisibility(expanded) {
+            if (expanded) {
                 Column {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = item.description,
-                        style = myTextStyle
-                    )
+                    Spacer(modifier = Modifier.height(8.dp).background(globalcolors.secondaryColor))
+                    Text(text = item.description, style = myTextStyle)
                 }
             }
         }
@@ -250,13 +285,15 @@ fun AddEditAssignmentDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Add or Edit Assignment",
+            Text(
+                text = "Add or Edit Assignment",
                 style = myTextStyle, fontSize = 20.sp,
                 color = globalcolors.primaryColor,
-                fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold
+            )
         },
         text = {
-            Column(modifier = Modifier) {
+            Column {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
@@ -297,12 +334,7 @@ fun AddEditAssignmentDialog(
         },
         confirmButton = {
             TextButton(onClick = {
-                onSave(
-                    Assignment(
-                        title = title.text,
-                        description = description.text
-                    )
-                )
+                onSave(Assignment(title.text, description.text))
             }) {
                 Text("Save", style = myTextStyle, color = globalcolors.primaryColor)
             }
@@ -335,7 +367,7 @@ fun AddEditUnitDialog(
             )
         },
         text = {
-            Column(modifier = Modifier) {
+            Column {
                 OutlinedTextField(
                     value = unitName,
                     onValueChange = { unitName = it },
@@ -357,11 +389,7 @@ fun AddEditUnitDialog(
         },
         confirmButton = {
             TextButton(onClick = {
-                onSave(
-                    UnitData(
-                        name = unitName.text
-                    )
-                )
+                onSave(UnitData(unitName.text))
             }) {
                 Text("Save", style = myTextStyle, color = globalcolors.primaryColor)
             }
@@ -375,15 +403,10 @@ fun AddEditUnitDialog(
     )
 }
 
-
-
-
-
-
-
 @Preview
 @Composable
 fun AssignmentScreenPreview() {
     AssignmentScreen(navController = NavController(LocalContext.current), LocalContext.current)
 }
+
 

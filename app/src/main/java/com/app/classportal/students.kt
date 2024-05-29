@@ -201,7 +201,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                             .height(50.dp)
                             .border(
                                 width = 1.dp,
-                                color = Color.Gray,
+                                color = globalcolors.tertiaryColor,
                             ),
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
@@ -240,7 +240,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                             fontSize = 16.sp,
                         )
                     }
-                    Divider(color = Color.Gray, thickness = 1.dp)
+                    Divider(color = globalcolors.tertiaryColor, thickness = 1.dp)
                 }
             }
             Text(

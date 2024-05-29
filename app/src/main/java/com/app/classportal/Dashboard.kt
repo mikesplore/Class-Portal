@@ -471,8 +471,7 @@ fun Dashboard(navController: NavController, context: Context) {
                         title = { Text(text = "App refresh required", style = myTextStyle) },
                         text = {
                             Column(
-                                modifier = Modifier
-                                    .height(130.dp),
+                                modifier = Modifier,
                                 verticalArrangement = Arrangement.SpaceBetween
                             ){
                                 Text(text = "The app will refresh for the colors to load properly",
@@ -653,7 +652,7 @@ fun LatestAnnouncement(context: Context) {
                 color = globalcolors.primaryColor,
                 shape = RoundedCornerShape(30.dp)
             )
-            .height(400.dp)
+            .height(300.dp)
             .fillMaxWidth()
             .background(addbackbrush, shape = RoundedCornerShape(30.dp))
             .padding(10.dp)
@@ -664,7 +663,7 @@ fun LatestAnnouncement(context: Context) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = latestAnnouncement?.title ?: "APP FEATURES",
+                text = latestAnnouncement?.title ?: "NEW APP FEATURES",
                 style = myTextStyle,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
@@ -675,9 +674,8 @@ fun LatestAnnouncement(context: Context) {
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(
                 text = latestAnnouncement?.description
-                    ?: ("1. You can now use your custom color palettes for the app! To set custom colors, go to Menu > Color Palette\n\n" +
-                            "2. In-App notifications now available for the app! To enable notifications, go to Menu > Settings > Notifications.\n\n" +
-                            "3. System notifications now available! To enable system notifications, go to your system settings > Apps > Class Portal > Enable notifications."),
+                    ?: ("1. You can now set your custom color palettes for the app! To set custom colors, go to Menu > Color Palette\n\n" +
+                            "2. System notifications now available! To enable system notifications, go to your system settings > Apps > Class Portal > Enable notifications."),
                 fontWeight = FontWeight.Normal,
                 style = myTextStyle,
                 textAlign = TextAlign.Left,
@@ -686,10 +684,10 @@ fun LatestAnnouncement(context: Context) {
             )
 
         }
-        Column(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Absolute.Right
         ) {
             Text(text = "Posted by", style = myTextStyle)
             Text(
@@ -698,9 +696,7 @@ fun LatestAnnouncement(context: Context) {
                 color = globalcolors.textColor,
                 modifier = Modifier.padding(10.dp)
             )
-            val calendar = Calendar.getInstance().time
-            Text(text = "on $calendar",
-                style = myTextStyle,)
+
         }
     }
 }

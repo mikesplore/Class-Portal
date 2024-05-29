@@ -1,20 +1,20 @@
 package com.app.classportal
 
 import android.content.Context
-import androidx.compose.ui.draw.shadow
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.classportal.ui.theme.RobotoMono
 import com.google.gson.Gson
-import androidx.compose.ui.platform.LocalContext
 import java.io.File
 
 data class ColorScheme(
@@ -50,8 +50,11 @@ object globalcolors {
     }
 
     fun saveColorScheme(context: Context, scheme: ColorScheme) {
-        val json = Gson().toJson(scheme)
         val file = File(context.filesDir, COLORS_FILE_NAME)
+        if (file.exists()) {
+            file.delete()  // Delete the old color scheme file
+        }
+        val json = Gson().toJson(scheme)
         file.writeText(json)
         currentScheme = scheme
     }
@@ -73,9 +76,8 @@ object globalcolors {
         get() = parseColor(currentScheme.textColor)
 }
 
-
 @Composable
-fun ColorSettings(context: Context) {
+fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
     var primaryColor by remember { mutableStateOf(globalcolors.currentScheme.primaryColor) }
     var secondaryColor by remember { mutableStateOf(globalcolors.currentScheme.secondaryColor) }
     var tertiaryColor by remember { mutableStateOf(globalcolors.currentScheme.tertiaryColor) }
@@ -90,7 +92,7 @@ fun ColorSettings(context: Context) {
     }
 
     Column(
-        modifier = Modifier.height(350.dp),
+        modifier = Modifier.height(500.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -100,8 +102,6 @@ fun ColorSettings(context: Context) {
             textStyle = TextStyle(fontFamily = RobotoMono),
             onValueChange = { newValue ->
                 primaryColor = newValue
-                val newScheme = globalcolors.currentScheme.copy(primaryColor = newValue)
-                globalcolors.saveColorScheme(context, newScheme)
             }
         )
 
@@ -111,8 +111,6 @@ fun ColorSettings(context: Context) {
             textStyle = TextStyle(fontFamily = RobotoMono),
             onValueChange = { newValue ->
                 secondaryColor = newValue
-                val newScheme = globalcolors.currentScheme.copy(secondaryColor = newValue)
-                globalcolors.saveColorScheme(context, newScheme)
             }
         )
 
@@ -122,8 +120,6 @@ fun ColorSettings(context: Context) {
             textStyle = TextStyle(fontFamily = RobotoMono),
             onValueChange = { newValue ->
                 tertiaryColor = newValue
-                val newScheme = globalcolors.currentScheme.copy(tertiaryColor = newValue)
-                globalcolors.saveColorScheme(context, newScheme)
             }
         )
 
@@ -133,13 +129,36 @@ fun ColorSettings(context: Context) {
             textStyle = TextStyle(fontFamily = RobotoMono),
             onValueChange = { newValue ->
                 textColor = newValue
-                val newScheme = globalcolors.currentScheme.copy(textColor = newValue)
-                globalcolors.saveColorScheme(context, newScheme)
             }
         )
+
+        Button(onClick = {
+            val newScheme = ColorScheme(
+                primaryColor = primaryColor,
+                secondaryColor = secondaryColor,
+                tertiaryColor = tertiaryColor,
+                textColor = textColor
+            )
+            globalcolors.saveColorScheme(context, newScheme)
+            onsave()
+        },
+            colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
+            shape = RoundedCornerShape(10.dp)
+        ) {
+            Text("Save Colors", style = TextStyle(fontFamily = RobotoMono))
+        }
+
+        Button(onClick = {
+            globalcolors.resetToDefaultColors(context)
+            onrevert()
+        },
+            colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
+            shape = RoundedCornerShape(10.dp)
+        ) {
+            Text("Revert to Default Colors", style = TextStyle(fontFamily = RobotoMono))
+        }
     }
 }
-
 
 @Composable
 fun OutlinedColorTextField(
@@ -149,12 +168,19 @@ fun OutlinedColorTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isValidColor by remember { mutableStateOf(true) } // State to track validity
+
     OutlinedTextField(
         value = colorValue,
         textStyle = textStyle,
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            isValidColor = isValidHexColor(newValue) // Check validity on each change
+            onValueChange(newValue) // Update regardless of validity to show error state
+        },
         label = { Text(text = label, fontFamily = RobotoMono) },
         singleLine = true,
+        isError = !isValidColor, // Show error state if invalid
+        supportingText = { if (!isValidColor) Text("Invalid color code") }, // Error message
         colors = TextFieldDefaults.colors(
             focusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
             unfocusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
@@ -165,7 +191,6 @@ fun OutlinedColorTextField(
             unfocusedLabelColor = parseColor(globalcolors.currentScheme.textColor),
             focusedTextColor = parseColor(globalcolors.currentScheme.textColor),
             unfocusedTextColor = parseColor(globalcolors.currentScheme.textColor)
-
         ),
         shape = RoundedCornerShape(10.dp),
         modifier = modifier
@@ -175,6 +200,16 @@ fun OutlinedColorTextField(
                 shape = RoundedCornerShape(20.dp)
             )
     )
+}
+
+// Helper function to check if a string is a valid hex color code
+fun isValidHexColor(colorString: String): Boolean {
+    return try {
+        Color(android.graphics.Color.parseColor("#$colorString")) // Try parsing with #
+        true
+    } catch (e: IllegalArgumentException) {
+        false
+    }
 }
 
 @Preview
@@ -187,5 +222,5 @@ fun ColorSettingsPreview() {
         globalcolors.currentScheme = globalcolors.loadColorScheme(context)
     }
 
-    ColorSettings(context = context)
+    ColorSettings(context = context, {}, {})
 }

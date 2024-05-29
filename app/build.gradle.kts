@@ -51,10 +51,10 @@ android {
 
 dependencies {
 
-    implementation ("androidx.core:core-ktx:1.6.0")
-    implementation ("androidx.compose.ui:ui:1.0.1")
-    implementation ("androidx.compose.material3:material3:1.0.0-alpha11")
-    implementation ("androidx.activity:activity-compose:1.3.1")
+    implementation(libs.androidx.core.ktx.v160)
+    implementation (libs.androidx.ui.v101)
+    implementation (libs.androidx.material3.v100alpha11)
+    implementation (libs.androidx.activity.compose.v131)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
@@ -63,21 +63,18 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.gson)
     implementation(libs.androidx.material.icons.extended.android)
-
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
     implementation(libs.androidx.constraintlayout.compose)
     testImplementation(libs.junit)
+    implementation(libs.androidx.activity.ktx)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }

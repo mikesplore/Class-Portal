@@ -1,6 +1,7 @@
 
 package com.app.classportal
 
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -15,6 +16,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -27,7 +29,10 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 
 @Composable
-fun WelcomeScreen(navController: NavHostController) {
+fun WelcomeScreen(navController: NavHostController, context: Context) {
+    LaunchedEffect(Unit) {
+        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+    }
     var startAnimation by remember { mutableStateOf(false) }
     var fadeOut by remember { mutableStateOf(false) }
     var showProgress by remember { mutableStateOf(false) } // State to show/hide progress
@@ -69,7 +74,7 @@ fun WelcomeScreen(navController: NavHostController) {
         Text(
             text = "CLASS PORTAL",
             style = TextStyle(
-                color = Color.White,
+                color = globalcolors.secondaryColor,
                 fontSize = 60.sp,
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = FontFamily.Serif,
@@ -128,5 +133,5 @@ fun WelcomeScreen(navController: NavHostController) {
 @Preview
 @Composable
 fun SplashScreenPreview() {
-    WelcomeScreen(navController = rememberNavController())
+    WelcomeScreen(navController = rememberNavController(), context = LocalContext.current)
 }

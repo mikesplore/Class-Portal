@@ -43,12 +43,15 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import androidx.compose.foundation.clickable
+import java.util.*
+
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun Timetable(navController: NavController) {
-    val context = LocalContext.current
-    // Get the day of the week
+fun Timetable(navController: NavController, context: Context) {
     val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     val calendar = Calendar.getInstance()
     val dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7
@@ -59,7 +62,6 @@ fun Timetable(navController: NavController) {
     var currentDayIndex by remember { mutableIntStateOf(dayOfWeek) }
     var editItemIndex by remember { mutableStateOf(-1) }
     var currentItem by remember { mutableStateOf(TimetableItem("", "", "", "", "", "")) }
-    var shownotification = remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -113,7 +115,7 @@ fun Timetable(navController: NavController) {
                             }
                         },
                         text = { Text(day, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.secondaryColor) },
-                        selectedContentColor = Color.White,
+                        selectedContentColor = globalcolors.textColor,
                         modifier = Modifier.background(globalcolors.primaryColor)
                     )
                 }
@@ -124,18 +126,13 @@ fun Timetable(navController: NavController) {
                 modifier = Modifier.fillMaxSize()
             ) { page ->
                 val timetableItems = timetableData[page]
-                NotificationCard(
-                    title = "New Event",
-                    message = "New Event Added",
-                    visibleState = shownotification
-                )
+
                 LazyColumn(
                     modifier = Modifier
                         .background(addbackbrush)
                         .fillMaxSize()
                         .padding(16.dp)
                 ) {
-
                     itemsIndexed(timetableItems) { index, item ->
                         TimetableItemRow(item,
                             onEdit = {
@@ -187,6 +184,7 @@ fun Timetable(navController: NavController) {
 
 @Composable
 fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Unit) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -302,6 +300,8 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditTimetableItemDialog(
     item: TimetableItem,
@@ -315,36 +315,63 @@ fun AddEditTimetableItemDialog(
     var duration by remember { mutableStateOf(TextFieldValue(item.duration)) }
     var lecturer by remember { mutableStateOf(TextFieldValue(item.lecturer)) }
     var venue by remember { mutableStateOf(TextFieldValue(item.venue)) }
-
+    val units by remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context).map { it.name }) }
+    var expanded by remember { mutableStateOf(false) }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = "Add/Edit Timetable Item",
-            style = myTextStyle,
-            fontSize = 20.sp) },
+        title = { Text(text = "Add/Edit Timetable Item", style = myTextStyle, fontSize = 20.sp) },
         text = {
             Column {
-                OutlinedTextField(
-                    value = unit,
-                    onValueChange = { unit = it },
-                    label = { Text("Unit") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.textColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                ExposedDropdownMenuBox(
+                    expanded = expanded,
+                    onExpandedChange = { expanded = !expanded },
+                    modifier = Modifier.background(globalcolors.primaryColor,
+                        shape = RoundedCornerShape(8.dp))
+                ) {
+                    OutlinedTextField(
+                        value = unit,
+                        onValueChange = { unit = it },
+                        label = { Text("Unit") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .menuAnchor(),
+                        readOnly = true,
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = globalcolors.primaryColor,
+                            unfocusedContainerColor = globalcolors.primaryColor,
+                            focusedIndicatorColor = globalcolors.textColor,
+                            unfocusedIndicatorColor = globalcolors.primaryColor,
+                            focusedLabelColor = globalcolors.textColor,
+                            cursorColor = globalcolors.textColor,
+                            unfocusedLabelColor = globalcolors.textColor,
+                            focusedTextColor = globalcolors.textColor,
+                            unfocusedTextColor = globalcolors.textColor
+                        ),
+                        shape = RoundedCornerShape(8.dp)
                     )
-                )
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.background(globalcolors.secondaryColor)
+                    ) {
+                        units.forEach { unitName ->
+                            DropdownMenuItem(
+                                text = { Text(text = unitName,style = myTextStyle) },
+                                onClick = {
+                                    unit = TextFieldValue(unitName)
+                                    expanded = false
+                                },
+                            )
+                        }
+                    }
+                }
                 OutlinedTextField(
                     value = startTime,
                     onValueChange = { startTime = it },
                     label = { Text("Start Time") },
                     modifier = Modifier.fillMaxWidth(),
+                    readOnly = false,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = globalcolors.primaryColor,
                         unfocusedContainerColor = globalcolors.primaryColor,
@@ -355,7 +382,8 @@ fun AddEditTimetableItemDialog(
                         unfocusedLabelColor = globalcolors.textColor,
                         focusedTextColor = globalcolors.textColor,
                         unfocusedTextColor = globalcolors.textColor
-                    )
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                 )
                 OutlinedTextField(
                     value = duration,
@@ -372,7 +400,8 @@ fun AddEditTimetableItemDialog(
                         unfocusedLabelColor = globalcolors.textColor,
                         focusedTextColor = globalcolors.textColor,
                         unfocusedTextColor = globalcolors.textColor
-                    )
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                 )
                 OutlinedTextField(
                     value = lecturer,
@@ -389,7 +418,8 @@ fun AddEditTimetableItemDialog(
                         unfocusedLabelColor = globalcolors.textColor,
                         focusedTextColor = globalcolors.textColor,
                         unfocusedTextColor = globalcolors.textColor
-                    )
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                 )
                 OutlinedTextField(
                     value = venue,
@@ -406,7 +436,8 @@ fun AddEditTimetableItemDialog(
                         unfocusedLabelColor = globalcolors.textColor,
                         focusedTextColor = globalcolors.textColor,
                         unfocusedTextColor = globalcolors.textColor
-                    )
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                 )
             }
         },
@@ -424,22 +455,24 @@ fun AddEditTimetableItemDialog(
                 )
                 showNotification(context, global.loggedinuser.value, "Added/Edited Timetable Item")
             }) {
-                Text("Save",
-                    style = myTextStyle)
+                Text("Save", style = myTextStyle)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel",
-                    style = myTextStyle)
+                Text("Cancel", style = myTextStyle)
             }
         },
         containerColor = globalcolors.secondaryColor
     )
 }
 
-@Preview(showBackground = true)
+
+
+
+@Preview()
 @Composable
 fun TimetablePreview() {
-    Timetable(navController = rememberNavController())
+    Timetable(rememberNavController(), LocalContext.current)
 }
+

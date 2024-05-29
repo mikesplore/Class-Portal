@@ -55,6 +55,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -80,6 +81,7 @@ fun LoginScreen(navController: NavController, context: Context) {
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var isRegistering by remember { mutableStateOf(false) }
     val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
+    var wrongpassword by remember { mutableStateOf(false)}
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -214,7 +216,11 @@ fun LoginScreen(navController: NavController, context: Context) {
                 }
 
             }
+            AnimatedVisibility(visible = wrongpassword) {
+                Text("Registration ID format: BSCS/001J/2030. The password should be the same as the registration ID.",
+                    style = myTextStyle, fontSize = 14.sp, textAlign = TextAlign.Center)
 
+            }
 
 
             Column(
@@ -305,7 +311,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                     value = global.regID.value,
                     textStyle = TextStyle(fontFamily = RobotoMono),
                     onValueChange = { global.regID.value = it.trimEnd() },
-                    label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
+                    label = { Text(text = "Registration", fontFamily = RobotoMono) },
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = globalcolors.primaryColor,
@@ -443,6 +449,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                                             )
                                         )
                                         FileUtil.saveStudents(context, updatedStudents)
+                                        wrongpassword = false
                                         Toast.makeText(
                                             context,
                                             "${global.selectedcategory.value.capitalize(Locale.ROOT)} registered successfully! Login to continue",
@@ -451,11 +458,13 @@ fun LoginScreen(navController: NavController, context: Context) {
                                         isRegistering = !isRegistering
                                     }
                                 } else {
+                                    wrongpassword = true
                                     Toast.makeText(
                                         context, "Passwords do not match", Toast.LENGTH_SHORT
                                     ).show()
                                 }
                             } else {
+                                wrongpassword = true
                                 Toast.makeText(
                                     context, "Please enter a valid ${
                                         global.selectedcategory.value.capitalize(Locale.ROOT)
@@ -486,6 +495,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                                 }
 
                                 !pattern.matches(global.regID.value) -> {
+                                    wrongpassword = true
                                     Toast.makeText(
                                         navController.context,
                                         "Registration ID format is incorrect",
@@ -494,6 +504,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                                 }
 
                                 password.text != student.registrationID -> {
+                                    wrongpassword = true
                                     Toast.makeText(
                                         navController.context,
                                         "Invalid credentials",
@@ -502,6 +513,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                                 }
 
                                 else -> {
+                                    wrongpassword = false
                                     Toast.makeText(
                                         navController.context,
                                         "Logged in successfully",
@@ -592,6 +604,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                 }
 
             }
+
             Text("Developed by Mike", style = myTextStyle, fontSize = 10.sp)
         }
     }

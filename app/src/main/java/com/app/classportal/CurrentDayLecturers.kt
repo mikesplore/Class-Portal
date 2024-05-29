@@ -108,7 +108,7 @@ fun CurrentDayEventsScreen() {
                             ).show()
                         }
                     )
-                    Divider(color = Color.Gray, thickness = 1.dp)
+                    Divider(color = globalcolors.tertiaryColor, thickness = 1.dp)
                 }
             }
         }

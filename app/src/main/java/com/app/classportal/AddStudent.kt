@@ -49,7 +49,6 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController: NavController) {
@@ -144,9 +143,8 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                     )
 
                     // CustomTextField for student name
-                    CustomTextField(
+                    TextFields(
                         value = firstName,
-
                         onValueChange = { firstName = it },
                         label = "First name"
                     )
@@ -160,9 +158,8 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                     )
 
                     // CustomTextField for student name
-                    CustomTextField(
+                    TextFields(
                         value = lastName,
-
                         onValueChange = { lastName = it },
                         label = "Last name"
                     )
@@ -178,7 +175,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                     )
 
                     // CustomTextField for student ID
-                    CustomTextField(
+                    TextFields(
                         value = studentId,
                         onValueChange = { studentId = it },
                         label = "Student ID"
@@ -193,7 +190,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                             val isValid = firstName.isNotEmpty() && pattern.matches(studentId)
                             if (isValid) {
                                 FileUtil.loadStudents(context).toMutableList().apply {
-                                    add(Student(studentId, firstName, lastName,""))
+                                    add(Student(studentId, firstName, lastName, ""))
                                     FileUtil.saveStudents(
                                         context,
                                         this
@@ -235,28 +232,22 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                             modifier = Modifier.padding(10.dp) // Add padding to the Text
                         )
                     }
-
                 }
-
             }
-
-
         }
-
     }
-
 }
 
 @Composable
-fun CustomTextField(
+fun TextFields(
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
+
     label: String = ""
 ) {
     Spacer(modifier = Modifier.height(8.dp))
     TextField(
-        value = value,
+        value = value.trimEnd(),
         textStyle = TextStyle(
             color = globalcolors.textColor,
             fontFamily = RobotoMono,
@@ -265,7 +256,11 @@ fun CustomTextField(
         label = {
             Text(
                 text = label,
-                style = TextStyle(color = globalcolors.textColor, fontSize = 16.sp, fontFamily = RobotoMono)
+                style = TextStyle(
+                    color = globalcolors.textColor,
+                    fontSize = 16.sp,
+                    fontFamily = RobotoMono
+                )
             )
         },
         onValueChange = onValueChange,

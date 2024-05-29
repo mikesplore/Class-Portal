@@ -311,7 +311,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                     value = global.regID.value,
                     textStyle = TextStyle(fontFamily = RobotoMono),
                     onValueChange = { global.regID.value = it.trimEnd() },
-                    label = { Text(text = "Registration", fontFamily = RobotoMono) },
+                    label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = globalcolors.primaryColor,
@@ -473,8 +473,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                             }
                         } else { // Login logic
                             val students = FileUtil.loadStudents(context)
-                            val student =
-                                students.find { it.registrationID == global.regID.value } // Use regID.text directly
+                            val student = students.find { it.registrationID == global.regID.value } // Use regID.text directly
 
                             // Check if student exists and credentials match
                             when {

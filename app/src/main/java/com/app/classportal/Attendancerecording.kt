@@ -35,13 +35,8 @@ fun RecordAttendanceScreen(
     navController: NavController,
     context: Context
 ) {
+    val units = remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context).map { it.name }) }
     val students = FileUtil.loadStudents(context)
-    val units = listOf(
-        "Calculus II",
-        "Linear Algebra",
-        "Statistics I",
-        "Probability and Statistics"
-    ) // Replace with actual units
     val pagerState = rememberPagerState()
     val attendanceRecords = remember { mutableStateMapOf<String, MutableState<Boolean>>() }
     val checkboxStates = remember { mutableStateMapOf<String, MutableState<Boolean>>() }
@@ -58,7 +53,7 @@ fun RecordAttendanceScreen(
     }.value
 
     // Initialize the attendance and checkbox states
-    units.forEach { unit ->
+    units.value.forEach { unit ->
         students.forEach { student ->
             val key = "${student.registrationID}-$unit"
             if (key !in attendanceRecords) {
@@ -106,7 +101,7 @@ fun RecordAttendanceScreen(
                 actions = {
                     Button(onClick = {
                         val allRecords = FileUtil.loadAttendanceRecords(context).toMutableList()
-                        units.forEach { unit ->
+                        units.value.forEach { unit ->
                             students.forEach { student ->
                                 val key = "${student.registrationID}-$unit"
                                 val isPresent = attendanceRecords[key]?.value ?: false
@@ -149,7 +144,7 @@ fun RecordAttendanceScreen(
                 selectedTabIndex = pagerState.currentPage,
                 edgePadding = 0.dp
             ) {
-                units.forEachIndexed { index, unit ->
+                units.value.forEachIndexed { index, unit ->
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = {
@@ -161,17 +156,17 @@ fun RecordAttendanceScreen(
                             Text(
                                 unit,
                                 fontFamily = RobotoMono,
-                                color = if (pagerState.currentPage == index) globalcolors.textColor else Color.Gray
+                                color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.tertiaryColor
                             )
                         },
                         selectedContentColor = globalcolors.textColor,
-                        unselectedContentColor = Color.Gray,
+                        unselectedContentColor = globalcolors.tertiaryColor,
                         modifier = Modifier.background(globalcolors.primaryColor)
                     )
                 }
             }
             HorizontalPager(
-                count = units.size,
+                count = units.value.size,
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
@@ -181,7 +176,7 @@ fun RecordAttendanceScreen(
                         .padding(8.dp)
                 ) {
                     itemsIndexed(students) { _, student ->
-                        val key = "${student.registrationID}-${units[page]}"
+                        val key = "${student.registrationID}-${units.value[page]}"
                         val isPresent = attendanceRecords[key] ?: mutableStateOf(false)
                         val checkboxEnabled = checkboxStates[key] ?: mutableStateOf(true)
 
@@ -206,7 +201,7 @@ fun RecordAttendanceScreen(
                                 }
                             )
                         }
-                        Divider(color = Color.Gray, thickness = 1.dp)
+                        Divider(color = globalcolors.tertiaryColor, thickness = 1.dp)
                     }
                 }
             }

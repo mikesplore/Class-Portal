@@ -38,6 +38,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,6 +70,9 @@ val center = Offset(0.5f, 0.5f)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(navController: NavController,context: Context) {
+    LaunchedEffect(Unit) {
+        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+    }
     var password by remember { mutableStateOf(TextFieldValue()) }
     var confirmPassword by remember { mutableStateOf(TextFieldValue()) }
     var passwordVisibility by remember { mutableStateOf(false) }
@@ -517,6 +521,9 @@ Scaffold(
                 )
 
             ) {
+                LaunchedEffect(Unit) {
+                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                }
 
                     Text(
                         text = if (isRegistering) "Register" else "Login",
@@ -539,11 +546,18 @@ Scaffold(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                LaunchedEffect(Unit) {
+                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                }
                 Text(
                     text = if (isRegistering) "Already have an account? " else "Don't have an account? ",
                     style = myTextStyle,
                 )
+                LaunchedEffect(Unit) {
+                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                }
                 Text(
+
                     text = if (isRegistering) "Login" else "Register",
                     style = myTextStyle,
                     color = globalcolors.tertiaryColor,
@@ -557,9 +571,15 @@ Scaffold(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                LaunchedEffect(Unit) {
+                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                }
                 val text = if (isRegistering) "Register" else "Login"
                 val category =
                     if (global.selectedcategory.value == "Student") "Class Rep" else "Student"
+                LaunchedEffect(Unit) {
+                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                }
                 Text(text = "$text as a $category? ", style = myTextStyle)
                 Text(
                     text = "Click here",

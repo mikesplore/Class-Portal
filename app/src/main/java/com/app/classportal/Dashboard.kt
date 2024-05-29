@@ -468,7 +468,7 @@ fun Dashboard(navController: NavController, context: Context) {
                 }
                 if (showrestarting) {
                     AlertDialog(
-                        title = { Text(text = "Refresh screens", style = myTextStyle) },
+                        title = { Text(text = "App refresh required", style = myTextStyle) },
                         text = {
                             Column(
                                 modifier = Modifier
@@ -477,10 +477,7 @@ fun Dashboard(navController: NavController, context: Context) {
                             ){
                                 Text(text = "The app will refresh for the colors to load properly",
                                     style = myTextStyle)
-                                Text(text = "Please note that some parts of the app will take some time to load new colors even after screen refresh",
-                                    style = myTextStyle,
-                                    textAlign = TextAlign.Center,
-                                    color = globalcolors.textColor.copy(alpha = 0.5f))
+
                             }
 
                         },

@@ -6,18 +6,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -94,8 +88,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
 fun AttendanceReportContent(context: Context) {
     var students by remember { mutableStateOf(FileUtil.loadStudents(context)) }
     val attendanceRecords = FileUtil.loadAttendanceRecords(context)
-    val units =
-        listOf("Calculus II", "Linear Algebra", "Statistics I", "Probability and Statistics")
+    val units = remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context).map { it.name }) }
     val pagerState = rememberPagerState()
     val originalStudents = remember { students.toList() } // Store a copy of original data
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
@@ -111,207 +104,215 @@ fun AttendanceReportContent(context: Context) {
         )
     }.value
 
+    LaunchedEffect(Unit) {
+        val units =FileUtil.loadUnitsAndAssignments(context)
+    }
+
     Column(
         modifier = Modifier
             .background(addbackbrush)
             .fillMaxSize()
     ) {
-        ScrollableTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            edgePadding = 0.dp
-        ) {
-            units.forEachIndexed { index, unit ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            pagerState.scrollToPage(index)
-                        }
-                    },
-                    text = {
-                        Text(
-                            unit,
-                            style = myTextStyle,
-                            color = if (pagerState.currentPage == index) globalcolors.textColor else Color.Gray
-                        )
-                    },
-                    selectedContentColor = globalcolors.textColor,
-                    unselectedContentColor = Color.Gray,
-                    modifier = Modifier.background(globalcolors.primaryColor),
-                )
-            }
-        }
-        HorizontalPager(
-            count = units.size,
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { page ->
-            val filteredAttendanceRecords = attendanceRecords.filter { it.unit == units[page] }
-
-            val studentAttendance = students.map { student ->
-                val totalPresent =
-                    filteredAttendanceRecords.count { it.studentId == student.registrationID && it.present }
-                val totalAbsent =
-                    filteredAttendanceRecords.count { it.studentId == student.registrationID && !it.present }
-                val totalSessions = totalPresent + totalAbsent
-                val attendancePercentage =
-                    if (totalSessions > 0) (totalPresent * 100 / totalSessions) else 0
-                StudentAttendance(student, totalPresent, totalAbsent, attendancePercentage)
-            }.sortedByDescending { it.attendancePercentage }
-
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp)
+        if (units.value.isNotEmpty()) {
+            ScrollableTabRow(
+                selectedTabIndex = pagerState.currentPage,
+                edgePadding = 0.dp
             ) {
-                item {
-                    Column {
-                        OutlinedTextField(
-                            value = searchQuery,
-                            onValueChange = { query ->
-                                searchQuery = query
-                                students = if (query.text.isNotBlank()) {
-                                    originalStudents.filter {
-                                        it.firstName.contains(query.text, ignoreCase = true) ||
-                                                it.lastName.contains(
-                                                    query.text,
-                                                    ignoreCase = true
-                                                ) ||
-                                                it.registrationID.contains(
-                                                    query.text,
-                                                    ignoreCase = true
-                                                )
+                units.value.forEachIndexed { index, unit ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                pagerState.scrollToPage(index)
+                            }
+                        },
+                        text = {
+                            Text(
+                                unit,
+                                style = myTextStyle,
+                                color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.tertiaryColor
+                            )
+                        },
+                        selectedContentColor = globalcolors.textColor,
+                        unselectedContentColor = globalcolors.tertiaryColor,
+                        modifier = Modifier.background(globalcolors.primaryColor),
+                    )
+                }
+            }
+            HorizontalPager(
+                count = units.value.size,
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                val filteredAttendanceRecords = attendanceRecords.filter { it.unit == units.value[page] }
+
+
+                val studentAttendance = students.map { student ->
+                    val totalPresent =
+                        filteredAttendanceRecords.count { it.studentId == student.registrationID && it.present }
+                    val totalAbsent =
+                        filteredAttendanceRecords.count { it.studentId == student.registrationID && !it.present }
+                    val totalSessions = totalPresent + totalAbsent
+                    val attendancePercentage =
+                        if (totalSessions > 0) (totalPresent * 100 / totalSessions) else 0
+                    StudentAttendance(student, totalPresent, totalAbsent, attendancePercentage)
+                }.sortedByDescending { it.attendancePercentage }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp)
+                ) {
+                    item {
+                        Column {
+                            OutlinedTextField(
+                                value = searchQuery,
+                                onValueChange = { query ->
+                                    searchQuery = query
+                                    students = if (query.text.isNotBlank()) {
+                                        originalStudents.filter {
+                                            it.firstName.contains(query.text, ignoreCase = true) ||
+                                                    it.lastName.contains(
+                                                        query.text,
+                                                        ignoreCase = true
+                                                    ) ||
+                                                    it.registrationID.contains(
+                                                        query.text,
+                                                        ignoreCase = true
+                                                    )
+                                        }
+                                    } else {
+                                        originalStudents
                                     }
-                                } else {
-                                    originalStudents
-                                }
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Search,
-                                    contentDescription = "Search",
-                                    tint = globalcolors.textColor
-                                )
-                            },
-                            placeholder = {
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Filled.Search,
+                                        contentDescription = "Search",
+                                        tint = globalcolors.textColor
+                                    )
+                                },
+                                placeholder = {
+                                    Text(
+                                        "Search",
+                                        style = myTextStyle,
+                                    )
+                                },
+                                modifier = Modifier
+                                    .background(globalcolors.primaryColor)
+                                    .height(50.dp)
+                                    .fillMaxWidth(),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = TextFieldDefaults.colors(
+                                    focusedIndicatorColor = globalcolors.textColor,
+                                    unfocusedIndicatorColor = globalcolors.primaryColor,
+                                    focusedLabelColor = globalcolors.textColor,
+                                    cursorColor = globalcolors.textColor,
+                                    unfocusedLabelColor = globalcolors.textColor,
+                                    focusedTextColor = globalcolors.textColor,
+                                    unfocusedTextColor = globalcolors.textColor,
+                                    focusedContainerColor = globalcolors.primaryColor,
+                                    unfocusedContainerColor = globalcolors.primaryColor
+                                ),
+                                textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.textColor)
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Row(
+                                modifier = Modifier
+                                    .background(color = globalcolors.primaryColor)
+                                    .padding(16.dp),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
                                 Text(
-                                    "Search",
+                                    "Name",
+                                    modifier = Modifier.weight(1f),
+                                    textAlign = TextAlign.Start,
                                     fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Bold,
                                     color = globalcolors.textColor
                                 )
-                            },
-                            modifier = Modifier
-                                .height(50.dp)
-                                .fillMaxWidth(),
-                            shape = RoundedCornerShape(8.dp),
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = globalcolors.primaryColor,
-                                unfocusedContainerColor = globalcolors.primaryColor,
-                                focusedIndicatorColor = globalcolors.textColor,
-                                unfocusedIndicatorColor = globalcolors.primaryColor,
-                                focusedLabelColor = globalcolors.textColor,
-                                cursorColor = globalcolors.textColor,
-                                unfocusedLabelColor = globalcolors.textColor,
-                                focusedTextColor = globalcolors.textColor,
-                                unfocusedTextColor = globalcolors.textColor
+                                Text(
+                                    "Present",
+                                    modifier = Modifier.weight(1f),
+                                    textAlign = TextAlign.Center,
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Bold,
+                                    color = globalcolors.textColor
+                                )
+                                Text(
+                                    "Absent",
+                                    modifier = Modifier.weight(1f),
+                                    textAlign = TextAlign.Center,
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Bold,
+                                    color = globalcolors.textColor
+                                )
+                                Text(
+                                    "Percent",
+                                    modifier = Modifier.weight(1f),
+                                    textAlign = TextAlign.Center,
+                                    fontFamily = RobotoMono,
+                                    fontWeight = FontWeight.Bold,
+                                    color = globalcolors.textColor
+                                )
+                            }
+                            Divider(color = globalcolors.tertiaryColor, thickness = 1.dp)
+                        }
+                    }
 
-                            ),
-                            textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.textColor)
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
+                    itemsIndexed(studentAttendance) { _, studentAttendance ->
                         Row(
-                            modifier = Modifier
-                                .background(color = globalcolors.primaryColor)
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+                            modifier = Modifier.padding(16.dp)
                         ) {
+                            val percentageColor = when {
+                                studentAttendance.attendancePercentage >= 75 -> Color(0xff51b541)
+                                studentAttendance.attendancePercentage >= 50 -> Color.Yellow
+                                else -> Color.Red
+                            }
+
                             Text(
-                                "Name",
+                                studentAttendance.student.firstName,
                                 modifier = Modifier.weight(1f),
                                 textAlign = TextAlign.Start,
                                 fontFamily = RobotoMono,
-                                fontWeight = FontWeight.Bold,
                                 color = globalcolors.textColor
                             )
                             Text(
-                                "Present",
+                                "${studentAttendance.totalPresent}",
                                 modifier = Modifier.weight(1f),
                                 textAlign = TextAlign.Center,
                                 fontFamily = RobotoMono,
-                                fontWeight = FontWeight.Bold,
                                 color = globalcolors.textColor
                             )
                             Text(
-                                "Absent",
+                                "${studentAttendance.totalAbsent}",
                                 modifier = Modifier.weight(1f),
                                 textAlign = TextAlign.Center,
                                 fontFamily = RobotoMono,
-                                fontWeight = FontWeight.Bold,
                                 color = globalcolors.textColor
                             )
                             Text(
-                                "Percent",
+                                "${studentAttendance.attendancePercentage}%",
                                 modifier = Modifier.weight(1f),
                                 textAlign = TextAlign.Center,
+                                color = percentageColor,
                                 fontFamily = RobotoMono,
-                                fontWeight = FontWeight.Bold,
-                                color = globalcolors.textColor
+                                fontWeight = FontWeight.Bold
                             )
                         }
-                        Divider(color = Color.Gray, thickness = 1.dp)
+                        Divider(color = globalcolors.tertiaryColor, thickness = 1.dp)
                     }
                 }
-
-                itemsIndexed(studentAttendance) { _, studentAttendance ->
-                    Row(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        val percentageColor = when {
-                            studentAttendance.attendancePercentage >= 75 -> Color(0xff51b541)
-                            studentAttendance.attendancePercentage >= 50 -> Color.Yellow
-                            else -> Color.Red
-                        }
-
-                        Text(
-                            studentAttendance.student.firstName,
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Start,
-                            fontFamily = RobotoMono,
-                            color = globalcolors.textColor
-                        )
-                        Text(
-                            "${studentAttendance.totalPresent}",
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center,
-                            fontFamily = RobotoMono,
-                            color = globalcolors.textColor
-                        )
-                        Text(
-                            "${studentAttendance.totalAbsent}",
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center,
-                            fontFamily = RobotoMono,
-                            color = globalcolors.textColor
-                        )
-                        Text(
-                            "${studentAttendance.attendancePercentage}%",
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center,
-                            color = percentageColor,
-                            fontFamily = RobotoMono,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                    Divider(color = Color.Gray, thickness = 1.dp)
-
-                }
-
             }
-
+        } else {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(color = globalcolors.textColor)
+            }
         }
-
-
     }
 }
 

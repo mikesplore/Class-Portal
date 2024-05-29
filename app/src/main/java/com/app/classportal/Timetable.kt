@@ -450,7 +450,7 @@ fun AddEditTimetableItemDialog(
                         day
                     )
                 )
-                showNotification(context, global.loggedinuser.value, "Added/Edited Timetable Item")
+                showNotification(context, global.loggedinuser.value, "Added or Edited Timetable Item")
             }) {
                 Text("Save", style = myTextStyle)
             }

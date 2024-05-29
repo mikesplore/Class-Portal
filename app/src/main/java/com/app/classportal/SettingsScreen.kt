@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,12 +16,14 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.ArrowOutward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.outlined.ArrowOutward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,7 +42,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
     var newlastname by remember { mutableStateOf("") }
     var newusername by remember { mutableStateOf("") }
     var studentFound by remember { mutableStateOf(false) }
-    var showPaletteDialog by remember { mutableStateOf(false) }
+    var palleteDialog by remember { mutableStateOf(false) }
     var showusername by remember { mutableStateOf(false) }
     var showrestarting by remember { mutableStateOf(false) }
 
@@ -198,7 +201,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
                 onCheckedChange = { checked ->
                     showusername = checked
 
-                    if (checked) { // Only check when the switch is turned ON
+                   /* if (checked) { // Only check when the switch is turned ON
                         if (student != null) {
                             if (student.username.isNotEmpty()) {
                                 global.loggedinuser.value = student.username
@@ -207,7 +210,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                 showusername = false // Reset the switch if no username is set
                             }
                         }
-                    }
+                    }*/
                 }
             )
 
@@ -229,22 +232,46 @@ fun SettingsScreen(navController: NavController, context: Context) {
                     style = myTextStyle,
                     )
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { showPaletteDialog = true }) {
+                IconButton(onClick = { palleteDialog = true }) {
                     Icon(imageVector = Icons.Default.ArrowOutward, contentDescription = "edit", tint = globalcolors.textColor)
 
 
-                    if (showPaletteDialog) {
+                    if (palleteDialog) {
                         AlertDialog(
-                            title = { Text(text = "Colors Settings", style = myTextStyle) },
+                            title = { Text(text = "Colors Palette", style = myTextStyle) },
                             text = {
                                 ColorSettings(context,
-                                    onsave = { showPaletteDialog = false},
-                                    onrevert = {showrestarting = true})
+
+                                    onsave = {
+                                        palleteDialog = false
+                                        showrestarting = true},
+                                    onrevert = {palleteDialog = false
+                                        showrestarting = true})
                             },
-                            onDismissRequest = { showPaletteDialog = false },
+                            onDismissRequest = { palleteDialog = true },
                             confirmButton = {
+                                Row(modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ){
+                                    val uriHandler = LocalUriHandler.current
+                                    Text(
+                                        text = "Choose Color palette ",
+                                        color = globalcolors.tertiaryColor,
+                                        style = myTextStyle,
+                                        modifier = Modifier.clickable {
+                                            uriHandler.openUri("https://colorhunt.co/") // Open URI in browser
+                                        }
+                                    )
+                                    Icon(imageVector = Icons.Outlined.ArrowOutward, contentDescription = "Choose Color palette",
+                                        tint = globalcolors.tertiaryColor,
+                                        modifier = Modifier.clickable {
+                                            uriHandler.openUri("https://colorhunt.co/") // Open URI in browser
+                                        })
+                                }
 
                             },
+
                             containerColor = globalcolors.secondaryColor
                         )
                     }
@@ -254,7 +281,6 @@ fun SettingsScreen(navController: NavController, context: Context) {
                             text = {
                                 Column(
                                     modifier = Modifier,
-
                                     verticalArrangement = Arrangement.SpaceBetween
                                 ){
                                     Text(text = "The app will refresh for the colors to load properly",
@@ -308,6 +334,15 @@ fun SettingsScreen(navController: NavController, context: Context) {
                 text = "Version 1.2.5",
                 style = myTextStyle,
                 color = globalcolors.textColor
+            )
+            val uriHandler = LocalUriHandler.current
+            Text(
+                text = "Contact Developer Mike ",
+                color = globalcolors.tertiaryColor,
+                style = myTextStyle,
+                modifier = Modifier.clickable {
+                    uriHandler.openUri("https://wa.me/+254799013845?text=Hi%20Mike") // Open URI in browser
+                }
             )
         }
     }

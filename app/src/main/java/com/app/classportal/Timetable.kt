@@ -76,7 +76,7 @@ fun Timetable(navController: NavController, context: Context) {
             TopAppBar(
                 title = { Text("Timetable", fontFamily = RobotoMono, color = globalcolors.textColor, fontSize = 20.sp) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate("dashboard") }) {
+                    IconButton(onClick = { navController.navigate("welcome") }) {
                         Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = globalcolors.textColor)
                     }
                 },
@@ -147,7 +147,7 @@ fun Timetable(navController: NavController, context: Context) {
                                 saveTimetable(context, timetableData)
                             }
                         )
-                        Divider(color = Color.Gray, thickness = 1.dp)
+                        Divider(color = globalcolors.secondaryColor, thickness = 1.dp)
                     }
                 }
             }

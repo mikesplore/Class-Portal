@@ -467,7 +467,7 @@ fun AddEditTimetableItemDialog(
 
 
 
-@Preview()
+@Preview
 @Composable
 fun TimetablePreview() {
     Timetable(rememberNavController(), LocalContext.current)

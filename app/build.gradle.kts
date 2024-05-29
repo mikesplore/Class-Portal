@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.compose.material)
     testImplementation(libs.junit)
     implementation(libs.androidx.activity.ktx)
     androidTestImplementation(libs.androidx.junit)

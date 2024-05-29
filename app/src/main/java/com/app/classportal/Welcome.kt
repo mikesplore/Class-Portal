@@ -74,7 +74,7 @@ fun WelcomeScreen(navController: NavHostController, context: Context) {
         Text(
             text = "CLASS PORTAL",
             style = TextStyle(
-                color = globalcolors.secondaryColor,
+                color = globalcolors.tertiaryColor,
                 fontSize = 60.sp,
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = FontFamily.Serif,

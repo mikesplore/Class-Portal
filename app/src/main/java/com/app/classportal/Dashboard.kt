@@ -427,41 +427,25 @@ fun Dashboard(navController: NavController, context: Context) {
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.Center,
             ) {
+                LaunchedEffect(Unit) {
+                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                }
                 if (palleteDialog) {
                     AlertDialog(
-                        title = { Text(text = "Colors Settings", style = myTextStyle) },
+                        title = { Text(text = "Colors Palette", style = myTextStyle) },
                         text = {
-                            ColorSettings(context)
+                            ColorSettings(context,
+                                onsave = {
+                                    palleteDialog = false
+                                         showrestarting = true},
+                                onrevert = {palleteDialog = false
+                                showrestarting = true})
                         },
                         onDismissRequest = { palleteDialog = true },
                         confirmButton = {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ){
-                                Button(onClick = {
-                                    globalcolors.resetToDefaultColors(context)
-                                    palleteDialog = false
-                                    showrestarting = true
-                                },
-                                    shape = RoundedCornerShape(10.dp),
-                                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
-                                    Text(text = "Default colors", style = myTextStyle)
-                                }
-                                Button(onClick = {
 
-                                    palleteDialog = false
-                                    showrestarting = true
-
-                                },
-                                    shape = RoundedCornerShape(10.dp),
-                                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
-                                    Text(text = "Ok",
-                                        style = myTextStyle,)
-                                }}
                         },
-                        modifier = Modifier.height(420.dp),
+
                         containerColor = globalcolors.secondaryColor
                     )
                 }
@@ -525,7 +509,8 @@ fun Dashboard(navController: NavController, context: Context) {
                             image = painterResource(id = item.first.first),
                             description = item.first.second,
                             route = item.second,
-                            navController = navController
+                            navController = navController,
+                            context = context
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                     }
@@ -611,9 +596,9 @@ fun Dashboard(navController: NavController, context: Context) {
 
                     // Content based on selected tab
                     when (selectedTabIndex) {
-                        0 -> AnnouncementTabContent(navController)
+                        0 -> AnnouncementTabContent(navController, context)
                         1 -> AttendanceTabContent(context, navController)
-                        2 -> TimetableTabContent()
+                        2 -> TimetableTabContent(context)
                         3 -> AssignmentsTabContent(navController, context)
                         4 -> StudentsTabContent(navController, context)
 
@@ -629,7 +614,10 @@ fun Dashboard(navController: NavController, context: Context) {
 
 
 @Composable
-fun LatestAnnouncement() {
+fun LatestAnnouncement(context: Context) {
+    LaunchedEffect(Unit) {
+        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+    }
     val announcements = loadAnnouncement(LocalContext.current)
     val latestAnnouncement = announcements.lastOrNull()
     val addbackbrush = remember {
@@ -705,7 +693,7 @@ fun LatestAnnouncement() {
 
 
 @Composable
-fun TopBoxes(image: Painter, description: String, route: String, navController: NavController) {
+fun TopBoxes(image: Painter, description: String, route: String, navController: NavController, context: Context) {
     Row(
         modifier = Modifier
             .clickable {
@@ -716,6 +704,9 @@ fun TopBoxes(image: Painter, description: String, route: String, navController: 
             .width(350.dp)
     ) {
         Box(modifier = Modifier) {
+            LaunchedEffect(Unit) {
+                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+            }
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(30.dp))
@@ -763,6 +754,7 @@ fun TopBoxes(image: Painter, description: String, route: String, navController: 
 
 @Composable
 fun AttendanceBox(
+    context: Context,
     imageUrl: String,
     content: String,
     route: String,
@@ -776,6 +768,9 @@ fun AttendanceBox(
             .width(200.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
+            LaunchedEffect(Unit) {
+                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+            }
             Box(
                 modifier = Modifier
                     .clickable {
@@ -821,7 +816,12 @@ fun AttendanceBox(
 
 
 @Composable
-fun AnnouncementTabContent(navController: NavController) {
+fun AnnouncementTabContent(navController: NavController, context: Context) {
+
+        LaunchedEffect(Unit) {
+            globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        }
+
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -854,7 +854,8 @@ fun AnnouncementTabContent(navController: NavController) {
                     student = announcement?.student ?: "No announcement",
                     content = announcement?.description ?: "No announcement",
                     route = "announcements",
-                    navController = navController
+                    navController = navController,
+                    context = context
                 )
             }
         }
@@ -868,7 +869,7 @@ fun AnnouncementTabContent(navController: NavController) {
             fontFamily = RobotoMono,
             modifier = Modifier.padding(16.dp)
         )
-        LatestAnnouncement()
+        LatestAnnouncement(context)
 
 
     }
@@ -876,6 +877,9 @@ fun AnnouncementTabContent(navController: NavController) {
 
 @Composable
 fun AttendanceTabContent(context: Context, navController: NavController) {
+    LaunchedEffect(Unit) {
+        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -921,17 +925,22 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
         ) {
             Spacer(modifier = Modifier.width(10.dp))
             AttendanceBox(
+                context = context,
                 imageUrl = imageUrls[0],
                 content = "Sign Attendance",
                 "RecordAttendance",
-                navController
+                navController,
+
+
             )
             Spacer(modifier = Modifier.width(10.dp))
             AttendanceBox(
+                context = context,
                 imageUrl = imageUrls[1],
                 content = "View Attendance Report",
                 "AttendanceReport",
-                navController
+                navController,
+
             )
             Spacer(modifier = Modifier.width(10.dp))
 
@@ -942,13 +951,19 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
 
 
 @Composable
-fun TimetableTabContent() {
+fun TimetableTabContent(context: Context) {
+    LaunchedEffect(Unit) {
+        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+    }
     CurrentDayEventsScreen()
 
 }
 
 @Composable
 fun AssignmentsTabContent(navController: NavController, context: Context) {
+    LaunchedEffect(Unit) {
+        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+    }
     Assignments(navController = navController, context = context)
 }
 
@@ -1113,6 +1128,7 @@ fun StudentsTabContent(navController: NavController, context: Context) {
 
 @Composable
 fun AnnouncementBoxes(
+    context: Context,
     date: String,
     student: String,
     title: String,
@@ -1120,6 +1136,9 @@ fun AnnouncementBoxes(
     route: String,
     navController: NavController
 ) {
+    LaunchedEffect(Unit) {
+        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+    }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(

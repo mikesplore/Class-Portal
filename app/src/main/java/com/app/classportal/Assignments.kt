@@ -22,8 +22,10 @@ import androidx.navigation.NavController
 import com.app.classportal.Assignment
 import com.app.classportal.FileUtil
 import com.app.classportal.UnitData
+import com.app.classportal.global
 import com.app.classportal.globalcolors
 import com.app.classportal.myTextStyle
+import com.app.classportal.showNotification
 import com.app.classportal.ui.theme.RobotoMono
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
@@ -289,6 +291,7 @@ fun AssignmentScreen(navController: NavController, context: Context) {
 
     if (showAssignmentDialog) {
         AddEditAssignmentDialog(
+            context = context,
             item = currentAssignment,
             unit = currentUnit.name,
             onDismiss = { showAssignmentDialog = false },
@@ -401,6 +404,7 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
 
 @Composable
 fun AddEditAssignmentDialog(
+    context: Context,
     item: Assignment,
     unit: String,
     onDismiss: () -> Unit,
@@ -461,6 +465,12 @@ fun AddEditAssignmentDialog(
         },
         confirmButton = {
             TextButton(onClick = {
+                showNotification(
+                    context,
+                    "New Assignment",
+                    "${global.loggedinuser.value} added a new assignment to $unit",
+
+                )
                 onSave(Assignment(title.text, description.text))
             }) {
                 Text("Save", style = myTextStyle, color = globalcolors.primaryColor)

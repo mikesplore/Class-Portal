@@ -231,57 +231,35 @@ fun SettingsScreen(navController: NavController, context: Context) {
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { showPaletteDialog = true }) {
                     Icon(imageVector = Icons.Default.ArrowOutward, contentDescription = "edit", tint = globalcolors.textColor)
+
+
                     if (showPaletteDialog) {
                         AlertDialog(
                             title = { Text(text = "Colors Settings", style = myTextStyle) },
                             text = {
-                                ColorSettings(context)
+                                ColorSettings(context,
+                                    onsave = { showPaletteDialog = false},
+                                    onrevert = {showrestarting = true})
                             },
                             onDismissRequest = { showPaletteDialog = false },
                             confirmButton = {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ){
-                                    Button(onClick = {
-                                        globalcolors.resetToDefaultColors(context)
-                                        showPaletteDialog = false
-                                        showrestarting = true
-                                    },
-                                        shape = RoundedCornerShape(10.dp),
-                                        colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
-                                        Text(text = "Default colors", style = myTextStyle)
-                                    }
-                                    Button(onClick = {
-                                        showPaletteDialog = false
-                                        showrestarting = true
-                                                     },
-                                        shape = RoundedCornerShape(10.dp),
-                                        colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
-                                        Text(text = "Ok",
-                                            style = myTextStyle,)
-                                    }}
+
                             },
-                            modifier = Modifier.height(420.dp),
                             containerColor = globalcolors.secondaryColor
                         )
                     }
                     if (showrestarting) {
                         AlertDialog(
-                            title = { Text(text = "Refresh screens", style = myTextStyle) },
+                            title = { Text(text = "App refresh required", style = myTextStyle) },
                             text = {
                                 Column(
-                                    modifier = Modifier
-                                        .height(130.dp),
+                                    modifier = Modifier,
+
                                     verticalArrangement = Arrangement.SpaceBetween
                                 ){
                                     Text(text = "The app will refresh for the colors to load properly",
                                         style = myTextStyle)
-                                    Text(text = "Please note that some parts of the app will take some time to load new colors even after screen refresh",
-                                        style = myTextStyle,
-                                        textAlign = TextAlign.Center,
-                                        color = globalcolors.textColor.copy(alpha = 0.5f))
+
                                 }
 
                             },

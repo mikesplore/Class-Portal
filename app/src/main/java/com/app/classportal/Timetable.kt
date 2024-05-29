@@ -57,7 +57,7 @@ fun Timetable(navController: NavController, context: Context) {
     var timetableData by remember { mutableStateOf(loadTimetable(context)) }
     var showDialog by remember { mutableStateOf(false) }
     var currentDayIndex by remember { mutableIntStateOf(dayOfWeek) }
-    var editItemIndex by remember { mutableStateOf(-1) }
+    var editItemIndex by remember { mutableIntStateOf(-1) }
     var currentItem by remember { mutableStateOf(TimetableItem("", "", "", "", "", "")) }
     val addbackbrush = remember {
         mutableStateOf(

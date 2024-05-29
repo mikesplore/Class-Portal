@@ -59,6 +59,7 @@ fun Timetable(navController: NavController) {
     var currentDayIndex by remember { mutableIntStateOf(dayOfWeek) }
     var editItemIndex by remember { mutableStateOf(-1) }
     var currentItem by remember { mutableStateOf(TimetableItem("", "", "", "", "", "")) }
+    var shownotification = remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -123,12 +124,18 @@ fun Timetable(navController: NavController) {
                 modifier = Modifier.fillMaxSize()
             ) { page ->
                 val timetableItems = timetableData[page]
+                NotificationCard(
+                    title = "New Event",
+                    message = "New Event Added",
+                    visibleState = shownotification
+                )
                 LazyColumn(
                     modifier = Modifier
                         .background(addbackbrush)
                         .fillMaxSize()
                         .padding(16.dp)
                 ) {
+
                     itemsIndexed(timetableItems) { index, item ->
                         TimetableItemRow(item,
                             onEdit = {

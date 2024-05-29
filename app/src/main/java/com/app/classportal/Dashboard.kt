@@ -27,9 +27,11 @@ import androidx.compose.material.icons.automirrored.filled.NoteAdd
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.outlined.ArrowOutward
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
@@ -52,11 +54,15 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,6 +75,7 @@ import com.app.classportal.FileUtil.getAssignment
 import com.app.classportal.FileUtil.loadAnnouncement
 import kotlinx.coroutines.launch
 import java.time.LocalTime
+import java.util.Calendar
 
 
 val imageUrls = listOf(
@@ -106,17 +113,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
     var palleteDialog by remember { mutableStateOf(false) }
     var showrestarting by remember { mutableStateOf(false) }
-    val addbackbrush = remember {
-        mutableStateOf(
-            Brush.verticalGradient(
-                colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
-                )
-            )
-        )
-    }.value
+
 
 
     val greetingMessage by remember { mutableStateOf(getGreetingMessage()) }
@@ -178,7 +175,7 @@ fun Dashboard(navController: NavController, context: Context) {
                     Box {
                         IconButton(onClick = { expanded = true }) {
                             Icon(
-                                imageVector = Icons.Filled.AccountCircle,
+                                imageVector = Icons.Filled.Menu,
                                 contentDescription = "Profile",
                                 tint = globalcolors.textColor,
                                 modifier = Modifier.size(35.dp)
@@ -435,6 +432,7 @@ fun Dashboard(navController: NavController, context: Context) {
                         title = { Text(text = "Colors Palette", style = myTextStyle) },
                         text = {
                             ColorSettings(context,
+
                                 onsave = {
                                     palleteDialog = false
                                          showrestarting = true},
@@ -443,6 +441,25 @@ fun Dashboard(navController: NavController, context: Context) {
                         },
                         onDismissRequest = { palleteDialog = true },
                         confirmButton = {
+                            Row(modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                                ){
+                                val uriHandler = LocalUriHandler.current
+                                Text(
+                                    text = "Choose Color palette ",
+                                    color = globalcolors.tertiaryColor,
+                                    style = myTextStyle,
+                                    modifier = Modifier.clickable {
+                                        uriHandler.openUri("https://colorhunt.co/") // Open URI in browser
+                                    }
+                                )
+                                Icon(imageVector = Icons.Outlined.ArrowOutward, contentDescription = "Choose Color palette",
+                                    tint = globalcolors.tertiaryColor,
+                                    modifier = Modifier.clickable {
+                                        uriHandler.openUri("https://colorhunt.co/") // Open URI in browser
+                                    })
+                            }
 
                         },
 
@@ -583,7 +600,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                             text = title,
                                             fontFamily = RobotoMono,
                                             fontSize = 13.sp,
-                                            color = if (selectedTabIndex == index) globalcolors.textColor else Color.LightGray
+                                            color = if (selectedTabIndex == index) globalcolors.textColor else globalcolors.tertiaryColor,
                                         )
                                     }
                                 },
@@ -639,46 +656,43 @@ fun LatestAnnouncement(context: Context) {
                 color = globalcolors.primaryColor,
                 shape = RoundedCornerShape(30.dp)
             )
-            .height(200.dp)
+            .height(400.dp)
             .fillMaxWidth()
             .background(addbackbrush, shape = RoundedCornerShape(30.dp))
             .padding(10.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = latestAnnouncement?.title ?: "New UI",
+                text = latestAnnouncement?.title ?: "APP FEATURES",
                 style = myTextStyle,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = globalcolors.textColor,
                 modifier = Modifier.padding(10.dp)
             )
-            Text(
-                text = latestAnnouncement?.date ?: "25/05/2024",
-                color = globalcolors.textColor,
-                style = myTextStyle,
-                modifier = Modifier.padding(10.dp)
-            )
         }
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(
                 text = latestAnnouncement?.description
-                    ?: "I decided to re-design the User Interface, how do you rate it out of 10?",
+                    ?: ("1. You can now use your custom color palettes for the app! To set custom colors, go to Menu > Color Palette\n\n" +
+                            "2. In-App notifications now available for the app! To enable notifications, go to Menu > Settings > Notifications.\n\n" +
+                            "3. System notifications now available! To enable system notifications, go to your system settings > Apps > Class Portal > Enable notifications."),
                 fontWeight = FontWeight.Normal,
                 style = myTextStyle,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Left,
                 fontSize = 15.sp,
                 modifier = Modifier.padding(10.dp)
             )
+
         }
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Posted by", style = myTextStyle)
             Text(
@@ -687,6 +701,9 @@ fun LatestAnnouncement(context: Context) {
                 color = globalcolors.textColor,
                 modifier = Modifier.padding(10.dp)
             )
+            val calendar = Calendar.getInstance().time
+            Text(text = "on $calendar",
+                style = myTextStyle,)
         }
     }
 }

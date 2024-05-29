@@ -42,7 +42,7 @@ class Global(
     var lastname: MutableState<String> = mutableStateOf(""),
     var regID: MutableState<String> = mutableStateOf(""),
     var loggedinuser: MutableState<String> = mutableStateOf("Anonymous"),
-    var loggedinlastname: MutableState<String> = mutableStateOf("Odhiambo"),
+    var loggedinlastname: MutableState<String> = mutableStateOf(""),
     var loggedinregID: MutableState<String> = mutableStateOf(""),
     var enableEdgeToEdge: MutableState<Boolean> = mutableStateOf(true),
     var usernames: MutableState<String> = mutableStateOf(""),
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
         
-        NavHost(navController, startDestination = "timetable") {
+        NavHost(navController, startDestination = "welcome") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }

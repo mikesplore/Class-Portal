@@ -63,13 +63,14 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 import java.util.Locale
 
-val unselected  = Color.Transparent
+val unselected = Color.Transparent
 
 val center = Offset(0.5f, 0.5f)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(navController: NavController,context: Context) {
+fun LoginScreen(navController: NavController, context: Context) {
     LaunchedEffect(Unit) {
         globalcolors.currentScheme = globalcolors.loadColorScheme(context)
     }
@@ -91,27 +92,32 @@ fun LoginScreen(navController: NavController,context: Context) {
         )
     }.value
 
-Scaffold(
-    topBar = {
-        TopAppBar(
-            title = { Text(text = if (isRegistering) "   Register" else "   Login",
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text(
+                text = if (isRegistering) "   Register" else "   Login",
                 fontFamily = RobotoMono,
                 color = globalcolors.textColor,
                 fontWeight = FontWeight.Bold,
-                fontSize = 25.sp)},
+                fontSize = 25.sp
+            )
+        },
             navigationIcon = {
-                IconButton(onClick = { navController.navigate("welcome") },
-                    modifier = Modifier.absolutePadding(left = 10.dp)) {
-                    Box(modifier = Modifier
+                IconButton(
+                    onClick = { navController.navigate("welcome") },
+                    modifier = Modifier.absolutePadding(left = 10.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
 
-                        .border(
-                            width = 1.dp,
-                            color = globalcolors.textColor,
-                            shape = RoundedCornerShape(10.dp)
-                        )
-                        .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
-                        .size(50.dp),
-                        contentAlignment = Alignment.Center){
+                            .border(
+                                width = 1.dp,
+                                color = globalcolors.textColor,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                            .size(50.dp), contentAlignment = Alignment.Center
+                    ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBackIosNew,
                             contentDescription = "Back",
@@ -123,261 +129,184 @@ Scaffold(
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
         )
-    }
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(addbackbrush),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    }) {
         Column(
             modifier = Modifier
-                .padding(top = 50.dp)
-                .fillMaxWidth()
-                .height(200.dp),
+                .fillMaxSize()
+                .background(addbackbrush),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = if (isRegistering) "Register as one of the following" else "Login as one of the following",
-                fontFamily = RobotoMono,
-                color = globalcolors.textColor,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Row(
+            Column(
                 modifier = Modifier
+                    .padding(top = 50.dp)
                     .fillMaxWidth()
-                    .height(60.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-            ){
-
-                Box(modifier = Modifier
-
-                    .border(
-                        width = 1.dp,
-                        color = globalcolors.textColor,
-                        shape = RoundedCornerShape(10.dp)
-
-                    )
-                    .clickable {
-                        global.selectedcategory.value = "Class Rep"
-
-                    }
-                    .background(if(global.selectedcategory.value == "Class Rep") globalcolors.primaryColor else unselected, shape = RoundedCornerShape(10.dp))
-                    .fillMaxHeight()
-                    .width(130.dp),
-                    contentAlignment = Alignment.Center){
-                    Text(
-                        text = "Class Rep",
-                        fontFamily = RobotoMono,
-                        color = globalcolors.textColor,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 15.sp,
-                    )
-                }
-                Box(modifier = Modifier
-                    .clickable {
-                        global.selectedcategory.value = "Student"
-                    }
-                    .background(if(global.selectedcategory.value == "Student") globalcolors.primaryColor else unselected, shape = RoundedCornerShape(10.dp))
-                    .border(
-                        width = 1.dp,
-                        color = globalcolors.textColor,
-                        shape = RoundedCornerShape(10.dp)
-
-                    )
-                    .fillMaxHeight()
-                    .width(130.dp),
-                    contentAlignment = Alignment.Center){
-                    Text(
-                        text = "Student",
-                        fontFamily = RobotoMono,
-                        color = globalcolors.textColor,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 15.sp,
-                    )
-                }
-
-            }
-
-        }
-
-
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(if (isRegistering) 300.dp else 200.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceAround
-        ) {
-            AnimatedVisibility(visible = isRegistering) {
-
+                    .height(200.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = if (isRegistering) "Register as one of the following" else "Login as one of the following",
+                    fontFamily = RobotoMono,
+                    color = globalcolors.textColor,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 16.sp,
+                )
+                Spacer(modifier = Modifier.height(10.dp))
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .height(60.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
+                ) {
 
-                    ) {
-                    OutlinedTextField(
-                        value = global.firstname.value,
-                        textStyle = TextStyle(fontFamily = RobotoMono),
-                        onValueChange = { global.firstname.value = it },
-                        label = {
-                            Text(
-                                text = "First Name",
-                                fontFamily = RobotoMono,
-                                color = globalcolors.textColor,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 15.sp
-                            )
-                        },
-                        singleLine = true,
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = globalcolors.primaryColor,
-                            unfocusedContainerColor = globalcolors.primaryColor,
-                            focusedIndicatorColor = globalcolors.tertiaryColor,
-                            unfocusedIndicatorColor = globalcolors.primaryColor,
-                            focusedLabelColor = globalcolors.textColor,
-                            cursorColor = globalcolors.textColor,
-                            unfocusedLabelColor = globalcolors.textColor,
-                            focusedTextColor = globalcolors.textColor,
-                            unfocusedTextColor = globalcolors.textColor
+                    Box(modifier = Modifier
 
-                        ),
-                        shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier
-                            .height(60.dp)
-                            .width(130.dp)
-                            .shadow(
-                                elevation = 10.dp,
-                                shape = RoundedCornerShape(20.dp)
-                            )
-                    )
-                    OutlinedTextField(
-                        value = global.lastname.value,
-                        textStyle = TextStyle(fontFamily = RobotoMono),
-                        onValueChange = { global.lastname.value = it },
-                        label = {
-                            Text(
-                                text = "Last Name",
-                                fontFamily = RobotoMono,
-                                color = globalcolors.textColor,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 15.sp
-                            )
-                        },
-                        singleLine = true,
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = globalcolors.primaryColor,
-                            unfocusedContainerColor = globalcolors.primaryColor,
-                            focusedIndicatorColor = globalcolors.tertiaryColor,
-                            unfocusedIndicatorColor = globalcolors.primaryColor,
-                            focusedLabelColor = globalcolors.textColor,
-                            cursorColor = globalcolors.textColor,
-                            unfocusedLabelColor = globalcolors.textColor,
-                            focusedTextColor = globalcolors.textColor,
-                            unfocusedTextColor = globalcolors.textColor
-
-                            ),
-                        shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier
-                            .height(60.dp)
-                            .width(130.dp)
-                            .shadow(
-                                elevation = 10.dp,
-                                shape = RoundedCornerShape(20.dp)
-                            )
-                    )
-            }
-        }
-            OutlinedTextField(
-                value = global.regID.value,
-                textStyle = TextStyle(fontFamily = RobotoMono),
-                onValueChange = { global.regID.value = it },
-                label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
-                singleLine = true,
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = globalcolors.primaryColor,
-                    unfocusedContainerColor = globalcolors.primaryColor,
-                    focusedIndicatorColor = globalcolors.tertiaryColor,
-                    unfocusedIndicatorColor = globalcolors.primaryColor,
-                    focusedLabelColor = globalcolors.textColor,
-                    cursorColor = globalcolors.textColor,
-                    unfocusedLabelColor = globalcolors.textColor,
-                    focusedTextColor = globalcolors.textColor,
-                    unfocusedTextColor = globalcolors.textColor
-                ),
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .width(300.dp)
-                    .shadow(
-                        elevation = 10.dp,
-                        shape = RoundedCornerShape(20.dp),
+                        .border(
+                            width = 1.dp,
+                            color = globalcolors.textColor,
+                            shape = RoundedCornerShape(10.dp)
 
                         )
-            )
+                        .clickable {
+                            global.selectedcategory.value = "Class Rep"
 
-            OutlinedTextField(
-                value = password,
-                textStyle = TextStyle(fontFamily = RobotoMono),
-                onValueChange = { password = it },
-                label = { Text(text = "Password", fontFamily = RobotoMono) },
-                singleLine = true,
-                trailingIcon = {
-                    IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                        Icon(
-                            imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                            tint = globalcolors.textColor,
-                            contentDescription = if (passwordVisibility) "Hide password" else "Show password"
+                        }
+                        .background(
+                            if (global.selectedcategory.value == "Class Rep") globalcolors.primaryColor else unselected,
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                        .fillMaxHeight()
+                        .width(130.dp), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Class Rep",
+                            fontFamily = RobotoMono,
+                            color = globalcolors.textColor,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 15.sp,
                         )
                     }
-                },
-                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = globalcolors.primaryColor,
-                    unfocusedContainerColor = globalcolors.primaryColor,
-                    focusedIndicatorColor = globalcolors.tertiaryColor,
-                    unfocusedIndicatorColor = globalcolors.primaryColor,
-                    focusedLabelColor = globalcolors.textColor,
-                    cursorColor = globalcolors.textColor,
-                    unfocusedLabelColor = globalcolors.textColor,
-                    focusedTextColor = globalcolors.textColor,
-                    unfocusedTextColor = globalcolors.textColor
-                ),
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .width(300.dp)
-                    .shadow(
-                        elevation = 10.dp,
-                        shape = RoundedCornerShape(20.dp),
+                    Box(modifier = Modifier
+                        .clickable {
+                            global.selectedcategory.value = "Student"
+                        }
+                        .background(
+                            if (global.selectedcategory.value == "Student") globalcolors.primaryColor else unselected,
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                        .border(
+                            width = 1.dp,
+                            color = globalcolors.textColor,
+                            shape = RoundedCornerShape(10.dp)
 
                         )
-            )
+                        .fillMaxHeight()
+                        .width(130.dp), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Student",
+                            fontFamily = RobotoMono,
+                            color = globalcolors.textColor,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 15.sp,
+                        )
+                    }
 
-            AnimatedVisibility(visible = isRegistering) {
+                }
+
+            }
+
+
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(if (isRegistering) 300.dp else 200.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceAround
+            ) {
+                AnimatedVisibility(visible = isRegistering) {
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+
+                        ) {
+                        OutlinedTextField(
+                            value = global.firstname.value,
+                            textStyle = TextStyle(fontFamily = RobotoMono),
+                            onValueChange = { global.firstname.value = it.trimEnd() },
+                            label = {
+                                Text(
+                                    text = "First Name",
+                                    fontFamily = RobotoMono,
+                                    color = globalcolors.textColor,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 15.sp
+                                )
+                            },
+                            singleLine = true,
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = globalcolors.primaryColor,
+                                unfocusedContainerColor = globalcolors.primaryColor,
+                                focusedIndicatorColor = globalcolors.tertiaryColor,
+                                unfocusedIndicatorColor = globalcolors.primaryColor,
+                                focusedLabelColor = globalcolors.textColor,
+                                cursorColor = globalcolors.textColor,
+                                unfocusedLabelColor = globalcolors.textColor,
+                                focusedTextColor = globalcolors.textColor,
+                                unfocusedTextColor = globalcolors.textColor
+
+                            ),
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier
+                                .height(60.dp)
+                                .width(130.dp)
+                                .shadow(
+                                    elevation = 10.dp, shape = RoundedCornerShape(20.dp)
+                                )
+                        )
+                        OutlinedTextField(
+                            value = global.lastname.value,
+                            textStyle = TextStyle(fontFamily = RobotoMono),
+                            onValueChange = { global.lastname.value = it.trimEnd() },
+                            label = {
+                                Text(
+                                    text = "Last Name",
+                                    fontFamily = RobotoMono,
+                                    color = globalcolors.textColor,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 15.sp
+                                )
+                            },
+                            singleLine = true,
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = globalcolors.primaryColor,
+                                unfocusedContainerColor = globalcolors.primaryColor,
+                                focusedIndicatorColor = globalcolors.tertiaryColor,
+                                unfocusedIndicatorColor = globalcolors.primaryColor,
+                                focusedLabelColor = globalcolors.textColor,
+                                cursorColor = globalcolors.textColor,
+                                unfocusedLabelColor = globalcolors.textColor,
+                                focusedTextColor = globalcolors.textColor,
+                                unfocusedTextColor = globalcolors.textColor
+
+                            ),
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier
+                                .height(60.dp)
+                                .width(130.dp)
+                                .shadow(
+                                    elevation = 10.dp, shape = RoundedCornerShape(20.dp)
+                                )
+                        )
+                    }
+                }
                 OutlinedTextField(
-                    value = confirmPassword,
+                    value = global.regID.value,
                     textStyle = TextStyle(fontFamily = RobotoMono),
-                    onValueChange = { confirmPassword = it },
-                    label = { Text(text = "Confirm Password", fontFamily = RobotoMono) },
+                    onValueChange = { global.regID.value = it.trimEnd() },
+                    label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
                     singleLine = true,
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            confirmPasswordVisibility = !confirmPasswordVisibility
-                        }) {
-                            Icon(
-                                imageVector = if (confirmPasswordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                tint = globalcolors.textColor,
-                                contentDescription = if (confirmPasswordVisibility) "Hide password" else "Show password"
-                            )
-                        }
-                    },
-                    visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = globalcolors.primaryColor,
                         unfocusedContainerColor = globalcolors.primaryColor,
@@ -398,208 +327,279 @@ Scaffold(
 
                             )
                 )
+
+                OutlinedTextField(
+                    value = password,
+                    textStyle = TextStyle(fontFamily = RobotoMono),
+                    onValueChange = { password = it },
+                    label = { Text(text = "Password", fontFamily = RobotoMono) },
+                    singleLine = true,
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                            Icon(
+                                imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                                tint = globalcolors.textColor,
+                                contentDescription = if (passwordVisibility) "Hide password" else "Show password"
+                            )
+                        }
+                    },
+                    visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = globalcolors.primaryColor,
+                        unfocusedContainerColor = globalcolors.primaryColor,
+                        focusedIndicatorColor = globalcolors.tertiaryColor,
+                        unfocusedIndicatorColor = globalcolors.primaryColor,
+                        focusedLabelColor = globalcolors.textColor,
+                        cursorColor = globalcolors.textColor,
+                        unfocusedLabelColor = globalcolors.textColor,
+                        focusedTextColor = globalcolors.textColor,
+                        unfocusedTextColor = globalcolors.textColor
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                    modifier = Modifier
+                        .width(300.dp)
+                        .shadow(
+                            elevation = 10.dp,
+                            shape = RoundedCornerShape(20.dp),
+
+                            )
+                )
+
+                AnimatedVisibility(visible = isRegistering) {
+                    OutlinedTextField(
+                        value = confirmPassword,
+                        textStyle = TextStyle(fontFamily = RobotoMono),
+                        onValueChange = { confirmPassword = it },
+                        label = { Text(text = "Confirm Password", fontFamily = RobotoMono) },
+                        singleLine = true,
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                confirmPasswordVisibility = !confirmPasswordVisibility
+                            }) {
+                                Icon(
+                                    imageVector = if (confirmPasswordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                                    tint = globalcolors.textColor,
+                                    contentDescription = if (confirmPasswordVisibility) "Hide password" else "Show password"
+                                )
+                            }
+                        },
+                        visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = globalcolors.primaryColor,
+                            unfocusedContainerColor = globalcolors.primaryColor,
+                            focusedIndicatorColor = globalcolors.tertiaryColor,
+                            unfocusedIndicatorColor = globalcolors.primaryColor,
+                            focusedLabelColor = globalcolors.textColor,
+                            cursorColor = globalcolors.textColor,
+                            unfocusedLabelColor = globalcolors.textColor,
+                            focusedTextColor = globalcolors.textColor,
+                            unfocusedTextColor = globalcolors.textColor
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier
+                            .width(300.dp)
+                            .shadow(
+                                elevation = 10.dp,
+                                shape = RoundedCornerShape(20.dp),
+
+                                )
+                    )
+                }
             }
-        }
 
-        Row(
-            modifier = Modifier
-                .height(150.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(
-                onClick = {
-                    if (isRegistering) {
-                        if (global.regID.value.isNotEmpty() && password.text.isNotEmpty() && confirmPassword.text.isNotEmpty() && global.firstname.value.isNotEmpty() && pattern.matches(
-                                global.regID.value
-                            ) && password.text == global.regID.value
-                        ) {
-                            if (password.text == confirmPassword.text) {
-                                val students = FileUtil.loadStudents(context)
+            Row(
+                modifier = Modifier
+                    .height(150.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(
+                    onClick = {
+                        if (isRegistering) {
+                            if (global.regID.value.isNotEmpty() && password.text.isNotEmpty() && confirmPassword.text.isNotEmpty() && global.firstname.value.isNotEmpty() && pattern.matches(
+                                    global.regID.value
+                                ) && password.text == global.regID.value
+                            ) {
+                                if (password.text == confirmPassword.text) {
+                                    val students = FileUtil.loadStudents(context)
 
-                                // Check if regID already exists
-                                if (students.any { it.registrationID == global.regID.value }) {
-                                    Toast.makeText(
-                                        context,
-                                        "${global.selectedcategory.value.capitalize(Locale.ROOT)} ID already exists",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    val updatedStudents = students.toMutableList()
-                                    updatedStudents.add(
-                                        Student(
-                                            registrationID = global.regID.value,
-                                            firstName = global.firstname.value,
-                                            lastName = global.lastname.value,
-                                            ""
+                                    // Check if regID already exists
+                                    if (students.any { it.registrationID == global.regID.value }) {
+                                        Toast.makeText(
+                                            context,
+                                            "${global.selectedcategory.value.capitalize(Locale.ROOT)} ID already exists",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val updatedStudents = students.toMutableList()
+                                        updatedStudents.add(
+                                            Student(
+                                                registrationID = global.regID.value,
+                                                firstName = global.firstname.value,
+                                                lastName = global.lastname.value,
+                                                ""
 
+                                            )
                                         )
-                                    )
-                                    FileUtil.saveStudents(context, updatedStudents)
+                                        FileUtil.saveStudents(context, updatedStudents)
+                                        Toast.makeText(
+                                            context,
+                                            "${global.selectedcategory.value.capitalize(Locale.ROOT)} registered successfully! Login to continue",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        isRegistering = !isRegistering
+                                    }
+                                } else {
                                     Toast.makeText(
-                                        context,
-                                        "${global.selectedcategory.value.capitalize(Locale.ROOT)} registered successfully! Login to continue",
-                                        Toast.LENGTH_SHORT
+                                        context, "Passwords do not match", Toast.LENGTH_SHORT
                                     ).show()
-                                    isRegistering = !isRegistering
                                 }
                             } else {
                                 Toast.makeText(
-                                    context,
-                                    "Passwords do not match",
-                                    Toast.LENGTH_SHORT
+                                    context, "Please enter a valid ${
+                                        global.selectedcategory.value.capitalize(Locale.ROOT)
+                                    } ID and fill in all fields", Toast.LENGTH_SHORT
                                 ).show()
                             }
-                        } else {
-                            Toast.makeText(
-                                context,
-                                "Please enter a valid ${
-                                    global.selectedcategory.value.capitalize(Locale.ROOT)
-                                } ID and fill in all fields",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    } else { // Login logic
-                        val students = FileUtil.loadStudents(context)
-                        val student =
-                            students.find { it.registrationID == global.regID.value } // Use regID.text directly
+                        } else { // Login logic
+                            val students = FileUtil.loadStudents(context)
+                            val student =
+                                students.find { it.registrationID == global.regID.value } // Use regID.text directly
 
-                        // Check if student exists and credentials match
-                        when {
-                            student == null -> {
-                                Toast.makeText(
-                                    navController.context,
-                                    "${global.selectedcategory.value.replaceFirstChar {
-                                        if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()
-                                    }} not found",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            password.text.isBlank() -> {
-                                Toast.makeText(
-                                    navController.context,
-                                    "Password cannot be blank",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            !pattern.matches(global.regID.value) -> {
-                                Toast.makeText(
-                                    navController.context,
-                                    "Registration ID format is incorrect",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            password.text != student.registrationID -> {
-                                Toast.makeText(
-                                    navController.context,
-                                    "Invalid credentials",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            else -> {
-                                Toast.makeText(
-                                    navController.context,
-                                    "Logged in successfully",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                global.loggedinuser.value = student.firstName
-                                global.loggedinlastname.value = student.lastName
-                                global.loggedinregID.value = student.registrationID
-                                navController.navigate("dashboard") // Navigate after successful login
+                            // Check if student exists and credentials match
+                            when {
+                                student == null -> {
+                                    Toast.makeText(navController.context, "${
+                                        global.selectedcategory.value.replaceFirstChar {
+                                            if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()
+                                        }
+                                    } not found", Toast.LENGTH_SHORT).show()
+                                }
+
+                                password.text.isBlank() -> {
+                                    Toast.makeText(
+                                        navController.context,
+                                        "Password cannot be blank",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                !pattern.matches(global.regID.value) -> {
+                                    Toast.makeText(
+                                        navController.context,
+                                        "Registration ID format is incorrect",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                password.text != student.registrationID -> {
+                                    Toast.makeText(
+                                        navController.context,
+                                        "Invalid credentials",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                else -> {
+                                    Toast.makeText(
+                                        navController.context,
+                                        "Logged in successfully",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    global.loggedinuser.value = student.firstName
+                                    global.loggedinlastname.value = student.lastName
+                                    global.loggedinregID.value = student.registrationID
+                                    navController.navigate("dashboard") // Navigate after successful login
+                                }
                             }
                         }
+                    },
+                    modifier = Modifier
+                        .width(300.dp)
+                        .height(50.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = globalcolors.primaryColor,
+
+                        )
+
+                ) {
+                    LaunchedEffect(Unit) {
+                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
                     }
-                },
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(50.dp),
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = globalcolors.primaryColor,
-
-                )
-
-            ) {
-                LaunchedEffect(Unit) {
-                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
-                }
 
                     Text(
                         text = if (isRegistering) "Register" else "Login",
                         style = myTextStyle,
 
-                    )
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .height(100.dp)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                LaunchedEffect(Unit) {
-                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                        )
                 }
-                Text(
-                    text = if (isRegistering) "Already have an account? " else "Don't have an account? ",
-                    style = myTextStyle,
-                )
-                LaunchedEffect(Unit) {
-                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
-                }
-                Text(
-
-                    text = if (isRegistering) "Login" else "Register",
-                    style = myTextStyle,
-                    color = globalcolors.tertiaryColor,
-                    modifier = Modifier.clickable {
-                        isRegistering = !isRegistering
-                    }
-                )
             }
+
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .height(100.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                LaunchedEffect(Unit) {
-                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
-                }
-                val text = if (isRegistering) "Register" else "Login"
-                val category =
-                    if (global.selectedcategory.value == "Student") "Class Rep" else "Student"
-                LaunchedEffect(Unit) {
-                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
-                }
-                Text(text = "$text as a $category? ", style = myTextStyle)
-                Text(
-                    text = "Click here",
-                    style = myTextStyle,
-                    color = globalcolors.tertiaryColor,
-                    modifier = Modifier.clickable {
-                        global.selectedcategory.value = category
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    LaunchedEffect(Unit) {
+                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
                     }
-                )
-            }
+                    Text(
+                        text = if (isRegistering) "Already have an account? " else "Don't have an account? ",
+                        style = myTextStyle,
+                    )
+                    LaunchedEffect(Unit) {
+                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                    }
+                    Text(
 
+                        text = if (isRegistering) "Login" else "Register",
+                        style = myTextStyle,
+                        color = globalcolors.tertiaryColor,
+                        modifier = Modifier.clickable {
+                            isRegistering = !isRegistering
+                        })
+                }
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    LaunchedEffect(Unit) {
+                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                    }
+                    val text = if (isRegistering) "Register" else "Login"
+                    val category =
+                        if (global.selectedcategory.value == "Student") "Class Rep" else "Student"
+                    LaunchedEffect(Unit) {
+                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                    }
+                    Text(text = "$text as a $category? ", style = myTextStyle)
+                    Text(text = "Click here",
+                        style = myTextStyle,
+                        color = globalcolors.tertiaryColor,
+                        modifier = Modifier.clickable {
+                            global.selectedcategory.value = category
+                        })
+                }
+
+            }
+            Text("Developed by Mike", style = myTextStyle, fontSize = 10.sp)
         }
-        Text("Developed by Mike", style = myTextStyle, fontSize = 10.sp)
-    }
     }
 }
 
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(rememberNavController(),LocalContext.current)
+    LoginScreen(rememberNavController(), LocalContext.current)
 }
 

@@ -43,10 +43,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import java.util.Calendar
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
-import androidx.compose.foundation.clickable
-import java.util.*
+
 
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)

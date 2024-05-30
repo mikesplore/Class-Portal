@@ -26,15 +26,6 @@
 22. [Welcome Screen](#welcome-screen)
 
 
-
-
-
-
-
-
-
-
-
 ### **COLORS**
 
 **Purpose:**
@@ -107,7 +98,7 @@ to ensure valid color input, save changes, and provide user feedback.
 
 Absolutely! Let's break down the provided code and provide a detailed documentation of its functionality, components, and potential improvements:
 
-### [**AddStudentScreen Composable**](/AddStudent.kt)
+### [**AddStudentScreen Composable**](./AddStudent.kt)
 
 
 This composable function is designed to handle the addition of new students to a class roster or database. Let's analyze its key aspects:
@@ -194,8 +185,7 @@ Feel free to ask if you have any specific questions or want further refinements 
 
 
 
-### **Announcements Screen**
-
+[### **Announcements Screen**](./Announcements.kt)
 Absolutely! Let's break down the `AnnouncementsScreen` composable function and provide a detailed documentation of its functionality, structure, and components.
 
 **AnnouncementsScreen: A Comprehensive Overview**
@@ -272,7 +262,7 @@ Let me know if you have any other questions.
 
 
 
-### **Assignments Screen**
+[### **Assignments Screen**](./Assignments.kt)
 Absolutely! Let's break down the `AssignmentScreen` code and provide detailed documentation, explaining its components and functionality:
 
 **AssignmentScreen Composable**
@@ -347,7 +337,7 @@ Let me know if you have any other questions.
 
 
 
-## **Available Assignments Screen**
+[### **Available Assignments Screen**](AvailableAssignments.kt)
 
 This document explains the functionalities and components used in the `Assignments` composable.
 
@@ -412,7 +402,7 @@ This document explains the functionalities and components used in the `Assignmen
 This documentation provides a detailed breakdown of the `Assignments` composable and its functionalities.
 
 
-### **Record Attendance Screen**
+[### **Record Attendance Screen**](Attendancerecording.kt)
 Absolutely! Let's break down the `RecordAttendanceScreen` composable and provide comprehensive documentation with explanations and potential enhancements:
 
 **RecordAttendanceScreen Composable**
@@ -481,7 +471,7 @@ This composable is designed to facilitate attendance recording for students acro
 Let me know if you have any other questions.
 
 
-### **Attendance Report Screen**
+[### **Attendance Report Screen**](AttendanceReport.kt)
 Absolutely! Let's break down the `AttendanceReportScreen` code and provide a comprehensive documentation with explanations and areas for potential improvement:
 
 **AttendanceReportScreen Composable**
@@ -569,7 +559,7 @@ val selectedUnitIndex = MutableStateFlow(0)
 }
 
 
-### **Colors Settings**
+[### **Colors Settings**](ColorsSettings.kt)
 Absolutely! Here's a comprehensive documentation of the `ColorSettings` composable function, breaking down its functionality and components:
 
 **ColorSettings Composable**
@@ -633,7 +623,7 @@ This composable is designed to allow users to customize the color scheme of an a
 Let me know if you have any other questions.
 
 
-### **Current Day Event Screen**
+[### **Current Day Event Screen**](CurrentDayLecturers.kt)
 Absolutely! Let's break down this `CurrentDayEventsScreen` composable and provide comprehensive documentation to help you understand its structure and functionality.
 
 **CurrentDayEventsScreen Composable**
@@ -698,7 +688,7 @@ Let me know if you have any other questions.
 
 
 
-### **Dashboard Screen**
+[### **Dashboard Screen**](Dashboard.kt)
 Absolutely! Let's break down the `Dashboard` composable and provide comprehensive documentation with explanations and insights into potential improvements.
 
 **Dashboard Composable**
@@ -777,7 +767,7 @@ This composable serves as the central hub of your application, offering navigati
 Let me know if you have any other questions.
 
 
-### **Delete Student Screen**
+[### **Delete Student Screen**](DeleteStudent.kt)
 Absolutely! Let's break down the `DeleteStudentScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
 **DeleteStudentScreen Composable**
@@ -848,7 +838,7 @@ This composable is designed to manage the deletion of student records from a fil
 Feel free to ask for further clarification or suggestions!
 
 
-### **Edit Student Screen**
+[### **Edit Student Screen**](EditStudent.kt)
 
 Absolutely! Let's break down the `EditStudentScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -924,7 +914,7 @@ This composable is designed to enable editing student records within your class 
 Let me know if you have any other questions.
 
 
-### **File Utility**
+[### **File Utility**](Files.kt)
 
 Absolutely! Let's break down the provided code and provide a comprehensive documentation of the `FileUtil` object, explaining its purpose, methods, and how it interacts with the rest of the application.
 
@@ -1079,7 +1069,7 @@ This composable handles user authentication, providing both login and registrati
 Feel free to ask if you have any other questions.
 
 
-### **Main Activity and Navigation Component**
+[### **Main Activity and Navigation Component**](MainActivity.kt)
 Absolutely! Let's break down the `MainActivity` and `NavigationComponent` composables and provide detailed documentation with explanations and areas for potential improvement.
 
 **MainActivity (ComponentActivity)**
@@ -1134,7 +1124,7 @@ Absolutely! Let's break down the `MainActivity` and `NavigationComponent` compos
 
 Feel free to ask for further clarification or suggestions!
 
-### **Notification Card**
+[### **Notification Card**](NotificationCard.kt)
 
 Absolutely! Here's a comprehensive documentation for the `NotificationCard` composable, explaining its functionality, components, and how it can be used:
 
@@ -1201,7 +1191,7 @@ This composable is designed to display a notification message in a visually appe
 Let me know if you have any other questions.
 
 
-### **Notification Channel**
+[### **Notification Channel**](NotificationChannel.kt)
 
 Absolutely! Let's break down the provided code and provide a comprehensive documentation with explanations and insights into potential improvements.
 
@@ -1262,7 +1252,7 @@ showNotification(context, "New Announcement", "Check out the latest update from 
 Let me know if you have any other questions.
 
 
-### **Settings Screen**
+[### **Settings Screen**](SettingsScreen.kt)
 
 Absolutely! Let's break down this `SettingsScreen` composable function and provide a comprehensive documentation with explanations and insights into potential improvements.
 
@@ -1355,7 +1345,7 @@ This composable is designed to present user settings and preferences within your
 
 Let me know if you have any other questions.
 
-## **Show Students Screen**
+[### **Show Students Screen**](students.kt)
 
 Absolutely! Let's break down the `ShowStudentsScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -1454,7 +1444,7 @@ class StudentViewModel : ViewModel() {
 Let me know if you have any other questions!
 
 
-### Timetable
+[### Timetable](Timetable.kt)
 
 Absolutely! Let's break down the `Timetable` composable and provide comprehensive documentation with explanations and areas for potential improvement:
 
@@ -1530,7 +1520,7 @@ This composable is designed to present and manage a weekly timetable, where each
 Let me know if you have any other questions.
 
 
-### **Welcome Screen**
+[### **Welcome Screen**](Welcome.kt)
 
 Absolutely! Let's break down the `WelcomeScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -1601,7 +1591,7 @@ This composable functions as a splash screen for your Class Portal app. It displ
 Let me know if you have any other questions.
 
 
-## **WebViewScreen** 
+[### **WebViewScreen** ](Webpage.kt)
 
 This document explains the functionalities and components used in the `WebViewScreen` composable.
 

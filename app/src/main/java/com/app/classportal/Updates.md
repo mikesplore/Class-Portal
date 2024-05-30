@@ -1,8 +1,10 @@
 
 
-# **DOCUMENTATION**
 ## **Table of Contents 1.2.5**
-[Colors](#COLORS)
+[COLORS](#COLORS)
+[Add Student](#add-student-screen-composable)
+
+
 
 
 
@@ -78,7 +80,7 @@ to ensure valid color input, save changes, and provide user feedback.
 
 Absolutely! Let's break down the provided code and provide a detailed documentation of its functionality, components, and potential improvements:
 
-**AddStudentScreen Composable**
+ ### **AddStudentScreen Composable**
 
 This composable function is designed to handle the addition of new students to a class roster or database. Let's analyze its key aspects:
 

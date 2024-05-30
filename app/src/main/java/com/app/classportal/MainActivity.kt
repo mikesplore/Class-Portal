@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             if (global.enableEdgeToEdge.value){
-            enableEdgeToEdge()}
+                enableEdgeToEdge()}
             LaunchedEffect(Unit) {
                 globalcolors.currentScheme = globalcolors.loadColorScheme(this@MainActivity)
             }
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
-        
+
         NavHost(navController, startDestination = "dashboard") {
             composable("dashboard") {
                 Dashboard(navController, context)
@@ -154,23 +154,23 @@ fun LoginDialog(navController: NavController){
             confirmButton = {
                 Row(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween){
-                Button(onClick = {
-                    global.showdialog.value = false
-                    navController.navigate("login")},
-                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.width(130.dp)) {
-                    Text("Login now",
-                        style = myTextStyle,)
-                }
-                Button(onClick = {
-                    global.showdialog.value = false},
-                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.width(130.dp)) {
-                    Text("Cancel",
-                        style = myTextStyle,)
-                }}
+                    Button(onClick = {
+                        global.showdialog.value = false
+                        navController.navigate("login")},
+                        colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier.width(130.dp)) {
+                        Text("Login now",
+                            style = myTextStyle,)
+                    }
+                    Button(onClick = {
+                        global.showdialog.value = false},
+                        colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier.width(130.dp)) {
+                        Text("Cancel",
+                            style = myTextStyle,)
+                    }}
 
             },
             title = { Text("Login First",

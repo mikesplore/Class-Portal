@@ -108,7 +108,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val horizontalScrollState = rememberScrollState()
     var expanded by remember { mutableStateOf(false) }
     val announcements = loadAnnouncement(context)
-    var selectedTabIndex by remember { mutableIntStateOf(1) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
@@ -628,7 +628,7 @@ fun Dashboard(navController: NavController, context: Context) {
                         2 -> TimetableTabContent(context)
                         3 -> AssignmentsTabContent(navController, context)
                         4 -> StudentsTabContent(navController, context)
-                        5 -> CampuscuraTabContent()
+                        5 -> DocumentationTab()
 
                     }
                 }
@@ -642,7 +642,7 @@ fun Dashboard(navController: NavController, context: Context) {
 
 
 @Composable
-fun CampuscuraTabContent(){
+fun DocumentationTab(){
         Column(modifier = Modifier
             .background(globalcolors.primaryColor)
             .verticalScroll(rememberScrollState())

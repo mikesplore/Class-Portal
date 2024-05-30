@@ -50,9 +50,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.runtime.livedata)
-    annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.core.ktx.v160)
     implementation (libs.androidx.ui.v101)
     implementation (libs.androidx.material3.v100alpha11)

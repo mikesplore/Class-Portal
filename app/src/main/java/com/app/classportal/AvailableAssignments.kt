@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +27,7 @@ import com.app.classportal.myTextStyle
 
 
 
+@SuppressLint("MutableCollectionMutableState", "AutoboxingStateCreation")
 @Composable
 fun Assignments(navController: NavController, context: Context) {
     val units = remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context)) }

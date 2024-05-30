@@ -696,8 +696,8 @@ fun LatestAnnouncement(context: Context) {
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(
                 text = latestAnnouncement?.description
-                    ?: ("1. You can now filter out attendance records based on date\n\n" +
-                            "2. System notifications now available! To enable system notifications, go to your system settings > Apps > Class Portal > Enable notifications."),
+                    ?: ("1. Please note that some colors will take time to update after color palette update.\n\n" +
+                            "2.If you encounter any bug, kindly DM me vial the link in the settings."),
                 fontWeight = FontWeight.Normal,
                 style = myTextStyle,
                 textAlign = TextAlign.Left,

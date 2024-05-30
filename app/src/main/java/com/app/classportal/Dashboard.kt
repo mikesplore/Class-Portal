@@ -179,7 +179,12 @@ fun Dashboard(navController: NavController, context: Context) {
                         fontWeight = FontWeight.Normal,
                         style = myTextStyle,
                         fontSize = 20.sp,
-                        modifier = Modifier.clickable { navController.navigate("link") }
+                        modifier = Modifier
+                            .shadow(
+                                elevation = 10.dp,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+
                     )
                 },
 
@@ -1211,8 +1216,14 @@ fun AnnouncementBoxes(
             // Student Image at the top with a colored background
             Box(
                 modifier = Modifier
+                    .shadow(
+                        elevation = 10.dp,
+                        shape = RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp),
+                        ambientColor = globalcolors.primaryColor,
+                        spotColor = globalcolors.tertiaryColor
+                    )
                     .fillMaxWidth()
-                    .height(80.dp)
+                    .height(60.dp)
                     .background(addbackbrush, RoundedCornerShape(20.dp, 0.dp, 30.dp, 0.dp)), // Use a background color for the image
                 contentAlignment = Alignment.Center
             ) {
@@ -1221,7 +1232,7 @@ fun AnnouncementBoxes(
                     contentDescription = "student",
                     modifier = Modifier
                         .clip(CircleShape)
-                        .size(60.dp) // Slightly larger image
+                        .size(50.dp)
                 )
             }
 

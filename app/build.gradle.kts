@@ -50,8 +50,8 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.2.0")
-    implementation ("androidx.webkit:webkit:1.4.0")
+    implementation (libs.ui.tooling.preview)
+    implementation (libs.androidx.webkit)
     implementation(libs.androidx.core.ktx.v160)
     implementation (libs.androidx.ui.v101)
     implementation (libs.androidx.material3.v100alpha11)

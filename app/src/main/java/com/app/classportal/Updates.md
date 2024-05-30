@@ -1,7 +1,9 @@
 
 
 # **DOCUMENTATION**
-#### **Version 1.2.5**
+## **Table of Contents 1.2.5**
+[Colors](#COLORS)
+
 
 
 ## **COLORS**

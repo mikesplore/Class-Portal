@@ -674,7 +674,7 @@ fun LatestAnnouncement(context: Context) {
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(
                 text = latestAnnouncement?.description
-                    ?: ("1. You can now set your custom color palettes for the app! To set custom colors, go to Menu > Color Palette\n\n" +
+                    ?: ("1. You can now filter out attendance records based on date\n\n" +
                             "2. System notifications now available! To enable system notifications, go to your system settings > Apps > Class Portal > Enable notifications."),
                 fontWeight = FontWeight.Normal,
                 style = myTextStyle,

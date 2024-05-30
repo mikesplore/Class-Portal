@@ -162,6 +162,7 @@ Feel free to ask if you have any specific questions or want further refinements 
 
 
 
+## Announcements Screen
 
 Absolutely! Let's break down the `AnnouncementsScreen` composable function and provide a detailed documentation of its functionality, structure, and components.
 
@@ -239,7 +240,7 @@ Let me know if you have any other questions.
 
 
 
-
+### Assignments Screen
 Absolutely! Let's break down the `AssignmentScreen` code and provide detailed documentation, explaining its components and functionality:
 
 **AssignmentScreen Composable**
@@ -315,7 +316,7 @@ Let me know if you have any other questions.
 
 
 
-
+### Record Attendance Screen
 Absolutely! Let's break down the `RecordAttendanceScreen` composable and provide comprehensive documentation with explanations and potential enhancements:
 
 **RecordAttendanceScreen Composable**
@@ -384,7 +385,7 @@ This composable is designed to facilitate attendance recording for students acro
 Let me know if you have any other questions.
 
 
-
+### Attendance Report Screen
 Absolutely! Let's break down the `AttendanceReportScreen` code and provide a comprehensive documentation with explanations and areas for potential improvement:
 
 **AttendanceReportScreen Composable**
@@ -472,7 +473,7 @@ val selectedUnitIndex = MutableStateFlow(0)
 }
 
 
-
+### Colors Settings
 Absolutely! Here's a comprehensive documentation of the `ColorSettings` composable function, breaking down its functionality and components:
 
 **ColorSettings Composable**
@@ -536,7 +537,7 @@ This composable is designed to allow users to customize the color scheme of an a
 Let me know if you have any other questions.
 
 
-
+### Current Day Event Screen
 Absolutely! Let's break down this `CurrentDayEventsScreen` composable and provide comprehensive documentation to help you understand its structure and functionality.
 
 **CurrentDayEventsScreen Composable**
@@ -601,7 +602,7 @@ Let me know if you have any other questions.
 
 
 
-
+### Dashboard
 Absolutely! Let's break down the `Dashboard` composable and provide comprehensive documentation with explanations and insights into potential improvements.
 
 **Dashboard Composable**
@@ -680,8 +681,7 @@ This composable serves as the central hub of your application, offering navigati
 Let me know if you have any other questions.
 
 
-
-
+### Delete Student Screen
 Absolutely! Let's break down the `DeleteStudentScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
 **DeleteStudentScreen Composable**
@@ -752,6 +752,7 @@ This composable is designed to manage the deletion of student records from a fil
 Feel free to ask for further clarification or suggestions!
 
 
+### Edit Student Screen
 
 Absolutely! Let's break down the `EditStudentScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -827,7 +828,7 @@ This composable is designed to enable editing student records within your class 
 Let me know if you have any other questions.
 
 
-
+### File Utility
 
 Absolutely! Let's break down the provided code and provide a comprehensive documentation of the `FileUtil` object, explaining its purpose, methods, and how it interacts with the rest of the application.
 
@@ -907,7 +908,7 @@ This `FileUtil` object is likely used by other composables within your app to lo
 Let me know if you have any other questions.
 
 
-
+### Login Screen
 
 Absolutely! Let's break down the `LoginScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -982,7 +983,7 @@ This composable handles user authentication, providing both login and registrati
 Feel free to ask if you have any other questions.
 
 
-
+### Main Activity and Navigation Component
 Absolutely! Let's break down the `MainActivity` and `NavigationComponent` composables and provide detailed documentation with explanations and areas for potential improvement.
 
 **MainActivity (ComponentActivity)**
@@ -1037,7 +1038,7 @@ Absolutely! Let's break down the `MainActivity` and `NavigationComponent` compos
 
 Feel free to ask for further clarification or suggestions!
 
-
+### Notification Card
 
 Absolutely! Here's a comprehensive documentation for the `NotificationCard` composable, explaining its functionality, components, and how it can be used:
 
@@ -1104,6 +1105,8 @@ This composable is designed to display a notification message in a visually appe
 Let me know if you have any other questions.
 
 
+### Notifications
+
 Absolutely! Let's break down the provided code and provide a comprehensive documentation with explanations and insights into potential improvements.
 
 **File: Notification Utility Functions (Kotlin)**
@@ -1163,7 +1166,7 @@ showNotification(context, "New Announcement", "Check out the latest update from 
 Let me know if you have any other questions.
 
 
-
+### Settings Screen
 
 Absolutely! Let's break down this `SettingsScreen` composable function and provide a comprehensive documentation with explanations and insights into potential improvements.
 
@@ -1256,7 +1259,7 @@ This composable is designed to present user settings and preferences within your
 
 Let me know if you have any other questions.
 
-
+## Show Students Screen
 
 Absolutely! Let's break down the `ShowStudentsScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -1355,6 +1358,7 @@ class StudentViewModel : ViewModel() {
 Let me know if you have any other questions!
 
 
+### Timetable
 
 Absolutely! Let's break down the `Timetable` composable and provide comprehensive documentation with explanations and areas for potential improvement:
 
@@ -1430,8 +1434,7 @@ This composable is designed to present and manage a weekly timetable, where each
 Let me know if you have any other questions.
 
 
-val webLink = "https://www.example.com"
-WebViewScreen(link = webLink)
+### Welcome Screen
 
 Absolutely! Let's break down the `WelcomeScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 

@@ -30,8 +30,10 @@ import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttendanceReportScreen(context: Context, navController: NavController) {
     Scaffold(
@@ -39,7 +41,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
             TopAppBar(
                 title = {
                     Text(
-                        "   Attendance Report",
+                        " Attendance Report",
                         fontFamily = RobotoMono,
                         color = globalcolors.textColor
                     )
@@ -83,15 +85,19 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AttendanceReportContent(context: Context) {
     var students by remember { mutableStateOf(FileUtil.loadStudents(context)) }
-    val attendanceRecords = FileUtil.loadAttendanceRecords(context)
+    val originalStudents = remember { students.toList() }
+    val allAttendanceRecords = remember { FileUtil.loadAttendanceRecords(context) }
     val units = remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context).map { it.name }) }
     val pagerState = rememberPagerState()
-    val originalStudents = remember { students.toList() } // Store a copy of original data
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
+    var selectedDate by remember { mutableStateOf(LocalDate.now().dayOfWeek.toString()) }
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    var expanded by remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -104,9 +110,8 @@ fun AttendanceReportContent(context: Context) {
         )
     }.value
 
-    LaunchedEffect(Unit) {
-        val units =FileUtil.loadUnitsAndAssignments(context)
-    }
+    // Available dates for filtering
+    val availableDates = allAttendanceRecords.map { it.date }.distinct().sortedDescending()
 
     Column(
         modifier = Modifier
@@ -144,8 +149,7 @@ fun AttendanceReportContent(context: Context) {
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
-                val filteredAttendanceRecords = attendanceRecords.filter { it.unit == units.value[page] }
-
+                val filteredAttendanceRecords = allAttendanceRecords.filter { it.unit == units.value[page] && it.date == selectedDate }
 
                 val studentAttendance = students.map { student ->
                     val totalPresent =
@@ -165,6 +169,7 @@ fun AttendanceReportContent(context: Context) {
                 ) {
                     item {
                         Column {
+                            Row(){
                             OutlinedTextField(
                                 value = searchQuery,
                                 onValueChange = { query ->
@@ -172,14 +177,8 @@ fun AttendanceReportContent(context: Context) {
                                     students = if (query.text.isNotBlank()) {
                                         originalStudents.filter {
                                             it.firstName.contains(query.text, ignoreCase = true) ||
-                                                    it.lastName.contains(
-                                                        query.text,
-                                                        ignoreCase = true
-                                                    ) ||
-                                                    it.registrationID.contains(
-                                                        query.text,
-                                                        ignoreCase = true
-                                                    )
+                                                    it.lastName.contains(query.text, ignoreCase = true) ||
+                                                    it.registrationID.contains(query.text, ignoreCase = true)
                                         }
                                     } else {
                                         originalStudents
@@ -201,7 +200,7 @@ fun AttendanceReportContent(context: Context) {
                                 modifier = Modifier
                                     .background(globalcolors.primaryColor)
                                     .height(50.dp)
-                                    .fillMaxWidth(),
+                                    .width(200.dp),
                                 shape = RoundedCornerShape(8.dp),
                                 colors = TextFieldDefaults.colors(
                                     focusedIndicatorColor = globalcolors.textColor,
@@ -216,6 +215,61 @@ fun AttendanceReportContent(context: Context) {
                                 ),
                                 textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.textColor)
                             )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            ExposedDropdownMenuBox(
+                                expanded = expanded,
+                                onExpandedChange = { expanded = !expanded },
+                            ) {
+                                OutlinedTextField(
+                                    value = selectedDate.format(dateFormatter),
+                                    onValueChange = {}, // Prevent direct text input
+                                    readOnly = true,
+                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)},
+                                    modifier = Modifier
+                                        .menuAnchor()
+                                        .background(globalcolors.primaryColor)
+                                        .height(50.dp)
+                                        .width(200.dp),  // Adjust width as needed
+                                    shape = RoundedCornerShape(8.dp),
+                                    colors = TextFieldDefaults.colors(
+                                        focusedIndicatorColor = globalcolors.textColor,
+                                        unfocusedIndicatorColor = globalcolors.primaryColor,
+                                        focusedLabelColor = globalcolors.textColor,
+                                        cursorColor = globalcolors.textColor,
+                                        unfocusedLabelColor = globalcolors.textColor,
+                                        focusedTextColor = globalcolors.textColor,
+                                        unfocusedTextColor = globalcolors.textColor,
+                                        focusedContainerColor = globalcolors.primaryColor,
+                                        unfocusedContainerColor = globalcolors.primaryColor
+                                    ),
+                                    textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.textColor)
+                                )
+                                ExposedDropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    availableDates.forEach { date ->
+                                        DropdownMenuItem(
+                                            text = { Text(date.format(dateFormatter)) },
+                                            onClick = {
+                                                selectedDate = date
+                                                expanded = false
+
+                                                // Update the displayed attendance records
+                                                students = if (searchQuery.text.isNotBlank()) {
+                                                    originalStudents.filter {
+                                                        it.firstName.contains(searchQuery.text, ignoreCase = true) ||
+                                                                it.lastName.contains(searchQuery.text, ignoreCase = true) ||
+                                                                it.registrationID.contains(searchQuery.text, ignoreCase = true)
+                                                    }
+                                                } else {
+                                                    originalStudents
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
+                            }}
                             Spacer(modifier = Modifier.height(16.dp))
                             Row(
                                 modifier = Modifier
@@ -315,6 +369,7 @@ fun AttendanceReportContent(context: Context) {
         }
     }
 }
+
 
 data class StudentAttendance(
     val student: Student,

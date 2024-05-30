@@ -561,7 +561,7 @@ fun Dashboard(navController: NavController, context: Context) {
                             "Timetable",
                             "Assignments",
                             "Manage Students",
-                            "Campuscura",
+                            "Documentation",
 
                         )
                     val indicator = @Composable { tabPositions: List<TabPosition> ->
@@ -624,11 +624,11 @@ fun Dashboard(navController: NavController, context: Context) {
                     // Content based on selected tab
                     when (selectedTabIndex) {
                         0 -> AnnouncementTabContent(navController, context)
-                        5 -> AttendanceTabContent(context, navController)
+                        1 -> AttendanceTabContent(context, navController)
                         2 -> TimetableTabContent(context)
                         3 -> AssignmentsTabContent(navController, context)
                         4 -> StudentsTabContent(navController, context)
-                        1 -> CampuscuraTabContent()
+                        5 -> CampuscuraTabContent()
 
                     }
                 }

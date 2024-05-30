@@ -96,7 +96,6 @@ to ensure valid color input, save changes, and provide user feedback.
 
 
 
-Absolutely! Let's break down the provided code and provide a detailed documentation of its functionality, components, and potential improvements:
 
 ### [**AddStudentScreen Composable**](./AddStudent.kt)
 
@@ -186,7 +185,6 @@ Feel free to ask if you have any specific questions or want further refinements 
 
 
 [### **Announcements Screen**](./Announcements.kt)
-Absolutely! Let's break down the `AnnouncementsScreen` composable function and provide a detailed documentation of its functionality, structure, and components.
 
 **AnnouncementsScreen: A Comprehensive Overview**
 
@@ -263,7 +261,6 @@ Let me know if you have any other questions.
 
 
 [### **Assignments Screen**](./Assignments.kt)
-Absolutely! Let's break down the `AssignmentScreen` code and provide detailed documentation, explaining its components and functionality:
 
 **AssignmentScreen Composable**
 
@@ -403,7 +400,6 @@ This documentation provides a detailed breakdown of the `Assignments` composable
 
 
 [### **Record Attendance Screen**](Attendancerecording.kt)
-Absolutely! Let's break down the `RecordAttendanceScreen` composable and provide comprehensive documentation with explanations and potential enhancements:
 
 **RecordAttendanceScreen Composable**
 
@@ -472,7 +468,6 @@ Let me know if you have any other questions.
 
 
 [### **Attendance Report Screen**](AttendanceReport.kt)
-Absolutely! Let's break down the `AttendanceReportScreen` code and provide a comprehensive documentation with explanations and areas for potential improvement:
 
 **AttendanceReportScreen Composable**
 
@@ -560,7 +555,6 @@ val selectedUnitIndex = MutableStateFlow(0)
 
 
 [### **Colors Settings**](ColorsSettings.kt)
-Absolutely! Here's a comprehensive documentation of the `ColorSettings` composable function, breaking down its functionality and components:
 
 **ColorSettings Composable**
 
@@ -624,7 +618,6 @@ Let me know if you have any other questions.
 
 
 [### **Current Day Event Screen**](CurrentDayLecturers.kt)
-Absolutely! Let's break down this `CurrentDayEventsScreen` composable and provide comprehensive documentation to help you understand its structure and functionality.
 
 **CurrentDayEventsScreen Composable**
 
@@ -689,7 +682,6 @@ Let me know if you have any other questions.
 
 
 [### **Dashboard Screen**](Dashboard.kt)
-Absolutely! Let's break down the `Dashboard` composable and provide comprehensive documentation with explanations and insights into potential improvements.
 
 **Dashboard Composable**
 
@@ -768,7 +760,6 @@ Let me know if you have any other questions.
 
 
 [### **Delete Student Screen**](DeleteStudent.kt)
-Absolutely! Let's break down the `DeleteStudentScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
 **DeleteStudentScreen Composable**
 
@@ -840,7 +831,6 @@ Feel free to ask for further clarification or suggestions!
 
 [### **Edit Student Screen**](EditStudent.kt)
 
-Absolutely! Let's break down the `EditStudentScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
 **EditStudentScreen Composable**
 
@@ -916,7 +906,6 @@ Let me know if you have any other questions.
 
 [### **File Utility**](Files.kt)
 
-Absolutely! Let's break down the provided code and provide a comprehensive documentation of the `FileUtil` object, explaining its purpose, methods, and how it interacts with the rest of the application.
 
 **FileUtil Object: Comprehensive Documentation**
 
@@ -996,7 +985,6 @@ Let me know if you have any other questions.
 
 ### **Login Screen**
 
-Absolutely! Let's break down the `LoginScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
 **LoginScreen Composable**
 
@@ -1070,7 +1058,6 @@ Feel free to ask if you have any other questions.
 
 
 [### **Main Activity and Navigation Component**](MainActivity.kt)
-Absolutely! Let's break down the `MainActivity` and `NavigationComponent` composables and provide detailed documentation with explanations and areas for potential improvement.
 
 **MainActivity (ComponentActivity)**
 
@@ -1125,8 +1112,6 @@ Absolutely! Let's break down the `MainActivity` and `NavigationComponent` compos
 Feel free to ask for further clarification or suggestions!
 
 [### **Notification Card**](NotificationCard.kt)
-
-Absolutely! Here's a comprehensive documentation for the `NotificationCard` composable, explaining its functionality, components, and how it can be used:
 
 **NotificationCard Composable**
 
@@ -1193,7 +1178,6 @@ Let me know if you have any other questions.
 
 [### **Notification Channel**](NotificationChannel.kt)
 
-Absolutely! Let's break down the provided code and provide a comprehensive documentation with explanations and insights into potential improvements.
 
 **File: Notification Utility Functions (Kotlin)**
 
@@ -1254,7 +1238,6 @@ Let me know if you have any other questions.
 
 [### **Settings Screen**](SettingsScreen.kt)
 
-Absolutely! Let's break down this `SettingsScreen` composable function and provide a comprehensive documentation with explanations and insights into potential improvements.
 
 **SettingsScreen Composable: Comprehensive Documentation**
 
@@ -1347,7 +1330,6 @@ Let me know if you have any other questions.
 
 [### **Show Students Screen**](students.kt)
 
-Absolutely! Let's break down the `ShowStudentsScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
 **ShowStudentsScreen Composable**
 
@@ -1446,7 +1428,6 @@ Let me know if you have any other questions!
 
 [### Timetable](Timetable.kt)
 
-Absolutely! Let's break down the `Timetable` composable and provide comprehensive documentation with explanations and areas for potential improvement:
 
 **Timetable Composable**
 
@@ -1522,7 +1503,6 @@ Let me know if you have any other questions.
 
 [### **Welcome Screen**](Welcome.kt)
 
-Absolutely! Let's break down the `WelcomeScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
 **WelcomeScreen Composable**
 

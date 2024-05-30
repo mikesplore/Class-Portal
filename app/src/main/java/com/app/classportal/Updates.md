@@ -1,6 +1,6 @@
 
 
-# **COMPREHENSIVE DOCUMENTATION**
+# **DOCUMENTATION**
 #### **Version 1.2.5**
 
 

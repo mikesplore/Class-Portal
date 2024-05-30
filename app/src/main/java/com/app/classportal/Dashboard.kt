@@ -1,6 +1,7 @@
 package com.app.classportal
 
 import Assignments
+import WebViewScreen
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
@@ -107,13 +108,23 @@ fun Dashboard(navController: NavController, context: Context) {
     val horizontalScrollState = rememberScrollState()
     var expanded by remember { mutableStateOf(false) }
     val announcements = loadAnnouncement(context)
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(1) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
     var palleteDialog by remember { mutableStateOf(false) }
     var showrestarting by remember { mutableStateOf(false) }
-
+    val addbackbrush = remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    globalcolors.primaryColor,
+                    globalcolors.secondaryColor,
+                    globalcolors.primaryColor
+                )
+            )
+        )
+    }.value
 
 
     val greetingMessage by remember { mutableStateOf(getGreetingMessage()) }
@@ -168,6 +179,7 @@ fun Dashboard(navController: NavController, context: Context) {
                         fontWeight = FontWeight.Normal,
                         style = myTextStyle,
                         fontSize = 20.sp,
+                        modifier = Modifier.clickable { navController.navigate("link") }
                     )
                 },
 
@@ -534,7 +546,7 @@ fun Dashboard(navController: NavController, context: Context) {
                 Column(
                     modifier = Modifier
                         .background(
-                            globalcolors.secondaryColor,
+                            addbackbrush,
                             shape = RoundedCornerShape(30.dp, 30.dp)
                         )
                         .fillMaxWidth()
@@ -548,7 +560,9 @@ fun Dashboard(navController: NavController, context: Context) {
                             "Attendance",
                             "Timetable",
                             "Assignments",
-                            "Manage Students"
+                            "Manage Students",
+                            "Campuscura",
+
                         )
                     val indicator = @Composable { tabPositions: List<TabPosition> ->
                         Box(
@@ -600,7 +614,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                         )
                                     }
                                 },
-                                modifier = Modifier.background(globalcolors.secondaryColor)
+                                modifier = Modifier.background(addbackbrush)
 
                             )
                         }
@@ -610,10 +624,11 @@ fun Dashboard(navController: NavController, context: Context) {
                     // Content based on selected tab
                     when (selectedTabIndex) {
                         0 -> AnnouncementTabContent(navController, context)
-                        1 -> AttendanceTabContent(context, navController)
+                        5 -> AttendanceTabContent(context, navController)
                         2 -> TimetableTabContent(context)
                         3 -> AssignmentsTabContent(navController, context)
                         4 -> StudentsTabContent(navController, context)
+                        1 -> CampuscuraTabContent()
 
                     }
                 }
@@ -624,6 +639,21 @@ fun Dashboard(navController: NavController, context: Context) {
 
     )
 }
+
+
+@Composable
+fun CampuscuraTabContent(){
+        Column(modifier = Modifier
+            .background(globalcolors.primaryColor)
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()) {
+            WebViewScreen(link = "https://github.com/mikesplore/Class-Portal/blob/master/app/src/main/java/com/app/classportal/Updates.md")
+        }
+
+
+    }
+
+
 
 
 @Composable
@@ -1171,67 +1201,70 @@ fun AnnouncementBoxes(
             .background(addbackbrush, shape = RoundedCornerShape(30.dp, 0.dp, 30.dp, 0.dp))
             .fillMaxHeight()
             .clickable { navController.navigate(route) }
-            .width(200.dp),
-        contentAlignment = Alignment.Center
+            .width(200.dp)
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            Text(
-                text = date,
-                color = globalcolors.textColor,
-                style = myTextStyle,
-                modifier = Modifier.padding(10.dp)
-            )
-            Row(
+            // Student Image at the top with a colored background
+            Box(
                 modifier = Modifier
-                    .absolutePadding(7.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .background(addbackbrush, RoundedCornerShape(20.dp, 0.dp, 30.dp, 0.dp)), // Use a background color for the image
+                contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.student),
                     contentDescription = "student",
                     modifier = Modifier
                         .clip(CircleShape)
-                        .size(50.dp)
+                        .size(60.dp) // Slightly larger image
                 )
-                Text(
-                    text = student,
-                    color = globalcolors.textColor,
-                    style = myTextStyle,
-                    modifier = Modifier
-                        .padding(top = 10.dp)
-                )
-
             }
+
+            // Student name with larger font and spacing
+            Text(
+                text = student,
+                style = myTextStyle.copy(fontWeight = FontWeight.Bold, fontSize = 18.sp),
+                modifier = Modifier.padding(top = 12.dp)
+            )
+
+            // Date as a subtitle with a smaller font
+            Text(
+                text = date,
+                color = globalcolors.textColor,
+                style = myTextStyle.copy(fontSize = 12.sp) // Smaller font for date
+            )
+
+            // Title and content with visual distinction
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp), // Add more padding above title
+                horizontalAlignment = Alignment.Start // Align text to the start
             ) {
                 Text(
-                    text = if (title.length > 10) "${title.take(10)}..." else title, // Truncate with ellipsis
-                    style = myTextStyle,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(10.dp)
+                    text = title,
+                    style = myTextStyle.copy(fontWeight = FontWeight.Bold, fontSize = 16.sp),
+                    maxLines = 2, // Allow 2 lines for longer titles
+                    overflow = TextOverflow.Ellipsis
                 )
+
                 Text(
-                    text = if (content.length > 10) "${content.take(10)}..." else content,
+                    text = content,
                     style = myTextStyle,
-                    modifier = Modifier.padding(10.dp),
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
             }
-
-
         }
-
     }
+
 }
+
 
 @Preview(showBackground = true)
 @Composable

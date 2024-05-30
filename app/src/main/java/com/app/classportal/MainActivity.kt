@@ -49,8 +49,6 @@ class Global(
     var usernames: MutableState<String> = mutableStateOf(""),
     var showdialog: MutableState<Boolean> = mutableStateOf(false)
 
-
-
 )
 
 
@@ -75,7 +73,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
 
-        NavHost(navController, startDestination = "login") {
+        NavHost(navController, startDestination = "welcome") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }

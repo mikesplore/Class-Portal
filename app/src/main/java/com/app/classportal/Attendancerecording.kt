@@ -1,5 +1,6 @@
 package com.app.classportal
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,7 +28,10 @@ import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Calendar.DAY_OF_WEEK
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun RecordAttendanceScreen(
@@ -35,6 +39,18 @@ fun RecordAttendanceScreen(
     navController: NavController,
     context: Context
 ) {
+    val calendar = Calendar.getInstance()
+    val dayofWeek = calendar.get(DAY_OF_WEEK)
+    val daysOfWeek = when (dayofWeek) {
+        1 -> "Sunday"
+        2  -> " Monday"
+        3  -> " Tuesday"
+        4 -> " Wednesday"
+        5 -> " Thursday"
+         6 -> " Friday"
+         7 -> " Saturday"
+        else -> ""
+    }
     val units = remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context).map { it.name }) }
     val students = FileUtil.loadStudents(context)
     val pagerState = rememberPagerState()
@@ -68,10 +84,10 @@ fun RecordAttendanceScreen(
             TopAppBar(
                 title = {
                     Text(
-                        " Sign Attendance",
+                        " Attendance $daysOfWeek",
                         fontFamily = RobotoMono,
                         color = globalcolors.textColor,
-                        fontSize = 20.sp
+                        fontSize = 15.sp
                     )
                 },
                 navigationIcon = {
@@ -101,6 +117,7 @@ fun RecordAttendanceScreen(
                 actions = {
                     Button(onClick = {
                         val allRecords = FileUtil.loadAttendanceRecords(context).toMutableList()
+
                         units.value.forEach { unit ->
                             students.forEach { student ->
                                 val key = "${student.registrationID}-$unit"
@@ -108,7 +125,7 @@ fun RecordAttendanceScreen(
                                 allRecords.add(
                                     AttendanceRecord(
                                         student.registrationID,
-                                        "2024-05-17",
+                                        daysOfWeek,
                                         isPresent,
                                         unit
                                     )
@@ -175,6 +192,7 @@ fun RecordAttendanceScreen(
                         .fillMaxSize()
                         .padding(8.dp)
                 ) {
+
                     itemsIndexed(students) { _, student ->
                         val key = "${student.registrationID}-${units.value[page]}"
                         val isPresent = attendanceRecords[key] ?: mutableStateOf(false)
@@ -218,3 +236,5 @@ fun RecordAttendanceScreenPreview() {
         context = LocalContext.current
     )
 }
+
+

@@ -1,8 +1,35 @@
 
 
 ## **Table of Contents 1.2.5**
-[COLORS](#COLORS)
-[Add Student](#add-student-screen-composable)
+
+[Color Palette](#colors)  
+[AddStudentScreen Composable](#addstudentscreen-composable) 
+[Announcements Screen](#announcements-screen)
+[Assignments Screen](#assignments-screen)
+[Attendance recording](#record-attendance-screen)
+[Attendance Report](#attendance-report-screen)
+[Available Assignments](#available-assignments-screen)
+[Color Pallete](#colors)
+[Current Day Lectures](#current-day-event-screen)
+[Dashboard Screen](#dashboard-screen)
+[Delete Student Screen](#delete-student-screen)
+[Edit Student Screen](#edit-student-screen)
+[File System](#file-utility)
+[Login Screen](#login-screen)
+[Main Activity and Navigation Component Screen](#main-activity-and-navigation-component)
+[Notification Card](#notification-card)
+[Notification Channel](#notification-channel)
+[Settings Screen](#settings-screen)
+[Students Screen](#show-students-screen)
+[Timetable](#timetable)
+[In-App Web page](#webviewscreen-)
+[Welcome Screen](#welcome-screen)
+
+
+
+
+
+
 
 
 
@@ -166,7 +193,7 @@ Feel free to ask if you have any specific questions or want further refinements 
 
 
 
-## Announcements Screen
+### **Announcements Screen**
 
 Absolutely! Let's break down the `AnnouncementsScreen` composable function and provide a detailed documentation of its functionality, structure, and components.
 
@@ -244,7 +271,7 @@ Let me know if you have any other questions.
 
 
 
-### Assignments Screen
+### **Assignments Screen**
 Absolutely! Let's break down the `AssignmentScreen` code and provide detailed documentation, explaining its components and functionality:
 
 **AssignmentScreen Composable**
@@ -319,8 +346,72 @@ Let me know if you have any other questions.
 
 
 
+## **Available Assignments Screen**
 
-### Record Attendance Screen
+This document explains the functionalities and components used in the `Assignments` composable.
+
+**Purpose:**
+
+- Displays a list of assignments for different units in a course management application.
+- Allows adding new assignments (navigation not implemented yet).
+- Filters assignments based on the selected unit.
+
+**Components:**
+
+1. **Column:** The main layout container for the entire `Assignments` composable.
+    - Uses `verticalScroll` modifier for scrollable content.
+    - Sets background color using `globalcolors.secondaryColor`.
+    - `horizontalAlignment` is set to `Alignment.CenterHorizontally` to center content horizontally.
+    - `verticalArrangement` is set to `Arrangement.Top` to stack elements vertically from top to bottom.
+
+2. **Add Assignment Button:**
+    - A clickable `Box` with rounded corners (`RoundedCornerShape(10.dp)`) background in `globalcolors.primaryColor`.
+    - Clicking triggers navigation to the "assignments" route (navigation not implemented in the provided code).
+    - Displays the text "Add Assignment" in `myTextStyle` with bold weight.
+
+3. **Filter Button Row:**
+    - A horizontal scrolling `Row` using `horizontalScroll` modifier with `rememberScrollState()`.
+    - Fills the maximum width (`fillMaxWidth`).
+    - Uses `padding(16.dp)` for spacing around the buttons.
+    - `horizontalArrangement` is set to `Arrangement.SpaceAround` to distribute buttons evenly with space in between.
+    - `verticalAlignment` is set to `Alignment.CenterVertically` to align buttons vertically.
+    - Iterates through `units` using `forEachIndexed`. For each unit:
+        - Creates a `Button` with rounded corners (`RoundedCornerShape(10.dp)`)
+        - Clicking the button sets the `selectedUnitIndex` to the current unit's index.
+        - Button color changes based on the selected unit:
+            - `globalcolors.primaryColor` if the unit is selected (index matches `selectedUnitIndex`).
+            - Transparent otherwise.
+        - Displays the unit name (`unit.name`) inside the button using `myTextStyle`.
+
+4. **Assignment List:**
+    - Conditionally rendered based on the presence of assignments in the selected unit:
+        - If `currentAssignments` (filtered assignments based on selected unit) is not empty:
+            - Iterates through each assignment in `currentAssignments`.
+            - Calls the `AssignmentItem` composable to display details for each assignment.
+        - Otherwise:
+            - Displays text indicating no assignments found for the selected unit.
+            - Text includes the selected unit name (`units.value[selectedUnitIndex].name`).
+
+5. **AssignmentItem:**
+    - A `Column` used to display details of a single assignment.
+    - Uses background color `globalcolors.primaryColor` with rounded corners (`RoundedCornerShape(8.dp)`)
+    - Fills the maximum width (`fillMaxWidth`).
+    - Uses padding (`padding(16.dp)`) for spacing within the column.
+    - `horizontalAlignment` is set to `Alignment.CenterHorizontally` to center content horizontally.
+    - `verticalArrangement` is set to `Arrangement.Top` to stack elements vertically.
+    - Displays assignment title (`assignment.title`) with bold weight, larger font size (20.sp), and centered text alignment.
+    - Adds spacing (`Spacer(modifier = Modifier.height(8.dp))`).
+    - Displays assignment description (`assignment.description`) with centered text alignment.
+
+**Additional Notes:**
+
+- `myTextStyle` and `globalcolors` are most likely defined elsewhere in the application and provide theming for the application's UI.
+- `FileUtil.loadUnitsAndAssignments(context)` function is responsible for loading unit and assignment data (implementation not provided).
+
+This documentation provides a detailed breakdown of the `Assignments` composable and its functionalities.
+
+
+### **Record Attendance Screen**
 Absolutely! Let's break down the `RecordAttendanceScreen` composable and provide comprehensive documentation with explanations and potential enhancements:
 
 **RecordAttendanceScreen Composable**
@@ -389,7 +480,7 @@ This composable is designed to facilitate attendance recording for students acro
 Let me know if you have any other questions.
 
 
-### Attendance Report Screen
+### **Attendance Report Screen**
 Absolutely! Let's break down the `AttendanceReportScreen` code and provide a comprehensive documentation with explanations and areas for potential improvement:
 
 **AttendanceReportScreen Composable**
@@ -477,7 +568,7 @@ val selectedUnitIndex = MutableStateFlow(0)
 }
 
 
-### Colors Settings
+### **Colors Settings**
 Absolutely! Here's a comprehensive documentation of the `ColorSettings` composable function, breaking down its functionality and components:
 
 **ColorSettings Composable**
@@ -541,7 +632,7 @@ This composable is designed to allow users to customize the color scheme of an a
 Let me know if you have any other questions.
 
 
-### Current Day Event Screen
+### **Current Day Event Screen**
 Absolutely! Let's break down this `CurrentDayEventsScreen` composable and provide comprehensive documentation to help you understand its structure and functionality.
 
 **CurrentDayEventsScreen Composable**
@@ -606,7 +697,7 @@ Let me know if you have any other questions.
 
 
 
-### Dashboard
+### **Dashboard Screen**
 Absolutely! Let's break down the `Dashboard` composable and provide comprehensive documentation with explanations and insights into potential improvements.
 
 **Dashboard Composable**
@@ -685,7 +776,7 @@ This composable serves as the central hub of your application, offering navigati
 Let me know if you have any other questions.
 
 
-### Delete Student Screen
+### **Delete Student Screen**
 Absolutely! Let's break down the `DeleteStudentScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
 **DeleteStudentScreen Composable**
@@ -756,7 +847,7 @@ This composable is designed to manage the deletion of student records from a fil
 Feel free to ask for further clarification or suggestions!
 
 
-### Edit Student Screen
+### **Edit Student Screen**
 
 Absolutely! Let's break down the `EditStudentScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -832,7 +923,7 @@ This composable is designed to enable editing student records within your class 
 Let me know if you have any other questions.
 
 
-### File Utility
+### **File Utility**
 
 Absolutely! Let's break down the provided code and provide a comprehensive documentation of the `FileUtil` object, explaining its purpose, methods, and how it interacts with the rest of the application.
 
@@ -912,7 +1003,7 @@ This `FileUtil` object is likely used by other composables within your app to lo
 Let me know if you have any other questions.
 
 
-### Login Screen
+### **Login Screen**
 
 Absolutely! Let's break down the `LoginScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -987,7 +1078,7 @@ This composable handles user authentication, providing both login and registrati
 Feel free to ask if you have any other questions.
 
 
-### Main Activity and Navigation Component
+### **Main Activity and Navigation Component**
 Absolutely! Let's break down the `MainActivity` and `NavigationComponent` composables and provide detailed documentation with explanations and areas for potential improvement.
 
 **MainActivity (ComponentActivity)**
@@ -1042,7 +1133,7 @@ Absolutely! Let's break down the `MainActivity` and `NavigationComponent` compos
 
 Feel free to ask for further clarification or suggestions!
 
-### Notification Card
+### **Notification Card**
 
 Absolutely! Here's a comprehensive documentation for the `NotificationCard` composable, explaining its functionality, components, and how it can be used:
 
@@ -1109,7 +1200,7 @@ This composable is designed to display a notification message in a visually appe
 Let me know if you have any other questions.
 
 
-### Notifications
+### **Notification Channel**
 
 Absolutely! Let's break down the provided code and provide a comprehensive documentation with explanations and insights into potential improvements.
 
@@ -1170,7 +1261,7 @@ showNotification(context, "New Announcement", "Check out the latest update from 
 Let me know if you have any other questions.
 
 
-### Settings Screen
+### **Settings Screen**
 
 Absolutely! Let's break down this `SettingsScreen` composable function and provide a comprehensive documentation with explanations and insights into potential improvements.
 
@@ -1263,7 +1354,7 @@ This composable is designed to present user settings and preferences within your
 
 Let me know if you have any other questions.
 
-## Show Students Screen
+## **Show Students Screen**
 
 Absolutely! Let's break down the `ShowStudentsScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -1438,7 +1529,7 @@ This composable is designed to present and manage a weekly timetable, where each
 Let me know if you have any other questions.
 
 
-### Welcome Screen
+### **Welcome Screen**
 
 Absolutely! Let's break down the `WelcomeScreen` composable and provide comprehensive documentation to help you understand its structure, functionality, and potential refinements:
 
@@ -1509,3 +1600,44 @@ This composable functions as a splash screen for your Class Portal app. It displ
 Let me know if you have any other questions.
 
 
+## **WebViewScreen** 
+
+This document explains the functionalities and components used in the `WebViewScreen` composable.
+
+**Purpose:**
+
+- Displays a web page within the application using a WebView component.
+- Shows a progress indicator while the web page is loading.
+- Provides basic navigation functionality (back and forward buttons - not implemented yet).
+
+**Components:**
+
+1. **Box:** The main layout container for the entire `WebViewScreen` composable.
+    - Uses `fillMaxHeight` modifier to ensure it fills the parent container's height.
+
+2. **WebView:**
+    - Embedded using `AndroidView`.
+    - `webViewClient` is set to handle web view events:
+        - `onPageStarted`: Sets `isLoading` to true when the page starts loading.
+        - `onPageFinished`: Sets `isLoading` to false and updates navigation states (`backEnabled` and `forwardEnabled`) when loading is finished.
+        - `doUpdateVisitedHistory`: Updates navigation states (`backEnabled` and `forwardEnabled`) based on the web view's history.
+    - `webChromeClient` is set to listen for progress updates:
+        - `onProgressChanged`: Updates the `progress` state variable based on the reported web view loading progress (0-100).
+    - JavaScript is enabled (`settings.javaScriptEnabled = true`).
+    - Loads the provided URL (`link`) using `loadUrl`.
+    - Stores a reference to the webView instance in `webViewInstance`.
+
+3. **LinearProgressIndicator:**
+    - Animated visibility controlled by `isLoading` state:
+        - Shown while `isLoading` is true (during web page loading).
+        - Hidden when `isLoading` is false (after loading is complete).
+    - Uses fading and vertical resizing animations for entering and exiting.
+    - Progress bar color is set using `globalcolors.primaryColor` for background and `globalcolors.secondaryColor` for the progress itself.
+    - Fills the maximum width (`fillMaxWidth`) and sets a small height (`height(4.dp)`)
+
+**Additional Notes:**
+
+- `globalcolors` is most likely defined elsewhere in the application and provides theming for the application's UI.
+- Navigation functionality (back and forward buttons) is not implemented in the provided code, but states (`backEnabled` and `forwardEnabled`) are updated to handle potential future implementation.
+
+This documentation provides a detailed breakdown of the `WebViewScreen` composable and its functionalities. 

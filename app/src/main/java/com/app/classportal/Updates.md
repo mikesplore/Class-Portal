@@ -26,7 +26,7 @@
 22. [Welcome Screen](#welcome-screen)
 
 
-### **COLORS**
+[### **COLORS**](ColorsSettings.kt)
 
 **Purpose:**
 

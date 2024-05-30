@@ -91,6 +91,8 @@ fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
         textColor = globalcolors.currentScheme.textColor
     }
 
+    var refreshTrigger by remember { mutableStateOf(false) } // Trigger to force recomposition
+
     Column(
         modifier = Modifier.height(500.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
@@ -140,6 +142,7 @@ fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
                 textColor = textColor
             )
             globalcolors.saveColorScheme(context, newScheme)
+            refreshTrigger = !refreshTrigger // Toggle the trigger to force recomposition
             onsave()
         },
             colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
@@ -150,6 +153,7 @@ fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
 
         Button(onClick = {
             globalcolors.resetToDefaultColors(context)
+            refreshTrigger = !refreshTrigger // Toggle the trigger to force recomposition
             onrevert()
         },
             colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),

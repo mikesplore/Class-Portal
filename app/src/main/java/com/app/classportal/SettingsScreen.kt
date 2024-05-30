@@ -201,7 +201,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
                 onCheckedChange = { checked ->
                     showusername = checked
 
-                   /* if (checked) { // Only check when the switch is turned ON
+                   if (checked) { // Only check when the switch is turned ON
                         if (student != null) {
                             if (student.username.isNotEmpty()) {
                                 global.loggedinuser.value = student.username
@@ -210,7 +210,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                 showusername = false // Reset the switch if no username is set
                             }
                         }
-                    }*/
+                    }
                 }
             )
 

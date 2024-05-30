@@ -179,11 +179,6 @@ fun Dashboard(navController: NavController, context: Context) {
                         fontWeight = FontWeight.Normal,
                         style = myTextStyle,
                         fontSize = 20.sp,
-                        modifier = Modifier
-                            .shadow(
-                                elevation = 10.dp,
-                                shape = RoundedCornerShape(10.dp)
-                            )
 
                     )
                 },
@@ -1237,6 +1232,9 @@ fun AnnouncementBoxes(
             }
 
             // Student name with larger font and spacing
+            LaunchedEffect(Unit) {
+                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+            }
             Text(
                 text = student,
                 style = myTextStyle.copy(fontWeight = FontWeight.Bold, fontSize = 18.sp),
@@ -1244,6 +1242,9 @@ fun AnnouncementBoxes(
             )
 
             // Date as a subtitle with a smaller font
+            LaunchedEffect(Unit) {
+                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+            }
             Text(
                 text = date,
                 color = globalcolors.textColor,
@@ -1251,12 +1252,18 @@ fun AnnouncementBoxes(
             )
 
             // Title and content with visual distinction
+            LaunchedEffect(Unit) {
+                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp), // Add more padding above title
                 horizontalAlignment = Alignment.Start // Align text to the start
             ) {
+                LaunchedEffect(Unit) {
+                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                }
                 Text(
                     text = title,
                     style = myTextStyle.copy(fontWeight = FontWeight.Bold, fontSize = 16.sp),

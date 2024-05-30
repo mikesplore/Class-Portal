@@ -35,7 +35,7 @@
 
 
 
-## **COLORS**
+### **COLORS**
 
 **Purpose:**
 
@@ -107,7 +107,8 @@ to ensure valid color input, save changes, and provide user feedback.
 
 Absolutely! Let's break down the provided code and provide a detailed documentation of its functionality, components, and potential improvements:
 
- ### **AddStudentScreen Composable**
+### [**AddStudentScreen Composable**](/AddStudent.kt)
+
 
 This composable function is designed to handle the addition of new students to a class roster or database. Let's analyze its key aspects:
 

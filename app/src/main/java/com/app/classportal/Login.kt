@@ -73,7 +73,7 @@ val center = Offset(0.5f, 0.5f)
 @Composable
 fun LoginScreen(navController: NavController, context: Context) {
     LaunchedEffect(Unit) {
-        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
@@ -88,9 +88,9 @@ fun LoginScreen(navController: NavController, context: Context) {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -101,12 +101,12 @@ fun LoginScreen(navController: NavController, context: Context) {
             Text(
                 text = if (isRegistering) "   Register" else "   Login",
                 fontFamily = RobotoMono,
-                color = globalcolors.textColor,
+                color = GlobalColors.textColor,
                 fontWeight = FontWeight.Bold,
                 fontSize = 25.sp
             )
         },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
         )
     }) {
         Column(
@@ -127,7 +127,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                 Text(
                     text = if (isRegistering) "Register as one of the following" else "Login as one of the following",
                     fontFamily = RobotoMono,
-                    color = globalcolors.textColor,
+                    color = GlobalColors.textColor,
                     fontWeight = FontWeight.Normal,
                     fontSize = 16.sp,
                 )
@@ -143,7 +143,7 @@ fun LoginScreen(navController: NavController, context: Context) {
 
                         .border(
                             width = 1.dp,
-                            color = globalcolors.textColor,
+                            color = GlobalColors.textColor,
                             shape = RoundedCornerShape(10.dp)
 
                         )
@@ -152,7 +152,7 @@ fun LoginScreen(navController: NavController, context: Context) {
 
                         }
                         .background(
-                            if (global.selectedcategory.value == "Class Rep") globalcolors.primaryColor else unselected,
+                            if (global.selectedcategory.value == "Class Rep") GlobalColors.primaryColor else unselected,
                             shape = RoundedCornerShape(10.dp)
                         )
                         .fillMaxHeight()
@@ -160,7 +160,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                         Text(
                             text = "Class Rep",
                             fontFamily = RobotoMono,
-                            color = globalcolors.textColor,
+                            color = GlobalColors.textColor,
                             fontWeight = FontWeight.Normal,
                             fontSize = 15.sp,
                         )
@@ -170,12 +170,12 @@ fun LoginScreen(navController: NavController, context: Context) {
                             global.selectedcategory.value = "Student"
                         }
                         .background(
-                            if (global.selectedcategory.value == "Student") globalcolors.primaryColor else unselected,
+                            if (global.selectedcategory.value == "Student") GlobalColors.primaryColor else unselected,
                             shape = RoundedCornerShape(10.dp)
                         )
                         .border(
                             width = 1.dp,
-                            color = globalcolors.textColor,
+                            color = GlobalColors.textColor,
                             shape = RoundedCornerShape(10.dp)
 
                         )
@@ -184,7 +184,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                         Text(
                             text = "Student",
                             fontFamily = RobotoMono,
-                            color = globalcolors.textColor,
+                            color = GlobalColors.textColor,
                             fontWeight = FontWeight.Normal,
                             fontSize = 15.sp,
                         )
@@ -216,22 +216,22 @@ fun LoginScreen(navController: NavController, context: Context) {
                                 Text(
                                     text = "First Name",
                                     fontFamily = RobotoMono,
-                                    color = globalcolors.textColor,
+                                    color = GlobalColors.textColor,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 15.sp
                                 )
                             },
                             singleLine = true,
                             colors = TextFieldDefaults.colors(
-                                focusedContainerColor = globalcolors.primaryColor,
-                                unfocusedContainerColor = globalcolors.primaryColor,
-                                focusedIndicatorColor = globalcolors.tertiaryColor,
-                                unfocusedIndicatorColor = globalcolors.primaryColor,
-                                focusedLabelColor = globalcolors.textColor,
-                                cursorColor = globalcolors.textColor,
-                                unfocusedLabelColor = globalcolors.textColor,
-                                focusedTextColor = globalcolors.textColor,
-                                unfocusedTextColor = globalcolors.textColor
+                                focusedContainerColor = GlobalColors.primaryColor,
+                                unfocusedContainerColor = GlobalColors.primaryColor,
+                                focusedIndicatorColor = GlobalColors.tertiaryColor,
+                                unfocusedIndicatorColor = GlobalColors.primaryColor,
+                                focusedLabelColor = GlobalColors.textColor,
+                                cursorColor = GlobalColors.textColor,
+                                unfocusedLabelColor = GlobalColors.textColor,
+                                focusedTextColor = GlobalColors.textColor,
+                                unfocusedTextColor = GlobalColors.textColor
 
                             ),
                             shape = RoundedCornerShape(10.dp),
@@ -250,22 +250,22 @@ fun LoginScreen(navController: NavController, context: Context) {
                                 Text(
                                     text = "Last Name",
                                     fontFamily = RobotoMono,
-                                    color = globalcolors.textColor,
+                                    color = GlobalColors.textColor,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 15.sp
                                 )
                             },
                             singleLine = true,
                             colors = TextFieldDefaults.colors(
-                                focusedContainerColor = globalcolors.primaryColor,
-                                unfocusedContainerColor = globalcolors.primaryColor,
-                                focusedIndicatorColor = globalcolors.tertiaryColor,
-                                unfocusedIndicatorColor = globalcolors.primaryColor,
-                                focusedLabelColor = globalcolors.textColor,
-                                cursorColor = globalcolors.textColor,
-                                unfocusedLabelColor = globalcolors.textColor,
-                                focusedTextColor = globalcolors.textColor,
-                                unfocusedTextColor = globalcolors.textColor
+                                focusedContainerColor = GlobalColors.primaryColor,
+                                unfocusedContainerColor = GlobalColors.primaryColor,
+                                focusedIndicatorColor = GlobalColors.tertiaryColor,
+                                unfocusedIndicatorColor = GlobalColors.primaryColor,
+                                focusedLabelColor = GlobalColors.textColor,
+                                cursorColor = GlobalColors.textColor,
+                                unfocusedLabelColor = GlobalColors.textColor,
+                                focusedTextColor = GlobalColors.textColor,
+                                unfocusedTextColor = GlobalColors.textColor
 
                             ),
                             shape = RoundedCornerShape(10.dp),
@@ -285,15 +285,15 @@ fun LoginScreen(navController: NavController, context: Context) {
                     label = { Text(text = "Username or Registration ID", fontFamily = RobotoMono, fontSize = 15.sp) },
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.tertiaryColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.tertiaryColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -315,22 +315,22 @@ fun LoginScreen(navController: NavController, context: Context) {
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                             Icon(
                                 imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                tint = globalcolors.textColor,
+                                tint = GlobalColors.textColor,
                                 contentDescription = if (passwordVisibility) "Hide password" else "Show password"
                             )
                         }
                     },
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.tertiaryColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.tertiaryColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -347,7 +347,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                         .absolutePadding(0.dp,0.dp,20.dp,0.dp)
                         .clickable {navController.navigate("password")},
                         style = myTextStyle,
-                        color = globalcolors.tertiaryColor)
+                        color = GlobalColors.tertiaryColor)
                 }
 
 
@@ -364,22 +364,22 @@ fun LoginScreen(navController: NavController, context: Context) {
                             }) {
                                 Icon(
                                     imageVector = if (confirmPasswordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                    tint = globalcolors.textColor,
+                                    tint = GlobalColors.textColor,
                                     contentDescription = if (confirmPasswordVisibility) "Hide password" else "Show password"
                                 )
                             }
                         },
                         visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = globalcolors.primaryColor,
-                            unfocusedContainerColor = globalcolors.primaryColor,
-                            focusedIndicatorColor = globalcolors.tertiaryColor,
-                            unfocusedIndicatorColor = globalcolors.primaryColor,
-                            focusedLabelColor = globalcolors.textColor,
-                            cursorColor = globalcolors.textColor,
-                            unfocusedLabelColor = globalcolors.textColor,
-                            focusedTextColor = globalcolors.textColor,
-                            unfocusedTextColor = globalcolors.textColor
+                            focusedContainerColor = GlobalColors.primaryColor,
+                            unfocusedContainerColor = GlobalColors.primaryColor,
+                            focusedIndicatorColor = GlobalColors.tertiaryColor,
+                            unfocusedIndicatorColor = GlobalColors.primaryColor,
+                            focusedLabelColor = GlobalColors.textColor,
+                            cursorColor = GlobalColors.textColor,
+                            unfocusedLabelColor = GlobalColors.textColor,
+                            focusedTextColor = GlobalColors.textColor,
+                            unfocusedTextColor = GlobalColors.textColor
                         ),
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier
@@ -503,13 +503,13 @@ fun LoginScreen(navController: NavController, context: Context) {
                         .height(50.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = globalcolors.primaryColor,
+                        containerColor = GlobalColors.primaryColor,
 
                         )
 
                 ) {
                     LaunchedEffect(Unit) {
-                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
                     }
 
                     Text(
@@ -533,20 +533,20 @@ fun LoginScreen(navController: NavController, context: Context) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     LaunchedEffect(Unit) {
-                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
                     }
                     Text(
                         text = if (isRegistering) "Already have an account? " else "Don't have an account? ",
                         style = myTextStyle,
                     )
                     LaunchedEffect(Unit) {
-                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
                     }
                     Text(
 
                         text = if (isRegistering) "Login" else "Register",
                         style = myTextStyle,
-                        color = globalcolors.tertiaryColor,
+                        color = GlobalColors.tertiaryColor,
                         modifier = Modifier.clickable {
                             isRegistering = !isRegistering
                         })
@@ -557,18 +557,18 @@ fun LoginScreen(navController: NavController, context: Context) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     LaunchedEffect(Unit) {
-                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
                     }
                     val text = if (isRegistering) "Register" else "Login"
                     val category =
                         if (global.selectedcategory.value == "Student") "Class Rep" else "Student"
                     LaunchedEffect(Unit) {
-                        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
                     }
                     Text(text = "$text as a $category? ", style = myTextStyle)
                     Text(text = "Click here",
                         style = myTextStyle,
-                        color = globalcolors.tertiaryColor,
+                        color = GlobalColors.tertiaryColor,
                         modifier = Modifier.clickable {
                             global.selectedcategory.value = category
                         })

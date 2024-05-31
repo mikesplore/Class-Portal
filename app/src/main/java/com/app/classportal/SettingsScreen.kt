@@ -210,6 +210,12 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                 showusername = false // Reset the switch if no username is set
                             }
                         }
+                    }else{
+                       if (student != null) {
+                           //use your name instead of username
+                           global.loggedinuser.value = student.firstName
+
+                       }
                     }
                 }
             )

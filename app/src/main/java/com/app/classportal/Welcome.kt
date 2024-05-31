@@ -31,7 +31,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun WelcomeScreen(navController: NavHostController, context: Context) {
     LaunchedEffect(Unit) {
-        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
     var startAnimation by remember { mutableStateOf(false) }
     var fadeOut by remember { mutableStateOf(false) }
@@ -67,14 +67,14 @@ fun WelcomeScreen(navController: NavHostController, context: Context) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(globalcolors.primaryColor),
+            .background(GlobalColors.primaryColor),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(
             text = "CLASS PORTAL",
             style = TextStyle(
-                color = globalcolors.tertiaryColor,
+                color = GlobalColors.tertiaryColor,
                 fontSize = 60.sp,
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = FontFamily.Serif,
@@ -96,7 +96,7 @@ fun WelcomeScreen(navController: NavHostController, context: Context) {
                 Box(contentAlignment = Alignment.Center){
                     CircularProgressIndicator(
                         modifier = Modifier.size(70.dp),
-                        color = globalcolors.secondaryColor,
+                        color = GlobalColors.secondaryColor,
                         strokeWidth = 5.dp,
                         progress = progress
                     )

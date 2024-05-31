@@ -46,8 +46,10 @@ class Global(
     var loggedinlastname: MutableState<String> = mutableStateOf(""),
     var loggedinregID: MutableState<String> = mutableStateOf(""),
     var enableEdgeToEdge: MutableState<Boolean> = mutableStateOf(true),
-    var usernames: MutableState<String> = mutableStateOf(""),
-    var showdialog: MutableState<Boolean> = mutableStateOf(false)
+    var username: MutableState<String> = mutableStateOf(""),
+    var showdialog: MutableState<Boolean> = mutableStateOf(false),
+    var password: MutableState<String> = mutableStateOf(""),
+    var confirmpassword: MutableState<String> = mutableStateOf(""),
 
 )
 
@@ -129,6 +131,9 @@ class MainActivity : ComponentActivity() {
             }
             composable("settings"){
                 SettingsScreen(navController, context)
+            }
+            composable("password"){
+                PasswordResetScreen(navController, context)
             }
         }
     }

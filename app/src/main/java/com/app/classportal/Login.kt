@@ -75,13 +75,15 @@ fun LoginScreen(navController: NavController, context: Context) {
     LaunchedEffect(Unit) {
         globalcolors.currentScheme = globalcolors.loadColorScheme(context)
     }
-    var password by remember { mutableStateOf(TextFieldValue()) }
-    var confirmPassword by remember { mutableStateOf(TextFieldValue()) }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val username by remember { mutableStateOf("") }
+    var input by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var isRegistering by remember { mutableStateOf(false) }
-    val pattern = Regex("^[A-Za-z]{4}/\\d{3}[A-Za-z]/\\d{4}$")
-    var wrongpassword by remember { mutableStateOf(false)}
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -104,31 +106,6 @@ fun LoginScreen(navController: NavController, context: Context) {
                 fontSize = 25.sp
             )
         },
-            navigationIcon = {
-                IconButton(
-                    onClick = { navController.navigate("welcome") },
-                    modifier = Modifier.absolutePadding(left = 10.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-
-                            .border(
-                                width = 1.dp,
-                                color = globalcolors.textColor,
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
-                            .size(50.dp), contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIosNew,
-                            contentDescription = "Back",
-                            tint = globalcolors.textColor,
-                        )
-                    }
-
-                }
-            },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
         )
     }) {
@@ -216,12 +193,6 @@ fun LoginScreen(navController: NavController, context: Context) {
                 }
 
             }
-            AnimatedVisibility(visible = wrongpassword) {
-                Text("Registration ID format: BSCS/001J/2030. The password should be the same as the registration ID.",
-                    style = myTextStyle, fontSize = 14.sp, textAlign = TextAlign.Center)
-
-            }
-
 
             Column(
                 modifier = Modifier
@@ -238,9 +209,9 @@ fun LoginScreen(navController: NavController, context: Context) {
 
                         ) {
                         OutlinedTextField(
-                            value = global.firstname.value,
+                            value = firstName,
                             textStyle = TextStyle(fontFamily = RobotoMono),
-                            onValueChange = { global.firstname.value = it.trimEnd() },
+                            onValueChange = { firstName = it.trimEnd() },
                             label = {
                                 Text(
                                     text = "First Name",
@@ -272,9 +243,9 @@ fun LoginScreen(navController: NavController, context: Context) {
                                 )
                         )
                         OutlinedTextField(
-                            value = global.lastname.value,
+                            value = lastName,
                             textStyle = TextStyle(fontFamily = RobotoMono),
-                            onValueChange = { global.lastname.value = it.trimEnd() },
+                            onValueChange = { lastName = it.trimEnd() },
                             label = {
                                 Text(
                                     text = "Last Name",
@@ -308,10 +279,10 @@ fun LoginScreen(navController: NavController, context: Context) {
                     }
                 }
                 OutlinedTextField(
-                    value = global.regID.value,
+                    value = input,
                     textStyle = TextStyle(fontFamily = RobotoMono),
-                    onValueChange = { global.regID.value = it.trimEnd() },
-                    label = { Text(text = "Registration ID", fontFamily = RobotoMono) },
+                    onValueChange = { input = it.trimEnd() },
+                    label = { Text(text = "Username or Registration ID", fontFamily = RobotoMono, fontSize = 15.sp) },
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = globalcolors.primaryColor,
@@ -370,6 +341,7 @@ fun LoginScreen(navController: NavController, context: Context) {
 
                             )
                 )
+                Text("Forgot Password",style = myTextStyle, modifier = Modifier.clickable {navController.navigate("password")})
 
                 AnimatedVisibility(visible = isRegistering) {
                     OutlinedTextField(
@@ -420,36 +392,39 @@ fun LoginScreen(navController: NavController, context: Context) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+
                 Button(
                     onClick = {
                         if (isRegistering) {
-                            if (global.regID.value.isNotEmpty() && password.text.isNotEmpty() && confirmPassword.text.isNotEmpty() && global.firstname.value.isNotEmpty() && pattern.matches(
-                                    global.regID.value
-                                ) && password.text == global.regID.value
-                            ) {
-                                if (password.text == confirmPassword.text) {
+                            //check if any of the fields are empty
+                            if (input.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && firstName.isNotEmpty() && lastName.isNotEmpty()) {
+                                if (password == confirmPassword) {
                                     val students = FileUtil.loadStudents(context)
 
                                     // Check if regID already exists
-                                    if (students.any { it.registrationID == global.regID.value }) {
+                                    if (students.any { it.registrationID == input }) {
                                         Toast.makeText(
                                             context,
-                                            "${global.selectedcategory.value.capitalize(Locale.ROOT)} ID already exists",
+                                            "${global.selectedcategory.value.replaceFirstChar {
+                                                if (it.isLowerCase()) it.titlecase(
+                                                    Locale.ROOT
+                                                ) else it.toString()
+                                            }} ID already exists",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     } else {
                                         val updatedStudents = students.toMutableList()
                                         updatedStudents.add(
                                             Student(
-                                                registrationID = global.regID.value,
-                                                firstName = global.firstname.value,
-                                                lastName = global.lastname.value,
-                                                ""
-
+                                                registrationID = input,
+                                                firstName = firstName,
+                                                lastName = lastName,
+                                                username = username,
+                                                password = password
                                             )
                                         )
+
                                         FileUtil.saveStudents(context, updatedStudents)
-                                        wrongpassword = false
                                         Toast.makeText(
                                             context,
                                             "${global.selectedcategory.value.capitalize(Locale.ROOT)} registered successfully! Login to continue",
@@ -458,13 +433,11 @@ fun LoginScreen(navController: NavController, context: Context) {
                                         isRegistering = !isRegistering
                                     }
                                 } else {
-                                    wrongpassword = true
                                     Toast.makeText(
                                         context, "Passwords do not match", Toast.LENGTH_SHORT
                                     ).show()
                                 }
                             } else {
-                                wrongpassword = true
                                 Toast.makeText(
                                     context, "Please enter a valid ${
                                         global.selectedcategory.value.capitalize(Locale.ROOT)
@@ -473,58 +446,49 @@ fun LoginScreen(navController: NavController, context: Context) {
                             }
                         } else { // Login logic
                             val students = FileUtil.loadStudents(context)
-                            val student = students.find { it.registrationID == global.regID.value } // Use regID.text directly
+                            val student = students.find {it.registrationID == input || it.username == input}
+
 
                             // Check if student exists and credentials match
-                            when {
-                                student == null -> {
-                                    Toast.makeText(navController.context, "${
-                                        global.selectedcategory.value.replaceFirstChar {
-                                            if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()
-                                        }
-                                    } not found", Toast.LENGTH_SHORT).show()
-                                }
+                            if (student != null) {
+                                when {
+                                    password.isBlank() -> {
+                                        Toast.makeText(
+                                            navController.context,
+                                            "Password cannot be blank",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
 
-                                password.text.isBlank() -> {
-                                    Toast.makeText(
-                                        navController.context,
-                                        "Password cannot be blank",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+                                    password != student.password -> {
+                                        Toast.makeText(
+                                            navController.context,
+                                            "Invalid credentials",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
 
-                                !pattern.matches(global.regID.value) -> {
-                                    wrongpassword = true
-                                    Toast.makeText(
-                                        navController.context,
-                                        "Registration ID format is incorrect",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    else -> {
+                                        Toast.makeText(
+                                            navController.context,
+                                            "Logged in successfully",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        global.loggedinuser.value = student.firstName
+                                        global.loggedinlastname.value = student.lastName
+                                        global.loggedinregID.value = student.registrationID
+                                        navController.navigate("dashboard") // Navigate after successful login
+                                    }
                                 }
-
-                                password.text != student.registrationID -> {
-                                    wrongpassword = true
-                                    Toast.makeText(
-                                        navController.context,
-                                        "Invalid credentials",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                else -> {
-                                    wrongpassword = false
-                                    Toast.makeText(
-                                        navController.context,
-                                        "Logged in successfully",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    global.loggedinuser.value = student.firstName
-                                    global.loggedinlastname.value = student.lastName
-                                    global.loggedinregID.value = student.registrationID
-                                    navController.navigate("dashboard") // Navigate after successful login
-                                }
+                            }else{
+                                Toast.makeText(
+                                    navController.context,
+                                    "Username or Registration ID does not exist",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
+
                     },
                     modifier = Modifier
                         .width(300.dp)

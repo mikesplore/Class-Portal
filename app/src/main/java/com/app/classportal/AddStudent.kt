@@ -190,7 +190,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                             val isValid = firstName.isNotEmpty() && pattern.matches(studentId)
                             if (isValid) {
                                 FileUtil.loadStudents(context).toMutableList().apply {
-                                    add(Student(studentId, firstName, lastName, ""))
+                                    add(Student(studentId, firstName, lastName, global.username.value,global.password.value))
                                     FileUtil.saveStudents(
                                         context,
                                         this

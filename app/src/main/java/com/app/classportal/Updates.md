@@ -986,6 +986,12 @@ Let me know if you have any other questions.
 ### **Login Screen**
 
 
+**UPDATES**
+-I have removed the pattern required for the registration ID
+-Introduced the forgot password option
+-You can now login using your username or registration ID
+
+
 **LoginScreen Composable**
 
 This composable handles user authentication, providing both login and registration functionality. It's designed to be visually appealing and interactive, guiding users through the authentication process.

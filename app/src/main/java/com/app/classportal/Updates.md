@@ -1244,6 +1244,9 @@ Let me know if you have any other questions.
 
 [### **Settings Screen**](SettingsScreen.kt)
 
+**UPDATES**
+You can now change your password. To change your password,
+Gor to settngs -> Password
 
 **SettingsScreen Composable: Comprehensive Documentation**
 

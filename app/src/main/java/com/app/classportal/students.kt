@@ -63,9 +63,9 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -85,7 +85,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                             "Students",
                             fontWeight = FontWeight.Bold,
                             fontFamily = RobotoMono,
-                            color = globalcolors.textColor,
+                            color = GlobalColors.textColor,
                             modifier = Modifier.clickable{
                                 navController.navigate("students")
                             }
@@ -106,27 +106,27 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                                 }
                             },
                             leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search",
-                                tint = globalcolors.textColor) },
-                            placeholder = { Text("Search", fontFamily = RobotoMono, color = globalcolors.textColor) },
+                                tint = GlobalColors.textColor) },
+                            placeholder = { Text("Search", fontFamily = RobotoMono, color = GlobalColors.textColor) },
                             modifier = Modifier
                                 .height(50.dp)
                                 .width(200.dp),
                             shape = RoundedCornerShape(8.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = globalcolors.secondaryColor,
-                                unfocusedBorderColor = globalcolors.primaryColor,
-                                cursorColor = globalcolors.primaryColor,
-                                containerColor = globalcolors.primaryColor,
-                                focusedLabelColor = globalcolors.primaryColor,
-                                unfocusedLabelColor = globalcolors.primaryColor,
+                                focusedBorderColor = GlobalColors.secondaryColor,
+                                unfocusedBorderColor = GlobalColors.primaryColor,
+                                cursorColor = GlobalColors.primaryColor,
+                                containerColor = GlobalColors.primaryColor,
+                                focusedLabelColor = GlobalColors.primaryColor,
+                                unfocusedLabelColor = GlobalColors.primaryColor,
                             ),
-                            textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.primaryColor)
+                            textStyle = TextStyle(fontFamily = RobotoMono, color = GlobalColors.primaryColor)
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = globalcolors.primaryColor,
-                    titleContentColor = globalcolors.textColor,
+                    containerColor = GlobalColors.primaryColor,
+                    titleContentColor = GlobalColors.textColor,
                 )
             )
         }
@@ -153,8 +153,8 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .width(150.dp)
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = globalcolors.primaryColor,
-                        contentColor = globalcolors.textColor
+                        containerColor = GlobalColors.primaryColor,
+                        contentColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -168,8 +168,8 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .width(170.dp)
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = globalcolors.primaryColor,
-                        contentColor = globalcolors.textColor
+                        containerColor = GlobalColors.primaryColor,
+                        contentColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -183,8 +183,8 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         .width(170.dp)
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = globalcolors.primaryColor,
-                        contentColor = globalcolors.textColor
+                        containerColor = GlobalColors.primaryColor,
+                        contentColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -193,7 +193,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
 
             }
 
-            LazyColumn(modifier = Modifier.border(1.dp, globalcolors.secondaryColor)) {
+            LazyColumn(modifier = Modifier.border(1.dp, GlobalColors.secondaryColor)) {
                 itemsIndexed(students) { index, student ->
                     Row(
                         modifier = Modifier
@@ -201,7 +201,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                             .height(50.dp)
                             .border(
                                 width = 1.dp,
-                                color = globalcolors.tertiaryColor,
+                                color = GlobalColors.tertiaryColor,
                             ),
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
@@ -209,7 +209,7 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         Text(
                             (index + 1).toString(),
                             fontWeight = FontWeight.Normal,
-                            color = globalcolors.textColor,
+                            color = GlobalColors.textColor,
                             fontSize = 16.sp,
                             fontFamily = RobotoMono,
                             modifier = Modifier.width(30.dp)
@@ -221,14 +221,14 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                             Text(
                                 student.firstName,
                                 fontWeight = FontWeight.Normal,
-                                color = globalcolors.textColor,
+                                color = GlobalColors.textColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,
                             )
                             Text(
                                 student.lastName,
                                 fontWeight = FontWeight.Normal,
-                                color = globalcolors.textColor,
+                                color = GlobalColors.textColor,
                                 fontSize = 16.sp,
                                 fontFamily = RobotoMono,
                             )
@@ -236,11 +236,11 @@ fun ShowStudentsScreen(context: Context, navController: NavController) {
                         Text(
                             student.registrationID,
                             fontFamily = RobotoMono,
-                            color = globalcolors.textColor,
+                            color = GlobalColors.textColor,
                             fontSize = 16.sp,
                         )
                     }
-                    Divider(color = globalcolors.tertiaryColor, thickness = 1.dp)
+                    Divider(color = GlobalColors.tertiaryColor, thickness = 1.dp)
                 }
             }
             Text(

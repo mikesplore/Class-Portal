@@ -32,7 +32,7 @@ fun parseColor(hex: String): Color {
     }
 }
 
-object globalcolors {
+object GlobalColors {
     private const val COLORS_FILE_NAME = "color_scheme.json"
 
     private val defaultScheme = ColorScheme("003C43", "135D66", "77B0AA", "E3FEF7")
@@ -78,17 +78,17 @@ object globalcolors {
 
 @Composable
 fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
-    var primaryColor by remember { mutableStateOf(globalcolors.currentScheme.primaryColor) }
-    var secondaryColor by remember { mutableStateOf(globalcolors.currentScheme.secondaryColor) }
-    var tertiaryColor by remember { mutableStateOf(globalcolors.currentScheme.tertiaryColor) }
-    var textColor by remember { mutableStateOf(globalcolors.currentScheme.textColor) }
+    var primaryColor by remember { mutableStateOf(GlobalColors.currentScheme.primaryColor) }
+    var secondaryColor by remember { mutableStateOf(GlobalColors.currentScheme.secondaryColor) }
+    var tertiaryColor by remember { mutableStateOf(GlobalColors.currentScheme.tertiaryColor) }
+    var textColor by remember { mutableStateOf(GlobalColors.currentScheme.textColor) }
 
     // Listen to changes in global color scheme and update local states
-    LaunchedEffect(globalcolors.currentScheme) {
-        primaryColor = globalcolors.currentScheme.primaryColor
-        secondaryColor = globalcolors.currentScheme.secondaryColor
-        tertiaryColor = globalcolors.currentScheme.tertiaryColor
-        textColor = globalcolors.currentScheme.textColor
+    LaunchedEffect(GlobalColors.currentScheme) {
+        primaryColor = GlobalColors.currentScheme.primaryColor
+        secondaryColor = GlobalColors.currentScheme.secondaryColor
+        tertiaryColor = GlobalColors.currentScheme.tertiaryColor
+        textColor = GlobalColors.currentScheme.textColor
     }
 
     var refreshTrigger by remember { mutableStateOf(false) } // Trigger to force recomposition
@@ -141,22 +141,22 @@ fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
                 tertiaryColor = tertiaryColor,
                 textColor = textColor
             )
-            globalcolors.saveColorScheme(context, newScheme)
+            GlobalColors.saveColorScheme(context, newScheme)
             refreshTrigger = !refreshTrigger // Toggle the trigger to force recomposition
             onsave()
         },
-            colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
+            colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor),
             shape = RoundedCornerShape(10.dp)
         ) {
             Text("Save Colors", style = TextStyle(fontFamily = RobotoMono))
         }
 
         Button(onClick = {
-            globalcolors.resetToDefaultColors(context)
+            GlobalColors.resetToDefaultColors(context)
             refreshTrigger = !refreshTrigger // Toggle the trigger to force recomposition
             onrevert()
         },
-            colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
+            colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor),
             shape = RoundedCornerShape(10.dp)
         ) {
             Text("Revert to Default Colors", style = TextStyle(fontFamily = RobotoMono))
@@ -186,15 +186,15 @@ fun OutlinedColorTextField(
         isError = !isValidColor, // Show error state if invalid
         supportingText = { if (!isValidColor) Text("Invalid color code") }, // Error message
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
-            unfocusedContainerColor = parseColor(globalcolors.currentScheme.primaryColor),
-            focusedIndicatorColor = globalcolors.textColor,
-            unfocusedIndicatorColor = globalcolors.primaryColor,
-            focusedLabelColor = globalcolors.textColor,
-            cursorColor = parseColor(globalcolors.currentScheme.textColor),
-            unfocusedLabelColor = parseColor(globalcolors.currentScheme.textColor),
-            focusedTextColor = parseColor(globalcolors.currentScheme.textColor),
-            unfocusedTextColor = parseColor(globalcolors.currentScheme.textColor)
+            focusedContainerColor = parseColor(GlobalColors.currentScheme.primaryColor),
+            unfocusedContainerColor = parseColor(GlobalColors.currentScheme.primaryColor),
+            focusedIndicatorColor = GlobalColors.textColor,
+            unfocusedIndicatorColor = GlobalColors.primaryColor,
+            focusedLabelColor = GlobalColors.textColor,
+            cursorColor = parseColor(GlobalColors.currentScheme.textColor),
+            unfocusedLabelColor = parseColor(GlobalColors.currentScheme.textColor),
+            focusedTextColor = parseColor(GlobalColors.currentScheme.textColor),
+            unfocusedTextColor = parseColor(GlobalColors.currentScheme.textColor)
         ),
         shape = RoundedCornerShape(10.dp),
         modifier = modifier
@@ -223,7 +223,7 @@ fun ColorSettingsPreview() {
 
     // Load the color scheme when the composable is launched
     LaunchedEffect(Unit) {
-        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
 
     ColorSettings(context = context, {}, {})

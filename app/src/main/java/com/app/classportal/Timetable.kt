@@ -63,9 +63,9 @@ fun Timetable(navController: NavController, context: Context) {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -74,10 +74,10 @@ fun Timetable(navController: NavController, context: Context) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Timetable", fontFamily = RobotoMono, color = globalcolors.textColor, fontSize = 20.sp) },
+                title = { Text("Timetable", fontFamily = RobotoMono, color = GlobalColors.textColor, fontSize = 20.sp) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigate("dashboard") }) {
-                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = globalcolors.textColor)
+                        Icon(Icons.Filled.ArrowBackIosNew, contentDescription = "Back", tint = GlobalColors.textColor)
                     }
                 },
                 actions = {
@@ -86,10 +86,10 @@ fun Timetable(navController: NavController, context: Context) {
                         editItemIndex = -1
                         showDialog = true
                     }) {
-                        Icon(Icons.Filled.Add, contentDescription = "Add", tint = globalcolors.textColor)
+                        Icon(Icons.Filled.Add, contentDescription = "Add", tint = GlobalColors.textColor)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
             )
         }
     ) { innerPadding ->
@@ -111,9 +111,9 @@ fun Timetable(navController: NavController, context: Context) {
                                 pagerState.scrollToPage(index)
                             }
                         },
-                        text = { Text(day, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.secondaryColor) },
-                        selectedContentColor = globalcolors.textColor,
-                        modifier = Modifier.background(globalcolors.primaryColor)
+                        text = { Text(day, fontFamily = RobotoMono, color = if (pagerState.currentPage == index) GlobalColors.textColor else GlobalColors.secondaryColor) },
+                        selectedContentColor = GlobalColors.textColor,
+                        modifier = Modifier.background(GlobalColors.primaryColor)
                     )
                 }
             }
@@ -147,7 +147,7 @@ fun Timetable(navController: NavController, context: Context) {
                                 saveTimetable(context, timetableData)
                             }
                         )
-                        Divider(color = globalcolors.secondaryColor, thickness = 1.dp)
+                        Divider(color = GlobalColors.secondaryColor, thickness = 1.dp)
                     }
                 }
             }
@@ -186,7 +186,7 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .background(globalcolors.secondaryColor, shape = RoundedCornerShape(8.dp))
+            .background(GlobalColors.secondaryColor, shape = RoundedCornerShape(8.dp))
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -208,7 +208,7 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
                     Icon(
                         imageVector = Icons.Default.AccessTime,
                         contentDescription = "Start Time",
-                        tint = globalcolors.textColor,
+                        tint = GlobalColors.textColor,
                         modifier = Modifier
                             .size(20.dp)
                             .padding(end = 4.dp)
@@ -229,7 +229,7 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
                     Icon(
                         imageVector = Icons.Default.Schedule,
                         contentDescription = "Duration",
-                        tint = globalcolors.textColor,
+                        tint = GlobalColors.textColor,
                         modifier = Modifier
                             .size(20.dp)
                             .padding(end = 4.dp)
@@ -250,7 +250,7 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
                     Icon(
                         imageVector = Icons.Default.Person,
                         contentDescription = "Lecturer",
-                        tint = globalcolors.textColor,
+                        tint = GlobalColors.textColor,
                         modifier = Modifier
                             .size(20.dp)
                             .padding(end = 4.dp)
@@ -270,7 +270,7 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
                     Icon(
                         imageVector = Icons.Default.LocationOn,
                         contentDescription = "Venue",
-                        tint = globalcolors.textColor,
+                        tint = GlobalColors.textColor,
                         modifier = Modifier
                             .size(20.dp)
                             .padding(end = 4.dp)
@@ -288,7 +288,7 @@ fun TimetableItemRow(item: TimetableItem, onEdit: () -> Unit, onDelete: () -> Un
         }
         Column {
             IconButton(onClick = onEdit) {
-                Icon(Icons.Filled.Edit, contentDescription = "Edit", tint = globalcolors.textColor)
+                Icon(Icons.Filled.Edit, contentDescription = "Edit", tint = GlobalColors.textColor)
             }
             IconButton(onClick = onDelete) {
                 Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = Color(0xFFD32F2F))
@@ -322,7 +322,7 @@ fun AddEditTimetableItemDialog(
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = !expanded },
-                    modifier = Modifier.background(globalcolors.primaryColor,
+                    modifier = Modifier.background(GlobalColors.primaryColor,
                         shape = RoundedCornerShape(8.dp))
                 ) {
                     OutlinedTextField(
@@ -335,22 +335,22 @@ fun AddEditTimetableItemDialog(
                         readOnly = true,
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = globalcolors.primaryColor,
-                            unfocusedContainerColor = globalcolors.primaryColor,
-                            focusedIndicatorColor = globalcolors.textColor,
-                            unfocusedIndicatorColor = globalcolors.primaryColor,
-                            focusedLabelColor = globalcolors.textColor,
-                            cursorColor = globalcolors.textColor,
-                            unfocusedLabelColor = globalcolors.textColor,
-                            focusedTextColor = globalcolors.textColor,
-                            unfocusedTextColor = globalcolors.textColor
+                            focusedContainerColor = GlobalColors.primaryColor,
+                            unfocusedContainerColor = GlobalColors.primaryColor,
+                            focusedIndicatorColor = GlobalColors.textColor,
+                            unfocusedIndicatorColor = GlobalColors.primaryColor,
+                            focusedLabelColor = GlobalColors.textColor,
+                            cursorColor = GlobalColors.textColor,
+                            unfocusedLabelColor = GlobalColors.textColor,
+                            focusedTextColor = GlobalColors.textColor,
+                            unfocusedTextColor = GlobalColors.textColor
                         ),
                         shape = RoundedCornerShape(8.dp)
                     )
                     ExposedDropdownMenu(
                         expanded = expanded,
                         onDismissRequest = { expanded = false },
-                        modifier = Modifier.background(globalcolors.secondaryColor)
+                        modifier = Modifier.background(GlobalColors.secondaryColor)
                     ) {
                         units.forEach { unitName ->
                             DropdownMenuItem(
@@ -370,15 +370,15 @@ fun AddEditTimetableItemDialog(
                     modifier = Modifier.fillMaxWidth(),
                     readOnly = false,
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.textColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.textColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp),
                 )
@@ -388,15 +388,15 @@ fun AddEditTimetableItemDialog(
                     label = { Text("Duration") },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.textColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.textColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp),
                 )
@@ -406,15 +406,15 @@ fun AddEditTimetableItemDialog(
                     label = { Text("Lecturer") },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.textColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.textColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp),
                 )
@@ -424,15 +424,15 @@ fun AddEditTimetableItemDialog(
                     label = { Text("Venue") },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.textColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.textColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(8.dp),
                 )
@@ -460,7 +460,7 @@ fun AddEditTimetableItemDialog(
                 Text("Cancel", style = myTextStyle)
             }
         },
-        containerColor = globalcolors.secondaryColor
+        containerColor = GlobalColors.secondaryColor
     )
 }
 

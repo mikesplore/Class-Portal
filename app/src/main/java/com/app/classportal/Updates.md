@@ -43,7 +43,7 @@ to ensure valid color input, save changes, and provide user feedback.
     - Converts a hexadecimal color string to a Jetpack Compose `Color` object.
     - Handles invalid input by returning `Color.Unspecified`.
 
-3. **`globalcolors` Object:**
+3. **`GlobalColors` Object:**
     - Manages the application's color scheme.
     - `COLORS_FILE_NAME`:  Stores the filename for saving color settings.
     - `defaultScheme`:  Provides default colors if no saved scheme is found.
@@ -56,19 +56,19 @@ to ensure valid color input, save changes, and provide user feedback.
 4. **`ColorSettings` Composable Function:**
     - **State Management:**
         - Manages local state variables for each color (`primaryColor`, `secondaryColor`, etc.)
-        - Uses `LaunchedEffect` to keep these variables in sync with `globalcolors.currentScheme`.
+        - Uses `LaunchedEffect` to keep these variables in sync with `GlobalColors.currentScheme`.
     - **Input Fields (`OutlinedColorTextField`):**
         - Four text fields for inputting hex color codes.
         - Includes an error checking mechanism (`isValidHexColor`) to validate the input.
-        - The `onValueChange` callback updates the corresponding local state variable without modifying the `globalcolors` immediately.
+        - The `onValueChange` callback updates the corresponding local state variable without modifying the `GlobalColors` immediately.
     - **Save and Revert Buttons:**
         - The "Save Colors" button:
             - Creates a new `ColorScheme` object from the input values.
-            - Calls `globalcolors.saveColorScheme` to persist the changes.
+            - Calls `GlobalColors.saveColorScheme` to persist the changes.
             - Triggers the `onSave` lambda (passed from the parent composable), which likely refreshes the app's UI to reflect the new colors.
             - After saving, displays an alert dialog message about the upcoming refresh.
         - The "Revert to Default Colors" button:
-            - Calls `globalcolors.resetToDefaultColors` to restore default colors.
+            - Calls `GlobalColors.resetToDefaultColors` to restore default colors.
             - Triggers the `onRevert` lambda for UI refresh.
             - Also displays the refresh alert dialog message.
 
@@ -76,7 +76,7 @@ to ensure valid color input, save changes, and provide user feedback.
     - A reusable composable for displaying an outlined text field for color input.
     - Uses `isValidHexColor` to validate input.
     - Displays an error state and message if the color code is invalid.
-    - Colors of the text field elements (border, cursor, etc.) are derived from the `globalcolors` scheme.
+    - Colors of the text field elements (border, cursor, etc.) are derived from the `GlobalColors` scheme.
 
 **Error Handling and UI Refresh:**
 
@@ -130,7 +130,7 @@ This composable function is designed to handle the addition of new students to a
 
 4. **Styling:**
     - Uses a gradient background (`addbackbrush`) for visual appeal.
-    - Text colors, font sizes, and shapes are managed using the `globalcolors` object for a consistent theme.
+    - Text colors, font sizes, and shapes are managed using the `GlobalColors` object for a consistent theme.
 
 
 **TextFields Composable**
@@ -262,7 +262,7 @@ Let me know if you have any other questions.
 
 [### **Assignments Screen**](./Assignments.kt)
 
-**AssignmentScreen Composable**
+**com.app.classportal.AssignmentScreen Composable**
 
 This composable is responsible for managing assignments organized into units within a class portal app. It offers features for creating, editing, deleting, and viewing assignments.
 
@@ -295,11 +295,11 @@ This composable is responsible for managing assignments organized into units wit
     - The `ScrollableTabRow` is used to display tabs for each unit.
     - The `HorizontalPager` displays the assignments of the currently selected unit.
 
-6. **AssignmentItemRow:**
+6. **com.app.classportal.AssignmentItemRow:**
     - A reusable composable to display each assignment within a unit.
     - Provides options to expand the assignment for more details, edit it, or delete it.
 
-7. **AddEditUnitDialog and AddEditAssignmentDialog:**
+7. **com.app.classportal.AddEditUnitDialog and com.app.classportal.AddEditAssignmentDialog:**
     - These are dialogs used for adding new or editing existing units and assignments.
     - They take the necessary data as input and save it using `FileUtil.saveUnitsAndAssignments()`.
 
@@ -317,7 +317,7 @@ This composable is responsible for managing assignments organized into units wit
     - The "Add Unit" and "Add Assignment" options open their respective dialogs.
     - The "Edit Unit" option opens the unit dialog with the data of the currently selected unit.
     - The "Delete Unit" option removes the current unit and saves the changes.
-    - Clicking on the edit icon in an `AssignmentItemRow` opens the assignment dialog with the assignment's data.
+    - Clicking on the edit icon in an `com.app.classportal.AssignmentItemRow` opens the assignment dialog with the assignment's data.
 
 4. **Saving Data:**
     - Changes to units and assignments are saved to the file after each operation using `FileUtil.saveUnitsAndAssignments()`.
@@ -348,12 +348,12 @@ This document explains the functionalities and components used in the `Assignmen
 
 1. **Column:** The main layout container for the entire `Assignments` composable.
     - Uses `verticalScroll` modifier for scrollable content.
-    - Sets background color using `globalcolors.secondaryColor`.
+    - Sets background color using `GlobalColors.secondaryColor`.
     - `horizontalAlignment` is set to `Alignment.CenterHorizontally` to center content horizontally.
     - `verticalArrangement` is set to `Arrangement.Top` to stack elements vertically from top to bottom.
 
 2. **Add Assignment Button:**
-    - A clickable `Box` with rounded corners (`RoundedCornerShape(10.dp)`) background in `globalcolors.primaryColor`.
+    - A clickable `Box` with rounded corners (`RoundedCornerShape(10.dp)`) background in `GlobalColors.primaryColor`.
     - Clicking triggers navigation to the "assignments" route (navigation not implemented in the provided code).
     - Displays the text "Add Assignment" in `myTextStyle` with bold weight.
 
@@ -367,7 +367,7 @@ This document explains the functionalities and components used in the `Assignmen
         - Creates a `Button` with rounded corners (`RoundedCornerShape(10.dp)`)
         - Clicking the button sets the `selectedUnitIndex` to the current unit's index.
         - Button color changes based on the selected unit:
-            - `globalcolors.primaryColor` if the unit is selected (index matches `selectedUnitIndex`).
+            - `GlobalColors.primaryColor` if the unit is selected (index matches `selectedUnitIndex`).
             - Transparent otherwise.
         - Displays the unit name (`unit.name`) inside the button using `myTextStyle`.
 
@@ -382,7 +382,7 @@ This document explains the functionalities and components used in the `Assignmen
 
 5. **AssignmentItem:**
     - A `Column` used to display details of a single assignment.
-    - Uses background color `globalcolors.primaryColor` with rounded corners (`RoundedCornerShape(8.dp)`)
+    - Uses background color `GlobalColors.primaryColor` with rounded corners (`RoundedCornerShape(8.dp)`)
     - Fills the maximum width (`fillMaxWidth`).
     - Uses padding (`padding(16.dp)`) for spacing within the column.
     - `horizontalAlignment` is set to `Alignment.CenterHorizontally` to center content horizontally.
@@ -393,7 +393,7 @@ This document explains the functionalities and components used in the `Assignmen
 
 **Additional Notes:**
 
-- `myTextStyle` and `globalcolors` are most likely defined elsewhere in the application and provide theming for the application's UI.
+- `myTextStyle` and `GlobalColors` are most likely defined elsewhere in the application and provide theming for the application's UI.
 - `FileUtil.loadUnitsAndAssignments(context)` function is responsible for loading unit and assignment data (implementation not provided).
 
 This documentation provides a detailed breakdown of the `Assignments` composable and its functionalities.
@@ -434,7 +434,7 @@ This composable is designed to facilitate attendance recording for students acro
 
     - `ScrollableTabRow`: Displays tabs for each unit in the `units` list. When a tab is selected:
         - `pagerState.scrollToPage()` is called (within a coroutine) to switch to the corresponding page in the `HorizontalPager`.
-        - The text color of the selected tab is changed to `globalcolors.textColor`.
+        - The text color of the selected tab is changed to `GlobalColors.textColor`.
     - `HorizontalPager`: Displays the content for each unit (in this case, a `LazyColumn` to show the students).
 
 5. **LazyColumn:**
@@ -567,7 +567,7 @@ This composable is designed to allow users to customize the color scheme of an a
     - These properties are strings representing the hexadecimal color codes (e.g., "003C43").
     - Provides a `parseColor` function to convert a hex string into a Compose `Color` object.
 
-2. **`globalcolors` Object:**
+2. **`GlobalColors` Object:**
     - An object that acts as a central repository for the current color scheme.
     - `COLORS_FILE_NAME`: Constant for the name of the file where the color scheme is stored.
     - `defaultScheme`: A `ColorScheme` object defining the default colors.
@@ -580,15 +580,15 @@ This composable is designed to allow users to customize the color scheme of an a
 3. **ColorSettings Composable:**
     - Accepts a `Context` for file operations and two lambda functions: `onsave` (called when the user saves the colors) and `onrevert` (called when the user reverts to default colors).
     - State Variables:
-        - `primaryColor`, `secondaryColor`, `tertiaryColor`, `textColor`: These hold the current color values as strings, reflecting the values in `globalcolors.currentScheme`.
+        - `primaryColor`, `secondaryColor`, `tertiaryColor`, `textColor`: These hold the current color values as strings, reflecting the values in `GlobalColors.currentScheme`.
     - LaunchedEffect:
-        - When the `globalcolors.currentScheme` changes (e.g., after loading or resetting), it updates the local state variables to match.
+        - When the `GlobalColors.currentScheme` changes (e.g., after loading or resetting), it updates the local state variables to match.
     - Layout:
         - Uses a `Column` to arrange the components vertically with even spacing.
         - `OutlinedColorTextField` composables are used for each color input.
         - Two buttons are provided:
-            - "Save Colors": Calls `globalcolors.saveColorScheme` with the new colors and invokes the `onsave` lambda.
-            - "Revert to Default Colors": Calls `globalcolors.resetToDefaultColors` and invokes the `onrevert` lambda.
+            - "Save Colors": Calls `GlobalColors.saveColorScheme` with the new colors and invokes the `onsave` lambda.
+            - "Revert to Default Colors": Calls `GlobalColors.resetToDefaultColors` and invokes the `onrevert` lambda.
 
 4. **OutlinedColorTextField Composable:**
     - A custom composable for color input.
@@ -633,13 +633,13 @@ This composable is designed to display a list of lectures or activities schedule
     - `dayOfWeek`: An integer representing the current day of the week (0 for Sunday, 1 for Monday, etc.).
     - `timetableData`: This loads the timetable data from a file using the `loadTimetable` function.
     - `lecturesToday`: Filters the `timetableData` to get only the events scheduled for the current day.
-    - `addbackbrush`: Defines a vertical gradient brush using your custom `globalcolors` for the screen's background.
+    - `addbackbrush`: Defines a vertical gradient brush using your custom `GlobalColors` for the screen's background.
 
 3. **Scaffold:**
     - Provides a structured layout with a top app bar (`TopAppBar`) and the content area for the list of lectures.
     - `TopAppBar`:
         - Title: "Today's Lectures"
-        - Colors: Uses `globalcolors.primaryColor` for the container.
+        - Colors: Uses `GlobalColors.primaryColor` for the container.
 
 4. **Content Display (Column):**
     - The main content of the screen is displayed within a `Column`.
@@ -775,7 +775,7 @@ This composable is designed to manage the deletion of student records from a fil
     - `searchQuery`: Holds the text entered into the search field.
     - `selected`: Indicates whether a student is selected for deletion.
     - `background`: Changes the background color of the selected student row.
-    - `addbackbrush`: Defines a vertical gradient brush using your custom `globalcolors` for the screen's background.
+    - `addbackbrush`: Defines a vertical gradient brush using your custom `GlobalColors` for the screen's background.
 
 2. **Scaffold:**
     - Provides the basic layout structure with a top app bar (`TopAppBar`) and the content area.
@@ -843,7 +843,7 @@ This composable is designed to enable editing student records within your class 
     - `newfirstName`, `newlastName`: Hold the updated first and last name values.
     - `studentFound`: Tracks whether the student with the entered ID was found.
     - `showDialog`: Controls the visibility of an alert dialog for displaying error messages.
-    - `addbackbrush`: Defines a vertical gradient brush using your custom `globalcolors` for the screen's background.
+    - `addbackbrush`: Defines a vertical gradient brush using your custom `GlobalColors` for the screen's background.
 
 2. **Scaffold:**
     - Provides the basic layout structure with a top app bar (`TopAppBar`) and the content area.
@@ -855,7 +855,7 @@ This composable is designed to enable editing student records within your class 
 
     - **Student ID Input:**
         - A `TextField` for the user to enter the student ID.
-        - Styling: Custom styling using `globalcolors` and shadow effect.
+        - Styling: Custom styling using `GlobalColors` and shadow effect.
 
     - **Find Student Button:**
         - When clicked:
@@ -1003,7 +1003,7 @@ This composable handles user authentication, providing both login and registrati
     *   `passwordVisibility`, `confirmPasswordVisibility`: Control whether the passwords are shown or hidden.
     *   `isRegistering`: Tracks whether the user is in login mode or registration mode.
     *   `wrongpassword`:  Indicates if there's a password mismatch during registration.
-    *   `addbackbrush`:  Defines a vertical gradient brush using your custom `globalcolors` for the screen's background.
+    *   `addbackbrush`:  Defines a vertical gradient brush using your custom `GlobalColors` for the screen's background.
 
 2.  **Scaffold:**
     *   Sets up the main structure of the screen.
@@ -1268,7 +1268,7 @@ This composable is designed to present user settings and preferences within your
     *   `TopAppBar`:
         *   Title: "Settings"
         *   Navigation Icon: An arrow icon to navigate back.
-        *   Background color is set using `globalcolors.primaryColor`.
+        *   Background color is set using `GlobalColors.primaryColor`.
 
 2.  **Main Content (Column):**
 
@@ -1350,7 +1350,7 @@ This composable is designed to present a list of students, allowing users to sea
     - `students`: A mutable state list holding `Student` objects loaded from `FileUtil.loadStudents(context)`.
     - `originalStudents`: A snapshot of the initial `students` list, used for filtering based on search queries.
     - `searchQuery`: A `TextFieldValue` representing the text entered in the search bar.
-    - `addbackbrush`: Defines a vertical gradient brush using your custom `globalcolors` for the screen's background.
+    - `addbackbrush`: Defines a vertical gradient brush using your custom `GlobalColors` for the screen's background.
 
 2. **Scaffold:**
     - Provides the basic layout structure with a top app bar (`TopAppBar`) and the content area.
@@ -1541,7 +1541,7 @@ This composable functions as a splash screen for your Class Portal app. It displ
     - The main container arranging the content vertically.
     - `Modifier`:
         - `fillMaxSize`:  Fills the entire screen.
-        - `background`:  Sets the background color using `globalcolors.primaryColor`.
+        - `background`:  Sets the background color using `GlobalColors.primaryColor`.
 
 4. **Text ("CLASS PORTAL"):**
     - The large welcome text.
@@ -1612,12 +1612,12 @@ This document explains the functionalities and components used in the `WebViewSc
         - Shown while `isLoading` is true (during web page loading).
         - Hidden when `isLoading` is false (after loading is complete).
     - Uses fading and vertical resizing animations for entering and exiting.
-    - Progress bar color is set using `globalcolors.primaryColor` for background and `globalcolors.secondaryColor` for the progress itself.
+    - Progress bar color is set using `GlobalColors.primaryColor` for background and `GlobalColors.secondaryColor` for the progress itself.
     - Fills the maximum width (`fillMaxWidth`) and sets a small height (`height(4.dp)`)
 
 **Additional Notes:**
 
-- `globalcolors` is most likely defined elsewhere in the application and provides theming for the application's UI.
+- `GlobalColors` is most likely defined elsewhere in the application and provides theming for the application's UI.
 - Navigation functionality (back and forward buttons) is not implemented in the provided code, but states (`backEnabled` and `forwardEnabled`) are updated to handle potential future implementation.
 
 This documentation provides a detailed breakdown of the `WebViewScreen` composable and its functionalities. 

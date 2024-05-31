@@ -64,9 +64,9 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -78,8 +78,8 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
                 Text(text = "Password Reset", style = myTextStyle, fontSize = 20.sp)
             },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = globalcolors.primaryColor,
-                    titleContentColor = globalcolors.textColor
+                    containerColor = GlobalColors.primaryColor,
+                    titleContentColor = GlobalColors.textColor
                 ))
 
         }
@@ -104,15 +104,15 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
                     label = { Text(text = "Registration ID", fontFamily = RobotoMono, fontSize = 15.sp) },
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.tertiaryColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.tertiaryColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -133,15 +133,15 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
                     label = { Text(text = "First Name", fontFamily = RobotoMono, fontSize = 15.sp) },
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.tertiaryColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.tertiaryColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -162,15 +162,15 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
                     label = { Text(text = "Last Name", fontFamily = RobotoMono, fontSize = 15.sp) },
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.tertiaryColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.tertiaryColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -201,7 +201,7 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
                     },
                     modifier = Modifier.width(300.dp),
                     shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)
+                    colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor)
                 ) {
                     Text("Verify")
                 }
@@ -220,22 +220,22 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                             Icon(
                                 imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                tint = globalcolors.textColor,
+                                tint = GlobalColors.textColor,
                                 contentDescription = if (passwordVisibility) "Hide password" else "Show password"
                             )
                         }
                     },
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.tertiaryColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.tertiaryColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -259,22 +259,22 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                             Icon(
                                 imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                tint = globalcolors.textColor,
+                                tint = GlobalColors.textColor,
                                 contentDescription = if (passwordVisibility) "Hide password" else "Show password"
                             )
                         }
                     },
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = globalcolors.primaryColor,
-                        unfocusedContainerColor = globalcolors.primaryColor,
-                        focusedIndicatorColor = globalcolors.tertiaryColor,
-                        unfocusedIndicatorColor = globalcolors.primaryColor,
-                        focusedLabelColor = globalcolors.textColor,
-                        cursorColor = globalcolors.textColor,
-                        unfocusedLabelColor = globalcolors.textColor,
-                        focusedTextColor = globalcolors.textColor,
-                        unfocusedTextColor = globalcolors.textColor
+                        focusedContainerColor = GlobalColors.primaryColor,
+                        unfocusedContainerColor = GlobalColors.primaryColor,
+                        focusedIndicatorColor = GlobalColors.tertiaryColor,
+                        unfocusedIndicatorColor = GlobalColors.primaryColor,
+                        focusedLabelColor = GlobalColors.textColor,
+                        cursorColor = GlobalColors.textColor,
+                        unfocusedLabelColor = GlobalColors.textColor,
+                        focusedTextColor = GlobalColors.textColor,
+                        unfocusedTextColor = GlobalColors.textColor
                     ),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -314,7 +314,7 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
                     },
                     modifier = Modifier.width(300.dp),
                     shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)
+                    colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor)
 
                 ) {
                     Text("Reset Password", style = myTextStyle)

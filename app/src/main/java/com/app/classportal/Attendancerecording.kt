@@ -60,9 +60,9 @@ fun RecordAttendanceScreen(
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -86,7 +86,7 @@ fun RecordAttendanceScreen(
                     Text(
                         " Attendance $daysOfWeek",
                         fontFamily = RobotoMono,
-                        color = globalcolors.textColor,
+                        color = GlobalColors.textColor,
                         fontSize = 15.sp
                     )
                 },
@@ -99,7 +99,7 @@ fun RecordAttendanceScreen(
                             modifier = Modifier
                                 .border(
                                     width = 1.dp,
-                                    color = globalcolors.textColor,
+                                    color = GlobalColors.textColor,
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -109,7 +109,7 @@ fun RecordAttendanceScreen(
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = globalcolors.textColor,
+                                tint = GlobalColors.textColor,
                             )
                         }
                     }
@@ -140,13 +140,13 @@ fun RecordAttendanceScreen(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = RobotoMono,
-                            color = globalcolors.textColor
+                            color = GlobalColors.textColor
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = globalcolors.primaryColor,
-                    titleContentColor = globalcolors.textColor
+                    containerColor = GlobalColors.primaryColor,
+                    titleContentColor = GlobalColors.textColor
                 )
             )
         }
@@ -173,12 +173,12 @@ fun RecordAttendanceScreen(
                             Text(
                                 unit,
                                 fontFamily = RobotoMono,
-                                color = if (pagerState.currentPage == index) globalcolors.textColor else globalcolors.tertiaryColor
+                                color = if (pagerState.currentPage == index) GlobalColors.textColor else GlobalColors.tertiaryColor
                             )
                         },
-                        selectedContentColor = globalcolors.textColor,
-                        unselectedContentColor = globalcolors.tertiaryColor,
-                        modifier = Modifier.background(globalcolors.primaryColor)
+                        selectedContentColor = GlobalColors.textColor,
+                        unselectedContentColor = GlobalColors.tertiaryColor,
+                        modifier = Modifier.background(GlobalColors.primaryColor)
                     )
                 }
             }
@@ -205,10 +205,10 @@ fun RecordAttendanceScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(student.firstName, color = globalcolors.textColor)
+                            Text(student.firstName, color = GlobalColors.textColor)
 
                             Checkbox(
-                                colors = CheckboxDefaults.colors(globalcolors.textColor),
+                                colors = CheckboxDefaults.colors(GlobalColors.textColor),
                                 enabled = checkboxEnabled.value,
                                 checked = isPresent.value,
                                 onCheckedChange = { isChecked ->
@@ -219,7 +219,7 @@ fun RecordAttendanceScreen(
                                 }
                             )
                         }
-                        Divider(color = globalcolors.tertiaryColor, thickness = 1.dp)
+                        Divider(color = GlobalColors.tertiaryColor, thickness = 1.dp)
                     }
                 }
             }

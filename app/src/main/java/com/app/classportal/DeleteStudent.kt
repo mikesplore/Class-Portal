@@ -23,10 +23,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -51,7 +49,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
@@ -67,7 +64,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
     val originalStudents = remember { students.toList() } // Store a copy of original data
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     var selected by remember{mutableStateOf(false)}
-    var background = if (selected) {GlobalColors.secondaryColor} else {Color.Transparent}
+    val selectedItem = remember { mutableStateOf<Student?>(null) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -177,6 +174,8 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
 
                 }
                 itemsIndexed(students) { _, student ->
+                    val isSelected = student == selectedItem.value  // Determine if this row is selected
+                    val background = if (isSelected) GlobalColors.secondaryColor else Color.Transparent
                     Row(
                         modifier = Modifier
                             .background(background)

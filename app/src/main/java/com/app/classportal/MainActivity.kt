@@ -1,7 +1,5 @@
 package com.app.classportal
 
-import AssignmentScreen
-import WebViewScreen
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -19,14 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,7 +41,6 @@ class Global(
     var username: MutableState<String> = mutableStateOf(""),
     var showdialog: MutableState<Boolean> = mutableStateOf(false),
     var password: MutableState<String> = mutableStateOf(""),
-    var confirmpassword: MutableState<String> = mutableStateOf(""),
 
 )
 
@@ -63,7 +54,7 @@ class MainActivity : ComponentActivity() {
             if (global.enableEdgeToEdge.value){
                 enableEdgeToEdge()}
             LaunchedEffect(Unit) {
-                globalcolors.currentScheme = globalcolors.loadColorScheme(this@MainActivity)
+                GlobalColors.currentScheme = GlobalColors.loadColorScheme(this@MainActivity)
             }
             val navController = rememberNavController()
             createNotificationChannel(this)
@@ -160,7 +151,7 @@ fun LoginDialog(navController: NavController){
                     Button(onClick = {
                         global.showdialog.value = false
                         navController.navigate("login")},
-                        colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
+                        colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor),
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.width(130.dp)) {
                         Text("Login now",
@@ -168,7 +159,7 @@ fun LoginDialog(navController: NavController){
                     }
                     Button(onClick = {
                         global.showdialog.value = false},
-                        colors = ButtonDefaults.buttonColors(globalcolors.primaryColor),
+                        colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor),
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.width(130.dp)) {
                         Text("Cancel",
@@ -182,7 +173,7 @@ fun LoginDialog(navController: NavController){
                 fontWeight = FontWeight.Bold) },
             text = { Text("You have to login to perform this action.",
                 style = myTextStyle,) },
-            containerColor = globalcolors.secondaryColor,
+            containerColor = GlobalColors.secondaryColor,
         )
     }
 }

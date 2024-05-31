@@ -341,7 +341,7 @@ fun LoginScreen(navController: NavController, context: Context) {
 
                             )
                 )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Row(modifier = Modifier.width(300.dp), horizontalArrangement = Arrangement.End) {
                     Text("Forgot Password?",style = myTextStyle)
                     Text(" Reset",modifier = Modifier
                         .absolutePadding(0.dp,0.dp,20.dp,0.dp)

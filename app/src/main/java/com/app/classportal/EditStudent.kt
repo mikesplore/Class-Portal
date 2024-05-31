@@ -226,7 +226,7 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        FileUtil.editStudent(context, Student(studentId, newfirstName, newlastName, ""))
+                        FileUtil.editStudent(context, Student(studentId, newfirstName, newlastName, global.username.value,global.password.value))
                         studentFound = false
                         newfirstName = ""
                         newlastName = ""

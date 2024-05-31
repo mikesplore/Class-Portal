@@ -1,6 +1,5 @@
 package com.app.classportal
 
-import Assignments
 import WebViewScreen
 import android.annotation.SuppressLint
 import android.content.Context
@@ -104,7 +103,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val tabRowHorizontalScrollState by remember { mutableStateOf(ScrollState(0)) }
-    var palleteDialog by remember { mutableStateOf(false) }
+    var paletteDialog by remember { mutableStateOf(false) }
     var showrestarting by remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
@@ -367,7 +366,7 @@ fun Dashboard(navController: NavController, context: Context) {
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        "Color pallete",
+                                        "Color palette",
                                         color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
@@ -375,7 +374,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     )
                                 },
                                 onClick = {
-                                    palleteDialog = true
+                                    paletteDialog = true
 
                                 },
                                 leadingIcon = {
@@ -431,19 +430,19 @@ fun Dashboard(navController: NavController, context: Context) {
                 LaunchedEffect(Unit) {
                     GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
                 }
-                if (palleteDialog) {
+                if (paletteDialog) {
                     AlertDialog(
                         title = { Text(text = "Colors Palette", style = myTextStyle) },
                         text = {
                             ColorSettings(context,
 
                                 onsave = {
-                                    palleteDialog = false
+                                    paletteDialog = false
                                          showrestarting = true},
-                                onrevert = {palleteDialog = false
+                                onrevert = {paletteDialog = false
                                 showrestarting = true})
                         },
-                        onDismissRequest = { palleteDialog = true },
+                        onDismissRequest = { paletteDialog = true },
                         confirmButton = {
                             Row(modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.Center,

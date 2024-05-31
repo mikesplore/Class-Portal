@@ -37,7 +37,7 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun SettingsScreen(navController: NavController, context: Context) {
     var notificationsEnabled by remember { mutableStateOf(false) }
-    var expandedColumn by remember { mutableStateOf(false) }
+    var expandedColumn by remember { mutableStateOf(true) }
     var newfirstname by remember { mutableStateOf("") }
     var newlastname by remember { mutableStateOf("") }
     var newusername by remember { mutableStateOf("") }
@@ -45,17 +45,19 @@ fun SettingsScreen(navController: NavController, context: Context) {
     var palleteDialog by remember { mutableStateOf(false) }
     var showusername by remember { mutableStateOf(false) }
     var showrestarting by remember { mutableStateOf(false) }
+    var newpassword by remember { mutableStateOf("") }
+    var oldpassword by remember { mutableStateOf("") }
 
    val students = FileUtil.loadStudents(context)
     val student = students.find { it.registrationID == global.loggedinregID.value }
-    if (student != null && !expandedColumn) {
+    /*if (student != null && !expandedColumn) {
         newfirstname = student.firstName
         newlastname = student.lastName
         newusername = student.username
         studentFound = true
     } else if (student == null) {
         Toast.makeText(context, "Student not found", Toast.LENGTH_SHORT).show()
-    }
+    }*/
 
     Scaffold(
         topBar = {
@@ -153,6 +155,28 @@ fun SettingsScreen(navController: NavController, context: Context) {
                             .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
+                        if (student != null) {
+                            TextField(value = "${student.registrationID} (Not Editable)", textStyle = myTextStyle,
+                                onValueChange = {},
+                                readOnly = true,
+                                modifier = Modifier
+
+                                    .background(
+                                        globalcolors.primaryColor,
+                                        RoundedCornerShape(10.dp)
+                                    )
+                                    .padding(8.dp)
+                                    .fillMaxWidth(),
+                                colors = TextFieldDefaults.colors(
+                                    focusedContainerColor = globalcolors.primaryColor,
+                                    unfocusedContainerColor = globalcolors.primaryColor,
+                                    focusedTextColor = globalcolors.textColor,
+                                    unfocusedLabelColor = globalcolors.textColor,
+                                    unfocusedTextColor = globalcolors.textColor,
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent
+                                ))
+                        }
                         CustomTextField(value = newfirstname, onValueChange = { newfirstname = it }, label = "First Name")
                         CustomTextField(value = newlastname, onValueChange = { newlastname = it }, label = "Last Name")
                         CustomTextField(value = newusername, onValueChange = { newusername = it }, label = "Username")
@@ -174,7 +198,11 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                 expandedColumn = false // Collapse the column after saving
                                 Toast.makeText(context, "Student updated successfully", Toast.LENGTH_SHORT).show()
                             }) {
-                                Icon(imageVector = Icons.Default.Check, contentDescription = "Save", tint = globalcolors.textColor)
+
+                                    Icon(imageVector = Icons.Default.Check, contentDescription = "Save", tint = globalcolors.textColor)
+
+
+
                             }
                         }
                     }
@@ -326,6 +354,49 @@ fun SettingsScreen(navController: NavController, context: Context) {
                 }
 
             }
+            Text(
+                text = "Security",
+                style = myTextStyle,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = globalcolors.textColor
+            )
+            Text(text = "Change Password", style = myTextStyle)
+            Column(modifier = Modifier
+                .background(globalcolors.secondaryColor, RoundedCornerShape(10.dp))
+                .height(150.dp)
+                .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally) {
+
+
+            Column(modifier = Modifier
+                .height(170.dp)
+                .width(300.dp),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                CustomTextField(value = oldpassword, onValueChange = {oldpassword = it},
+                    label = "Old Password")
+                CustomTextField(value = newpassword, onValueChange = {newpassword = it}, label =" New Password" )
+
+                Button(onClick = {
+                    if (student != null) {
+                        if (student.password == oldpassword){
+                            student.password = newpassword
+                        }else{
+                            Toast.makeText(context, "Wrong Password!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                },
+                    modifier = Modifier.width(300.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = globalcolors.primaryColor
+                    )
+                ) {
+                    Text(text = "Reset Password", style = myTextStyle)
+
+                }
+            }}
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -360,7 +431,7 @@ fun CustomTextField(value: String, onValueChange: (String) -> Unit, label: Strin
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
-        textStyle = TextStyle(color = globalcolors.textColor, fontSize = 18.sp),
+        textStyle = myTextStyle,
         modifier = Modifier
             .background(globalcolors.primaryColor, RoundedCornerShape(10.dp))
             .padding(8.dp)

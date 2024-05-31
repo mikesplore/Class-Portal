@@ -43,7 +43,7 @@ fun NotificationCard(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .offset { IntOffset(swipeableState.offset.value.roundToInt(), 0) }
-                .background(globalcolors.secondaryColor, shape = RoundedCornerShape(8.dp))
+                .background(GlobalColors.secondaryColor, shape = RoundedCornerShape(8.dp))
                 .padding(8.dp)
                 .swipeable(
                     state = swipeableState,

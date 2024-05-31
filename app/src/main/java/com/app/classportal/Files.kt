@@ -10,7 +10,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-data class Student(val registrationID: String, val firstName: String, val lastName: String, val username: String, val password: String)
+data class Student(val registrationID: String, val firstName: String, val lastName: String, val username: String, var password: String)
 data class AttendanceRecord(
     val studentId: String, val date: String, val present: Boolean, val unit: String
 )

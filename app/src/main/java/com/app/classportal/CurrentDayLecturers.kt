@@ -41,9 +41,9 @@ fun CurrentDayEventsScreen() {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -55,13 +55,13 @@ fun CurrentDayEventsScreen() {
                 title = {
                     Row (modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center){
-                        Text("Today's Lectures", fontFamily = RobotoMono, color = globalcolors.textColor, fontSize = 20.sp)
+                        Text("Today's Lectures", fontFamily = RobotoMono, color = GlobalColors.textColor, fontSize = 20.sp)
                     }
 
                         },
                 actions = {
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = globalcolors.primaryColor)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
             )
         }
     ) { innerPadding ->
@@ -108,7 +108,7 @@ fun CurrentDayEventsScreen() {
                             ).show()
                         }
                     )
-                    Divider(color = globalcolors.tertiaryColor, thickness = 1.dp)
+                    Divider(color = GlobalColors.tertiaryColor, thickness = 1.dp)
                 }
             }
         }

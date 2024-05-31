@@ -1,3 +1,5 @@
+package com.app.classportal
+
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.background
@@ -19,11 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.app.classportal.Assignment
-import com.app.classportal.FileUtil
-import com.app.classportal.global
-import com.app.classportal.globalcolors
-import com.app.classportal.myTextStyle
+
 
 
 
@@ -39,13 +37,13 @@ fun Assignments(navController: NavController, context: Context) {
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
-            .background(globalcolors.secondaryColor),
+            .background(GlobalColors.secondaryColor),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
         Box(
             modifier = Modifier
-                .background(globalcolors.primaryColor, RoundedCornerShape(10.dp))
+                .background(GlobalColors.primaryColor, RoundedCornerShape(10.dp))
                 .clickable { navController.navigate("assignments") }
                 .padding(16.dp)
         ) {
@@ -70,7 +68,7 @@ fun Assignments(navController: NavController, context: Context) {
                     onClick = { selectedUnitIndex = index },
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (index == selectedUnitIndex) globalcolors.primaryColor else Color.Transparent
+                        containerColor = if (index == selectedUnitIndex) GlobalColors.primaryColor else Color.Transparent
                     )
                 ) {
                     Text(
@@ -100,7 +98,7 @@ fun AssignmentItem(assignment: Assignment) {
     Column(
         modifier = Modifier
             .padding(16.dp)
-            .background(globalcolors.primaryColor, RoundedCornerShape(8.dp))
+            .background(GlobalColors.primaryColor, RoundedCornerShape(8.dp))
             .fillMaxWidth()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

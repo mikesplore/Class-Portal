@@ -67,14 +67,14 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
     val originalStudents = remember { students.toList() } // Store a copy of original data
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     var selected by remember{mutableStateOf(false)}
-    var background = if (selected) {globalcolors.secondaryColor} else {Color.Transparent}
+    var background = if (selected) {GlobalColors.secondaryColor} else {Color.Transparent}
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -100,7 +100,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
 
                                 .border(
                                     width = 1.dp,
-                                    color = globalcolors.textColor,
+                                    color = GlobalColors.textColor,
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
@@ -110,14 +110,14 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = globalcolors.textColor,
+                                tint = GlobalColors.textColor,
                             )
                         }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = globalcolors.primaryColor,
-                    titleContentColor = globalcolors.textColor,
+                    containerColor = GlobalColors.primaryColor,
+                    titleContentColor = GlobalColors.textColor,
                 )
             )
         }
@@ -135,7 +135,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
 
             LazyColumn(
                 modifier = Modifier
-                    .border(1.dp, globalcolors.secondaryColor),
+                    .border(1.dp, GlobalColors.secondaryColor),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 item {
@@ -155,24 +155,24 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                             }
                         },
                         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search",
-                            tint = globalcolors.textColor) },
-                        placeholder = { Text("Search", fontFamily = RobotoMono, color = globalcolors.textColor) },
+                            tint = GlobalColors.textColor) },
+                        placeholder = { Text("Search", fontFamily = RobotoMono, color = GlobalColors.textColor) },
                         modifier = Modifier
                             .height(50.dp)
                             .fillMaxWidth(0.9f),
                         shape = RoundedCornerShape(8.dp),
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = globalcolors.primaryColor,
-                            unfocusedContainerColor = globalcolors.primaryColor,
-                            focusedIndicatorColor = globalcolors.textColor,
-                            unfocusedIndicatorColor = globalcolors.primaryColor,
-                            focusedLabelColor = globalcolors.textColor,
-                            cursorColor = globalcolors.textColor,
-                            unfocusedLabelColor = globalcolors.textColor,
-                            focusedTextColor = globalcolors.textColor,
-                            unfocusedTextColor = globalcolors.textColor
+                            focusedContainerColor = GlobalColors.primaryColor,
+                            unfocusedContainerColor = GlobalColors.primaryColor,
+                            focusedIndicatorColor = GlobalColors.textColor,
+                            unfocusedIndicatorColor = GlobalColors.primaryColor,
+                            focusedLabelColor = GlobalColors.textColor,
+                            cursorColor = GlobalColors.textColor,
+                            unfocusedLabelColor = GlobalColors.textColor,
+                            focusedTextColor = GlobalColors.textColor,
+                            unfocusedTextColor = GlobalColors.textColor
                         ),
-                        textStyle = TextStyle(fontFamily = RobotoMono, color = globalcolors.textColor)
+                        textStyle = TextStyle(fontFamily = RobotoMono, color = GlobalColors.textColor)
                     )
 
                 }
@@ -226,7 +226,7 @@ fun DeleteStudentScreen(context: Context, navController: NavController) {
                 ).show()
                 selected = false
             },
-                colors = ButtonDefaults.buttonColors(containerColor = if(selected) globalcolors.secondaryColor else globalcolors.primaryColor)) {
+                colors = ButtonDefaults.buttonColors(containerColor = if(selected) GlobalColors.secondaryColor else GlobalColors.primaryColor)) {
                 Text("Delete this student",
                     style = myTextStyle)
                 

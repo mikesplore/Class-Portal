@@ -110,9 +110,9 @@ fun Dashboard(navController: NavController, context: Context) {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -167,7 +167,7 @@ fun Dashboard(navController: NavController, context: Context) {
                 title = {
                     Text(
                         "$greetingMessage, ${global.loggedinuser.value.ifEmpty { "Anonymous" }}!",
-                        color = globalcolors.textColor,
+                        color = GlobalColors.textColor,
                         fontWeight = FontWeight.Normal,
                         style = myTextStyle,
                         fontSize = 20.sp,
@@ -181,7 +181,7 @@ fun Dashboard(navController: NavController, context: Context) {
                             Icon(
                                 imageVector = Icons.Filled.Menu,
                                 contentDescription = "Profile",
-                                tint = globalcolors.textColor,
+                                tint = GlobalColors.textColor,
                                 modifier = Modifier.size(35.dp)
                             )
                         }
@@ -191,13 +191,13 @@ fun Dashboard(navController: NavController, context: Context) {
                             onDismissRequest = { expanded = false },
                             modifier = Modifier
                                 .width(180.dp)
-                                .background(globalcolors.primaryColor)
+                                .background(GlobalColors.primaryColor)
                         ) {
                             DropdownMenuItem(
                                 text = {
                                     Text(
                                         "Quick Tasks",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 15.sp,
                                         fontFamily = RobotoMono,
@@ -213,7 +213,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "Settings",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -227,7 +227,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.Filled.Settings,
                                         contentDescription = "Account Settings",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -235,7 +235,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "Sign Attendance",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -249,7 +249,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.Filled.Edit,
                                         contentDescription = "Sign Attendance",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -257,7 +257,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "View Students",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -271,7 +271,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.Filled.Visibility,
                                         contentDescription = "view students",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -279,7 +279,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "Add Timetable",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -293,7 +293,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.Filled.Schedule,
                                         contentDescription = "timetable",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -301,7 +301,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "Make Announcement",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -315,7 +315,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.Filled.AddAlert,
                                         contentDescription = "announcement",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -324,7 +324,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "Add Assignment",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -338,7 +338,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.AutoMirrored.Filled.Assignment,
                                         contentDescription = "Add Assignment",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -346,7 +346,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "Add Student",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -360,7 +360,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.AutoMirrored.Default.NoteAdd,
                                         contentDescription = "Add student",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -368,7 +368,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "Color pallete",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -382,7 +382,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.AutoMirrored.Filled.Feed,
                                         contentDescription = "color",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -390,7 +390,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 text = {
                                     Text(
                                         "Logout",
-                                        color = globalcolors.textColor,
+                                        color = GlobalColors.textColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         fontFamily = RobotoMono
@@ -404,7 +404,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Icon(
                                         Icons.AutoMirrored.Filled.ExitToApp,
                                         contentDescription = "Logout",
-                                        tint = globalcolors.textColor
+                                        tint = GlobalColors.textColor
                                     )
                                 }
                             )
@@ -412,24 +412,24 @@ fun Dashboard(navController: NavController, context: Context) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = globalcolors.primaryColor,
-                    navigationIconContentColor = globalcolors.textColor,
-                    titleContentColor = globalcolors.textColor,
-                    actionIconContentColor = globalcolors.textColor
+                    containerColor = GlobalColors.primaryColor,
+                    navigationIconContentColor = GlobalColors.textColor,
+                    titleContentColor = GlobalColors.textColor,
+                    actionIconContentColor = GlobalColors.textColor
                 )
             )
         },
         content = {
             Column(
                 modifier = Modifier
-                    .background(globalcolors.primaryColor)
+                    .background(GlobalColors.primaryColor)
                     .padding(top = 70.dp)
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.Center,
             ) {
                 LaunchedEffect(Unit) {
-                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                    GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
                 }
                 if (palleteDialog) {
                     AlertDialog(
@@ -452,14 +452,14 @@ fun Dashboard(navController: NavController, context: Context) {
                                 val uriHandler = LocalUriHandler.current
                                 Text(
                                     text = "Choose Color palette ",
-                                    color = globalcolors.tertiaryColor,
+                                    color = GlobalColors.tertiaryColor,
                                     style = myTextStyle,
                                     modifier = Modifier.clickable {
                                         uriHandler.openUri("https://colorhunt.co/") // Open URI in browser
                                     }
                                 )
                                 Icon(imageVector = Icons.Outlined.ArrowOutward, contentDescription = "Choose Color palette",
-                                    tint = globalcolors.tertiaryColor,
+                                    tint = GlobalColors.tertiaryColor,
                                     modifier = Modifier.clickable {
                                         uriHandler.openUri("https://colorhunt.co/") // Open URI in browser
                                     })
@@ -467,7 +467,7 @@ fun Dashboard(navController: NavController, context: Context) {
 
                         },
 
-                        containerColor = globalcolors.secondaryColor
+                        containerColor = GlobalColors.secondaryColor
                     )
                 }
                 if (showrestarting) {
@@ -500,13 +500,13 @@ fun Dashboard(navController: NavController, context: Context) {
                                 },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(10.dp),
-                                    colors = ButtonDefaults.buttonColors(globalcolors.primaryColor)) {
+                                    colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor)) {
                                     Text(text = "Ok",
                                         style = myTextStyle,)
                                 }}
                         },
 
-                        containerColor = globalcolors.secondaryColor
+                        containerColor = GlobalColors.secondaryColor
                     )
                 }
 
@@ -562,7 +562,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                 .tabIndicatorOffset(tabPositions[selectedTabIndex])
                                 .height(4.dp)
                                 .width(screenWidth / tabTitles.size) // Divide by the number of tabs
-                                .background(globalcolors.textColor, CircleShape)
+                                .background(GlobalColors.textColor, CircleShape)
                         )
                     }
 
@@ -571,8 +571,8 @@ fun Dashboard(navController: NavController, context: Context) {
 
                     ScrollableTabRow(
                         selectedTabIndex = selectedTabIndex,
-                        modifier = Modifier.background(globalcolors.secondaryColor),
-                        contentColor = globalcolors.primaryColor,
+                        modifier = Modifier.background(GlobalColors.secondaryColor),
+                        contentColor = GlobalColors.primaryColor,
                         indicator = indicator,
                         edgePadding = 0.dp,
 
@@ -592,7 +592,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                     Box(
                                         modifier = Modifier
                                             .background(
-                                                if (selectedTabIndex == index) globalcolors.primaryColor else globalcolors.secondaryColor,
+                                                if (selectedTabIndex == index) GlobalColors.primaryColor else GlobalColors.secondaryColor,
                                                 RoundedCornerShape(8.dp)
                                             )
                                             .padding(8.dp),
@@ -602,7 +602,7 @@ fun Dashboard(navController: NavController, context: Context) {
                                             text = title,
                                             fontFamily = RobotoMono,
                                             fontSize = 13.sp,
-                                            color = if (selectedTabIndex == index) globalcolors.textColor else globalcolors.tertiaryColor,
+                                            color = if (selectedTabIndex == index) GlobalColors.textColor else GlobalColors.tertiaryColor,
                                         )
                                     }
                                 },
@@ -636,7 +636,7 @@ fun Dashboard(navController: NavController, context: Context) {
 @Composable
 fun DocumentationTab(){
         Column(modifier = Modifier
-            .background(globalcolors.primaryColor)
+            .background(GlobalColors.primaryColor)
             .verticalScroll(rememberScrollState())
             .fillMaxSize()) {
             WebViewScreen(link = "https://github.com/mikesplore/Class-Portal/blob/master/app/src/main/java/com/app/classportal/Updates.md")
@@ -651,7 +651,7 @@ fun DocumentationTab(){
 @Composable
 fun LatestAnnouncement(context: Context) {
     LaunchedEffect(Unit) {
-        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
     val announcements = loadAnnouncement(LocalContext.current)
     val latestAnnouncement = announcements.lastOrNull()
@@ -659,9 +659,9 @@ fun LatestAnnouncement(context: Context) {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -671,7 +671,7 @@ fun LatestAnnouncement(context: Context) {
         modifier = Modifier
             .border(
                 width = 1.dp,
-                color = globalcolors.primaryColor,
+                color = GlobalColors.primaryColor,
                 shape = RoundedCornerShape(30.dp)
             )
             .height(300.dp)
@@ -689,7 +689,7 @@ fun LatestAnnouncement(context: Context) {
                 style = myTextStyle,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                color = globalcolors.textColor,
+                color = GlobalColors.textColor,
                 modifier = Modifier.padding(10.dp)
             )
         }
@@ -715,7 +715,7 @@ fun LatestAnnouncement(context: Context) {
             Text(
                 text = latestAnnouncement?.student ?: "Developer Mike",
                 style = myTextStyle,
-                color = globalcolors.textColor,
+                color = GlobalColors.textColor,
                 modifier = Modifier.padding(10.dp)
             )
 
@@ -737,7 +737,7 @@ fun TopBoxes(image: Painter, description: String, route: String, navController: 
     ) {
         Box(modifier = Modifier) {
             LaunchedEffect(Unit) {
-                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
             }
             Box(
                 modifier = Modifier
@@ -757,20 +757,20 @@ fun TopBoxes(image: Painter, description: String, route: String, navController: 
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter) // Position at the bottom
                         .background(
-                            globalcolors.secondaryColor.copy(alpha = 0.3f), // Semi-transparent black background
+                            GlobalColors.secondaryColor.copy(alpha = 0.3f), // Semi-transparent black background
                             shape = RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp)
                         )
                         .padding(16.dp),
                 ) {
                     Text(
                         text = description,
-                        color = globalcolors.textColor,
+                        color = GlobalColors.textColor,
                         style = TextStyle(
                             fontFamily = RobotoMono,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             shadow = Shadow(
-                                color = globalcolors.primaryColor.copy(alpha = 0.9f),
+                                color = GlobalColors.primaryColor.copy(alpha = 0.9f),
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )
@@ -801,7 +801,7 @@ fun AttendanceBox(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             LaunchedEffect(Unit) {
-                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
             }
             Box(
                 modifier = Modifier
@@ -824,17 +824,17 @@ fun AttendanceBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomStart) // Position at the bottom
-                        .background(globalcolors.primaryColor.copy(0.5f))
+                        .background(GlobalColors.primaryColor.copy(0.5f))
                         .padding(16.dp)
                 ) {
                     Text(
                         text = content,
-                        color = globalcolors.textColor,
+                        color = GlobalColors.textColor,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             shadow = Shadow(
-                                color = globalcolors.primaryColor.copy(alpha = 0.9f),
+                                color = GlobalColors.primaryColor.copy(alpha = 0.9f),
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )
@@ -851,7 +851,7 @@ fun AttendanceBox(
 fun AnnouncementTabContent(navController: NavController, context: Context) {
 
         LaunchedEffect(Unit) {
-            globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+            GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
         }
 
     Column(
@@ -865,7 +865,7 @@ fun AnnouncementTabContent(navController: NavController, context: Context) {
             textAlign = TextAlign.Center,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = globalcolors.textColor,
+            color = GlobalColors.textColor,
             fontFamily = RobotoMono,
             modifier = Modifier.padding(16.dp)
         )
@@ -897,7 +897,7 @@ fun AnnouncementTabContent(navController: NavController, context: Context) {
             textAlign = TextAlign.Center,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = globalcolors.textColor,
+            color = GlobalColors.textColor,
             fontFamily = RobotoMono,
             modifier = Modifier.padding(16.dp)
         )
@@ -910,12 +910,12 @@ fun AnnouncementTabContent(navController: NavController, context: Context) {
 @Composable
 fun AttendanceTabContent(context: Context, navController: NavController) {
     LaunchedEffect(Unit) {
-        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(globalcolors.primaryColor)
+            .background(GlobalColors.primaryColor)
     ) {
         Column(
             modifier = Modifier
@@ -934,7 +934,7 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
                     modifier = Modifier
                         .clickable { navController.navigate("AttendanceReport") }
                         .fillMaxWidth()
-                        .background(globalcolors.secondaryColor) // Semi-transparent background
+                        .background(GlobalColors.secondaryColor) // Semi-transparent background
                         .padding(8.dp),
                     contentAlignment = Alignment.Center // Center text in the box
                 ) {
@@ -985,7 +985,7 @@ fun AttendanceTabContent(context: Context, navController: NavController) {
 @Composable
 fun TimetableTabContent(context: Context) {
     LaunchedEffect(Unit) {
-        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
     CurrentDayEventsScreen()
 
@@ -994,7 +994,7 @@ fun TimetableTabContent(context: Context) {
 @Composable
 fun AssignmentsTabContent(navController: NavController, context: Context) {
     LaunchedEffect(Unit) {
-        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
     Assignments(navController = navController, context = context)
 }
@@ -1005,7 +1005,7 @@ fun StudentsTabContent(navController: NavController, context: Context) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(globalcolors.primaryColor),
+            .background(GlobalColors.primaryColor),
         verticalArrangement = Arrangement.Top
     ) {
         Box(
@@ -1051,17 +1051,17 @@ fun StudentsTabContent(navController: NavController, context: Context) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomStart) // Position at the bottom
-                        .background(globalcolors.primaryColor.copy(0.5f))
+                        .background(GlobalColors.primaryColor.copy(0.5f))
                         .padding(16.dp)
                 ) {
                     Text(
                         text = "Add Student",
-                        color = globalcolors.textColor,
+                        color = GlobalColors.textColor,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             shadow = Shadow(
-                                color = globalcolors.primaryColor.copy(alpha = 0.9f),
+                                color = GlobalColors.primaryColor.copy(alpha = 0.9f),
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )
@@ -1093,17 +1093,17 @@ fun StudentsTabContent(navController: NavController, context: Context) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomStart) // Position at the bottom
-                        .background(globalcolors.primaryColor.copy(0.5f))
+                        .background(GlobalColors.primaryColor.copy(0.5f))
                         .padding(16.dp)
                 ) {
                     Text(
                         text = "Edit Student",
-                        color = globalcolors.textColor,
+                        color = GlobalColors.textColor,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             shadow = Shadow(
-                                color = globalcolors.primaryColor.copy(alpha = 0.9f),
+                                color = GlobalColors.primaryColor.copy(alpha = 0.9f),
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )
@@ -1134,17 +1134,17 @@ fun StudentsTabContent(navController: NavController, context: Context) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomStart) // Position at the bottom
-                        .background(globalcolors.primaryColor.copy(0.5f))
+                        .background(GlobalColors.primaryColor.copy(0.5f))
                         .padding(16.dp)
                 ) {
                     Text(
                         text = "Delete Student",
-                        color = globalcolors.textColor,
+                        color = GlobalColors.textColor,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             shadow = Shadow(
-                                color = globalcolors.primaryColor.copy(alpha = 0.9f),
+                                color = GlobalColors.primaryColor.copy(alpha = 0.9f),
                                 offset = Offset(4f, 4f),
                                 blurRadius = 4f
                             )
@@ -1169,15 +1169,15 @@ fun AnnouncementBoxes(
     navController: NavController
 ) {
     LaunchedEffect(Unit) {
-        globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+        GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
                 colors = listOf(
-                    globalcolors.primaryColor,
-                    globalcolors.secondaryColor,
-                    globalcolors.primaryColor
+                    GlobalColors.primaryColor,
+                    GlobalColors.secondaryColor,
+                    GlobalColors.primaryColor
                 )
             )
         )
@@ -1187,8 +1187,8 @@ fun AnnouncementBoxes(
             .shadow(
                 elevation = 10.dp,
                 shape = RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp),
-                ambientColor = globalcolors.primaryColor,
-                spotColor = globalcolors.tertiaryColor
+                ambientColor = GlobalColors.primaryColor,
+                spotColor = GlobalColors.tertiaryColor
             )
             .background(addbackbrush, shape = RoundedCornerShape(30.dp, 0.dp, 30.dp, 0.dp))
             .fillMaxHeight()
@@ -1206,8 +1206,8 @@ fun AnnouncementBoxes(
                     .shadow(
                         elevation = 10.dp,
                         shape = RoundedCornerShape(20.dp, 0.dp, 20.dp, 0.dp),
-                        ambientColor = globalcolors.primaryColor,
-                        spotColor = globalcolors.tertiaryColor
+                        ambientColor = GlobalColors.primaryColor,
+                        spotColor = GlobalColors.tertiaryColor
                     )
                     .fillMaxWidth()
                     .height(60.dp)
@@ -1225,7 +1225,7 @@ fun AnnouncementBoxes(
 
             // Student name with larger font and spacing
             LaunchedEffect(Unit) {
-                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
             }
             Text(
                 text = student,
@@ -1235,17 +1235,17 @@ fun AnnouncementBoxes(
 
             // Date as a subtitle with a smaller font
             LaunchedEffect(Unit) {
-                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
             }
             Text(
                 text = date,
-                color = globalcolors.textColor,
+                color = GlobalColors.textColor,
                 style = myTextStyle.copy(fontSize = 12.sp) // Smaller font for date
             )
 
             // Title and content with visual distinction
             LaunchedEffect(Unit) {
-                globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
             }
             Column(
                 modifier = Modifier
@@ -1254,7 +1254,7 @@ fun AnnouncementBoxes(
                 horizontalAlignment = Alignment.Start // Align text to the start
             ) {
                 LaunchedEffect(Unit) {
-                    globalcolors.currentScheme = globalcolors.loadColorScheme(context)
+                    GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
                 }
                 Text(
                     text = title,
@@ -1286,6 +1286,6 @@ fun DashboardPreview() {
 
 val myTextStyle = TextStyle(
     fontFamily = RobotoMono,
-    color = globalcolors.textColor,
+    color = GlobalColors.textColor,
     fontSize = 15.sp
 )

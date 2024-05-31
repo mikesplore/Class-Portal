@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.app.classportal.globalcolors
+import com.app.classportal.GlobalColors
 
 @Composable
 fun WebViewScreen(link: String,) {
@@ -79,11 +79,11 @@ fun WebViewScreen(link: String,) {
             LinearProgressIndicator(
                 progress = progress,
                 modifier = Modifier
-                    .background(globalcolors.primaryColor)
+                    .background(GlobalColors.primaryColor)
                     .fillMaxWidth()
                     .height(4.dp),
-                backgroundColor = globalcolors.primaryColor,
-                color = globalcolors.secondaryColor
+                backgroundColor = GlobalColors.primaryColor,
+                color = GlobalColors.secondaryColor
             )
         }
 

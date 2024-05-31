@@ -10,10 +10,11 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-data class Student(val registrationID: String, val firstName: String, val lastName: String, val username: String)
+data class Student(val registrationID: String, val firstName: String, val lastName: String, val username: String, val password: String)
 data class AttendanceRecord(
     val studentId: String, val date: String, val present: Boolean, val unit: String
 )
+
 
 data class TimetableItem(
 
@@ -48,12 +49,14 @@ fun getCurrentDateFormatted(): String {
 
 object FileUtil {
     private const val ASSIGNMENTS_FILE = "assignments.json"
-    private const val STUDENT_FILE = "studentsfile.json"
-    private const val TIMETABLE_FILE = "timetablefile.json"
-    private const val ATTENDANCE_FILE = "attendancerecords.json"
+    private const val STUDENT_FILE = "students file.json"
+    private const val TIMETABLE_FILE = "timetable.json"
+    private const val ATTENDANCE_FILE = "attendance records.json"
     private const val ANNOUNCEMENT_FILE = "announcement.json"
     private const val UNITS_ASSIGNMENTS_FILE = "units_assignments.json"
     private val gson = Gson()
+
+
 
     fun loadUnitsAndAssignments(context: Context): MutableList<UnitData> {
         val gson = Gson()

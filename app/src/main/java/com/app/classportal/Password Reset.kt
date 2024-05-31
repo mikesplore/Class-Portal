@@ -58,7 +58,7 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
     var lastName by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var step by remember { mutableIntStateOf(2) }
+    var step by remember { mutableIntStateOf(1) }
     var passwordVisibility by remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(

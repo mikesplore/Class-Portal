@@ -163,12 +163,13 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                     registrationID = global.loggedinregID.value,
                                     firstName = newfirstname,
                                     lastName = newlastname,
-                                    username = newusername
+                                    username = newusername,
+                                    password = student?.password ?: ""
                                 )
                                 FileUtil.editStudent(context, updatedStudent)
                                 global.loggedinuser.value = newfirstname
                                 global.loggedinlastname.value = newlastname
-                                global.usernames.value = newusername
+                                global.username.value = newusername
                                 studentFound = false
                                 expandedColumn = false // Collapse the column after saving
                                 Toast.makeText(context, "Student updated successfully", Toast.LENGTH_SHORT).show()

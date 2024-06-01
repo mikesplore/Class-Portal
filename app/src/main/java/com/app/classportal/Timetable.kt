@@ -43,6 +43,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import com.app.classportal.CommonComponents as CC
 
 
 
@@ -55,7 +56,7 @@ fun Timetable(navController: NavController, context: Context) {
     val pagerState = rememberPagerState(initialPage = dayOfWeek)
     val coroutineScope = rememberCoroutineScope()
     var timetableData by remember { mutableStateOf(loadTimetable(context)) }
-    var showDialog by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(true) }
     var currentDayIndex by remember { mutableIntStateOf(dayOfWeek) }
     var editItemIndex by remember { mutableIntStateOf(-1) }
     var currentItem by remember { mutableStateOf(TimetableItem("", "", "", "", "", "")) }
@@ -308,12 +309,12 @@ fun AddEditTimetableItemDialog(
     onSave: (TimetableItem) -> Unit
 ) {
     var unit by remember { mutableStateOf(TextFieldValue(item.unit)) }
-    var startTime by remember { mutableStateOf(TextFieldValue(item.startTime)) }
-    var duration by remember { mutableStateOf(TextFieldValue(item.duration)) }
-    var lecturer by remember { mutableStateOf(TextFieldValue(item.lecturer)) }
-    var venue by remember { mutableStateOf(TextFieldValue(item.venue)) }
+    var startTime by remember { mutableStateOf((item.startTime)) }
+    var duration by remember { mutableStateOf((item.duration)) }
+    var lecturer by remember { mutableStateOf((item.lecturer)) }
+    var venue by remember { mutableStateOf((item.venue)) }
     val units by remember { mutableStateOf(FileUtil.loadUnitsAndAssignments(context).map { it.name }) }
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(true) }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = "Add/Edit Timetable Item", style = myTextStyle, fontSize = 20.sp) },
@@ -363,79 +364,10 @@ fun AddEditTimetableItemDialog(
                         }
                     }
                 }
-                OutlinedTextField(
-                    value = startTime,
-                    onValueChange = { startTime = it },
-                    label = { Text("Start Time") },
-                    modifier = Modifier.fillMaxWidth(),
-                    readOnly = false,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = GlobalColors.primaryColor,
-                        unfocusedContainerColor = GlobalColors.primaryColor,
-                        focusedIndicatorColor = GlobalColors.textColor,
-                        unfocusedIndicatorColor = GlobalColors.primaryColor,
-                        focusedLabelColor = GlobalColors.textColor,
-                        cursorColor = GlobalColors.textColor,
-                        unfocusedLabelColor = GlobalColors.textColor,
-                        focusedTextColor = GlobalColors.textColor,
-                        unfocusedTextColor = GlobalColors.textColor
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                )
-                OutlinedTextField(
-                    value = duration,
-                    onValueChange = { duration = it },
-                    label = { Text("Duration") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = GlobalColors.primaryColor,
-                        unfocusedContainerColor = GlobalColors.primaryColor,
-                        focusedIndicatorColor = GlobalColors.textColor,
-                        unfocusedIndicatorColor = GlobalColors.primaryColor,
-                        focusedLabelColor = GlobalColors.textColor,
-                        cursorColor = GlobalColors.textColor,
-                        unfocusedLabelColor = GlobalColors.textColor,
-                        focusedTextColor = GlobalColors.textColor,
-                        unfocusedTextColor = GlobalColors.textColor
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                )
-                OutlinedTextField(
-                    value = lecturer,
-                    onValueChange = { lecturer = it },
-                    label = { Text("Lecturer") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = GlobalColors.primaryColor,
-                        unfocusedContainerColor = GlobalColors.primaryColor,
-                        focusedIndicatorColor = GlobalColors.textColor,
-                        unfocusedIndicatorColor = GlobalColors.primaryColor,
-                        focusedLabelColor = GlobalColors.textColor,
-                        cursorColor = GlobalColors.textColor,
-                        unfocusedLabelColor = GlobalColors.textColor,
-                        focusedTextColor = GlobalColors.textColor,
-                        unfocusedTextColor = GlobalColors.textColor
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                )
-                OutlinedTextField(
-                    value = venue,
-                    onValueChange = { venue = it },
-                    label = { Text("Venue") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = GlobalColors.primaryColor,
-                        unfocusedContainerColor = GlobalColors.primaryColor,
-                        focusedIndicatorColor = GlobalColors.textColor,
-                        unfocusedIndicatorColor = GlobalColors.primaryColor,
-                        focusedLabelColor = GlobalColors.textColor,
-                        cursorColor = GlobalColors.textColor,
-                        unfocusedLabelColor = GlobalColors.textColor,
-                        focusedTextColor = GlobalColors.textColor,
-                        unfocusedTextColor = GlobalColors.textColor
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                )
+                CC.SingleLinedTextField(value = startTime,onValueChange = {startTime = it},label = "Start Time",singleLine = false)
+                CC.SingleLinedTextField(value = duration, onValueChange = {duration = it}, label = "Duration" , singleLine = true )
+                CC.SingleLinedTextField(value = lecturer, onValueChange = {lecturer = it}, label = "Lecturer" , singleLine = true )
+                CC.SingleLinedTextField(value = venue, onValueChange = {venue = it}, label = "Venue" , singleLine = true )
             }
         },
         confirmButton = {
@@ -443,10 +375,10 @@ fun AddEditTimetableItemDialog(
                 onSave(
                     TimetableItem(
                         unit.text,
-                        startTime.text,
-                        duration.text,
-                        lecturer.text,
-                        venue.text,
+                        startTime,
+                        duration,
+                        lecturer,
+                        venue,
                         day
                     )
                 )
@@ -463,8 +395,6 @@ fun AddEditTimetableItemDialog(
         containerColor = GlobalColors.secondaryColor
     )
 }
-
-
 
 
 @Preview

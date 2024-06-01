@@ -18,23 +18,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -45,17 +35,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,9 +47,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
 import java.util.Locale
+import com.app.classportal.CommonComponents as CC
 
 val unselected = Color.Transparent
-
 val center = Offset(0.5f, 0.5f)
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -81,8 +65,6 @@ fun LoginScreen(navController: NavController, context: Context) {
     val username by remember { mutableStateOf("") }
     var input by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var passwordVisibility by remember { mutableStateOf(false) }
-    var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var isRegistering by remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
@@ -97,15 +79,16 @@ fun LoginScreen(navController: NavController, context: Context) {
     }.value
 
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Text(
-                text = if (isRegistering) "   Register" else "   Login",
-                fontFamily = RobotoMono,
-                color = GlobalColors.textColor,
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp
-            )
-        },
+        TopAppBar(
+            title = {
+                Text(
+                    text = if (isRegistering) "   Register" else "   Login",
+                    fontFamily = RobotoMono,
+                    color = GlobalColors.textColor,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 25.sp
+                )
+            },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
         )
     }) {
@@ -208,188 +191,53 @@ fun LoginScreen(navController: NavController, context: Context) {
                         horizontalArrangement = Arrangement.SpaceEvenly,
 
                         ) {
-                        OutlinedTextField(
+                        CC.SingleLinedTextField(
                             value = firstName,
-                            textStyle = TextStyle(fontFamily = RobotoMono),
-                            onValueChange = { firstName = it.trimEnd() },
-                            label = {
-                                Text(
-                                    text = "First Name",
-                                    fontFamily = RobotoMono,
-                                    color = GlobalColors.textColor,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 15.sp
-                                )
-                            },
-                            singleLine = true,
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = GlobalColors.primaryColor,
-                                unfocusedContainerColor = GlobalColors.primaryColor,
-                                focusedIndicatorColor = GlobalColors.tertiaryColor,
-                                unfocusedIndicatorColor = GlobalColors.primaryColor,
-                                focusedLabelColor = GlobalColors.textColor,
-                                cursorColor = GlobalColors.textColor,
-                                unfocusedLabelColor = GlobalColors.textColor,
-                                focusedTextColor = GlobalColors.textColor,
-                                unfocusedTextColor = GlobalColors.textColor
-
-                            ),
-                            shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier
-                                .height(60.dp)
-                                .width(130.dp)
-                                .shadow(
-                                    elevation = 10.dp, shape = RoundedCornerShape(20.dp)
-                                )
+                            onValueChange = { firstName = it },
+                            label = "First Name",
+                            singleLine = true
                         )
-                        OutlinedTextField(
+                        CC.SingleLinedTextField(
                             value = lastName,
-                            textStyle = TextStyle(fontFamily = RobotoMono),
-                            onValueChange = { lastName = it.trimEnd() },
-                            label = {
-                                Text(
-                                    text = "Last Name",
-                                    fontFamily = RobotoMono,
-                                    color = GlobalColors.textColor,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 15.sp
-                                )
-                            },
-                            singleLine = true,
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = GlobalColors.primaryColor,
-                                unfocusedContainerColor = GlobalColors.primaryColor,
-                                focusedIndicatorColor = GlobalColors.tertiaryColor,
-                                unfocusedIndicatorColor = GlobalColors.primaryColor,
-                                focusedLabelColor = GlobalColors.textColor,
-                                cursorColor = GlobalColors.textColor,
-                                unfocusedLabelColor = GlobalColors.textColor,
-                                focusedTextColor = GlobalColors.textColor,
-                                unfocusedTextColor = GlobalColors.textColor
-
-                            ),
-                            shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier
-                                .height(60.dp)
-                                .width(130.dp)
-                                .shadow(
-                                    elevation = 10.dp, shape = RoundedCornerShape(20.dp)
-                                )
+                            onValueChange = {lastName = it},
+                            label = "Last Name",
+                            singleLine = true
                         )
                     }
                 }
-                OutlinedTextField(
+
+                CC.SingleLinedTextField(
                     value = input,
-                    textStyle = TextStyle(fontFamily = RobotoMono),
-                    onValueChange = { input = it.trimEnd() },
-                    label = { Text(text = "Username or Registration ID", fontFamily = RobotoMono, fontSize = 15.sp) },
-                    singleLine = true,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = GlobalColors.primaryColor,
-                        unfocusedContainerColor = GlobalColors.primaryColor,
-                        focusedIndicatorColor = GlobalColors.tertiaryColor,
-                        unfocusedIndicatorColor = GlobalColors.primaryColor,
-                        focusedLabelColor = GlobalColors.textColor,
-                        cursorColor = GlobalColors.textColor,
-                        unfocusedLabelColor = GlobalColors.textColor,
-                        focusedTextColor = GlobalColors.textColor,
-                        unfocusedTextColor = GlobalColors.textColor
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier
-                        .width(300.dp)
-                        .shadow(
-                            elevation = 10.dp,
-                            shape = RoundedCornerShape(20.dp),
-
-                            )
+                    onValueChange = { input = it },
+                    label = "Username or Registration ID",
+                    singleLine = true
                 )
-
-                OutlinedTextField(
-                    value = password,
-                    textStyle = TextStyle(fontFamily = RobotoMono),
-                    onValueChange = { password = it },
-                    label = { Text(text = "Password", fontFamily = RobotoMono) },
-                    singleLine = true,
-                    trailingIcon = {
-                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                            Icon(
-                                imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                tint = GlobalColors.textColor,
-                                contentDescription = if (passwordVisibility) "Hide password" else "Show password"
-                            )
-                        }
-                    },
-                    visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = GlobalColors.primaryColor,
-                        unfocusedContainerColor = GlobalColors.primaryColor,
-                        focusedIndicatorColor = GlobalColors.tertiaryColor,
-                        unfocusedIndicatorColor = GlobalColors.primaryColor,
-                        focusedLabelColor = GlobalColors.textColor,
-                        cursorColor = GlobalColors.textColor,
-                        unfocusedLabelColor = GlobalColors.textColor,
-                        focusedTextColor = GlobalColors.textColor,
-                        unfocusedTextColor = GlobalColors.textColor
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier
-                        .width(300.dp)
-                        .shadow(
-                            elevation = 10.dp,
-                            shape = RoundedCornerShape(20.dp),
-
-                            )
+                CC.PasswordTextField(
+                    value = password, onValueChange = { password = it }, label = "Password"
                 )
-                Row(modifier = Modifier.width(300.dp), horizontalArrangement = Arrangement.End) {
-                    Text("Forgot Password?",style = myTextStyle)
-                    Text(" Reset",modifier = Modifier
-                        .absolutePadding(0.dp,0.dp,20.dp,0.dp)
-                        .clickable {navController.navigate("password")},
-                        style = myTextStyle,
-                        color = GlobalColors.tertiaryColor)
+                AnimatedVisibility(visible = !isRegistering) {
+                    Row(
+                        modifier = Modifier.width(300.dp), horizontalArrangement = Arrangement.End
+                    ) {
+                        Text("Forgot Password?", style = myTextStyle)
+                        Text(
+                            " Reset",
+                            modifier = Modifier
+                                .absolutePadding(0.dp, 0.dp, 20.dp, 0.dp)
+                                .clickable { navController.navigate("password") },
+                            style = myTextStyle,
+                            color = GlobalColors.tertiaryColor
+                        )
+                    }
                 }
 
-
                 AnimatedVisibility(visible = isRegistering) {
-                    OutlinedTextField(
+                    CC.PasswordTextField(
                         value = confirmPassword,
-                        textStyle = TextStyle(fontFamily = RobotoMono),
                         onValueChange = { confirmPassword = it },
-                        label = { Text(text = "Confirm Password", fontFamily = RobotoMono) },
-                        singleLine = true,
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                confirmPasswordVisibility = !confirmPasswordVisibility
-                            }) {
-                                Icon(
-                                    imageVector = if (confirmPasswordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                    tint = GlobalColors.textColor,
-                                    contentDescription = if (confirmPasswordVisibility) "Hide password" else "Show password"
-                                )
-                            }
-                        },
-                        visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = GlobalColors.primaryColor,
-                            unfocusedContainerColor = GlobalColors.primaryColor,
-                            focusedIndicatorColor = GlobalColors.tertiaryColor,
-                            unfocusedIndicatorColor = GlobalColors.primaryColor,
-                            focusedLabelColor = GlobalColors.textColor,
-                            cursorColor = GlobalColors.textColor,
-                            unfocusedLabelColor = GlobalColors.textColor,
-                            focusedTextColor = GlobalColors.textColor,
-                            unfocusedTextColor = GlobalColors.textColor
-                        ),
-                        shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier
-                            .width(300.dp)
-                            .shadow(
-                                elevation = 10.dp,
-                                shape = RoundedCornerShape(20.dp),
-
-                                )
+                        label = "Confirm Password"
                     )
+
                 }
             }
 
@@ -411,15 +259,13 @@ fun LoginScreen(navController: NavController, context: Context) {
 
                                     // Check if regID already exists
                                     if (students.any { it.registrationID == input }) {
-                                        Toast.makeText(
-                                            context,
-                                            "${global.selectedcategory.value.replaceFirstChar {
+                                        Toast.makeText(context, "${
+                                            global.selectedcategory.value.replaceFirstChar {
                                                 if (it.isLowerCase()) it.titlecase(
                                                     Locale.ROOT
                                                 ) else it.toString()
-                                            }} ID already exists",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                            }
+                                        } ID already exists", Toast.LENGTH_SHORT).show()
                                     } else {
                                         val updatedStudents = students.toMutableList()
                                         updatedStudents.add(
@@ -433,11 +279,15 @@ fun LoginScreen(navController: NavController, context: Context) {
                                         )
 
                                         FileUtil.saveStudents(context, updatedStudents)
-                                        Toast.makeText(
-                                            context,
-                                            "${global.selectedcategory.value.capitalize(Locale.ROOT)} registered successfully! Login to continue",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        Toast.makeText(context,
+                                            "${
+                                                global.selectedcategory.value.replaceFirstChar {
+                                                    if (it.isLowerCase()) it.titlecase(
+                                                        Locale.ROOT
+                                                    ) else it.toString()
+                                                }
+                                            } registered successfully! Login to continue",
+                                            Toast.LENGTH_SHORT).show()
                                         isRegistering = !isRegistering
                                     }
                                 } else {
@@ -446,15 +296,18 @@ fun LoginScreen(navController: NavController, context: Context) {
                                     ).show()
                                 }
                             } else {
-                                Toast.makeText(
-                                    context, "Please enter a valid ${
-                                        global.selectedcategory.value.capitalize(Locale.ROOT)
-                                    } ID and fill in all fields", Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(context, "Please enter a valid ${
+                                    global.selectedcategory.value.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            Locale.ROOT
+                                        ) else it.toString()
+                                    }
+                                } ID and fill in all fields", Toast.LENGTH_SHORT).show()
                             }
                         } else { // Login logic
                             val students = FileUtil.loadStudents(context)
-                            val student = students.find {it.registrationID == input || it.username == input}
+                            val student =
+                                students.find { it.registrationID == input || it.username == input }
 
 
                             // Check if student exists and credentials match
@@ -488,7 +341,7 @@ fun LoginScreen(navController: NavController, context: Context) {
                                         navController.navigate("dashboard") // Navigate after successful login
                                     }
                                 }
-                            }else{
+                            } else {
                                 Toast.makeText(
                                     navController.context,
                                     "Username or Registration ID does not exist",

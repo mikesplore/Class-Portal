@@ -40,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.app.classportal.FileUtil.loadAnnouncement
 import com.app.classportal.FileUtil.saveAnnouncement
 import com.app.classportal.ui.theme.RobotoMono
+import com.app.classportal.CommonComponents as CC
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -107,28 +108,9 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
             text = {
                 Column {
                     Spacer(modifier = Modifier.height(8.dp))
-                    BasicTextField(
-                        value = title,
-                        onValueChange = { title = it },
-                        modifier = Modifier.fillMaxWidth(),
-                        textStyle = TextStyle(fontSize = 16.sp),
-                        decorationBox = { innerTextField ->
-                            Box(
-                                modifier = Modifier
-                                    .background(
-                                        GlobalColors.tertiaryColor,
-                                        shape = MaterialTheme.shapes.small
-                                    )
-                                    .padding(8.dp)
-                            ) {
-                                if (title.isEmpty()) {
-                                    Text("Title", style = descriptionTextStyle())
-                                }
-                                innerTextField()
-                            }
-                        }
-                    )
+                    CC.BasicTextField(title = title, onTitleChange = { title = it }, singleLine = true)
                     Spacer(modifier = Modifier.height(8.dp))
+
                     BasicTextField(
                         value = description,
                         onValueChange = { description = it },

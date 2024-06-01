@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,12 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.app.classportal.GlobalColors
 
+@SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun WebViewScreen(link: String,) {
     var backEnabled by remember { mutableStateOf(false) }
     var forwardEnabled by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(true) }
-    var progress by remember { mutableStateOf(0f) }
+    var progress by remember { mutableFloatStateOf(0f) }
 
     Box(modifier = Modifier.fillMaxHeight()) { // Ensure it fills the parent container height
         var webViewInstance: WebView? by remember { mutableStateOf(null) }

@@ -1,14 +1,18 @@
 package com.app.classportal
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -36,6 +40,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttendanceReportScreen(context: Context, navController: NavController) {
+    var expanded by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -70,8 +75,26 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
                         }
                     }
                 },
+                actions = {
+                          Icon(imageVector = Icons.Default.MoreVert, contentDescription = "more", tint = GlobalColors.textColor,
+                              modifier = Modifier.clickable { expanded = !expanded })
+                },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
             )
+            if (expanded) {
+                androidx.compose.material.DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }) {
+                    androidx.compose.material.DropdownMenuItem(onClick = {
+                        expanded = false
+                        FileUtil.clearAttendance(context)
+                    Toast.makeText(context, "Attendance Cleared", Toast.LENGTH_SHORT).show()}) {
+                        Text("Clear Attendance")
+                        
+                    }
+                    
+                }
+            }
         }
     ) { innerPadding ->
         Column(
@@ -224,7 +247,7 @@ fun AttendanceReportContent(context: Context) {
                                     value = selectedDate.format(dateFormatter),
                                     onValueChange = {}, // Prevent direct text input
                                     readOnly = true,
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)},
+                                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = "Select Date", tint = GlobalColors.textColor)},
                                     modifier = Modifier
                                         .menuAnchor()
                                         .background(GlobalColors.primaryColor)

@@ -1,9 +1,7 @@
 package com.app.classportal
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.net.Uri
-import android.provider.DocumentsContract
-import android.provider.MediaStore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
@@ -42,6 +40,7 @@ data class Announcement(
     val id: Int, val date: String, val title: String, val description: String, val student: String
 )
 
+@SuppressLint("SimpleDateFormat")
 fun getCurrentDateFormatted(): String {
     val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     return dateFormat.format(Date())
@@ -55,8 +54,6 @@ object FileUtil {
     private const val ANNOUNCEMENT_FILE = "announcement.json"
     private const val UNITS_ASSIGNMENTS_FILE = "units_assignments.json"
     private val gson = Gson()
-
-
 
     fun loadUnitsAndAssignments(context: Context): MutableList<UnitData> {
         val gson = Gson()

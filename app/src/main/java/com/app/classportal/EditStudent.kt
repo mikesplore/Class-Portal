@@ -77,22 +77,11 @@ fun EditStudentScreen(onBack: () -> Unit, context: Context, navController: NavCo
                     fontFamily = RobotoMono) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Box(modifier = Modifier
-
-                            .border(
-                                width = 1.dp,
-                                color = GlobalColors.textColor,
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
-                            .size(50.dp),
-                            contentAlignment = Alignment.Center){
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
                                 tint = GlobalColors.textColor,
                             )
-                        }
                     }
                 },
                 actions = {

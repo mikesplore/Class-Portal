@@ -6,7 +6,17 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -17,8 +27,23 @@ import androidx.compose.material.icons.filled.ArrowOutward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.ArrowOutward
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,12 +51,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.app.classportal.CommonComponents as CC
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,36 +71,39 @@ fun SettingsScreen(navController: NavController, context: Context) {
     var showusername by remember { mutableStateOf(false) }
     var showrestarting by remember { mutableStateOf(false) }
     var newpassword by remember { mutableStateOf("") }
+    var confirmnewpassword by remember { mutableStateOf("") }
     var oldpassword by remember { mutableStateOf("") }
-    var expandedpassword by remember { mutableStateOf(false)}
+    var expandedpassword by remember { mutableStateOf(false) }
     var anonymousMode by remember { mutableStateOf(false) }
 
-   val students = FileUtil.loadStudents(context)
+    val students = FileUtil.loadStudents(context)
     val student = students.find { it.registrationID == global.loggedinregID.value }
-   /* if (student != null && !expandedColumn) {
+    if (student != null && !expandedColumn) {
         newfirstname = student.firstName
         newlastname = student.lastName
         newusername = student.username
         studentFound = true
     } else if (student == null) {
         Toast.makeText(context, "Student not found", Toast.LENGTH_SHORT).show()
-    }*/
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 navigationIcon = {
                     IconButton(onClick = { navController.navigate("dashboard") }) {
-                        Box(modifier = Modifier
+                        Box(
+                            modifier = Modifier
 
-                            .border(
-                                width = 1.dp,
-                                color = GlobalColors.textColor,
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                            .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
-                            .size(50.dp),
-                            contentAlignment = Alignment.Center){
+                                .border(
+                                    width = 1.dp,
+                                    color = GlobalColors.textColor,
+                                    shape = RoundedCornerShape(10.dp)
+                                )
+                                .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                                .size(50.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
@@ -84,7 +112,14 @@ fun SettingsScreen(navController: NavController, context: Context) {
                         }
                     }
                 },
-                title = { Text("Settings", style = myTextStyle, fontWeight = FontWeight.Bold, fontSize = 30.sp) },
+                title = {
+                    Text(
+                        "Settings",
+                        style = myTextStyle,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 30.sp
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = GlobalColors.primaryColor,
                     titleContentColor = GlobalColors.textColor
@@ -158,30 +193,27 @@ fun SettingsScreen(navController: NavController, context: Context) {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         if (student != null) {
-                            TextField(value = "${student.registrationID} (Not Editable)", textStyle = myTextStyle,
-                                onValueChange = {},
-                                readOnly = true,
-                                modifier = Modifier
-
-                                    .background(
-                                        GlobalColors.primaryColor,
-                                        RoundedCornerShape(10.dp)
-                                    )
-                                    .padding(8.dp)
-                                    .fillMaxWidth(),
-                                colors = TextFieldDefaults.colors(
-                                    focusedContainerColor = GlobalColors.primaryColor,
-                                    unfocusedContainerColor = GlobalColors.primaryColor,
-                                    focusedTextColor = GlobalColors.textColor,
-                                    unfocusedLabelColor = GlobalColors.textColor,
-                                    unfocusedTextColor = GlobalColors.textColor,
-                                    focusedIndicatorColor = Color.Transparent,
-                                    unfocusedIndicatorColor = Color.Transparent
-                                ))
+                            CustomTextField(
+                                value = student.registrationID,
+                                onValueChange = { },
+                                label = ""
+                            )
                         }
-                        CustomTextField(value = newfirstname, onValueChange = { newfirstname = it }, label = "First Name")
-                        CustomTextField(value = newlastname, onValueChange = { newlastname = it }, label = "Last Name")
-                        CustomTextField(value = newusername, onValueChange = { newusername = it }, label = "Username")
+                        CustomTextField(
+                            value = newfirstname,
+                            onValueChange = { newfirstname = it },
+                            label = "First Name"
+                        )
+                        CustomTextField(
+                            value = newlastname,
+                            onValueChange = { newlastname = it },
+                            label = "Last Name"
+                        )
+                        CustomTextField(
+                            value = newusername,
+                            onValueChange = { newusername = it },
+                            label = "Username"
+                        )
 
                         if (newfirstname.isNotEmpty() && newlastname.isNotEmpty() && newusername.isNotEmpty()) {
                             IconButton(onClick = {
@@ -198,11 +230,18 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                 global.username.value = newusername
                                 studentFound = false
                                 expandedColumn = false // Collapse the column after saving
-                                Toast.makeText(context, "Student updated successfully", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Student updated successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }) {
 
-                                    Icon(imageVector = Icons.Default.Check, contentDescription = "Save", tint = GlobalColors.textColor)
-
+                                Icon(
+                                    imageVector = Icons.Default.Check,
+                                    contentDescription = "Save",
+                                    tint = GlobalColors.textColor
+                                )
 
 
                             }
@@ -232,21 +271,25 @@ fun SettingsScreen(navController: NavController, context: Context) {
                 onCheckedChange = { checked ->
                     showusername = checked
 
-                   if (checked) { // Only check when the switch is turned ON
+                    if (checked) { // Only check when the switch is turned ON
                         if (student != null) {
                             if (student.username.isNotEmpty()) {
                                 global.loggedinuser.value = student.username
                             } else {
-                                Toast.makeText(context, "You have not set your username", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "You have not set your username",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 showusername = false // Reset the switch if no username is set
                             }
                         }
-                    }else{
-                       if (student != null) {
-                           //use your name instead of username
-                           global.loggedinuser.value = student.firstName
+                    } else {
+                        if (student != null) {
+                            //use your name instead of username
+                            global.loggedinuser.value = student.firstName
 
-                       }
+                        }
                     }
                 }
             )
@@ -264,13 +307,18 @@ fun SettingsScreen(navController: NavController, context: Context) {
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                Text("Use Custom Color Pallete",
+            ) {
+                Text(
+                    "Use Custom Color Pallete",
                     style = myTextStyle,
-                    )
+                )
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { palleteDialog = true }) {
-                    Icon(imageVector = Icons.Default.ArrowOutward, contentDescription = "edit", tint = GlobalColors.textColor)
+                    Icon(
+                        imageVector = Icons.Default.ArrowOutward,
+                        contentDescription = "edit",
+                        tint = GlobalColors.textColor
+                    )
 
 
                     if (palleteDialog) {
@@ -281,16 +329,20 @@ fun SettingsScreen(navController: NavController, context: Context) {
 
                                     onsave = {
                                         palleteDialog = false
-                                        showrestarting = true},
-                                    onrevert = {palleteDialog = false
-                                        showrestarting = true})
+                                        showrestarting = true
+                                    },
+                                    onrevert = {
+                                        palleteDialog = false
+                                        showrestarting = true
+                                    })
                             },
                             onDismissRequest = { palleteDialog = true },
                             confirmButton = {
-                                Row(modifier = Modifier.fillMaxWidth(),
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.Center,
                                     verticalAlignment = Alignment.CenterVertically
-                                ){
+                                ) {
                                     val uriHandler = LocalUriHandler.current
                                     Text(
                                         text = "Choose Color palette ",
@@ -300,7 +352,8 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                             uriHandler.openUri("https://colorhunt.co/") // Open URI in browser
                                         }
                                     )
-                                    Icon(imageVector = Icons.Outlined.ArrowOutward, contentDescription = "Choose Color palette",
+                                    Icon(imageVector = Icons.Outlined.ArrowOutward,
+                                        contentDescription = "Choose Color palette",
                                         tint = GlobalColors.tertiaryColor,
                                         modifier = Modifier.clickable {
                                             uriHandler.openUri("https://colorhunt.co/") // Open URI in browser
@@ -319,42 +372,50 @@ fun SettingsScreen(navController: NavController, context: Context) {
                                 Column(
                                     modifier = Modifier,
                                     verticalArrangement = Arrangement.SpaceBetween
-                                ){
-                                    Text(text = "The app will refresh for the colors to load properly",
-                                        style = myTextStyle)
+                                ) {
+                                    Text(
+                                        text = "The app will refresh for the colors to load properly",
+                                        style = myTextStyle
+                                    )
 
                                 }
 
                             },
-                            onDismissRequest = {  },
+                            onDismissRequest = { },
                             confirmButton = {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
-                                ){
+                                ) {
 
-                                    Button(onClick = {
+                                    Button(
+                                        onClick = {
 
-                                        showrestarting = false
-                                        navController.navigate("welcome")
-                                        Toast.makeText(context, "Refreshing screens", Toast.LENGTH_SHORT).show()
-                                    },
+                                            showrestarting = false
+                                            navController.navigate("welcome")
+                                            Toast.makeText(
+                                                context,
+                                                "Refreshing screens",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        },
                                         modifier = Modifier.fillMaxWidth(),
                                         shape = RoundedCornerShape(10.dp),
-                                        colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor)) {
-                                        Text(text = "Ok",
-                                            style = myTextStyle,)
-                                    }}
+                                        colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor)
+                                    ) {
+                                        Text(
+                                            text = "Ok",
+                                            style = myTextStyle,
+                                        )
+                                    }
+                                }
                             },
 
                             containerColor = GlobalColors.secondaryColor
                         )
                     }
-
-                    
                 }
-
             }
             Text(
                 text = "Security",
@@ -382,12 +443,8 @@ fun SettingsScreen(navController: NavController, context: Context) {
                             text = "Change Password",
                             style = myTextStyle,
 
-
-                        )
-
+                            )
                     }
-
-
                 }
 
                 AnimatedVisibility(visible = expandedpassword) {
@@ -398,28 +455,54 @@ fun SettingsScreen(navController: NavController, context: Context) {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         CustomTextField(value = oldpassword,
-                            onValueChange = {oldpassword = it}, label = "Old Password")
-                        CustomTextField(value = newpassword, onValueChange = {newpassword = it}, label = "New Password")
-                        Button(onClick = {
-                            if(oldpassword.isNotEmpty() && newpassword.isNotEmpty()){
-                            if (student != null) {
-                                if(student.password == oldpassword){
-                                    student.password = newpassword
-                                    FileUtil.editStudent(context, student)
-                                    student.password = newpassword
-                                    Toast.makeText(context,"Password Changed",Toast.LENGTH_SHORT).show()
-                                    expandedpassword = false
-                                    newpassword = ""
-                                    oldpassword = ""
-                                }else{
-                                    Toast.makeText(context,"Wrong Password",Toast.LENGTH_SHORT).show()
+                            onValueChange = { oldpassword = it }, label = "Old Password"
+                        )
+                        CustomTextField(
+                            value = newpassword,
+                            onValueChange = { newpassword = it },
+                            label = "New Password"
+                        )
+                        CustomTextField(
+                            value = confirmnewpassword,
+                            onValueChange = { confirmnewpassword = it },
+                            label = "Confirm Password"
+                        )
+                        Button(
+                            onClick = {
+                                if (oldpassword.isNotEmpty() && newpassword.isNotEmpty()) {
+                                    if (student != null) {
+                                        if (student.password == oldpassword && newpassword == confirmnewpassword) {
+                                            student.password = newpassword
+                                            FileUtil.editStudent(context, student)
+                                            student.password = newpassword
+                                            Toast.makeText(
+                                                context,
+                                                "Password Changed",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            expandedpassword = false
+                                            newpassword = ""
+                                            oldpassword = ""
+                                            confirmnewpassword = ""
+                                        } else {
+                                            Toast.makeText(
+                                                context,
+                                                "Wrong Password",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "Student not found",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                } else {
+                                    Toast.makeText(context, "Blank Spaces!", Toast.LENGTH_SHORT)
+                                        .show()
                                 }
-                            }else{
-                                Toast.makeText(context,"Student not found",Toast.LENGTH_SHORT).show()
-                            }}else{
-                                Toast.makeText(context,"Blank Spaces!", Toast.LENGTH_SHORT).show()
-                            }
-                        },
+                            },
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = GlobalColors.primaryColor
@@ -427,7 +510,6 @@ fun SettingsScreen(navController: NavController, context: Context) {
                         ) {
                             Text(text = "Save Password", style = myTextStyle)
                         }
-
 
 
                     }
@@ -445,15 +527,15 @@ fun SettingsScreen(navController: NavController, context: Context) {
 
             PreferenceItem(label = "Go Anonymous",
                 checked = anonymousMode,
-                onCheckedChange = { anonymousMode = it } )
-                
-            if (anonymousMode){
+                onCheckedChange = { anonymousMode = it })
+
+            if (anonymousMode) {
                 global.loggedinuser.value = "Anonymous"
                 global.lastname.value = ""
 
-            }else{
+            } else {
                 global.loggedinuser.value = student?.firstName ?: ""
-                global.lastname.value = student?.lastName?:""
+                global.lastname.value = student?.lastName ?: ""
 
             }
 
@@ -474,7 +556,7 @@ fun SettingsScreen(navController: NavController, context: Context) {
             )
             val uriHandler = LocalUriHandler.current
             Text(
-                text = "Contact Developer Mike ",
+                text = "Report Bugs ",
                 color = GlobalColors.tertiaryColor,
                 style = myTextStyle,
                 modifier = Modifier.clickable {
@@ -498,7 +580,11 @@ fun CustomTextField(value: String, onValueChange: (String) -> Unit, label: Strin
         singleLine = true
     ) {
         if (value.isEmpty()) {
-            Text(text = label, color = GlobalColors.textColor.copy(alpha = 0.5f), style = myTextStyle)
+            Text(
+                text = label,
+                color = GlobalColors.textColor.copy(alpha = 0.5f),
+                style = myTextStyle
+            )
         }
         it()
     }

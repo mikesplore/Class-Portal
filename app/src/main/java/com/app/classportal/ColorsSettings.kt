@@ -201,6 +201,5 @@ fun ColorSettingsPreview() {
     LaunchedEffect(Unit) {
         GlobalColors.currentScheme = GlobalColors.loadColorScheme(context)
     }
-
     ColorSettings(context = context, {}, {})
 }

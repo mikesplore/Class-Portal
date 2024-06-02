@@ -259,11 +259,11 @@ fun AnnouncementsScreen(navController: NavController, context: Context) {
                 // Display Notification
                 val notification = announcements.firstOrNull()
 
-                /*  NotificationCard(
+                  NotificationCard(
                       title = notification?.title ?: "",
                       message = notification?.description ?: "",
                       visibleState = notificationVisibleState
-                  )*/
+                  )
 
                 if (announcements.isNotEmpty()) {
                     announcements.forEachIndexed { index, announcement ->

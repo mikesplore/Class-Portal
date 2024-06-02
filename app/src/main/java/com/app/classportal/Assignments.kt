@@ -25,6 +25,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,10 +48,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.app.classportal.ui.theme.RobotoMono
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -82,7 +87,8 @@ fun AssignmentScreen(navController: NavController, context: Context) {
     }
 
     Scaffold(topBar = {
-        TopAppBar(title = { Text("Assignments", style = CC.titleTextStyle) },
+        TopAppBar(
+            title = { Text("Assignments", style = CC.descriptionTextStyle, fontSize = 20.sp) },
             navigationIcon = {
                 IconButton(onClick = { navController.navigate("dashboard") }) {
                     Icon(
@@ -109,7 +115,9 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                         Text(
                             "Add Unit",
                             color = GlobalColors.textColor,
-                            style = CC.descriptionTextStyle,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            fontFamily = RobotoMono
                         )
                     }, onClick = {
                         currentUnit = UnitData("")
@@ -127,7 +135,9 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                         Text(
                             "Edit Unit",
                             color = GlobalColors.textColor,
-                            style = CC.descriptionTextStyle
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            fontFamily = RobotoMono
                         )
                     }, onClick = {
                         if (units.isNotEmpty() && currentUnit.name.isNotEmpty()) {
@@ -148,7 +158,9 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                         Text(
                             "Delete Unit",
                             color = GlobalColors.textColor,
-                            style = CC.descriptionTextStyle
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            fontFamily = RobotoMono
                         )
                     }, onClick = {
                         if (units.isNotEmpty() && currentUnit.name.isNotEmpty()) {
@@ -174,7 +186,9 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                         Text(
                             "Add Assignment",
                             color = GlobalColors.textColor,
-                            style = CC.descriptionTextStyle
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            fontFamily = RobotoMono
                         )
                     }, onClick = {
                         if (units.isNotEmpty() && currentUnit.name.isNotEmpty()) {
@@ -204,29 +218,33 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                 .padding(innerPadding)
         ) {
             if (showwarning) {
-                AlertDialog(title = { Text(text = "Warning", style = CC.titleTextStyle) }, text = {
-                    Text(
-                        text = "Please select a unit before adding an assignment.",
-                        style = CC.descriptionTextStyle
-                    )
-                }, onDismissRequest = { showwarning = false }, confirmButton = {
-                    Button(
-                        onClick = { showwarning = false },
-                        shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor)
-                    ) {
-                        Text(text = "Ok", style = CC.descriptionTextStyle)
-                    }
-                }, containerColor = GlobalColors.secondaryColor
+                AlertDialog(title = { Text(text = "Warning", style = CC.descriptionTextStyle) },
+                    text = {
+                        Text(
+                            text = "Please select a unit before adding an assignment.",
+                            style = CC.descriptionTextStyle
+                        )
+                    },
+                    onDismissRequest = { showwarning = false },
+                    confirmButton = {
+                        Button(
+                            onClick = { showwarning = false },
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor)
+                        ) {
+                            Text(text = "Ok", style = CC.descriptionTextStyle)
+                        }
+                    },
+                    containerColor = GlobalColors.secondaryColor
                 )
             }
-            ScrollableTabRow(
-                selectedTabIndex = pagerState.currentPage,
+
+            ScrollableTabRow(selectedTabIndex = pagerState.currentPage,
                 modifier = Modifier.background(GlobalColors.primaryColor),
                 contentColor = GlobalColors.textColor,
                 edgePadding = 0.dp, // Remove edge padding
-
+                divider = { Divider(color = Color.Transparent) } // Remove or customize divider
             ) {
                 units.forEachIndexed { index, unit ->
                     Tab(selected = pagerState.currentPage == index,
@@ -289,7 +307,9 @@ fun AssignmentScreen(navController: NavController, context: Context) {
     }
 
     if (showAssignmentDialog) {
-        AddEditAssignmentDialog(item = currentAssignment,
+        AddEditAssignmentDialog(context = context,
+            item = currentAssignment,
+            unit = currentUnit.name,
             onDismiss = { showAssignmentDialog = false },
             onSave = { assignment ->
                 val unitIndex = units.indexOf(currentUnit)
@@ -328,8 +348,7 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = item.title,
-                    style = CC.titleTextStyle,
+                    text = item.title, style = CC.descriptionTextStyle, fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { expandedMenu = true }) {
@@ -347,7 +366,10 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
                     DropdownMenuItem(text = {
                         Text(
                             "Edit",
-                            style = CC.descriptionTextStyle,
+                            color = GlobalColors.textColor,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            fontFamily = RobotoMono
                         )
                     }, onClick = {
                         onEdit()
@@ -362,7 +384,10 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
                     DropdownMenuItem(text = {
                         Text(
                             "Delete",
-                            style = CC.descriptionTextStyle,
+                            color = GlobalColors.textColor,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            fontFamily = RobotoMono
                         )
                     }, onClick = {
                         onDelete()
@@ -388,7 +413,11 @@ fun AssignmentItemRow(item: Assignment, onEdit: () -> Unit, onDelete: () -> Unit
 
 @Composable
 fun AddEditAssignmentDialog(
-    item: Assignment, onDismiss: () -> Unit, onSave: (Assignment) -> Unit
+    context: Context,
+    item: Assignment,
+    unit: String,
+    onDismiss: () -> Unit,
+    onSave: (Assignment) -> Unit
 ) {
     var title by remember { mutableStateOf((item.title)) }
     var description by remember { mutableStateOf((item.description)) }
@@ -397,7 +426,11 @@ fun AddEditAssignmentDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = "Add or Edit Assignment", style = CC.titleTextStyle
+                text = "Add or Edit Assignment",
+                style = CC.descriptionTextStyle,
+                fontSize = 20.sp,
+                color = GlobalColors.primaryColor,
+                fontWeight = FontWeight.Bold
             )
         },
         text = {
@@ -413,17 +446,18 @@ fun AddEditAssignmentDialog(
                     onValueChange = { description = it },
                     label = "Description",
                     singleLine = false
+
                 )
             }
         },
         confirmButton = {
             TextButton(onClick = {
-                /* showNotification(
-                     context,
-                     "New Assignment",
-                     "${global.loggedinuser.value} added a new assignment to $unit",
+                showNotification(
+                    context,
+                    "New Assignment",
+                    "${global.loggedinuser.value} added a new assignment to $unit",
 
-                 )*/
+                    )
                 onSave(Assignment(title, description))
             }) {
                 Text("Save", style = CC.descriptionTextStyle, color = GlobalColors.primaryColor)
@@ -449,8 +483,10 @@ fun AddEditUnitDialog(
         title = {
             Text(
                 text = if (unit.name.isEmpty()) "Add Unit" else "Edit Unit",
-                style = CC.titleTextStyle,
+                style = CC.descriptionTextStyle,
+                fontSize = 20.sp,
                 color = GlobalColors.primaryColor,
+                fontWeight = FontWeight.Bold
             )
         },
         text = {

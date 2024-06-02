@@ -230,6 +230,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                             fontFamily = RobotoMono,
                             modifier = Modifier.padding(10.dp) // Add padding to the Text
                         )
+
                     }
                 }
             }

@@ -62,7 +62,7 @@ fun PasswordResetScreen(navController: NavController, context: Context) {
     var passwordVisibility by remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
-            Brush.verticalGradient(
+            Brush.horizontalGradient(
                 colors = listOf(
                     GlobalColors.primaryColor,
                     GlobalColors.secondaryColor,

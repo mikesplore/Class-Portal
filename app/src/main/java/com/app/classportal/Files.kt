@@ -13,6 +13,12 @@ data class AttendanceRecord(
     val studentId: String, val date: String, val present: Boolean, val unit: String
 )
 
+data class StudentAttendance(
+    val student: Student,
+    val totalPresent: Int,
+    val totalAbsent: Int,
+    val attendancePercentage: Int
+)
 
 data class TimetableItem(
 

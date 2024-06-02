@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
+
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
@@ -8,5 +9,53 @@
         android:fontStyle="italic"
         android:fontWeight="400"
         android:font="@font/robotomono_italic" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="700"
+        android:font="@font/robotomono_bold" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="700"
+        android:font="@font/robotomono_bolditalic" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="300"
+        android:font="@font/robotomono_light" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="300"
+        android:font="@font/robotomono_lightitalic" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="500"
+        android:font="@font/robotomono_medium" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="500"
+        android:font="@font/robotomono_mediumitalic" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="100"
+        android:font="@font/robotomono_thin" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="100"
+        android:font="@font/robotomono_thinitalic" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="200"
+        android:font="@font/robotomono_extralight" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="200"
+        android:font="@font/robotomono_extralightitalic" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="600"
+        android:font="@font/robotomono_semibold" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="600"
+        android:font="@font/robotomono_semibolditalic" />
 </font-family>
 

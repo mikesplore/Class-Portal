@@ -108,8 +108,7 @@ fun AttendanceReportScreen(context: Context, navController: NavController) {
             colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
         )
         if (expanded) {
-            androidx.compose.material.DropdownMenu(
-                expanded = expanded,
+            androidx.compose.material.DropdownMenu(expanded = expanded,
                 onDismissRequest = { expanded = false }) {
                 androidx.compose.material.DropdownMenuItem(onClick = {
                     expanded = false
@@ -290,8 +289,7 @@ fun AttendanceReportContent(context: Context) {
                                         ),
                                         textStyle = CC.descriptionTextStyle
                                     )
-                                    ExposedDropdownMenu(
-                                        expanded = expanded,
+                                    ExposedDropdownMenu(expanded = expanded,
                                         onDismissRequest = { expanded = false }) {
                                         availableDates.forEach { date ->
                                             DropdownMenuItem(text = { Text(date.format(dateFormatter)) },

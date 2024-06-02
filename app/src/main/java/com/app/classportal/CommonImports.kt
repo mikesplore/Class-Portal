@@ -139,7 +139,7 @@ object CommonComponents {
                         .padding(8.dp)
                 ) {
                     if (title.isEmpty()) {
-                        Text("Title", style = descriptionTextStyle())
+                        Text("Title", style = descriptionTextStyle)
                     }
                     innerTextField()
                 }

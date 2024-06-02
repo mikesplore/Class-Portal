@@ -35,7 +35,7 @@ fun parseColor(hex: String): Color {
 object GlobalColors {
     private const val COLORS_FILE_NAME = "color_scheme.json"
 
-    private val defaultScheme = ColorScheme("003C43", "135D66", "77B0AA", "E3FEF7")
+    private val defaultScheme = ColorScheme("164863", "427D9D", "9BBEC8", "DDF2FD")
 
     var currentScheme by mutableStateOf(defaultScheme)
 

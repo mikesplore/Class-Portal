@@ -105,25 +105,29 @@ fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        OutlinedColorTextField(label = "Primary color",
+        OutlinedColorTextField(
+            label = "Primary color",
             colorValue = primaryColor,
             onValueChange = { newValue ->
                 primaryColor = newValue
             })
 
-        OutlinedColorTextField(label = "Secondary color",
+        OutlinedColorTextField(
+            label = "Secondary color",
             colorValue = secondaryColor,
             onValueChange = { newValue ->
                 secondaryColor = newValue
             })
 
-        OutlinedColorTextField(label = "Tertiary color",
+        OutlinedColorTextField(
+            label = "Tertiary color",
             colorValue = tertiaryColor,
             onValueChange = { newValue ->
                 tertiaryColor = newValue
             })
 
-        OutlinedColorTextField(label = "Text color",
+        OutlinedColorTextField(
+            label = "Text color",
             colorValue = textColor,
             onValueChange = { newValue ->
                 textColor = newValue

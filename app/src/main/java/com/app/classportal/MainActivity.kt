@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
 
-        NavHost(navController, startDestination = "chat") {
+        NavHost(navController, startDestination = "welcome") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }
@@ -125,9 +125,6 @@ class MainActivity : ComponentActivity() {
             }
             composable("password"){
                 PasswordResetScreen(navController, context)
-            }
-            composable("chat"){
-                ChatScreen(navController)
             }
         }
     }

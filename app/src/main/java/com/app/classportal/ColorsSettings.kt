@@ -1,21 +1,28 @@
 package com.app.classportal
 
 import android.content.Context
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.app.classportal.ui.theme.RobotoMono
 import com.google.gson.Gson
 import java.io.File
+import com.app.classportal.CommonComponents as CC
 
 data class ColorScheme(
     val primaryColor: String,
@@ -98,68 +105,58 @@ fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        OutlinedColorTextField(
-            label = "Primary color",
+        OutlinedColorTextField(label = "Primary color",
             colorValue = primaryColor,
-            textStyle = TextStyle(fontFamily = RobotoMono),
             onValueChange = { newValue ->
                 primaryColor = newValue
-            }
-        )
+            })
 
-        OutlinedColorTextField(
-            label = "Secondary color",
+        OutlinedColorTextField(label = "Secondary color",
             colorValue = secondaryColor,
-            textStyle = TextStyle(fontFamily = RobotoMono),
             onValueChange = { newValue ->
                 secondaryColor = newValue
-            }
-        )
+            })
 
-        OutlinedColorTextField(
-            label = "Tertiary color",
+        OutlinedColorTextField(label = "Tertiary color",
             colorValue = tertiaryColor,
-            textStyle = TextStyle(fontFamily = RobotoMono),
             onValueChange = { newValue ->
                 tertiaryColor = newValue
-            }
-        )
+            })
 
-        OutlinedColorTextField(
-            label = "Text color",
+        OutlinedColorTextField(label = "Text color",
             colorValue = textColor,
-            textStyle = TextStyle(fontFamily = RobotoMono),
             onValueChange = { newValue ->
                 textColor = newValue
-            }
-        )
+            })
 
-        Button(onClick = {
-            val newScheme = ColorScheme(
-                primaryColor = primaryColor,
-                secondaryColor = secondaryColor,
-                tertiaryColor = tertiaryColor,
-                textColor = textColor
-            )
-            GlobalColors.saveColorScheme(context, newScheme)
-            refreshTrigger = !refreshTrigger // Toggle the trigger to force recomposition
-            onsave()
-        },
+        Button(
+            onClick = {
+                val newScheme = ColorScheme(
+                    primaryColor = primaryColor,
+                    secondaryColor = secondaryColor,
+                    tertiaryColor = tertiaryColor,
+                    textColor = textColor
+                )
+                GlobalColors.saveColorScheme(context, newScheme)
+                refreshTrigger = !refreshTrigger // Toggle the trigger to force recomposition
+                onsave()
+            },
             colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor),
             shape = RoundedCornerShape(10.dp)
         ) {
-            Text("Save Colors", style = TextStyle(fontFamily = RobotoMono))
+            Text("Save Colors", style = CC.descriptionTextStyle)
         }
 
-        Button(onClick = {
-            GlobalColors.resetToDefaultColors(context)
-            refreshTrigger = !refreshTrigger // Toggle the trigger to force recomposition
-            onrevert()
-        },
+        Button(
+            onClick = {
+                GlobalColors.resetToDefaultColors(context)
+                refreshTrigger = !refreshTrigger // Toggle the trigger to force recomposition
+                onrevert()
+            },
             colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor),
             shape = RoundedCornerShape(10.dp)
         ) {
-            Text("Revert to Default Colors", style = TextStyle(fontFamily = RobotoMono))
+            Text("Revert to Default Colors", style = CC.descriptionTextStyle)
         }
     }
 }
@@ -168,41 +165,16 @@ fun ColorSettings(context: Context, onsave: () -> Unit, onrevert: () -> Unit) {
 fun OutlinedColorTextField(
     label: String,
     colorValue: String,
-    textStyle: TextStyle,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
+
+    ) {
     var isValidColor by remember { mutableStateOf(true) } // State to track validity
 
-    OutlinedTextField(
-        value = colorValue,
-        textStyle = textStyle,
-        onValueChange = { newValue ->
-            isValidColor = isValidHexColor(newValue) // Check validity on each change
-            onValueChange(newValue) // Update regardless of validity to show error state
-        },
-        label = { Text(text = label, fontFamily = RobotoMono) },
-        singleLine = true,
-        isError = !isValidColor, // Show error state if invalid
-        supportingText = { if (!isValidColor) Text("Invalid color code") }, // Error message
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = parseColor(GlobalColors.currentScheme.primaryColor),
-            unfocusedContainerColor = parseColor(GlobalColors.currentScheme.primaryColor),
-            focusedIndicatorColor = GlobalColors.textColor,
-            unfocusedIndicatorColor = GlobalColors.primaryColor,
-            focusedLabelColor = GlobalColors.textColor,
-            cursorColor = parseColor(GlobalColors.currentScheme.textColor),
-            unfocusedLabelColor = parseColor(GlobalColors.currentScheme.textColor),
-            focusedTextColor = parseColor(GlobalColors.currentScheme.textColor),
-            unfocusedTextColor = parseColor(GlobalColors.currentScheme.textColor)
-        ),
-        shape = RoundedCornerShape(10.dp),
-        modifier = modifier
-            .width(300.dp)
-            .shadow(
-                elevation = 10.dp,
-                shape = RoundedCornerShape(20.dp)
-            )
+    CC.SingleLinedTextField(
+        label = label, value = colorValue, onValueChange = { newValue ->
+            isValidColor = isValidHexColor(newValue)
+            onValueChange(newValue)
+        }, singleLine = true
     )
 }
 

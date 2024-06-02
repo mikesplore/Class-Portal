@@ -226,7 +226,7 @@ fun AssignmentScreen(navController: NavController, context: Context) {
                         text = {
                             Text(unit.name, style = myTextStyle)
                         },
-                        // Remove fillMaxWidth to let tabs take their natural size
+                        // Remove
                         selectedContentColor = GlobalColors.textColor,
                         unselectedContentColor = GlobalColors.textColor,
                         modifier = Modifier.background(GlobalColors.primaryColor)

@@ -41,27 +41,24 @@ onSurface = Color(0xFF1C1B1F),
 */
 )
 
+
+
 val RobotoMono = FontFamily(
     Font(R.font.robotomono_regular, FontWeight.Normal),
-    Font(R.font.robotomono_bold,FontWeight.Bold),
-    Font(R.font.robotomono_italic,FontWeight.Normal,style = FontStyle.Italic),
-    Font(R.font.robotomono_light,FontWeight.Light),
-    Font(R.font.robotomono_mediumitalic,FontWeight.Medium,style = FontStyle.Italic),
-    Font(R.font.robotomono_thin,FontWeight.Thin),
-    Font(R.font.robotomono_extralight,FontWeight.ExtraLight),
-    Font(R.font.robotomono_extralightitalic,FontWeight.ExtraLight,style = FontStyle.Italic),
-    Font(R.font.robotomono_semibold,FontWeight.SemiBold),
-    Font(R.font.robotomono_semibolditalic,FontWeight.SemiBold,style = FontStyle.Italic),
-    Font(R.font.robotomono_bolditalic,FontWeight.Bold,style = FontStyle.Italic),
-    Font(R.font.robotomono_light,FontWeight.Light),
-    Font(R.font.robotomono_lightitalic,FontWeight.Light,style = FontStyle.Italic),
-    Font(R.font.robotomono_medium,FontWeight.Medium),
-    Font(R.font.robotomono_thinitalic,FontWeight.Thin,style = FontStyle.Italic),
+    Font(R.font.robotomono_bold, FontWeight.Bold),
+    Font(R.font.robotomono_italic, FontWeight.Normal, style = FontStyle.Italic),
+    Font(R.font.robotomono_light, FontWeight.Light),
+    Font(R.font.robotomono_medium, FontWeight.Medium),
+    Font(R.font.robotomono_mediumitalic, FontWeight.Medium, style = FontStyle.Italic),
+    Font(R.font.robotomono_thin, FontWeight.Thin),
+    Font(R.font.robotomono_thinitalic, FontWeight.Thin, style = FontStyle.Italic),
+    Font(R.font.robotomono_extralight, FontWeight.ExtraLight),
+    Font(R.font.robotomono_extralightitalic, FontWeight.ExtraLight, style = FontStyle.Italic),
+    Font(R.font.robotomono_semibold, FontWeight.SemiBold),
+    Font(R.font.robotomono_semibolditalic, FontWeight.SemiBold, style = FontStyle.Italic),
+    Font(R.font.robotomono_bolditalic, FontWeight.Bold, style = FontStyle.Italic),
+    Font(R.font.robotomono_lightitalic, FontWeight.Light, style = FontStyle.Italic)
 )
-
-
-
-
 
 @Composable
 fun ClassPortalTheme(

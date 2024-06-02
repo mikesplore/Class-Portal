@@ -65,7 +65,7 @@ fun LoginScreen(navController: NavController, context: Context) {
     val username by remember { mutableStateOf("") }
     var input by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var isRegistering by remember { mutableStateOf(false) }
+    var isRegistering by remember { mutableStateOf(true) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(
@@ -195,13 +195,15 @@ fun LoginScreen(navController: NavController, context: Context) {
                             value = firstName,
                             onValueChange = { firstName = it },
                             label = "First Name",
-                            singleLine = true
+                            singleLine = true,
+                            modifier = Modifier.width(130.dp)
                         )
                         CC.SingleLinedTextField(
                             value = lastName,
                             onValueChange = {lastName = it},
                             label = "Last Name",
-                            singleLine = true
+                            singleLine = true,
+                            modifier = Modifier.width(130.dp)
                         )
                     }
                 }

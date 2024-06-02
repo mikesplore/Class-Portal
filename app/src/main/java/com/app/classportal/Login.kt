@@ -65,7 +65,7 @@ fun LoginScreen(navController: NavController, context: Context) {
     val username by remember { mutableStateOf("") }
     var input by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var isRegistering by remember { mutableStateOf(true) }
+    var isRegistering by remember { mutableStateOf(false) }
     val addbackbrush = remember {
         mutableStateOf(
             Brush.verticalGradient(

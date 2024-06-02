@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.classportal.ui.theme.RobotoMono
+import com.app.classportal.CommonComponents as CC
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,17 +56,6 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var studentId by remember { mutableStateOf("") }
-    val addbackbrush = remember {
-        mutableStateOf(
-            Brush.verticalGradient(
-                colors = listOf(
-                    GlobalColors.primaryColor,
-                    GlobalColors.secondaryColor,
-                    GlobalColors.primaryColor
-                )
-            )
-        )
-    }.value
 
     Scaffold(
         topBar = {
@@ -102,7 +92,6 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                                 tint = GlobalColors.textColor,
                             )
                         }
-
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
@@ -111,7 +100,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .background(addbackbrush)
+                .background(CC.backbrush)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -119,12 +108,11 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(addbackbrush)
+                    .background(CC.backbrush)
                     .padding(16.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -142,42 +130,37 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                     )
 
                     // CustomTextField for student name
-                    TextFields(
+                    CC.SingleLinedTextField(
                         value = firstName,
                         onValueChange = { firstName = it },
-                        label = "First name"
+                        label = "First name",
+                        singleLine = true
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Enter Last Name",
-                        fontFamily = RobotoMono,
-                        fontSize = 16.sp,
-                        color = GlobalColors.textColor
+                        style = CC.descriptionTextStyle
                     )
 
-                    // CustomTextField for student name
-                    TextFields(
+                    CC.SingleLinedTextField(
                         value = lastName,
                         onValueChange = { lastName = it },
-                        label = "Last name"
+                        label = "Last name",
+                        singleLine = true
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Instructions
                     Text(
                         text = "Enter Student ID",
-                        fontFamily = RobotoMono,
-                        fontSize = 16.sp,
-                        color = GlobalColors.textColor
+                        style = CC.descriptionTextStyle
                     )
-
-                    // CustomTextField for student ID
-                    TextFields(
+                    CC.SingleLinedTextField(
                         value = studentId,
                         onValueChange = { studentId = it },
-                        label = "Student ID"
+                        label = "Student ID",
+                        singleLine = true
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -217,17 +200,14 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                         modifier = Modifier
                             .width(275.dp)
                             .background(
-                                addbackbrush,
+                                CC.backbrush,
                                 RoundedCornerShape(10.dp)
                             ), // Background moved to outer Modifier
                         colors = ButtonDefaults.buttonColors(Color.Transparent)
                     ) {
                         Text(
                             text = "Add Student",
-                            color = GlobalColors.textColor,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 15.sp,
-                            fontFamily = RobotoMono,
+                            style = CC.descriptionTextStyle,
                             modifier = Modifier.padding(10.dp) // Add padding to the Text
                         )
 
@@ -238,51 +218,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
     }
 }
 
-@Composable
-fun TextFields(
-    value: String,
-    onValueChange: (String) -> Unit,
 
-    label: String = ""
-) {
-    Spacer(modifier = Modifier.height(8.dp))
-    TextField(
-        value = value.trimEnd(),
-        textStyle = TextStyle(
-            color = GlobalColors.textColor,
-            fontFamily = RobotoMono,
-            fontSize = 16.sp
-        ),
-        label = {
-            Text(
-                text = label,
-                style = TextStyle(
-                    color = GlobalColors.textColor,
-                    fontSize = 16.sp,
-                    fontFamily = RobotoMono
-                )
-            )
-        },
-        onValueChange = onValueChange,
-
-
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = GlobalColors.primaryColor,
-            unfocusedContainerColor = GlobalColors.primaryColor,
-            focusedIndicatorColor = GlobalColors.textColor,
-            unfocusedIndicatorColor = GlobalColors.primaryColor,
-            focusedLabelColor = GlobalColors.textColor,
-            cursorColor = GlobalColors.textColor,
-            unfocusedLabelColor = GlobalColors.textColor,
-            focusedTextColor = GlobalColors.textColor,
-            unfocusedTextColor = GlobalColors.textColor
-
-        ),
-        singleLine = true,
-        shape = RoundedCornerShape(10.dp),
-
-        )
-}
 
 
 @Preview

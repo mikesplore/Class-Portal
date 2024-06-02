@@ -41,7 +41,8 @@ object CommonComponents {
         onValueChange: (String) -> Unit,
         label: String,
         enabled: Boolean = true,
-        isError: Boolean = false
+        isError: Boolean = false,
+        singleLine: Boolean
     ) {
         var passwordVisibility by remember { mutableStateOf(false) } // Moved inside function for each instance
 

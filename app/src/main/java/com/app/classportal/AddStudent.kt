@@ -47,32 +47,28 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
     var lastName by remember { mutableStateOf("") }
     var studentId by remember { mutableStateOf("") }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "   Add Student",
-                        style = CC.titleTextStyle
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { navController.navigate("dashboard") },
-                        modifier = Modifier.absolutePadding(left = 10.dp)
-                    ) {
-
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIosNew,
-                            contentDescription = "Back",
-                            tint = GlobalColors.textColor,
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text(
+                text = "   Add Student", style = CC.titleTextStyle
             )
-        }
-    ) { innerPadding ->
+        },
+            navigationIcon = {
+                IconButton(
+                    onClick = { navController.navigate("dashboard") },
+                    modifier = Modifier.absolutePadding(left = 10.dp)
+                ) {
+
+                    Icon(
+                        imageVector = Icons.Default.ArrowBackIosNew,
+                        contentDescription = "Back",
+                        tint = GlobalColors.textColor,
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = GlobalColors.primaryColor)
+        )
+    }) { innerPadding ->
         Column(
             modifier = Modifier
                 .background(CC.backbrush)
@@ -135,8 +131,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                                         )
                                     )
                                     FileUtil.saveStudents(
-                                        context,
-                                        this
+                                        context, this
                                     )
                                 }
                                 // Clear fields & show success message (combined)
@@ -144,25 +139,19 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
                                 lastName = ""
                                 studentId = ""
                                 Toast.makeText(
-                                    context,
-                                    "Student added successfully",
-                                    Toast.LENGTH_SHORT
+                                    context, "Student added successfully", Toast.LENGTH_SHORT
                                 ).show()
                                 onStudentAdded()
                             } else {
                                 // Show invalid ID message
                                 Toast.makeText(
-                                    context,
-                                    "Please enter a valid student ID",
-                                    Toast.LENGTH_SHORT
+                                    context, "Please enter a valid student ID", Toast.LENGTH_SHORT
                                 ).show()
                             }
-                        },
-                        modifier = Modifier
+                        }, modifier = Modifier
                             .width(275.dp)
                             .background(
-                                CC.backbrush,
-                                RoundedCornerShape(10.dp)
+                                CC.backbrush, RoundedCornerShape(10.dp)
                             ), // Background moved to outer Modifier
                         colors = ButtonDefaults.buttonColors(Color.Transparent)
                     ) {
@@ -182,9 +171,7 @@ fun AddStudentScreen(onStudentAdded: () -> Unit, context: Context, navController
 @Composable
 fun AddStudentScreenPreview() {
     AddStudentScreen(
-        onStudentAdded = {},
-        navController = rememberNavController(),
-        context = LocalContext.current
+        onStudentAdded = {}, navController = rememberNavController(), context = LocalContext.current
     )
 }
 

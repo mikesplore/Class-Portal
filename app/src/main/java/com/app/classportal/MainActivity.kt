@@ -110,7 +110,6 @@ class MainActivity : ComponentActivity() {
             composable("login") {
                 LoginScreen(navController = navController, context)
             }
-
             composable("timetable") {
                 Timetable(navController, context)
             }

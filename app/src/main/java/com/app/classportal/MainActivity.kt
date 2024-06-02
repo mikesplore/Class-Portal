@@ -46,7 +46,7 @@ class Global(
 
 
 var global = Global()
-/*
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +59,6 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             createNotificationChannel(this)
             NavigationComponent(navController, this)
-            LoginDialog( navController = navController)
         }
     }
 
@@ -137,48 +136,3 @@ class MainActivity : ComponentActivity() {
         NavigationComponent(rememberNavController(), this)
     }
 }
-
-
-@Composable
-fun LoginDialog(navController: NavController){
-    if(global.showdialog.value){
-        AlertDialog(
-            onDismissRequest = { global.showdialog.value = false},
-            confirmButton = {
-                Row(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween){
-                    Button(onClick = {
-                        global.showdialog.value = false
-                        navController.navigate("login")},
-                        colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor),
-                        shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.width(130.dp)) {
-                        Text("Login now",
-                            style = myTextStyle,)
-                    }
-                    Button(onClick = {
-                        global.showdialog.value = false},
-                        colors = ButtonDefaults.buttonColors(GlobalColors.primaryColor),
-                        shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.width(130.dp)) {
-                        Text("Cancel",
-                            style = myTextStyle,)
-                    }}
-
-            },
-            title = { Text("Login First",
-                style = myTextStyle,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold) },
-            text = { Text("You have to login to perform this action.",
-                style = myTextStyle,) },
-            containerColor = GlobalColors.secondaryColor,
-        )
-    }
-}
-
-@Preview
-@Composable
-fun AutomaticLogoutPreview(){
-    LoginDialog(navController = rememberNavController())
-}*/

@@ -19,7 +19,9 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -144,7 +146,39 @@ object CommonComponents {
             }
         )
     }
+    val titleTextStyle = TextStyle(
+        fontFamily = RobotoMono,
+        color = GlobalColors.textColor,
+        fontWeight = FontWeight.Bold,
+        fontSize = 25.sp
+    )
+
+    val descriptionTextStyle = TextStyle(
+        fontFamily = RobotoMono,
+        color = GlobalColors.textColor,
+        fontSize = 15.sp
+    )
+    val backbrush = Brush.verticalGradient(
+        colors = listOf(
+        GlobalColors.primaryColor,
+        GlobalColors.secondaryColor,
+        GlobalColors.primaryColor
+            )
+        )
+    @Composable
+    fun Backbrush(globalColors: GlobalColors): Brush {
+        val colors = listOf(
+            globalColors.primaryColor,
+            globalColors.secondaryColor,
+            globalColors.primaryColor
+        )
+
+        return Brush.verticalGradient(colors)
+    }
+
 
 
 
 }
+
+

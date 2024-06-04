@@ -28,6 +28,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.OAuthProvider
 
 class Global(
     var selectedcategory: MutableState<String> = mutableStateOf("Student"),
@@ -60,12 +64,13 @@ class MainActivity : ComponentActivity() {
             createNotificationChannel(this)
             NavigationComponent(navController, this)
         }
+
     }
 
     @Composable
     fun NavigationComponent(navController: NavHostController, context: Context) {
 
-        NavHost(navController, startDestination = "welcome") {
+        NavHost(navController, startDestination = "authentication") {
             composable("dashboard") {
                 Dashboard(navController, context)
             }
@@ -106,8 +111,8 @@ class MainActivity : ComponentActivity() {
             composable("announcements") {
                 AnnouncementsScreen(navController = navController, context)
             }
-            composable("login") {
-                LoginScreen(navController = navController, context)
+            composable("authentication") {
+                AuthenticationScreen(navController = navController,context)
             }
             composable("timetable") {
                 Timetable(navController, context)
@@ -121,9 +126,14 @@ class MainActivity : ComponentActivity() {
             composable("settings"){
                 SettingsScreen(navController, context)
             }
-            composable("password"){
-                PasswordResetScreen(navController, context)
+
+            composable("reset"){
+                PasswordReset(navController, context)
             }
+            composable("users"){
+                UserListScreen(navController)
+            }
+
         }
     }
 

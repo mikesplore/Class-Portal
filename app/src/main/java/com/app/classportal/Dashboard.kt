@@ -1,6 +1,5 @@
 package com.app.classportal
 
-//import WebViewScreen
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
@@ -90,6 +89,12 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.app.classportal.FileUtil.loadAnnouncement
 import com.app.classportal.ui.theme.RobotoMono
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.OAuthProvider
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -159,6 +164,7 @@ fun Dashboard(navController: NavController, context: Context) {
     val delayDuration = 5000L
     val boxCount = boxes.size
     val boxScrollDuration = (totalDuration / boxCount)
+
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -325,7 +331,8 @@ fun Dashboard(navController: NavController, context: Context) {
                             "Logout", style = CC.descriptionTextStyle
                         )
                     }, onClick = {
-                        navController.navigate("login")
+                        Firebase.auth.signOut()
+                        navController.navigate("authentication")
                     }, leadingIcon = {
                         Icon(
                             Icons.AutoMirrored.Filled.ExitToApp,
@@ -1114,3 +1121,4 @@ fun DashboardPreview() {
     val navController = rememberNavController()
     Dashboard(navController, LocalContext.current)
 }
+
